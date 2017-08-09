@@ -1,29 +1,20 @@
-# README #
+# Laravel5 + AngularJS Demo App
+This project is a demo application using Laravel 5 and AngualarJS. It uses REST API made in Laravel5 and AngularJS in front-end.
 
-This README would normally document whatever steps are necessary to get your application up and running.
+It includes:
+- Token based REST API for Login/Logout
+- ADD / UPDATE / DELETE / LISTING of Jokes
+- Angular handles session token in localStorage and SEO friendly URL compatible with Laravel
 
-### What is this repository for? ###
+NOTES:
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+1) Make necessary changes in the `.env` file
 
-### How do I get set up? ###
+2) Run following commands for set up:
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+- `composer install`
+- `php artisan migrate`
+- `php artisan db:seed`
 
-### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+Thanks to http://baljeetsingh.in/blog/series-build-an-app-with-laravel5-backend-and-angularjs-frontend-part-1-480/ tutorial :)
