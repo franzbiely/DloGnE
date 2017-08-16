@@ -17,8 +17,9 @@ class UsersTableSeeder extends Seeder
         foreach(range(1,5) as $index)
         {
             User::create([                
-                'name' => $faker->userName,
+                'name' => $faker->name,
                 'email' =>$faker->email,
+                'username'=>$faker->userName,
                 'password' =>bcrypt('secret_pass')
             ]);
         }
