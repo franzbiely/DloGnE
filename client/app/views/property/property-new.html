@@ -1,0 +1,221 @@
+<div class="row" ng-controller="PropertyNewController">
+    <div class="col-md-12">
+    	<div class="portlet  light form-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>New Property </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse"> </a>
+                    <a href="#portlet-config" data-toggle="modal" class="config"> </a>
+                    <a href="javascript:;" class="reload"> </a>
+                    <a href="javascript:;" class="remove"> </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form action="#" class="form-horizontal">
+                    <div class="form-body">
+                    	<h3 class="form-section">Property Brief</h3>
+                        <div class="row">
+                        	<div class="col-md-12">
+	                            <div class="form-group">
+	                                <label class="control-label col-md-2">Brief Description</label>
+	                                <div class="col-md-10">
+	                                    <textarea class="wysihtml5 form-control" rows="6"></textarea>
+	                                </div>
+	                            </div>
+                            </div>
+                        </div>
+                        <!--/row-->
+                        <h3 class="form-section">Attachments</h3>
+                        <div class="row">
+                        	<div class="col-md-6">
+	                            <button type="button" class="btn default" ng-click="uploadGallery()">Upload Gallery</button>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Default</label>
+                                    <div class="col-md-9">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="input-group input-large">
+                                                <div class="form-control uneditable-input span3" data-trigger="fileinput">
+                                                    <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                                    <span class="fileinput-filename"> </span>
+                                                </div>
+                                                <span class="input-group-addon btn default btn-file">
+                                                    <span class="fileinput-new"> Select file </span>
+                                                    <span class="fileinput-exists"> Change </span>
+                                                    <input type="file" name="..."> </span>
+                                                <a href="#" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/row-->
+
+
+                        <h3 class="form-section">Details</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Property Code</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="Chee Kin">
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Use</label>
+                                    <div class="col-md-9">
+                                        <select name="foo" class="form-control">
+                                            <option value="1">Vacant</option>
+                                            <option value="1">Commercial</option>
+                                            <option value="1">..</option>
+                                        </select>
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Class</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control">
+                                            <option value="">Vacant Land - Urban</option>
+                                            <option value="">Vacant Land - Rural</option>
+                                            <option value="">...</option>
+                                        </select>
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Lease Type</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control">
+                                            <option value="">Residential</option>
+                                            <option value="">Commercial</option>
+                                            <option value="">...</option>
+                                        </select>
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">City</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" data-placeholder="Choose a Category" tabindex="1">
+                                            <option value="Category 1">Alotau</option>
+                                            <option value="Category 2">Kimbe</option>
+                                            <option value="Category 3">...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Suburd</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="Chee Kin">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Port / Sec / Lot</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="Sec 45 Lot 6">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Area</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="450 sq.m">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+						<div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Sale Date</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Land Component</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="K1.6M">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+						<div class="row">
+							<div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Land Value / sq.m</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="K3555">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Improvement Component</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="K4.0M">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button type="submit" class="btn green">Submit</button>
+                                        <button type="button" class="btn default">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6"> </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>

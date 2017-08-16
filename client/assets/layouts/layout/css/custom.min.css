@@ -1,0 +1,9 @@
+.color-red {
+	color:red;
+}
+.page-header.navbar .page-logo {
+	width:auto;
+}
+.page-header.navbar .menu-toggler.sidebar-toggler {
+	margin-left: 10px;
+}

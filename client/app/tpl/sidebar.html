@@ -1,0 +1,72 @@
+<div class="page-sidebar navbar-collapse collapse">
+    <!-- BEGIN SIDEBAR MENU -->
+    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+    <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
+        <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
+        
+        <li class="start nav-item">
+            <a ui-sref="dashboard">
+                <i class="icon-home"></i>
+                <span class="title">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link nav-toggle">
+                <i class="icon-settings"></i>
+                <span class="title">Properties</span>
+                <span class="arrow"></span>
+            </a>
+            <ul class="sub-menu">
+                <li>
+                    <a ui-sref="property.list">
+                        <i class="icon-paper-clip"></i> Properties</span>
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="property.use">
+                        <i class="icon-paper-clip"></i> Add New Use</span>
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="property.class">
+                        <i class="icon-paper-clip"></i> Add New Class</span>
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="property.leaseType">
+                        <i class="icon-paper-clip"></i> Add New Lease Type</span>
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="property.city">
+                        <i class="icon-paper-clip"></i> Add New City</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a ui-sref="audit_trail">
+                <i class="icon-home"></i>
+                <span class="title">Audit Trail</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a ui-sref="dashboard">
+                <i class="icon-home"></i>
+                <span class="title">Reports</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a ui-sref="profile.account" id="sidebar_menu_link_profile">
+                <i class="icon-user"></i>
+                <span class="title">User Profile</span>
+            </a>
+        </li>
+    </ul>
+    <!-- END SIDEBAR MENU -->
+</div>

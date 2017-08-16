@@ -1,92 +1,122 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>My AngularJS App</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
-  <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
-  <link rel="stylesheet" href="app.css">
-  <script src="bower_components/jquery/dist/jquery.js"></script>
-  <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
-</head>
-<body>
-  <!-- <ul class="menu">
-    <li><a href="#/view1">view1</a></li>
-    <li><a href="#/view2">view2</a></li>
-  </ul> -->
+<!-- 
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.7
+Version: 4.7.5
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Dribbble: www.dribbble.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+Renew Support: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js" data-ng-app="MetronicApp"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js" data-ng-app="MetronicApp"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" data-ng-app="MetronicApp">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
 
-  <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
+    <head>
+        <title data-ng-bind="'Metronic AngularJS | ' + $state.current.data.pageTitle"></title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
 
-  <!-- <div ng-view></div> -->
-  <!-- <div ui-view></div> -->
-    <div class="container">
-        <!-- <a ui-sref="auth">Auth</a>
-        <a ui-sref="jokes">Jokes</a> -->
-        <!-- <a ui-sref="view2">View 2</a> -->
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+        <link href="../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+        <!-- END GLOBAL MANDATORY STYLES -->
+        <!-- BEGIN DYMANICLY LOADED CSS FILES(all plugin and page related styles must be loaded between GLOBAL and THEME css files ) -->
+        <link id="ng_load_plugins_before" />
+        <!-- END DYMANICLY LOADED CSS FILES -->
+        <!-- BEGIN THEME STYLES -->
+        <!-- DOC: To use 'rounded corners' style just load 'components-rounded.css' stylesheet instead of 'components.css' in the below style tag -->
+        <link href="../assets/global/css/components.min.css" id="style_components" rel="stylesheet" type="text/css" />
+        <link href="../assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/layouts/layout/css/layout.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/layouts/layout/css/themes/darkblue.min.css" rel="stylesheet" type="text/css" id="style_color" />
+        <link href="../assets/layouts/layout/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <!-- END THEME STYLES -->
+        <link rel="shortcut icon" href="favicon.ico" /> </head>
+
+    <!-- END HEAD -->
+    <!-- BEGIN BODY -->
+    <!-- DOC: Apply "page-header-fixed-mobile" and "page-footer-fixed-mobile" class to body element to force fixed header or footer in mobile devices -->
+    <!-- DOC: Apply "page-sidebar-closed" class to the body and "page-sidebar-menu-closed" class to the sidebar menu element to hide the sidebar by default -->
+    <!-- DOC: Apply "page-sidebar-hide" class to the body to make the sidebar completely hidden on toggle -->
+    <!-- DOC: Apply "page-sidebar-closed-hide-logo" class to the body element to make the logo hidden on sidebar toggle -->
+    <!-- DOC: Apply "page-sidebar-hide" class to body element to completely hide the sidebar on sidebar toggle -->
+    <!-- DOC: Apply "page-sidebar-fixed" class to have fixed sidebar -->
+    <!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
+    <!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
+    <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
+
+    <body ng-controller="AppController" class="page-header-fixed page-sidebar-closed-hide-logo page-on-load" ng-class="{'page-content-white': settings.layout.pageContentWhite,'page-container-bg-solid': settings.layout.pageBodySolid, 'page-sidebar-closed': settings.layout.pageSidebarClosed}">
+        <!-- BEGIN PAGE SPINNER -->
+        <div ng-spinner-bar class="page-spinner-bar">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+        
+        <div ui-view="app-body"> </div>
+        <div class="quick-nav-overlay"></div>
+        <!-- END QUICK NAV -->
+        <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+        <!-- BEGIN CORE JQUERY PLUGINS -->
+        <!--[if lt IE 9]>
+	<script src="../assets/global/plugins/respond.min.js"></script>
+	<script src="../assets/global/plugins/excanvas.min.js"></script> 
+	<![endif]-->
+            
 
 
-        <nav class="navbar navbar-default">
-          <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="">Jokes App</a>
-            </div>
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-              <ul class="nav navbar-nav">
-                <li><a ui-sref="auth" ng-hide="currentUser != null">Auth</a></li>
-                <li><a ui-sref="jokes">Jokes</a></li>
-              </ul>
-              <ul class="nav navbar-nav navbar-right" ng-show="currentUser != null">
-              <li><a href="">Welcome, {{currentUser.name}}</a></li>
-                <li class="dropdown">
-                  <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Profile <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a ng-click="logout()" style="cursor: pointer;">Logout</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div><!-- /.navbar-collapse -->
-          </div><!-- /.container-fluid -->
-        </nav>
+        
+        <script src="../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        
+        <script src="../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+        <script src="../node_modules/bootbox/bootbox.min.js" type="text/javascript"></script>
+        <!-- END CORE JQUERY PLUGINS -->
+        <!-- BEGIN CORE ANGULARJS PLUGINS -->
+        <script src="../assets/global/plugins/angularjs/angular.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/angularjs/angular-sanitize.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/angularjs/angular-touch.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/angularjs/plugins/angular-ui-router.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/angularjs/plugins/ocLazyLoad.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/angularjs/plugins/ui-bootstrap-tpls.min.js" type="text/javascript"></script>
+        <!-- END CORE ANGULARJS PLUGINS -->
+        <!-- BEGIN APP LEVEL ANGULARJS SCRIPTS -->
+        <script src="js/main.js" type="text/javascript"></script>
+        <script src="js/directives.js" type="text/javascript"></script>
+        <!-- END APP LEVEL ANGULARJS SCRIPTS -->
+        <!-- BEGIN APP LEVEL JQUERY SCRIPTS -->
+        <script src="../assets/global/scripts/app.min.js" type="text/javascript"></script>
+        <script src="../assets/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
+        <script src="../assets/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
+        <script src="../assets/layouts/global/scripts/quick-nav.min.js" type="text/javascript"></script>
+        <script src="../assets/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
+        <!-- END APP LEVEL JQUERY SCRIPTS -->
+        <!-- END JAVASCRIPTS -->
 
+        
 
-        <div ui-view="jokesContent"></div>
-    </div>
-
-  <!-- <div>Angular seed app: v<span app-version></span></div> -->
-
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-  -->
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-route/angular-route.js"></script>
-  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-  <script src="bower_components/satellizer/satellizer.js"></script>
-  <script src="bower_components/angular-permission/dist/angular-permission.js"></script>
-  <script src="app.js"></script>
-  <script src="view_auth/auth.js"></script>
-  <script src="view_jokes/jokes.js"></script>
-  <script src="view2/view2.js"></script>
-  <script src="components/version/version.js"></script>
-  <script src="components/version/version-directive.js"></script>
-  <script src="components/version/interpolate-filter.js"></script>
-</body>
+        <script src="bower_components/satellizer/satellizer.js"></script>
+        
+    </body>
+    <!-- END BODY -->
+    
 </html>
