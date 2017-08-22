@@ -109,6 +109,20 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
     
 
     $stateProvider
+        // Users Management
+        .state("users", {
+            url: "/users",
+            views: {
+                'app-body': {
+                    templateUrl: "views/dashboard.html"          
+                },
+                'app-body-inner@users': {
+                    templateUrl: "views/users.html",
+                }
+            },
+            
+            data: {pageTitle: 'Audit Trail'}
+        })
 
         // Dashboard
         .state('dashboard', {
@@ -208,6 +222,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             },
             data: {pageTitle: 'Property'}
         })
+
+        
+
         .state("property.new", {
             url: "/new-property",
             views: {
@@ -229,8 +246,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                             '../assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js',
                             '../assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js',
 
-                            
-
                             '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
                             '../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
                             '../assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
@@ -238,6 +253,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                             '../assets/global/plugins/fuelux/js/spinner.min.js',
                             '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
                             '../assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js',
+
+                            '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
 
                             'js/controllers/PropertyNewController.js'
                         ] 
@@ -391,7 +408,36 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             }
         })
 
+        // AngularJS plugins
+        .state('fileupload', {
+            url: "/file_upload.html",
+            views: {
+                'app-body': {
+                    templateUrl: "views/dashboard.html"          
+                },
+                'app-body-inner@fileupload': {
+                    templateUrl: "views/file_upload.html",
+                }
+            },
 
+            data: {pageTitle: 'AngularJS File Upload'},
+            controller: "GeneralPageController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([{
+                        name: 'angularFileUpload',
+                        files: [
+                            '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
+                        ] 
+                    }, {
+                        name: 'MetronicApp',
+                        files: [
+                            'js/controllers/GeneralPageController.js'
+                        ]
+                    }]);
+                }]
+            }
+        })
 
         // Blank Page
         .state('blank', {
@@ -412,28 +458,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             }
         })
 
-        // AngularJS plugins
-        .state('fileupload', {
-            url: "/file_upload.html",
-            templateUrl: "views/file_upload.html",
-            data: {pageTitle: 'AngularJS File Upload'},
-            controller: "GeneralPageController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load([{
-                        name: 'angularFileUpload',
-                        files: [
-                            '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
-                        ] 
-                    }, {
-                        name: 'MetronicApp',
-                        files: [
-                            'js/controllers/GeneralPageController.js'
-                        ]
-                    }]);
-                }]
-            }
-        })
+        
 
         // UI Select
         .state('uiselect', {
@@ -704,7 +729,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
 }]);
 
 /* Init global settings and run the app */
-MetronicApp.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
+MetronicApp.run(["$rootScope", "settings", "$state", '$templateCache', '$templateRequest', function($rootScope, settings, $state, $templateCache, $templateRequest) {
+    $templateRequest('./views/property/property-upload-gallery.html').then(function (response) {
+        $templateCache.put('property-upload-gallery.html', response);
+    });
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
 }]);
