@@ -6,16 +6,21 @@
             <div class="portlet light profile-sidebar-portlet">
                 <!-- SIDEBAR USERPIC -->
                 <div class="profile-userpic">
-                    <img src="{{settings.assetsPath}}/pages/media/profile/profile_user.jpg" class="img-responsive" alt=""> </div>
+                    <!--
+                    For Reference
+                    <img src="{{settings.assetsPath}}/pages/media/profile/profile_user.jpg" class="img-responsive" alt=""> </div> -->
+                    <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y" class="img-responsive" alt=""> </div>
                 <!-- END SIDEBAR USERPIC -->
                 <!-- SIDEBAR USER TITLE -->
                 <div class="profile-usertitle">
-                    <div class="profile-usertitle-name"> Marcus Doe </div>
-                    <div class="profile-usertitle-job"> Valuer </div>
+                    <div class="profile-usertitle-name"> Mike Tomas </div>
+                    <div class="profile-usertitle-job"> Agent </div>
                 </div>
                 <!-- END SIDEBAR USER TITLE -->
                 
                 <!-- SIDEBAR MENU -->
+                <!-- 
+                Enable if Sidebar is needed
                 <div class="profile-usermenu">
                     <ul class="nav">
                         <li ng-class="{active: $state.includes('profile.account')}">
@@ -23,7 +28,7 @@
                                 <i class="icon-settings"></i> Account Settings </a>
                         </li>
                     </ul>
-                </div>
+                </div> -->
                 <!-- END MENU -->
             </div>
             <!-- END PORTLET MAIN -->
@@ -58,11 +63,15 @@
                         <form role="form" action="#">
                             <div class="form-group">
                                 <label class="control-label">Username</label>
-                                <input type="text" placeholder="Valuer" class="form-control" /> </div>
+                                <input type="text" value="agentmike" ng-readonly="true" class="form-control" /> </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Email</label>
+                                <input type="email" placeholder="user@domain.com" class="form-control" /> </div>
+                            
                             
                             <div class="margiv-top-10">
                                 <a href="#" class="btn green-haze"> Save Changes </a>
-                                <a href="#" class="btn default"> Cancel </a>
                             </div>
                         </form>
                     </div>
