@@ -1,9 +1,10 @@
 <div class="row" ng-controller="PropertyNewController">
+
     <div class="col-md-12">
     	<div class="portlet  light form-fit bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-gift"></i>New Property </div>
+                    <i class="fa fa-gift"></i>New Property {{foo}}</div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                     <a href="#portlet-config" data-toggle="modal" class="config"> </a>
@@ -12,6 +13,13 @@
                 </div>
             </div>
             <div class="portlet-body form">
+                INCLUDE HERE
+                <div ng-include="property-upload-gallery.html"></div>
+                <ng-include src="property-upload-gallery.html"></ng-include>
+                END INCLUDE
+
+
+
                 <!-- BEGIN FORM-->
                 <form action="#" class="form-horizontal">
                     <div class="form-body">
@@ -30,11 +38,13 @@
                         <h3 class="form-section">Attachments</h3>
                         <div class="row">
                         	<div class="col-md-6">
-	                            <button type="button" class="btn default" ng-click="uploadGallery()">Upload Gallery</button>
+                                <div class="form-section">
+	                               <button type="button" class="btn default" ng-click="uploadGallery()">Upload Photo Gallery</button>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">Default</label>
+                                    <label class="control-label col-md-3">Valuation PDF file</label>
                                     <div class="col-md-9">
                                         <div class="fileinput fileinput-new" data-provides="fileinput">
                                             <div class="input-group input-large">

@@ -7,3 +7,6 @@
 .page-header.navbar .menu-toggler.sidebar-toggler {
 	margin-left: 10px;
 }
+.large > .modal-dialog {
+    width:95% !important;
+}
