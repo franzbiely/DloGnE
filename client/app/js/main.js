@@ -223,7 +223,49 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             data: {pageTitle: 'Property'}
         })
 
-        
+        .state("property.valuations", {
+            url: "/valuations",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/property-valuations.html",
+                }
+            },
+            controller: "PropertiesController",
+            data: {pageTitle: 'Property Valuation List'},
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/PropertiesController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+
+        .state("property.sales", {
+            url: "/sales",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/property-sales.html",
+                }
+            },
+            controller: "PropertiesController",
+            data: {pageTitle: 'Property Sales List'},
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/PropertiesController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
 
         .state("property.new", {
             url: "/new-property",
