@@ -1,0 +1,34 @@
+<div class="row" ng-controller="ValuationsController">
+    <div class="col-md-12">
+
+        
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject bold uppercase"> Search Property Code</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <div id="imaginary_container">
+                            <div class="input-group stylish-input-group">
+                                <input type="text" class="form-control" placeholder="Search for Property">
+                                <span class="input-group-addon">
+                                <button type="submit" ng-click="showResult()">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="resultReady" ui-view="find-result"></div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+
+    </div>
+</div>
