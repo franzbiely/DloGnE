@@ -109,6 +109,84 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
     
 
     $stateProvider
+
+        // Sales
+        .state("sales", {
+            url: "/find-sales",
+            views: {
+                'app-body': {
+                    templateUrl: "views/dashboard.html"          
+                },
+                'app-body-inner@sales': {
+                    templateUrl: "views/sales.html"
+                },
+                'find-result@sales': {
+                    templateUrl: "views/property/property-sales.html",
+                }
+            },
+            controller: "SalesController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'js/controllers/SalesController.js',
+                            'js/controllers/PropertiesController.js'
+                        ]                    
+                    });
+                }]
+            },
+            
+            data: {pageTitle: 'Find Sales'}
+        })
+
+        // Valuation
+        .state("valuations", {
+            url: "/find-valuation",
+            views: {
+                'app-body': {
+                    templateUrl: "views/dashboard.html"          
+                },
+                'app-body-inner@valuations': {
+                    templateUrl: "views/valuations.html",
+                },
+                'find-result@valuations': {
+                    templateUrl: "views/property/property-valuations.html",
+                }
+            },
+            controller: "ValuationsController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'js/controllers/ValuationsController.js',
+                            'js/controllers/PropertiesController.js'
+                        ]                    
+                    });
+                }]
+            },
+            data: {pageTitle: 'Find Valuations'}
+        })
+
+         // Reports
+        .state("reports", {
+            url: "/find-reports",
+            views: {
+                'app-body': {
+                    templateUrl: "views/dashboard.html"          
+                },
+                'app-body-inner@reports': {
+                    templateUrl: "views/reports.html",
+                }
+            },
+            
+            data: {pageTitle: 'Find Reports'}
+        })
+
+
         // Users Management
         .state("users", {
             url: "/users",
@@ -130,10 +208,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             views: {
                 'app-body': {
                     templateUrl: "views/dashboard.html",            
+                    controller: "DashboardController"
                 }
             },
             data: {pageTitle: 'Admin Dashboard Template'},
-            controller: "DashboardController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
