@@ -1,0 +1,88 @@
+<div class="row" ng-controller="SalesController">
+
+    <div class="col-md-12">
+    	<div class="portlet  light form-fit bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Sale Details</div>
+                <ul class="tools pager">
+                    <li><a href="#" ui-sref="sales.details">Previous</a></li>
+                    <li><a href="#" ui-sref="sales.details">Next</a></li>
+                </ul>
+            </div>
+            <div class="portlet-body form">
+
+                <!-- BEGIN FORM-->
+                <form action="#" class="form-horizontal">
+                    <div class="form-body">
+                        <h3 class="form-section">Sale Details</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Sale Date / Date Sold</label>
+                                    <div class="col-md-9">
+                                        <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="" placeholder="2017/01/28" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Buyer</label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static">Chee Kin</p>
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Attachments</label>
+                                    <div class="col-md-9">
+                                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="input-group input-large">
+                                                <div class="form-control uneditable-input span3" data-trigger="fileinput">
+                                                    <i class="fa fa-file fileinput-exists"></i>&nbsp;
+                                                    <span class="fileinput-filename"> </span>
+                                                </div>
+
+                                                <span class="input-group-addon btn default btn-file">
+                                                    <span class="fileinput-new"> Select file </span>
+                                                    <span class="fileinput-exists"> Change </span>
+                                                    <input type="file" name="..."> </span>
+                                                <a href="#" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <!--/row-->
+
+                        <!-- CALL PROPERTY DETAIL -->
+                        <div ui-view="property-detail" class="fade-in-up"> </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button type="submit" class="btn green">Submit</button>
+                                        <button type="button" class="btn default">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6"> </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>
