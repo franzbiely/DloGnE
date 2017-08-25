@@ -5,9 +5,9 @@ angular.module('MetronicApp').controller('ClassController', ['$rootScope', '$sco
         App.initAjax();
 
         // set default layout mode
-        $rootScope.settings.layout.pageContentWhite = true;
-        $rootScope.settings.layout.pageBodySolid = false;
-        $rootScope.settings.layout.pageSidebarClosed = false;
+        // $rootScope.settings.layout.pageContentWhite = true;
+        // $rootScope.settings.layout.pageBodySolid = false;
+        // $rootScope.settings.layout.pageSidebarClosed = false;
     });
     $scope.classModal = function() {
     	var form = $('<form id="frmCity" role="form" class="form-horizontal">\
