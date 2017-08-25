@@ -112,15 +112,23 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
 
         // Sales
         .state("sales", {
-            url: "/find-sales",
+            url: "/sales",
             views: {
                 'app-body': {
                     templateUrl: "views/dashboard.html"          
-                },
-                'app-body-inner@sales': {
+                }
+            },
+            data: {pageTitle: 'Sales'}
+        })
+
+        // Sales Find
+        .state("sales.find", {
+            url: "/find",
+            views: {
+                'app-body-inner': {
                     templateUrl: "views/sales.html"
                 },
-                'find-result@sales': {
+                'find-result@sales.find': {
                     templateUrl: "views/property/property-sales.html",
                 }
             },
@@ -139,6 +147,267 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             },
             
             data: {pageTitle: 'Find Sales'}
+        })
+
+        .state("sales.details", {
+            url: "/details",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/sales/sales-details.html",
+                },
+                'property-detail@sales.details': {
+                    templateUrl : "views/property/property-details.html"
+                }
+            },
+            controller: "SalesController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+                            '../assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js',
+
+                            'js/controllers/SalesController.js'
+                        ]                    
+                    });
+                }]
+            },
+            data: {pageTitle: 'Sales Details'}
+        })
+
+        // Property
+        .state("property", {
+            url: "/property",
+            views: {
+                'app-body': {
+                    templateUrl: "views/dashboard.html"          
+                }
+            },
+            data: {pageTitle: 'Property'}
+        })
+
+        .state("property.valuations", {
+            url: "/valuations",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/property-valuations.html",
+                }
+            },
+            controller: "PropertiesController",
+            data: {pageTitle: 'Property Valuation List'},
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/PropertiesController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+
+        .state("property.sales", {
+            url: "/sales",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/property-sales.html",
+                }
+            },
+            controller: "PropertiesController",
+            data: {pageTitle: 'Property Sales List'},
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/PropertiesController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+
+        .state("property.new", {
+            url: "/new-property",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/property-new.html",
+                },
+                'property-detail@property.new': {
+                    templateUrl : "views/property/property-details.html"
+                }
+            },
+            controller: "PropertyNewController",
+            data: {pageTitle: 'Create New Property'},
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
+                            '../assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css',
+                            '../assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js',
+                            '../assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js',
+
+                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
+                            '../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
+                            '../assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
+                            '../assets/global/plugins/typeahead/typeahead.css',
+                            '../assets/global/plugins/fuelux/js/spinner.min.js',
+                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
+                            '../assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js',
+
+                            '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
+
+                            'js/controllers/PropertyNewController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+        .state("property.list", {
+            url: "/properties",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/property.html",
+                }
+            },
+            controller: "PropertiesController",
+            data: {pageTitle: 'Property List'},
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/PropertiesController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+
+        // Property > City
+        .state("property.city", {
+            url: "/city",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/city.html",
+                }
+            },
+            data: {pageTitle: 'City List'},
+            controller: "CityController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/CityController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+
+        // Property > Suburd
+        .state("property.suburd", {
+            url: "/suburd",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/suburd.html",
+                }
+            },
+            data: {pageTitle: 'Suburd List'},
+            controller: "SuburdController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/SuburdController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+
+        // Property > Lease Type
+        .state("property.leaseType", {
+            url: "/lease-type",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/lease-type.html",
+                }
+            },
+            data: {pageTitle: 'Lease Type List'},
+            controller: "LeaseTypeController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/LeaseTypeController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+
+        // Property > Class
+        .state("property.class", {
+            url: "/class",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/class.html",
+                }
+            },
+            data: {pageTitle: 'Class List'},
+            controller: "ClassController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/ClassController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+
+        // Property > Use
+        .state("property.use", {
+            url: "/use",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/use.html",
+                }
+            },
+            data: {pageTitle: 'Use List'},
+            controller: "UseController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/UseController.js'
+                        ] 
+                    });
+                }]
+            }
         })
 
         // Valuation
@@ -290,211 +559,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             data: {pageTitle: 'Audit Trail'}
         })
 
-        // Property
-        .state("property", {
-            url: "/property",
-            views: {
-                'app-body': {
-                    templateUrl: "views/dashboard.html"          
-                }
-            },
-            data: {pageTitle: 'Property'}
-        })
-
-        .state("property.valuations", {
-            url: "/valuations",
-            views: {
-                'app-body-inner': {
-                    templateUrl: "views/property/property-valuations.html",
-                }
-            },
-            controller: "PropertiesController",
-            data: {pageTitle: 'Property Valuation List'},
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            'js/controllers/PropertiesController.js'
-                        ] 
-                    });
-                }]
-            }
-        })
-
-        .state("property.sales", {
-            url: "/sales",
-            views: {
-                'app-body-inner': {
-                    templateUrl: "views/property/property-sales.html",
-                }
-            },
-            controller: "PropertiesController",
-            data: {pageTitle: 'Property Sales List'},
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            'js/controllers/PropertiesController.js'
-                        ] 
-                    });
-                }]
-            }
-        })
-
-        .state("property.new", {
-            url: "/new-property",
-            views: {
-                'app-body-inner': {
-                    templateUrl: "views/property/property-new.html",
-                }
-            },
-            controller: "PropertyNewController",
-            data: {pageTitle: 'Create New Property'},
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-                            '../assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css',
-                            '../assets/global/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js',
-                            '../assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js',
-
-                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                            '../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css',
-                            '../assets/global/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css',
-                            '../assets/global/plugins/typeahead/typeahead.css',
-                            '../assets/global/plugins/fuelux/js/spinner.min.js',
-                            '../assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-                            '../assets/global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js',
-
-                            '../assets/global/plugins/angularjs/plugins/angular-file-upload/angular-file-upload.min.js',
-
-                            'js/controllers/PropertyNewController.js'
-                        ] 
-                    });
-                }]
-            }
-        })
-        .state("property.list", {
-            url: "/properties",
-            views: {
-                'app-body-inner': {
-                    templateUrl: "views/property/property.html",
-                }
-            },
-            controller: "PropertiesController",
-            data: {pageTitle: 'Property List'},
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            'js/controllers/PropertiesController.js'
-                        ] 
-                    });
-                }]
-            }
-        })
-
-        // Property > City
-        .state("property.city", {
-            url: "/city",
-            views: {
-                'app-body-inner': {
-                    templateUrl: "views/property/city.html",
-                }
-            },
-            data: {pageTitle: 'City List'},
-            controller: "CityController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            'js/controllers/CityController.js'
-                        ] 
-                    });
-                }]
-            }
-        })
-
-        // Property > Lease Type
-        .state("property.leaseType", {
-            url: "/lease-type",
-            views: {
-                'app-body-inner': {
-                    templateUrl: "views/property/lease-type.html",
-                }
-            },
-            data: {pageTitle: 'Lease Type List'},
-            controller: "LeaseTypeController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            'js/controllers/LeaseTypeController.js'
-                        ] 
-                    });
-                }]
-            }
-        })
-
-        // Property > Class
-        .state("property.class", {
-            url: "/class",
-            views: {
-                'app-body-inner': {
-                    templateUrl: "views/property/class.html",
-                }
-            },
-            data: {pageTitle: 'Class List'},
-            controller: "ClassController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            'js/controllers/ClassController.js'
-                        ] 
-                    });
-                }]
-            }
-        })
-
-        // Property > Use
-        .state("property.use", {
-            url: "/use",
-            views: {
-                'app-body-inner': {
-                    templateUrl: "views/property/use.html",
-                }
-            },
-            data: {pageTitle: 'Use List'},
-            controller: "UseController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            'js/controllers/UseController.js'
-                        ] 
-                    });
-                }]
-            }
-        })
+        
 
 
 
