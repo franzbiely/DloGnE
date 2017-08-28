@@ -449,9 +449,31 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 },
                 'app-body-inner@reports': {
                     templateUrl: "views/reports.html",
+                },
+                'property-details@reports' : {
+                    templateUrl : "views/property/property-details.html"
+                },
+                'valuation-details@reports' : {
+                    templateUrl : "views/property/property-valuations.html"
+                },
+                'sales-details@reports' : {
+                    templateUrl : "views/property/property-sales.html"
                 }
             },
-            
+            controller: "ReportsController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'js/controllers/ReportsController.js',
+                            'js/controllers/PropertiesController.js',
+                            'js/controllers/ValuationsController.js'
+                        ]                    
+                    });
+                }]
+            },
             data: {pageTitle: 'Find Reports'}
         })
 
