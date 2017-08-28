@@ -18,7 +18,7 @@
                             <th> Value </th>
                             <th> Buyer </th>
                             <th> Remarks </th>
-                            <th>Actions</th>
+                            <th ng-show="hasActions">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -27,7 +27,7 @@
                             <td>$1,000,000</td>
                             <td>Mike Tompson</td>
                             <td>Good thing!</td>
-                            <td>
+                            <td ng-show="hasActions">
                                 <button type="button" class="btn btn-default" ui-sref="sales.details">View Details</button>
                                 <button type="button" class="btn btn-primary">Edit</button>
                                 <button type="button" class="btn btn-danger">Delete</button>
@@ -38,7 +38,7 @@
                             <td>$800,000</td>
                             <td>John Smith</td>
                             <td>Amazing...</td>
-                            <td>
+                            <td ng-show="hasActions">
                                 <button type="button" class="btn btn-default" ui-sref="sales.details">View Details</button>
                                 <button type="button" class="btn btn-primary">Edit</button>
                                 <button type="button" class="btn btn-danger">Delete</button>
