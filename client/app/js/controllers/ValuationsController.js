@@ -11,4 +11,8 @@ angular.module('MetronicApp').controller('ValuationsController', function($rootS
     $scope.showResult = function() {
     	$scope.resultReady = true;
     }
+
+    $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
+
+    
 });

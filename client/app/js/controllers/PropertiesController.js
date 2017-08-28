@@ -12,6 +12,7 @@ angular.module('MetronicApp').controller('PropertiesController', ['$rootScope', 
     $scope.gotoasdf = function() {
         alert('hasdf');
     }
+    $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
 
 
 }]);
