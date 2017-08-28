@@ -9,20 +9,57 @@
                 </div>
             </div>
             <div class="portlet-body">
-                <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
-                        <div id="imaginary_container">
-                            <div class="input-group stylish-input-group">
-                                <input type="text" class="form-control" placeholder="Search for Property">
-                                <span class="input-group-addon">
-                                <button type="submit" ng-click="showResult()">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                </button>
-                                </span>
+                <form action="#" class="form-horizontal">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Port</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="Port 10">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Sec</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="Sec 2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Lot</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="Lot 6">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Unit #</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="Unit 2C">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div class="form-group">
+                                    <input type="button" ng-click="showResult()" class="btn btn-primary btn-lg" value="Search" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
 
         </div>
