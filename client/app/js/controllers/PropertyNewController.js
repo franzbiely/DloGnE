@@ -10,20 +10,50 @@ angular.module('MetronicApp').controller('PropertyNewController', [
             // $rootScope.settings.layout.pageBodySolid = false;
             // $rootScope.settings.layout.pageSidebarClosed = false;
         });
-
-        $scope.uploadGallery = function() {
-            var template = $templateCache.get('property-upload-gallery.html');
-            bootbox.confirm({
-                title: "Upload Gallery Images",
-                message: template,
-                className: 'large',
-                callback: function(res) {
-                    if (res)
-                        $('#frmGalleryUpload').submit();
-                }
-            });
-
+        Dropzone.autoDiscover = false;
+        //Set options for dropzone
+        //Visit http://www.dropzonejs.com/#configuration-options for more options
+        $scope.dzOptions = {
+            url : '/alt_upload_url',
+            paramName : 'photo',
+            maxFilesize : '10',
+            acceptedFiles : 'image/jpeg, images/jpg, image/png',
+            addRemoveLinks : true
+        };
+        
+        
+        //Handle events for dropzone
+        //Visit http://www.dropzonejs.com/#events for more events
+        $scope.dzCallbacks = {
+            'addedfile' : function(file){
+                console.log(file);
+                $scope.newFile = file;
+            },
+            'success' : function(file, xhr){
+                console.log(file, xhr);
+            }
+        };
+        
+        
+        //Apply methods for dropzone
+        //Visit http://www.dropzonejs.com/#dropzone-methods for more methods
+        $scope.dzMethods = {};
+        $scope.removeNewFile = function(){
+            $scope.dzMethods.removeFile($scope.newFile); //We got $scope.newFile from 'addedfile' event callback
         }
+        // $scope.uploadGallery = function() {
+        //     var template = $templateCache.get('property-upload-gallery.html');
+        //     bootbox.confirm({
+        //         title: "Upload Gallery Images",
+        //         message: template,
+        //         className: 'large',
+        //         callback: function(res) {
+        //             if (res)
+        //                 $('#frmGalleryUpload').submit();
+        //         }
+        //     });
+
+        // }
         $scope.foo = "Test";
 
         var uploader = $scope.uploader = new FileUploader({
