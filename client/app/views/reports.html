@@ -11,10 +11,77 @@
                 </div>
             </div>
             <div class="portlet-body">
-
-                Form here
+                <form action="#" class="form-horizontal">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Port</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="Port 10">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Sec</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="Sec 2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Lot</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="Lot 6">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Unit #</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" placeholder="Unit 2C">
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div class="form-group">
+                                    <input type="button" ng-click="showResult()" class="btn btn-primary btn-lg" value="Search" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
+        
+        <div class="portlet light bordered" ng-show="resultReady" >
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject bold uppercase"> Property Details of - HGNResS4L9New</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <form action="#" class="form-horizontal">
+                    <div class="form-body">
+                       <div class="reports-container" ui-view="property-details"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div ng-show="resultReady" class="reports-container" ui-view="valuation-details"></div>
+        <div ng-show="resultReady" class="reports-container" ui-view="sales-details"></div>
         <!-- END EXAMPLE TABLE PORTLET-->
 
     </div>
