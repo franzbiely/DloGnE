@@ -13,4 +13,28 @@ angular.module('MetronicApp').controller('SalesController', function($rootScope,
     }
 
     $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
+
+
+    // Dropzone
+    Dropzone.autoDiscover = false;
+    $scope.dzOptions = {
+        url : '/alt_upload_url',
+        paramName : 'photo',
+        maxFilesize : '10',
+        acceptedFiles : 'image/jpeg, images/jpg, image/png',
+        addRemoveLinks : true
+    };
+    $scope.dzCallbacks = {
+        'addedfile' : function(file){
+            console.log(file);
+            $scope.newFile = file;
+        },
+        'success' : function(file, xhr){
+            console.log(file, xhr);
+        }
+    };
+    $scope.dzMethods = {};
+    $scope.removeNewFile = function(){
+        $scope.dzMethods.removeFile($scope.newFile); //We got $scope.newFile from 'addedfile' event callback
+    }
 });
