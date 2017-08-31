@@ -29,5 +29,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api'], function()
 Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::resource('jokes', 'JokesController');
 	Route::resource('property_use', 'PropertyUsesController');
+	Route::resource('property_class', 'PropertyClassesController');
+	Route::resource('property_lease_type', 'PropertyLeaseTypesController');
+	Route::resource('property_city', 'PropertyCitiesController');
 });
 

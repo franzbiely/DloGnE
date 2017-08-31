@@ -16,7 +16,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call(JokesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
+        
         $this->call(PropertyUsesTableSeeder::class);
+        $this->call(PropertyClassesTableSeeder::class);
+        $this->call(PropertyLeaseTypesTableSeeder::class);
+        $this->call(PropertyCitiesTableSeeder::class);
+
         Model::reguard();
     }
 }
