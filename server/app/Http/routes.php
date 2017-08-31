@@ -28,4 +28,6 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api'], function()
 
 Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::resource('jokes', 'JokesController');
+	Route::resource('property_use', 'PropertyUsesController');
 });
+
