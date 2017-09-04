@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        URL::forceSchema('https');
     }
 
     /**
@@ -24,7 +25,11 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         if ($this->app->environment() == 'local') {
+            $this->app['request']->server->set('HTTPS', true);
             $this->app->register('Laracasts\Generators\GeneratorsServiceProvider');
+        }
+        if (env('APP_ENV') === 'production') {
+            $this->app['request']->server->set('HTTPS', true);
         }
     }
 }
