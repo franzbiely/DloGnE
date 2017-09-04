@@ -10,7 +10,6 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -32,5 +31,6 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::resource('property_class', 'PropertyClassesController');
 	Route::resource('property_lease_type', 'PropertyLeaseTypesController');
 	Route::resource('property_city', 'PropertyCitiesController');
+	Route::resource('property_suburb', 'PropertySuburbsController');
 });
 
