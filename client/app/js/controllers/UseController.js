@@ -64,7 +64,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
 
     // Display
     $scope.init = function() {
-        $http.get('http://localhost:8000/api/v1/property_use').success(function(property_uses) {
+        $http.get('https://theprofessionals.dev/api/v1/property_use').success(function(property_uses) {
             $scope.property_uses = property_uses.data;
             console.log($scope.property_uses);
         }).error(function(error) {
@@ -77,7 +77,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
     $scope.deleteUse = function(index, useId) {
         console.log(index, useId);
 
-        $http.delete('http://localhost:8000/api/v1/property_use/' + useId)
+        $http.delete('https://theprofessionals.dev/api/v1/property_use/' + useId)
             .success(function() {
                 $scope.property_uses.splice(index, 1);
             });;
@@ -86,7 +86,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
     // Add
     $scope.addUse = function() {
  
-        $http.post('http://localhost:8000/api/v1/property_use', {
+        $http.post('https://theprofessionals.dev/api/v1/property_use', {
             name: $scope.property_use
         }).success(function(response) {
 
@@ -101,7 +101,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
 
     // Update
     $scope.updateUse = function(useId){
-      $http.put('http://localhost:8000/api/v1/property_use/' + useId, {
+      $http.put('https://theprofessionals.dev/api/v1/property_use/' + useId, {
             name: $scope.property_use
         }).success(function(response) {
             console.log("Updated Successfully");

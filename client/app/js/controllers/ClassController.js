@@ -52,7 +52,7 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
 
     // Display
     $scope.init = function() {
-        $http.get('http://localhost:8000/api/v1/property_class').success(function(property_classes) {
+        $http.get('https://theprofessionals.dev/api/v1/property_class').success(function(property_classes) {
             $scope.property_classes = property_classes.data;
             console.log($scope.property_classes);
         }).error(function(error) {
@@ -65,7 +65,7 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
     $scope.deleteClass = function(index, id) {
         console.log(index, id);
 
-        $http.delete('http://localhost:8000/api/v1/property_class/' + id)
+        $http.delete('https://theprofessionals.dev/api/v1/property_class/' + id)
             .success(function() {
                 $scope.property_classes.splice(index, 1);
             });;
@@ -74,7 +74,7 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
     // Add
     $scope.addClass = function() {
  
-        $http.post('http://localhost:8000/api/v1/property_class', {
+        $http.post('https://theprofessionals.dev/api/v1/property_class', {
             name: $scope.property_class
         }).success(function(response) {
 
@@ -89,7 +89,7 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
 
     // Update
     $scope.updateClass = function(id){
-      $http.put('http://localhost:8000/api/v1/property_class/' + id, {
+      $http.put('https://theprofessionals.dev/api/v1/property_class/' + id, {
             name: $scope.property_class
         }).success(function(response) {
             console.log("Updated Successfully");

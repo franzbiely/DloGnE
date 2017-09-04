@@ -52,7 +52,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
 
     // Display
     $scope.init = function() {
-        $http.get('http://localhost:8000/api/v1/property_city').success(function(property_cities) {
+        $http.get('https://theprofessionals.dev/api/v1/property_city').success(function(property_cities) {
             $scope.property_cities = property_cities.data;
             console.log($scope.property_cities);
         }).error(function(error) {
@@ -65,7 +65,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
     $scope.deleteCity = function(index, id) {
         console.log(index, id);
 
-        $http.delete('http://localhost:8000/api/v1/property_city/' + id)
+        $http.delete('https://theprofessionals.dev/api/v1/property_city/' + id)
             .success(function() {
                 $scope.property_cities.splice(index, 1);
             });;
@@ -74,7 +74,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
     // Add
     $scope.addCity = function() {
  
-        $http.post('http://localhost:8000/api/v1/property_city', {
+        $http.post('https://theprofessionals.dev/api/v1/property_city', {
             name: $scope.property_city
         }).success(function(response) {
 
@@ -89,7 +89,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
 
     // Update
     $scope.updateCity = function(id){
-      $http.put('http://localhost:8000/api/v1/property_city/' + id, {
+      $http.put('https://theprofessionals.dev/api/v1/property_city/' + id, {
             name: $scope.property_city
         }).success(function(response) {
             console.log("Updated Successfully");

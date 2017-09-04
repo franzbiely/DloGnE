@@ -21,7 +21,7 @@ angular.module('MetronicApp').controller('LoginController', function($auth, $sta
         }
         $state.go('dashboard');
         // $auth.login(credentials).then(function() {
-        //     $http.get('http://localhost:8000/api/authenticate/user').success(function(response) {
+        //     $http.get('https://theprofessionals.dev/api/authenticate/user').success(function(response) {
         //             var user = JSON.stringify(response.user);
         //             localStorage.setItem('user', user);
         //             $rootScope.currentUser = response.user;

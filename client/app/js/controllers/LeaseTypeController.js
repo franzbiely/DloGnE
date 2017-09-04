@@ -52,7 +52,7 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
 
     // Display
     $scope.init = function() {
-        $http.get('http://localhost:8000/api/v1/property_lease_type').success(function(property_lease_types) {
+        $http.get('https://theprofessionals.dev/api/v1/property_lease_type').success(function(property_lease_types) {
             $scope.property_lease_types = property_lease_types.data;
             console.log($scope.property_lease_types);
         }).error(function(error) {
@@ -65,7 +65,7 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
     $scope.deleteLeaseType = function(index, id) {
         console.log(index, id);
 
-        $http.delete('http://localhost:8000/api/v1/property_lease_type/' + id)
+        $http.delete('https://theprofessionals.dev/api/v1/property_lease_type/' + id)
             .success(function() {
                 $scope.property_lease_types.splice(index, 1);
             });;
@@ -74,7 +74,7 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
     // Add
     $scope.addLeaseType = function() {
  
-        $http.post('http://localhost:8000/api/v1/property_lease_type', {
+        $http.post('https://theprofessionals.dev/api/v1/property_lease_type', {
             name: $scope.property_lease_type
         }).success(function(response) {
 
@@ -89,7 +89,7 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
 
     // Update
     $scope.updateLeaseType = function(id){
-      $http.put('http://localhost:8000/api/v1/property_lease_type/' + id, {
+      $http.put('https://theprofessionals.dev/api/v1/property_lease_type/' + id, {
             name: $scope.property_lease_type
         }).success(function(response) {
             console.log("Updated Successfully");
