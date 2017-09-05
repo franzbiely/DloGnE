@@ -79,6 +79,7 @@ class JokesController extends Controller
         // return Response::json([
         //     'data' => $this->transformCollection($jokes)
         // ], 200);
+        print_r($this->transformCollection($jokes));
         return Response::json($this->transformCollection($jokes), 200);
     }
 
@@ -129,7 +130,6 @@ class JokesController extends Controller
                 $query->select('id','name');
             })
             )->find($id);
-
         if(!$joke){
             return Response::json([
                 'error' => [
@@ -223,10 +223,11 @@ class JokesController extends Controller
     }
 
     private function transform($joke){
-        return [
-                'joke_id' => $joke['id'],
-                'joke' => $joke['body'],
-                'submitted_by' => $joke['user']['name']
-        ];
+        print_r($joke);
+        // return [
+        //         'joke_id' => $joke['id'],
+        //         'joke' => $joke['body'],
+        //         'submitted_by' => $joke['user']['name']
+        // ];
     }
 }

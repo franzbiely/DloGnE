@@ -7,6 +7,7 @@ use App\PropertySuburb;
 
 class PropertyCity extends Model
 {
+	protected $table = 'property_cities';
     protected $fillable = ['name'];
 	
 	public function suburbs(){

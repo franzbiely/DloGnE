@@ -5,7 +5,7 @@
             <div class="portlet-title">
                 <div class="caption font-dark">
                     <i class="icon-settings font-dark"></i>
-                    <span class="caption-subject bold uppercase"> Manage Suburd</span>
+                    <span class="caption-subject bold uppercase"> Manage Suburb</span>
                 </div>
             </div>
             <div class="portlet-body">
@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="btn-group">
-                                <button id="add_new_city" class="btn sbold green" ng-click="suburdModal()"> Add New Suburd
+                                <button id="add_new_city" class="btn sbold green" ng-click="suburbModal()"> Add New Suburb
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </div>
@@ -40,19 +40,19 @@
                 <table class="table table-striped table-bordered table-hover order-column" id="sample_1">
                     <thead>
                         <tr>
+                            <th> Suburb's Name </th>
                             <th> City Name </th>
-                            <th> Suburd's Name </th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
 
                         <tr ng-repeat="(key, value) in property_suburbs" class="odd gradeX">
+                            <td> {{value.suburb}} </td>
                             <td> {{value.city}} </td>
-                            <td> {{value.name}} </td>
                             <td>
-                                <button ng-click="useModal(key, value)" type="button" class="btn btn-primary">Edit</button>
-                                <button ng-click="deleteUse($index, property_uses.id)" type="button" class="btn btn-danger">Delete</button>
+                                <button ng-click="suburbModal(key, value)" type="button" class="btn btn-primary">Edit</button>
+                                <button ng-click="deleteSuburb($index, value.id)" type="button" class="btn btn-danger">Delete</button>
                             </td>
                         </tr>
                     </tbody>
