@@ -1,6 +1,6 @@
 angular.module('MetronicApp').controller('LoginController', function($auth, $state, $rootScope, $scope, $http, $timeout) {
 	
-    
+    alert('GO!');
 
     $scope.$on('$viewContentLoaded', function() {
         // initialize core components
