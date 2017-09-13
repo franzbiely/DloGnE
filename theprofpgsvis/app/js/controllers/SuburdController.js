@@ -1,5 +1,5 @@
 /* Setup blank page controller */
-angular.module('MetronicApp').controller('SuburdController', function($rootScope, $scope, settings, $http, $compile) {
+angular.module('MetronicApp').controller('SuburdController', function($rootScope, $scope, settings, $http, $compile, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {   
         App.initAjax();
     });
@@ -95,7 +95,7 @@ angular.module('MetronicApp').controller('SuburdController', function($rootScope
 
     // Display
     $scope.init = function() {
-        $http.get('https://svisapi.theprofessionals.com.pg/public/api/v1/property_suburb').success(function(property_suburbs) {
+        $http.get($rootScope.apiURL + 'v1/property_suburb').success(function(property_suburbs) {
             $scope.property_suburbs = property_suburbs.data;
         }).error(function(error) {
             $scope.error = error;
@@ -105,7 +105,7 @@ angular.module('MetronicApp').controller('SuburdController', function($rootScope
 
     // Get All City
     $scope.get_cities = function() {
-        $http.get('https://svisapi.theprofessionals.com.pg/public/api/v1/property_city').success(function(property_cities) {
+        $http.get($rootScope.apiURL + 'v1/property_city').success(function(property_cities) {
             $scope.property_cities = property_cities.data;
         }).error(function(error) {
             $scope.error = error;
@@ -115,8 +115,8 @@ angular.module('MetronicApp').controller('SuburdController', function($rootScope
 
     // Delete
     $scope.deleteSuburb = function(index, id) {
-        console.log('https://svisapi.theprofessionals.com.pg/public/api/v1/property_suburb/' + id);
-        $http.delete('https://svisapi.theprofessionals.com.pg/public/api/v1/property_suburb/' + id)
+        console.log($rootScope.apiURL + 'v1/property_suburb/' + id);
+        $http.delete($rootScope.apiURL + 'v1/property_suburb/' + id)
             .success(function() {
                 console.log('deleted');
                 $scope.property_suburbs.splice(index, 1);
@@ -125,7 +125,7 @@ angular.module('MetronicApp').controller('SuburdController', function($rootScope
 
     // Add
     $scope.addSuburb = function() {
-        $http.post('https://svisapi.theprofessionals.com.pg/public/api/v1/property_suburb', {
+        $http.post($rootScope.apiURL + 'v1/property_suburb', {
             name: $scope.property_suburb,
             city_id : $scope.property_suburb_city_id
         }).success(function(response) {
@@ -143,7 +143,7 @@ angular.module('MetronicApp').controller('SuburdController', function($rootScope
 
     // Update
     $scope.updateSuburb = function(id){
-      $http.put('https://svisapi.theprofessionals.com.pg/public/api/v1/property_suburb/' + id, {
+      $http.put($rootScope.apiURL + 'v1/property_suburb/' + id, {
             name: $scope.property_suburb,
             city_id : $scope.property_suburb_city_id
         }).success(function(response) {

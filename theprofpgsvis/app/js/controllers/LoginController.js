@@ -1,4 +1,4 @@
-angular.module('MetronicApp').controller('LoginController', function($auth, $state, $rootScope, $scope, $http, $timeout) {
+angular.module('MetronicApp').controller('LoginController', function($auth, $state, $rootScope, $scope, $http, $timeout, $rootScope) {
 	
     alert('GO!');
 
@@ -21,7 +21,7 @@ angular.module('MetronicApp').controller('LoginController', function($auth, $sta
         }
         $state.go('dashboard');
         // $auth.login(credentials).then(function() {
-        //     $http.get('https://svisapi.theprofessionals.com.pg/public/api/authenticate/user').success(function(response) {
+        //     $http.get($rootScope.apiURL + '/authenticate/user').success(function(response) {
         //             var user = JSON.stringify(response.user);
         //             localStorage.setItem('user', user);
         //             $rootScope.currentUser = response.user;

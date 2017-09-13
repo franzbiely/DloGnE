@@ -1,5 +1,5 @@
 /* Setup blank page controller */
-angular.module('MetronicApp').controller('CityController', function($rootScope, $scope, settings, $http) {
+angular.module('MetronicApp').controller('CityController', function($rootScope, $scope, settings, $http, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {   
         // initialize core components
         App.initAjax();
@@ -52,7 +52,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
 
     // Display
     $scope.init = function() {
-        $http.get('https://svisapi.theprofessionals.com.pg/public/api/v1/property_city').success(function(property_cities) {
+        $http.get($rootScope.apiURL + 'v1/property_city').success(function(property_cities) {
             $scope.property_cities = property_cities.data;
             console.log($scope.property_cities);
         }).error(function(error) {
@@ -65,7 +65,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
     $scope.deleteCity = function(index, id) {
         console.log(index, id);
 
-        $http.delete('https://svisapi.theprofessionals.com.pg/public/api/v1/property_city/' + id)
+        $http.delete($rootScope.apiURL + 'v1/property_city/' + id)
             .success(function() {
                 $scope.property_cities.splice(index, 1);
             });;
@@ -74,7 +74,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
     // Add
     $scope.addCity = function() {
  
-        $http.post('https://svisapi.theprofessionals.com.pg/public/api/v1/property_city', {
+        $http.post($rootScope.apiURL + 'v1/property_city', {
             name: $scope.property_city
         }).success(function(response) {
 
@@ -89,7 +89,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
 
     // Update
     $scope.updateCity = function(id){
-      $http.put('https://svisapi.theprofessionals.com.pg/public/api/v1/property_city/' + id, {
+      $http.put($rootScope.apiURL + 'v1/property_city/' + id, {
             name: $scope.property_city
         }).success(function(response) {
             console.log("Updated Successfully");

@@ -16,6 +16,7 @@ var MetronicApp = angular.module("MetronicApp", [
 MetronicApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
         // global configs go here
+
     });
 }]);
 
@@ -33,6 +34,9 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
 /* Setup global settings */
 MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
     // supported languages
+
+    var isLive = false;
+    
     var settings = {
         layout: {
             pageSidebarClosed: false, // sidebar menu state
@@ -45,7 +49,15 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         layoutPath: '../assets/layouts/layout',
     };
 
+    if( isLive ) {
+        $rootScope.apiURL = 'https://svisapi.theprofessionals.com.pg/public/api/';
+    }
+    else {
+        $rootScope.apiURL = 'https://theprofessionals.dev/api/';
+    }
+
     $rootScope.settings = settings;
+
 
     return settings;
 }]);
@@ -104,9 +116,7 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider) {
 
-    // $authProvider.loginUrl = 'http://localhost:8000/api/authenticate';
-    
-    $urlRouterProvider.otherwise("/sales");  
+    $urlRouterProvider.otherwise("/login");  
     
 
     $stateProvider
@@ -652,45 +662,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/dashboard",
             templateUrl: "views/profile/dashboard.html",
             data: {pageTitle: 'User Profile'}
-        })
-
-        
-
-        // User Profile Help
-        .state("profile.help", {
-            url: "/help",
-            templateUrl: "views/profile/help.html",
-            data: {pageTitle: 'User Help'}      
-        })
-
-        // Todo
-        .state('todo', {
-            url: "/todo",
-            templateUrl: "views/todo.html",
-            data: {pageTitle: 'Todo'},
-            controller: "TodoController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({ 
-                        name: 'MetronicApp',  
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            '../assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            '../assets/apps/css/todo-2.css',
-                            '../assets/global/plugins/select2/css/select2.min.css',
-                            '../assets/global/plugins/select2/css/select2-bootstrap.min.css',
-
-                            '../assets/global/plugins/select2/js/select2.full.min.js',
-                            
-                            '../assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-
-                            '../assets/apps/scripts/todo-2.min.js',
-
-                            'js/controllers/TodoController.js'  
-                        ]                    
-                    });
-                }]
-            }
         })
 
 }]);

@@ -64,7 +64,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
 
     // Display
     $scope.init = function() {
-        $http.get('https://svisapi.theprofessionals.com.pg/public/api/v1/property_use').success(function(property_uses) {
+        $http.get($rootScope.apiURL + 'v1/property_use').success(function(property_uses) {
             $scope.property_uses = property_uses.data;
             console.log($scope.property_uses);
         }).error(function(error) {
@@ -77,7 +77,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
     $scope.deleteUse = function(index, useId) {
         console.log(index, useId);
 
-        $http.delete('https://svisapi.theprofessionals.com.pg/public/api/v1/property_use/' + useId)
+        $http.delete($rootScope.apiURL + 'v1/property_use/' + useId)
             .success(function() {
                 $scope.property_uses.splice(index, 1);
             });;
@@ -86,7 +86,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
     // Add
     $scope.addUse = function() {
  
-        $http.post('https://svisapi.theprofessionals.com.pg/public/api/v1/property_use', {
+        $http.post($rootScope.apiURL + 'v1/property_use', {
             name: $scope.property_use
         }).success(function(response) {
 
@@ -101,7 +101,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
 
     // Update
     $scope.updateUse = function(useId){
-      $http.put('https://svisapi.theprofessionals.com.pg/public/api/v1/property_use/' + useId, {
+      $http.put($rootScope.apiURL + 'v1/property_use/' + useId, {
             name: $scope.property_use
         }).success(function(response) {
             console.log("Updated Successfully");

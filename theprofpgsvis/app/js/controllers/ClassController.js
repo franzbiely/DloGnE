@@ -1,5 +1,5 @@
 /* Setup blank page controller */
-angular.module('MetronicApp').controller('ClassController', function($rootScope, $scope, settings, $http) {
+angular.module('MetronicApp').controller('ClassController', function($rootScope, $scope, settings, $http, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {   
         // initialize core components
         App.initAjax();
@@ -52,7 +52,7 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
 
     // Display
     $scope.init = function() {
-        $http.get('https://svisapi.theprofessionals.com.pg/public/api/v1/property_class').success(function(property_classes) {
+        $http.get($rootScope.apiURL + 'v1/property_class').success(function(property_classes) {
             $scope.property_classes = property_classes.data;
             console.log($scope.property_classes);
         }).error(function(error) {
@@ -65,7 +65,7 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
     $scope.deleteClass = function(index, id) {
         console.log(index, id);
 
-        $http.delete('https://svisapi.theprofessionals.com.pg/public/api/v1/property_class/' + id)
+        $http.delete($rootScope.apiURL + 'v1/property_class/' + id)
             .success(function() {
                 $scope.property_classes.splice(index, 1);
             });;
@@ -74,7 +74,7 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
     // Add
     $scope.addClass = function() {
  
-        $http.post('https://svisapi.theprofessionals.com.pg/public/api/v1/property_class', {
+        $http.post($rootScope.apiURL + 'v1/property_class', {
             name: $scope.property_class
         }).success(function(response) {
 
@@ -89,7 +89,7 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
 
     // Update
     $scope.updateClass = function(id){
-      $http.put('https://svisapi.theprofessionals.com.pg/public/api/v1/property_class/' + id, {
+      $http.put($rootScope.apiURL + 'v1/property_class/' + id, {
             name: $scope.property_class
         }).success(function(response) {
             console.log("Updated Successfully");
