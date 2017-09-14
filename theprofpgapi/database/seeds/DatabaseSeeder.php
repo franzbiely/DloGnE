@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PropertyLeaseTypesTableSeeder::class);
         $this->call(PropertyCitiesTableSeeder::class);
         $this->call(PropertySuburbsTableSeeder::class);
+        $this->call(PropertiesTableSeeder::class);
 
         Model::reguard();
     }
