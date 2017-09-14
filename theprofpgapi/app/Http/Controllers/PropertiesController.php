@@ -82,23 +82,22 @@ class PropertiesController extends Controller
     }
 
     public function store(Request $request) {
-
-        if(! $request->property_use_id or
-           ! $request->property_class_id or
-           ! $request->property_lease_type_id or
-           ! $request->property_city_id or
-           ! $request->property_suburb_id or
-           ! $request->port or
-           ! $request->sec or
-           ! $request->lot or
-           ! $request->unit or
-           ! $request->land_value ){
-            return Response::json([
-                'error' => [
-                    'message' => 'Some mandatory fields are not filled up'
-                ]
-            ], 422);
-        }
+        // if(! $request->property_use_id or
+        //    ! $request->property_class_id or
+        //    ! $request->property_lease_type_id or
+        //    ! $request->property_city_id or
+        //    ! $request->property_suburb_id or
+        //    ! $request->port or
+        //    ! $request->sec or
+        //    ! $request->lot or
+        //    ! $request->unit or
+        //    ! $request->land_value ){
+        //     return Response::json([
+        //         'error' => [
+        //             'message' => 'Some mandatory fields are not filled up'
+        //         ]
+        //     ], 422);
+        // }
         $property = Property::create($request->all());
 
         return Response::json([

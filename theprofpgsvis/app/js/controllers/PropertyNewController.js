@@ -1,18 +1,13 @@
-angular.module('MetronicApp').controller('PropertyNewController', [
-    '$rootScope', '$scope', 'settings', '$templateCache', '$scope', 'FileUploader',
-    function($rootScope, $scope, settings, $templateCache, $scope, FileUploader) {
-        $scope.$on('$viewContentLoaded', function() {
-            // initialize core components
-            App.initAjax();
+angular.module('MetronicApp')
+    .controller('PropertyNewController', 
+    function($rootScope, $scope, settings, $templateCache, $scope, FileUploader, $state, $http) {
 
-            // set default layout mode
-            // $rootScope.settings.layout.pageContentWhite = true;
-            // $rootScope.settings.layout.pageBodySolid = false;
-            // $rootScope.settings.layout.pageSidebarClosed = false;
+        
+
+        $scope.$on('$viewContentLoaded', function() {
+            App.initAjax();
+            Dropzone.autoDiscover = false;
         });
-        Dropzone.autoDiscover = false;
-        //Set options for dropzone
-        //Visit http://www.dropzonejs.com/#configuration-options for more options
         $scope.dzOptions = {
             url : '/alt_upload_url',
             paramName : 'photo',
@@ -20,10 +15,6 @@ angular.module('MetronicApp').controller('PropertyNewController', [
             acceptedFiles : 'image/jpeg, images/jpg, image/png',
             addRemoveLinks : true
         };
-        
-        
-        //Handle events for dropzone
-        //Visit http://www.dropzonejs.com/#events for more events
         $scope.dzCallbacks = {
             'addedfile' : function(file){
                 console.log(file);
@@ -33,29 +24,7 @@ angular.module('MetronicApp').controller('PropertyNewController', [
                 console.log(file, xhr);
             }
         };
-        
-        
-        //Apply methods for dropzone
-        //Visit http://www.dropzonejs.com/#dropzone-methods for more methods
         $scope.dzMethods = {};
-        $scope.removeNewFile = function(){
-            $scope.dzMethods.removeFile($scope.newFile); //We got $scope.newFile from 'addedfile' event callback
-        }
-        // $scope.uploadGallery = function() {
-        //     var template = $templateCache.get('property-upload-gallery.html');
-        //     bootbox.confirm({
-        //         title: "Upload Gallery Images",
-        //         message: template,
-        //         className: 'large',
-        //         callback: function(res) {
-        //             if (res)
-        //                 $('#frmGalleryUpload').submit();
-        //         }
-        //     });
-
-        // }
-        $scope.foo = "Test";
-
         var uploader = $scope.uploader = new FileUploader({
             url: '../assets/global/plugins/angularjs/plugins/angular-file-upload/upload.php'
         });
@@ -66,6 +35,10 @@ angular.module('MetronicApp').controller('PropertyNewController', [
                 return this.queue.length < 10;
             }
         });
+        $scope.removeNewFile = function(){
+            $scope.dzMethods.removeFile($scope.newFile); //We got $scope.newFile from 'addedfile' event callback
+        }
+        
         // CALLBACKS
         uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/ , filter, options) {
             console.info('onWhenAddingFileFailed', item, filter, options);
@@ -100,7 +73,31 @@ angular.module('MetronicApp').controller('PropertyNewController', [
         uploader.onCompleteAll = function() {
             console.info('onCompleteAll');
         };
-        console.info('uploader', $scope.uploader);
+        
+        // Add
+        $scope.addProperty = function() {
+            $http.post($rootScope.apiURL + 'v1/property', {
+                code : $scope.data.code,
+                description : $scope.data.description,
+                property_use_id : $scope.data.property_use_id,
+                property_class_id : $scope.data.property_class_id,
+                property_lease_type_id : $scope.data.property_lease_type_id,
+                property_city_id : $scope.data.property_city_id,
+                property_suburb_id : $scope.data.property_suburb_id,
+                port : $scope.data.port,
+                sec : $scope.data.sec,
+                lot : $scope.data.lot,
+                unit : $scope.data.unit,
+                land_value : $scope.data.land_value,
+                land_component : $scope.data.land_component,
+                improvement_component : $scope.data.improvement_component,
+                area : $scope.data.area
+            }).success(function(response) {
+                $state.go('property.list');
+            }).error(function(){
+                console.log("error");
+            });
+        }
 
     }
-]);
+);

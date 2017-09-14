@@ -113,6 +113,8 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
     });
 }]);
 
+
+
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider) {
 

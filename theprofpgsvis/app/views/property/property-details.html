@@ -4,7 +4,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Property Code</label>
             <div class="col-md-9">
-                <input type="text" class="form-control" placeholder="Chee Kin">
+                <input ng-model="data.code" type="text" class="form-control" placeholder="Chee Kin">
                 <span class="help-block"> </span>
             </div>
         </div>
@@ -14,10 +14,10 @@
         <div class="form-group">
             <label class="control-label col-md-3">Use</label>
             <div class="col-md-9">
-                <select name="foo" class="form-control">
+                <select ng-model="data.property_use_id" class="form-control">
                     <option value="1">Vacant</option>
-                    <option value="1">Commercial</option>
-                    <option value="1">..</option>
+                    <option value="2">Commercial</option>
+                    <option value="3">..</option>
                 </select>
                 <span class="help-block"> </span>
             </div>
@@ -31,10 +31,10 @@
         <div class="form-group">
             <label class="control-label col-md-3">Class</label>
             <div class="col-md-9">
-                <select class="form-control">
-                    <option value="">Vacant Land - Urban</option>
-                    <option value="">Vacant Land - Rural</option>
-                    <option value="">...</option>
+                <select ng-model="data.property_class_id" class="form-control">
+                    <option value="1">Vacant Land - Urban</option>
+                    <option value="2">Vacant Land - Rural</option>
+                    <option value="3">...</option>
                 </select>
                 <span class="help-block"> </span>
             </div>
@@ -45,10 +45,10 @@
         <div class="form-group">
             <label class="control-label col-md-3">Lease Type</label>
             <div class="col-md-9">
-                <select class="form-control">
-                    <option value="">Residential</option>
-                    <option value="">Commercial</option>
-                    <option value="">...</option>
+                <select ng-model="data.property_lease_type_id" class="form-control">
+                    <option value="Residential">Residential</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="4">...</option>
                 </select>
                 <span class="help-block"> </span>
             </div>
@@ -62,7 +62,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">City</label>
             <div class="col-md-9">
-                <select class="form-control" data-placeholder="Choose a Category" tabindex="1">
+                <select ng-model="data.property_city_id" class="form-control" data-placeholder="Choose a Category" tabindex="1">
                     <option value="Category 1">Alotau</option>
                     <option value="Category 2">Kimbe</option>
                     <option value="Category 3">...</option>
@@ -75,7 +75,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Suburd</label>
             <div class="col-md-9">
-                <select class="form-control" data-placeholder="Choose a Suburd" tabindex="1">
+                <select ng-model="data.property_suburb" class="form-control" data-placeholder="Choose a Suburd" tabindex="1">
                     <option value="Category 1">Suburd 1</option>
                     <option value="Category 2">Suburd 2</option>
                     <option value="Category 3">...</option>
@@ -91,7 +91,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Port</label>
             <div class="col-md-9">
-                <input type="text" class="form-control" placeholder="Port 10">
+                <input ng-model="data.port" type="text" class="form-control" placeholder="Port 10">
             </div>
         </div>
     </div>
@@ -100,7 +100,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Sec</label>
             <div class="col-md-9">
-                <input type="text" class="form-control" placeholder="Sec 2">
+                <input ng-model="data.sec" type="text" class="form-control" placeholder="Sec 2">
             </div>
         </div>
     </div>
@@ -111,7 +111,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Lot</label>
             <div class="col-md-9">
-                <input type="text" class="form-control" placeholder="Lot 6">
+                <input ng-model="data.lot" type="text" class="form-control" placeholder="Lot 6">
             </div>
         </div>
     </div>
@@ -120,7 +120,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Unit #</label>
             <div class="col-md-9">
-                <input type="text" class="form-control" placeholder="Unit 2C">
+                <input ng-model="data.unit" type="text" class="form-control" placeholder="Unit 2C">
             </div>
         </div>
     </div>
@@ -132,7 +132,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Land Value / sq.m</label>
             <div class="col-md-9">
-                <input type="text" class="form-control" placeholder="K3555">
+                <input ng-model="data.land_value" type="text" class="form-control" placeholder="K3555">
             </div>
         </div>
     </div>
@@ -141,7 +141,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Land Component</label>
             <div class="col-md-9">
-                <input type="text" class="form-control" placeholder="K1.6M">
+                <input ng-model="data.land_component" type="text" class="form-control" placeholder="K1.6M">
             </div>
         </div>
     </div>
@@ -152,7 +152,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Improvement Component</label>
             <div class="col-md-9">
-                <input type="text" class="form-control" placeholder="K4.0M">
+                <input ng-model="data.improvement_component" type="text" class="form-control" placeholder="K4.0M">
             </div>
         </div>
     </div>
@@ -161,7 +161,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Area</label>
             <div class="col-md-9">
-                <input type="text" class="form-control" placeholder="450 sq.m">
+                <input ng-model="data.area" type="text" class="form-control" placeholder="450 sq.m">
             </div>
         </div>
     </div>
