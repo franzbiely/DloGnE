@@ -77,49 +77,25 @@ class PropertiesController extends Controller
             $properties->appends(array(            
                 'limit' => $limit
             ));   
-            //$posts = Property::orderBy('id', 'DESC')->paginate(5);
         }
-
-
-        // $properties = Property::with(
-        //     array('City'=>function($query){
-        //         $query->select('id','name');
-        //     })
-        //     )->select('id', 'name', 'city_id')->paginate(5); 
-        //return $properties;
-        
-        // dd(get_class_methods($properties));
-
-        //$properties = Property::all();
-        // return Response::json([
-        //     'data' => $this->transformCollection($properties)
-        // ], 200);
         return Response::json($this->transformCollection($properties), 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function create()
-    // {
-    //     //
-    // }
+    public function store(Request $request) {
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-
-        if(! $request->name or ! $request->city_id){
+        if(! $request->property_use_id or
+           ! $request->property_class_id or
+           ! $request->property_lease_type_id or
+           ! $request->property_city_id or
+           ! $request->property_suburb_id or
+           ! $request->port or
+           ! $request->sec or
+           ! $request->lot or
+           ! $request->unit or
+           ! $request->land_value ){
             return Response::json([
                 'error' => [
-                    'message' => 'Please Provide Both name and city_id'
+                    'message' => 'Some mandatory fields are not filled up'
                 ]
             ], 422);
         }
@@ -131,12 +107,6 @@ class PropertiesController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $property = Property::with(
