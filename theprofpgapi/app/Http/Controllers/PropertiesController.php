@@ -134,41 +134,28 @@ class PropertiesController extends Controller
             'previous_Property_id'=> $previous,
             'next_Property_id'=> $next,
             'data' => $this->transform($property)
-            // 'data' => $property
         ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function edit($id)
-    // {
-    //     //
-    // }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {    
-        if(! $request->name or ! $request->city_id){
-            return Response::json([
-                'error' => [
-                    'message' => 'Please Provide Both name and city_id'
-                ]
-            ], 422);
-        }
-        
         $property = Property::find($id);
-        $property->name = $request->name;
-        $property->city_id = $request->city_id;
+        if(isset($request->code)) $property->code = $request->code;
+        if(isset($request->description)) $property->description = $request->description;
+        if(isset($request->property_use_id)) $property->property_use_id = $request->property_use_id;
+        if(isset($request->property_class_id)) $property->property_class_id = $request->property_class_id;
+        if(isset($request->property_lease_type_id)) $property->property_lease_type_id = $request->property_lease_type_id;
+        if(isset($request->property_city_id)) $property->property_city_id = $request->property_city_id;
+        if(isset($request->property_suburb_id)) $property->property_suburb_id = $request->property_suburb_id;
+        if(isset($request->port)) $property->port = $request->port;
+        if(isset($request->sec)) $property->sec = $request->sec;
+        if(isset($request->lot)) $property->lot = $request->lot;
+        if(isset($request->unit)) $property->unit = $request->unit;
+        if(isset($request->land_value)) $property->land_value = $request->land_value;
+        if(isset($request->land_component)) $property->land_component = $request->land_component;
+        if(isset($request->improvement_component)) $property->improvement_component = $request->improvement_component;
+        if(isset($request->area)) $property->area = $request->area;
+        
         $property->save(); 
 
         return Response::json([
