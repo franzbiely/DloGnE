@@ -163,12 +163,6 @@ class PropertiesController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         Property::destroy($id);
@@ -176,10 +170,6 @@ class PropertiesController extends Controller
                 'message' => '#'. $id .' Deleted Succesfully'
         ]);
     }
-
-    // private function transformCollection($properties){
-    //     return array_map([$this, 'transform'], $properties->toArray());
-    // }
 
     private function transformCollection($properties){
         $propertiesArray = $properties->toArray();
