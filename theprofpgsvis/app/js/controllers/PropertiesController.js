@@ -4,7 +4,6 @@ angular.module('MetronicApp').controller('PropertiesController',
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax();
         });
-        
         $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
 
         // Display

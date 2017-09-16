@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\User;
+use App\Users;
 
 class UsersTableSeeder extends Seeder
 {
@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
 
         foreach(range(1,5) as $index)
         {
-            User::create([                
+            Users::create([                
                 'name' => $faker->name,
                 'email' =>$faker->email,
                 'username'=>$faker->userName,

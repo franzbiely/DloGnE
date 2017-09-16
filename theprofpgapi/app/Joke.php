@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\User;
+use App\Users;
 class Joke extends Model
 {
     protected $fillable = ['body', 'user_id'];

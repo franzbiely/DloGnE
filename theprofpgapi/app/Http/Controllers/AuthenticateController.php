@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Users;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -28,14 +28,13 @@ class AuthenticateController extends Controller
     public function index()
     {
         // Retrieve all the users in the database and return them
-        $users = User::all();
+        $users = Users::all();
         return $users;
     }
 
     public function authenticate(Request $request)
     {
         $credentials = $request->only('username', 'password');
-
         try {
             // verify the credentials and create a token for the user
             if (! $token = JWTAuth::attempt($credentials)) {

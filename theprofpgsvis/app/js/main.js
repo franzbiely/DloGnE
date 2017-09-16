@@ -118,6 +118,8 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider) {
 
+    $authProvider.loginUrl = 'https://theprofessionals.dev/api/authenticate';
+
     $urlRouterProvider.otherwise("/login");  
     
 
@@ -591,7 +593,15 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             data: {pageTitle: 'Audit Trail'}
         })
 
-        
+                // deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                //     return $ocLazyLoad.load({
+                //         name: 'MetronicApp',
+                //         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                //         files: [
+                //             'js/controllers/PropertiesController.js'
+                //         ] 
+                //     });
+                // }]
 
 
 
@@ -612,12 +622,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-                            './assets/vendor/css/morris.css',                            
-                            './assets/vendor/js/morris.min.js',
-                            './assets/vendor/js/raphael-min.js',                            
-                            './assets/vendor/js/jquery.sparkline.min.js',
-
-                            './assets/vendor/js/dashboard.min.js',
                             'js/controllers/LoginController.js',
                         ] 
                     });
