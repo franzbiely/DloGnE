@@ -14,10 +14,8 @@
         <div class="form-group">
             <label class="control-label col-md-3">Use</label>
             <div class="col-md-9">
-                <select ng-model="data.property_use_id" class="form-control">
-                    <option value="1">Vacant</option>
-                    <option value="2">Commercial</option>
-                    <option value="3">..</option>
+                <select ng-model="property_use_selected" 
+                        ng-options="item as item.label for item in property_use_options track by item.id" class="form-control">
                 </select>
                 <span class="help-block"> </span>
             </div>
@@ -31,10 +29,8 @@
         <div class="form-group">
             <label class="control-label col-md-3">Class</label>
             <div class="col-md-9">
-                <select ng-model="data.property_class_id" class="form-control">
-                    <option value="1">Vacant Land - Urban</option>
-                    <option value="2">Vacant Land - Rural</option>
-                    <option value="3">...</option>
+                <select ng-model="property_class_selected" 
+                        ng-options="item as item.label for item in property_class_options track by item.id" class="form-control">
                 </select>
                 <span class="help-block"> </span>
             </div>
@@ -45,10 +41,8 @@
         <div class="form-group">
             <label class="control-label col-md-3">Lease Type</label>
             <div class="col-md-9">
-                <select ng-model="data.property_lease_type_id" class="form-control">
-                    <option value="Residential">Residential</option>
-                    <option value="Commercial">Commercial</option>
-                    <option value="4">...</option>
+                <select ng-model="property_lease_type_selected" 
+                        ng-options="item as item.label for item in property_lease_type_options track by item.id" class="form-control">
                 </select>
                 <span class="help-block"> </span>
             </div>
@@ -62,10 +56,8 @@
         <div class="form-group">
             <label class="control-label col-md-3">City</label>
             <div class="col-md-9">
-                <select ng-model="data.property_city_id" class="form-control" data-placeholder="Choose a Category" tabindex="1">
-                    <option value="Category 1">Alotau</option>
-                    <option value="Category 2">Kimbe</option>
-                    <option value="Category 3">...</option>
+                <select ng-model="property_city_selected" 
+                        ng-options="item as item.label for item in property_city_options track by item.id" class="form-control" data-placeholder="Choose a Category" tabindex="1">
                 </select>
             </div>
         </div>
@@ -73,12 +65,10 @@
     <!--/span-->
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Suburd</label>
+            <label class="control-label col-md-3">Suburb</label>
             <div class="col-md-9">
-                <select ng-model="data.property_suburb" class="form-control" data-placeholder="Choose a Suburd" tabindex="1">
-                    <option value="Category 1">Suburd 1</option>
-                    <option value="Category 2">Suburd 2</option>
-                    <option value="Category 3">...</option>
+                <select ng-model="property_suburb_selected" 
+                        ng-options="item as item.label for item in property_suburb_options track by item.id" class="form-control" data-placeholder="Choose a Suburb" tabindex="1">
                 </select>
             </div>
         </div>
