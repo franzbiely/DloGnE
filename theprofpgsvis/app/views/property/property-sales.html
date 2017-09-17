@@ -1,4 +1,4 @@
-<div class="row" ng-controller="PropertiesController">
+<div class="row" ng-controller="SalesController">
     <div class="col-md-12">
 
         
@@ -22,22 +22,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="odd gradeX">
-                            <td>2016</td>
-                            <td>$1,000,000</td>
-                            <td>Mike Tompson</td>
-                            <td>Good thing!</td>
-                            <td ng-show="hasActions">
-                                <button type="button" class="btn btn-default" ui-sref="sales.details">View Details</button>
-                                <button type="button" class="btn btn-primary">Edit</button>
-                                <button type="button" class="btn btn-danger">Delete</button>
-                            </td>
-                        </tr>
-                        <tr class="odd gradeX">
-                            <td>2010</td>
-                            <td>$800,000</td>
-                            <td>John Smith</td>
-                            <td>Amazing...</td>
+                        <tr ng-repeat="(key, value) in sales" class="odd gradeX">
+                            <td>{{value.year}}</td>
+                            <td>{{value.value}}</td>
+                            <td>{{value.buyer}}</td>
+                            <td>{{value.remarks}}</td>
                             <td ng-show="hasActions">
                                 <button type="button" class="btn btn-default" ui-sref="sales.details">View Details</button>
                                 <button type="button" class="btn btn-primary">Edit</button>
