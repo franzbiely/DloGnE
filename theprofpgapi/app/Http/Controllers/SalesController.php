@@ -56,6 +56,28 @@ class SalesController extends Controller
         return Response::json($this->transformCollection($sales), 200);
     }
 
+    public function getByProperty(Request $request, $property_id) {
+        $search_term = $request->input('search');
+        $limit = $request->input('limit', 100);
+        $sales = Sale::where('property_id',$property_id)->orderBy('id', 'DESC')->with(
+            array(
+                'Property'=>function($query){
+                    $query->select('id','code');
+                }
+            )
+        )->select('id', 
+            'year',
+            'value',
+            'buyer',
+            'remarks',
+            'property_id'
+        )->paginate($limit); 
+        $sales->appends(array(            
+            'limit' => $limit
+        ));
+        return Response::json($this->transformCollection($sales), 200);
+    }
+
     public function store(Request $request) {
         $sale = Sale::create($request->all());
 
