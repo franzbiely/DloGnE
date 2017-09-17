@@ -34,5 +34,6 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::resource('property', 'PropertiesController');
 	Route::resource('valuation', 'ValuationsController');
 	Route::resource('sale', 'SalesController');
+	Route::resource('users', 'UsersController');
 });
 
