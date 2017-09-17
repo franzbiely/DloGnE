@@ -1,4 +1,3 @@
-/* Setup blank page controller */
 angular.module('MetronicApp').controller('PropertiesController', 
     function($rootScope, $scope, $http, settings) {
         $scope.$on('$viewContentLoaded', function() {   
