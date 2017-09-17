@@ -330,23 +330,23 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             }
         })
 
-        // Property > Suburd
-        .state("property.suburd", {
-            url: "/suburd",
+        // Property > Suburb
+        .state("property.suburb", {
+            url: "/suburb",
             views: {
                 'app-body-inner': {
-                    templateUrl: "views/property/suburd.html",
+                    templateUrl: "views/property/suburb.html",
                 }
             },
-            data: {pageTitle: 'Suburd List'},
-            controller: "SuburdController",
+            data: {pageTitle: 'Suburb List'},
+            controller: "SuburbController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-                            'js/controllers/SuburdController.js'
+                            'js/controllers/SuburbController.js'
                         ] 
                     });
                 }]

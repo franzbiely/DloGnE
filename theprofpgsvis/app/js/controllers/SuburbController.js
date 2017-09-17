@@ -1,5 +1,5 @@
 /* Setup blank page controller */
-angular.module('MetronicApp').controller('SuburdController', function($rootScope, $scope, settings, $http, $compile, $rootScope) {
+angular.module('MetronicApp').controller('SuburbController', function($rootScope, $scope, settings, $http, $compile, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {   
         App.initAjax();
     });
@@ -28,7 +28,7 @@ angular.module('MetronicApp').controller('SuburdController', function($rootScope
                     }
                 }
             }
-        var templateString = '<form id="frmSuburb" role="form" class="form-horizontal" ng-controller="SuburdController">\
+        var templateString = '<form id="frmSuburb" role="form" class="form-horizontal" ng-controller="SuburbController">\
                         <div class="form-body">\
                             <div class="form-group">\
                                 <label class="col-md-4 control-label">Suburb Name</label>\
