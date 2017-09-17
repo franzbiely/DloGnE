@@ -501,7 +501,18 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl: "views/users.html",
                 }
             },
-            
+            controller: "UsersController",
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'js/controllers/UsersController.js'
+                        ]                    
+                    });
+                }]
+            },
             data: {pageTitle: 'Audit Trail'}
         })
 

@@ -6,81 +6,81 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\User;
+
+use Response;
+use Input;
+
 class UsersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function __construct(){}
+    public function index(Request $request) {        
+        $data = User::all();
+        return Response::json([
+            'data' => $this->transformCollection($data)
+        ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function store(Request $request) {
+        $user = User::create($request->all());
+
+        return Response::json([
+                'message' => 'Data created succesfully',
+                'data' => $this->transform($user)
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $data = User::find($id);
+ 
+        if(!$data){
+            return Response::json([
+                'error' => [
+                    'message' => 'Data does not exist'
+                ]
+            ], 404);
+        }
+ 
+        return Response::json([
+                'data' => $this->transform($data)
+        ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
-    {
-        //
+    {    
+        $user = User::find($id);
+        if(isset($request->name)) $user->name = $request->name;
+        if(isset($request->email)) $user->email = $request->email;
+        if(isset($request->username)) $user->username = $request->username;
+        if(isset($request->role)) $user->role = $request->role;
+        
+        $user->save(); 
+
+        return Response::json([
+                'message' => 'Data Updated Succesfully'
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        User::destroy($id);
+        return Response::json([
+                'message' => '#'. $id .' Deleted Succesfully'
+        ]);
+    }
+
+    private function transformCollection($data){
+        return array_map([$this, 'transform'], $data->toArray());
+    }
+
+    private function transform($user){
+        return [
+                'id' => $user['id'],
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'username'=>$user['username'],
+                'role'=>$user['role']
+        ];
     }
 }
