@@ -13,14 +13,15 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker\Factory::create(); 
-
+        $roles = array("admin","valuer","data-entry");
         foreach(range(1,5) as $index)
         {
             Users::create([                
                 'name' => $faker->name,
                 'email' =>$faker->email,
                 'username'=>$faker->userName,
-                'password' =>bcrypt('secret_pass')
+                'password' =>bcrypt('secret_pass'),
+                'role' =>$roles[$faker->numberBetween($min = 0, $max = 2)]
             ]);
         }
     }
