@@ -32,7 +32,11 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::resource('property_city', 'PropertyCitiesController');
 	Route::resource('property_suburb', 'PropertySuburbsController');
 	Route::resource('property', 'PropertiesController');
+
+	Route::get('valuation/prop/{property_id}', 'ValuationsController@getByProperty');
 	Route::resource('valuation', 'ValuationsController');
+	
+	
 	Route::resource('sale', 'SalesController');
 	Route::resource('users', 'UsersController');
 });

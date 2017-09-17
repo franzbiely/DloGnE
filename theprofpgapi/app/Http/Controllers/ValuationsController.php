@@ -56,6 +56,28 @@ class ValuationsController extends Controller
         return Response::json($this->transformCollection($valuations), 200);
     }
 
+    public function getByProperty(Request $request, $property_id) {
+        $search_term = $request->input('search');
+        $limit = $request->input('limit', 100);
+        $valuations = Valuation::where('property_id',$property_id)->orderBy('id', 'DESC')->with(
+            array(
+                'Property'=>function($query){
+                    $query->select('id','code');
+                }
+            )
+        )->select('id', 
+            'year',
+            'value',
+            'remarks',
+            'property_id'
+        )->paginate($limit); 
+        $valuations->appends(array(            
+            'limit' => $limit
+        ));
+        return Response::json($this->transformCollection($valuations), 200);
+    }
+
+
     public function store(Request $request) {
         $valuation = Valuation::create($request->all());
 
@@ -64,6 +86,8 @@ class ValuationsController extends Controller
                 'data' => $this->transform($valuation)
         ]);
     }
+    
+
 
     public function show($id)
     {
@@ -80,17 +104,17 @@ class ValuationsController extends Controller
             ], 404);
         }
 
-         // get previous Property id
+         // get previous Valuation id
         $previous = Valuation::where('id', '<', $valuation->id)->max('id');
 
-        // get next Property id
+        // get next Valuation id
         $next = Valuation::where('id', '>', $valuation->id)->min('id');
 
         
 
         return Response::json([
-            'previous_Property_id'=> $previous,
-            'next_Property_id'=> $next,
+            'previous_Valuation_id'=> $previous,
+            'next_Valuation_id'=> $next,
             'data' => $this->transform($valuation)
         ], 200);
     }
@@ -121,7 +145,6 @@ class ValuationsController extends Controller
     private function transformCollection($valuations){
         $valuationsArray = $valuations->toArray();
         return [
-            'total' => $valuationsArray['total'],
             'per_page' => intval($valuationsArray['per_page']),
             'current_page' => $valuationsArray['current_page'],
             'last_page' => $valuationsArray['last_page'],
