@@ -1,8 +1,10 @@
 angular.module('MetronicApp').controller('ValuationsController', 
-    function($rootScope, $scope, $http, settings) {
+    function($rootScope, $scope, $http, settings, $stateParams) {
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax();
         });
+        var property_id = $stateParams.property_id;
+
         $scope.showResult = function() {
             $scope.resultReady = true;
         }
@@ -10,7 +12,7 @@ angular.module('MetronicApp').controller('ValuationsController',
 
         // Display
         $scope.init = function() {
-            $http.get($rootScope.apiURL + 'v1/valuation').success(function(res) {
+            $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ property_id).success(function(res) {
                 $scope.valuations = res.data;
             }).error(function(error) {
                 console.log('Service error : ',error);

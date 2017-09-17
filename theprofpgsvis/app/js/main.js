@@ -205,7 +205,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
         })
 
         .state("property.valuations", {
-            url: "/valuations",
+            url: "/valuations/:property_id",
             views: {
                 'app-body-inner': {
                     templateUrl: "views/property/property-valuations.html",
@@ -227,7 +227,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
         })
 
         .state("property.sales", {
-            url: "/sales",
+            url: "/sales/:property_id",
             views: {
                 'app-body-inner': {
                     templateUrl: "views/property/property-sales.html",
