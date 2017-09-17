@@ -211,7 +211,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl: "views/property/property-valuations.html",
                 }
             },
-            controller: "PropertiesController",
+            controller: "ValuationsController",
             data: {pageTitle: 'Property Valuation List'},
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -219,7 +219,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-                            'js/controllers/PropertiesController.js'
+                            'js/controllers/ValuationsController.js'
                         ] 
                     });
                 }]
@@ -233,7 +233,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl: "views/property/property-sales.html",
                 }
             },
-            controller: "PropertiesController",
+            controller: "SalesController",
             data: {pageTitle: 'Property Sales List'},
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -241,7 +241,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
-                            'js/controllers/PropertiesController.js'
+                            'js/controllers/SalesController.js'
                         ] 
                     });
                 }]
