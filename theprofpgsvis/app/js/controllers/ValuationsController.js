@@ -1,18 +1,22 @@
-angular.module('MetronicApp').controller('ValuationsController', function($rootScope, $scope, $http, $timeout) {
-    $scope.$on('$viewContentLoaded', function() {   
-        App.initAjax(); // initialize core components        
-    });
+angular.module('MetronicApp').controller('ValuationsController', 
+    function($rootScope, $scope, $http, settings) {
+        $scope.$on('$viewContentLoaded', function() {   
+            App.initAjax();
+        });
+        $scope.showResult = function() {
+            $scope.resultReady = true;
+        }
+        $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
 
-    // set sidebar closed and body solid layout mode
-    // $rootScope.settings.layout.pageContentWhite = true;
-    // $rootScope.settings.layout.pageBodySolid = true;
-    // $rootScope.settings.layout.pageSidebarClosed = true;
+        // Display
+        $scope.init = function() {
+            $http.get($rootScope.apiURL + 'v1/valuation').success(function(res) {
+                $scope.valuations = res.data;
+            }).error(function(error) {
+                console.log('Service error : ',error);
+            })
+        };
+        $scope.init();
 
-    $scope.showResult = function() {
-    	$scope.resultReady = true;
     }
-
-    $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
-
-    
-});
+);
