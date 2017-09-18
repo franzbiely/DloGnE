@@ -95,7 +95,7 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
 
     // Display
     $scope.init = function() {
-        $http.get($rootScope.apiURL + 'v1/property_suburb').success(function(property_suburbs) {
+        $http.get($rootScope.apiURL + 'v1/property_suburb?token='+localStorage.getItem('satellizer_token')).success(function(property_suburbs) {
             $scope.property_suburbs = property_suburbs.data;
         }).error(function(error) {
             $scope.error = error;
@@ -105,7 +105,7 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
 
     // Get All City
     $scope.get_cities = function() {
-        $http.get($rootScope.apiURL + 'v1/property_city').success(function(property_cities) {
+        $http.get($rootScope.apiURL + 'v1/property_city?token='+localStorage.getItem('satellizer_token')).success(function(property_cities) {
             $scope.property_cities = property_cities.data;
         }).error(function(error) {
             $scope.error = error;
@@ -115,8 +115,8 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
 
     // Delete
     $scope.deleteSuburb = function(index, id) {
-        console.log($rootScope.apiURL + 'v1/property_suburb/' + id);
-        $http.delete($rootScope.apiURL + 'v1/property_suburb/' + id)
+        console.log($rootScope.apiURL + 'v1/property_suburb/' + id + '?token='+localStorage.getItem('satellizer_token'));
+        $http.delete($rootScope.apiURL + 'v1/property_suburb/' + id + '?token='+localStorage.getItem('satellizer_token'))
             .success(function() {
                 console.log('deleted');
                 $scope.property_suburbs.splice(index, 1);
@@ -125,7 +125,7 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
 
     // Add
     $scope.addSuburb = function() {
-        $http.post($rootScope.apiURL + 'v1/property_suburb', {
+        $http.post($rootScope.apiURL + 'v1/property_suburb?token='+localStorage.getItem('satellizer_token'), {
             name: $scope.property_suburb,
             city_id : $scope.property_suburb_city_id
         }).success(function(response) {
@@ -143,7 +143,7 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
 
     // Update
     $scope.updateSuburb = function(id){
-      $http.put($rootScope.apiURL + 'v1/property_suburb/' + id, {
+      $http.put($rootScope.apiURL + 'v1/property_suburb/' + id + '?token='+localStorage.getItem('satellizer_token'), {
             name: $scope.property_suburb,
             city_id : $scope.property_suburb_city_id
         }).success(function(response) {

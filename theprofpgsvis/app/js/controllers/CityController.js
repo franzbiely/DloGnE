@@ -52,7 +52,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
 
     // Display
     $scope.init = function() {
-        $http.get($rootScope.apiURL + 'v1/property_city').success(function(property_cities) {
+        $http.get($rootScope.apiURL + 'v1/property_city?token='+localStorage.getItem('satellizer_token')).success(function(property_cities) {
             $scope.property_cities = property_cities.data;
             console.log($scope.property_cities);
         }).error(function(error) {
@@ -65,7 +65,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
     $scope.deleteCity = function(index, id) {
         console.log(index, id);
 
-        $http.delete($rootScope.apiURL + 'v1/property_city/' + id)
+        $http.delete($rootScope.apiURL + 'v1/property_city/' + id + '?token='+localStorage.getItem('satellizer_token'))
             .success(function() {
                 $scope.property_cities.splice(index, 1);
             });;
@@ -74,7 +74,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
     // Add
     $scope.addCity = function() {
  
-        $http.post($rootScope.apiURL + 'v1/property_city', {
+        $http.post($rootScope.apiURL + 'v1/property_city?token='+localStorage.getItem('satellizer_token'), {
             name: $scope.property_city
         }).success(function(response) {
 
@@ -89,7 +89,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
 
     // Update
     $scope.updateCity = function(id){
-      $http.put($rootScope.apiURL + 'v1/property_city/' + id, {
+      $http.put($rootScope.apiURL + 'v1/property_city/' + id + '?token='+localStorage.getItem('satellizer_token'), {
             name: $scope.property_city
         }).success(function(response) {
             console.log("Updated Successfully");

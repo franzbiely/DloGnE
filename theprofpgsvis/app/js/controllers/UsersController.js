@@ -50,7 +50,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
 
     // Display
     $scope.init = function() {
-        $http.get($rootScope.apiURL + 'v1/users').success(function(users) {
+        $http.get($rootScope.apiURL + 'v1/users?token='+localStorage.getItem('satellizer_token')).success(function(users) {
             $scope.users = users.data;
             console.log($scope.users);
         }).error(function(error) {
@@ -63,7 +63,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
     $scope.deleteUser = function(index, id) {
         console.log(index, id);
 
-        $http.delete($rootScope.apiURL + 'v1/users/' + id)
+        $http.delete($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'))
             .success(function() {
                 $scope.users.splice(index, 1);
             });;
@@ -72,7 +72,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
     // Add
     $scope.addUser = function() {
  
-        $http.post($rootScope.apiURL + 'v1/users', {
+        $http.post($rootScope.apiURL + 'v1/users?token='+localStorage.getItem('satellizer_token'), {
             name: $scope.user,
         }).success(function(response) {
 
@@ -87,12 +87,16 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
 
     // Update
     $scope.updateUser = function(id){
-      $http.put($rootScope.apiURL + 'v1/users/' + id, {
+      $http.put($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'), {
             name: $scope.user
         }).success(function(response) {
             console.log("Updated Successfully");
         }).error(function(){
             console.log("error");
         });
+    }
+
+    $scope.logout = function() {
+        
     }
 });

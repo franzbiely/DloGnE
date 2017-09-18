@@ -52,7 +52,7 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
 
     // Display
     $scope.init = function() {
-        $http.get($rootScope.apiURL + 'v1/property_lease_type').success(function(property_lease_types) {
+        $http.get($rootScope.apiURL + 'v1/property_lease_type?token='+localStorage.getItem('satellizer_token')).success(function(property_lease_types) {
             $scope.property_lease_types = property_lease_types.data;
             console.log($scope.property_lease_types);
         }).error(function(error) {
@@ -65,7 +65,7 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
     $scope.deleteLeaseType = function(index, id) {
         console.log(index, id);
 
-        $http.delete($rootScope.apiURL + 'v1/property_lease_type/' + id)
+        $http.delete($rootScope.apiURL + 'v1/property_lease_type/' + id + '?token='+localStorage.getItem('satellizer_token'))
             .success(function() {
                 $scope.property_lease_types.splice(index, 1);
             });;
@@ -74,7 +74,7 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
     // Add
     $scope.addLeaseType = function() {
  
-        $http.post($rootScope.apiURL + 'v1/property_lease_type', {
+        $http.post($rootScope.apiURL + 'v1/property_lease_type?token='+localStorage.getItem('satellizer_token'), {
             name: $scope.property_lease_type
         }).success(function(response) {
 
@@ -89,7 +89,7 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
 
     // Update
     $scope.updateLeaseType = function(id){
-      $http.put($rootScope.apiURL + 'v1/property_lease_type/' + id, {
+      $http.put($rootScope.apiURL + 'v1/property_lease_type/' + id + '?token='+localStorage.getItem('satellizer_token'), {
             name: $scope.property_lease_type
         }).success(function(response) {
             console.log("Updated Successfully");

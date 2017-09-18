@@ -20,7 +20,6 @@ angular.module('MetronicApp').controller('LoginController',
             password: $scope.password
         }
         $auth.login(credentials).then(function(response) {
-            console.log(response);
             $http.get($rootScope.apiURL + 'authenticate/user?token='+response.data.token).success(function(response) {
                 
                     var user = JSON.stringify(response.user);

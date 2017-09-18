@@ -61,14 +61,35 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
 
     return settings;
 }]);
-
+MetronicApp.factory('authProvider', function() {
+    var user;
+    return {
+        setUser : function(aUser){
+            user = aUser;
+        },
+        isLoggedIn : function(){
+            return(user)? user : false;
+        }
+    };
+});
 /* Setup App Main Controller */
-MetronicApp.controller('AppController', ['$scope', '$rootScope', function($scope, $rootScope) {
+MetronicApp.controller('AppController', function($auth, $state, $scope, $rootScope) {
     $scope.$on('$viewContentLoaded', function() {
         //App.initComponents(); // init core components
         //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
+
+        $scope.logout = function() {
+            $auth.logout().then(function() {
+                localStorage.removeItem('user');
+                $rootScope.currentUser = null;
+                $state.go('login');
+            });
+        }
+
     });
-}]);
+});
+
+
 
 /***
 Layout Partials.
@@ -296,7 +317,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             },
             controller: "PropertiesController",
-            data: {pageTitle: 'Property List'},
+            data: {
+                pageTitle: 'Property List'
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -634,7 +657,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             },
             
-            data: {pageTitle: 'Login Page'},
+            data: {
+                pageTitle: 'Login Page'
+
+            },
             controller: "LoginController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -693,10 +719,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
 }]);
 
 /* Init global settings and run the app */
-MetronicApp.run(["$rootScope", "settings", "$state", '$templateCache', '$templateRequest', function($rootScope, settings, $state, $templateCache, $templateRequest) {
+MetronicApp.run(function($rootScope, settings, $state, $templateCache, $templateRequest) {
     $templateRequest('./views/property/property-upload-gallery.html').then(function (response) {
         $templateCache.put('property-upload-gallery.html', response);
     });
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
-}]);
+
+});

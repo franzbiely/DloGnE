@@ -115,7 +115,7 @@ angular.module('MetronicApp')
         
         // Add
         $scope.addProperty = function() {
-            $http.post($rootScope.apiURL + 'v1/property', {
+            $http.post($rootScope.apiURL + 'v1/property?token='+localStorage.getItem('satellizer_token'), {
                 code : $scope.data.code,
                 description : $scope.data.description,
                 property_use_id : $scope.data.property_use_id,
