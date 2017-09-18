@@ -15,7 +15,7 @@ class CreateSalesTable extends Migration
     {
         Schema::create($this->table_name, function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('year');
+            $table->date('date');
             $table->text('value');
             $table->text('buyer');
             $table->text('remarks');

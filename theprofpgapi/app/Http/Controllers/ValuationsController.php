@@ -43,7 +43,7 @@ class ValuationsController extends Controller
                     }
                 )
             )->select('id', 
-                'year',
+                'date',
                 'value',
                 'remarks',
                 'property_id'
@@ -66,7 +66,7 @@ class ValuationsController extends Controller
                 }
             )
         )->select('id', 
-            'year',
+            'date',
             'value',
             'remarks',
             'property_id'
@@ -122,7 +122,7 @@ class ValuationsController extends Controller
     public function update(Request $request, $id)
     {    
         $valuation = Valuation::find($id);
-        if(isset($request->year)) $valuation->year = $request->year;
+        if(isset($request->date)) $valuation->date = $request->date;
         if(isset($request->value)) $valuation->value = $request->value;
         if(isset($request->remarks)) $valuation->remarks = $request->remarks;
         if(isset($request->property_id)) $valuation->property_id = $request->property_id;
@@ -159,7 +159,7 @@ class ValuationsController extends Controller
     private function transform($valuation){
         return [
                 'id' => $valuation['id'],
-                'year' => $valuation['year'],
+                'date' => $valuation['date'],
                 'value' => $valuation['value'],
                 'remarks'=>$valuation['remarks'],
                 'property_id'=>$valuation['property']['code']

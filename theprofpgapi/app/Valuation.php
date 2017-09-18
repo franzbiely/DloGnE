@@ -8,7 +8,7 @@ use App\Property;
 class Valuation extends Model
 {
     protected $fillable = [
-		'year',
+		'date',
 		'value',
 		'remarks',
 		'property_id',

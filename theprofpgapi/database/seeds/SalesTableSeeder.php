@@ -12,7 +12,7 @@ class SalesTableSeeder extends Seeder
         foreach(range(1,10) as $index)
         {
             Sale::create([                
-                'year' => $faker->numberBetween($min = 1990, $max = 2017),
+                'date' => $faker->date($format = 'Y-m-d', $max = 'now'),
 				'value' => $faker->numberBetween($min = 1000, $max = 9000),
 				'buyer' => $faker->name,
 				'remarks' => $faker->text,

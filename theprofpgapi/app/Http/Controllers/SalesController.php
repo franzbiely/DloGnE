@@ -42,7 +42,7 @@ class SalesController extends Controller
                     }
                 )
             )->select('id', 
-                'year',
+                'date',
                 'value',
                 'buyer',
                 'remarks',
@@ -66,7 +66,7 @@ class SalesController extends Controller
                 }
             )
         )->select('id', 
-            'year',
+            'date',
             'value',
             'buyer',
             'remarks',
@@ -120,7 +120,7 @@ class SalesController extends Controller
     public function update(Request $request, $id)
     {    
         $sale = Sale::find($id);
-        if(isset($request->year)) $sale->year = $request->year;
+        if(isset($request->date)) $sale->date = $request->date;
         if(isset($request->value)) $sale->value = $request->value;
         if(isset($request->buyer)) $sale->buyer = $request->buyer;
         if(isset($request->remarks)) $sale->remarks = $request->remarks;
@@ -159,7 +159,7 @@ class SalesController extends Controller
     private function transform($sale){
         return [
                 'id' => $sale['id'],
-                'year' => $sale['year'],
+                'date' => $sale['date'],
                 'value' => $sale['value'],
                 'buyer'=>$sale['buyer'],
                 'remarks'=>$sale['remarks'],

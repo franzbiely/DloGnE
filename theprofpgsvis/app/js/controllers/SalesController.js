@@ -6,7 +6,7 @@ angular.module('MetronicApp').controller('SalesController', function($rootScope,
     	$scope.resultReady = true;
     }
     $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
-    var property_id = $stateParams.property_id;   
+    var property_id = $stateParams.property_id;
 
     // Dropzone
     // Dropzone.autoDiscover = false;

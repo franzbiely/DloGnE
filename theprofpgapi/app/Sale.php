@@ -8,7 +8,7 @@ use App\Property;
 class Sale extends Model
 {
     protected $fillable = [
-		'year',
+		'date',
 		'value',
 		'buyer',
 		'remarks',

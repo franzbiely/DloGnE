@@ -15,7 +15,7 @@ class CreateValuationsTable extends Migration
     {
         Schema::create($this->table_name, function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('year');
+            $table->date('date');
             $table->text('value');
             $table->text('remarks');
             $table->integer('property_id');
