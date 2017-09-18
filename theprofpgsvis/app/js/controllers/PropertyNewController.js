@@ -20,27 +20,27 @@ angular.module('MetronicApp')
         });
 
         // Creating Select Options
-        $http.get($rootScope.apiURL + 'v1/property_use').success(function(ret) {
+        $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_use_options = toOption(ret.data);
         }).error(function(error) {
             console.log('Error loading '+ $rootScope.apiURL + 'v1/property_use');  
         })
-        $http.get($rootScope.apiURL + 'v1/property_class').success(function(ret) {
+        $http.get($rootScope.apiURL + 'v1/property_class?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_class_options = toOption(ret.data);
         }).error(function(error) {
             console.log('Error loading '+ $rootScope.apiURL + 'v1/property_class');  
         })
-        $http.get($rootScope.apiURL + 'v1/property_lease_type').success(function(ret) {
+        $http.get($rootScope.apiURL + 'v1/property_lease_type?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_lease_type_options = toOption(ret.data);
         }).error(function(error) {
             console.log('Error loading '+ $rootScope.apiURL + 'v1/property_lease_type');  
         })
-        $http.get($rootScope.apiURL + 'v1/property_city').success(function(ret) {
+        $http.get($rootScope.apiURL + 'v1/property_city?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_city_options = toOption(ret.data);
         }).error(function(error) {
             console.log('Error loading '+ $rootScope.apiURL + 'v1/property_city');  
         })
-        $http.get($rootScope.apiURL + 'v1/property_suburb').success(function(ret) {
+        $http.get($rootScope.apiURL + 'v1/property_suburb?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_suburb_options = toOption(ret.data, 'suburb');
         }).error(function(error) {
             console.log('Error loading '+ $rootScope.apiURL + 'v1/property_suburb');  
@@ -115,7 +115,11 @@ angular.module('MetronicApp')
         
         // Add
         $scope.addProperty = function() {
-            $http.post($rootScope.apiURL + 'v1/property?token='+localStorage.getItem('satellizer_token'), {
+
+            console.log($scope.property_use_options);
+
+
+            var param = {
                 code : $scope.data.code,
                 description : $scope.data.description,
                 property_use_id : $scope.data.property_use_id,
@@ -131,11 +135,14 @@ angular.module('MetronicApp')
                 land_component : $scope.data.land_component,
                 improvement_component : $scope.data.improvement_component,
                 area : $scope.data.area
-            }).success(function(response) {
-                $state.go('property.list');
-            }).error(function(){
-                console.log("error");
-            });
+            };
+            console.log(param);
+
+            // $http.post($rootScope.apiURL + 'v1/property?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
+            //     $state.go('property.list');
+            // }).error(function(){
+            //     console.log("error");
+            // });
         }
 
     }
