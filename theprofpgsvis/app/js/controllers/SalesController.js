@@ -6,7 +6,7 @@ angular.module('MetronicApp').controller('SalesController', function($rootScope,
     	$scope.resultReady = true;
     }
     $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
-    var property_id = $stateParams.property_id;
+    $scope.property_id = $stateParams.property_id;
 
     // Dropzone
     // Dropzone.autoDiscover = false;
@@ -33,7 +33,7 @@ angular.module('MetronicApp').controller('SalesController', function($rootScope,
 
     // Display
     $scope.init = function() {
-        $http.get($rootScope.apiURL + 'v1/sale/prop/'+ property_id).success(function(res) {
+        $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id).success(function(res) {
             $scope.sales = res.data;
         }).error(function(error) {
             console.log('Service error : ',error);
