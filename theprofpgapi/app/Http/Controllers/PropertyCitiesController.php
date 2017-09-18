@@ -10,11 +10,10 @@ use App\PropertyCity;
 
 class PropertyCitiesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct(){
+        $this->middleware('jwt.auth');
+    }
+    
     public function index()
     {
         $data = PropertyCity::all();

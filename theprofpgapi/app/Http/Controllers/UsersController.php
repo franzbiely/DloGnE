@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 use App\User;
 
@@ -13,12 +15,20 @@ use Input;
 
 class UsersController extends Controller
 {
-    public function __construct(){}
+    public function __construct(){
+        $this->middleware('jwt.auth');
+    }
+    
     public function index(Request $request) {        
         $data = User::all();
         return Response::json([
             'data' => $this->transformCollection($data)
         ], 200);
+    }
+
+    public function invalidateToken(Request $request, $token) {
+        JWTAuth::invalidate($token);
+        return response()->json('Token successfully invalidated.');
     }
 
     public function store(Request $request) {

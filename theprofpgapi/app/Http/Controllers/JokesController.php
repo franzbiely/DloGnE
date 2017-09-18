@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Joke;
-use App\Users;
+use App\User;
 use Response;
 use Input;
 class JokesController extends Controller

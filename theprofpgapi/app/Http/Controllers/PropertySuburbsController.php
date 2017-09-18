@@ -13,9 +13,7 @@ class PropertySuburbsController extends Controller
 {
 
     public function __construct(){
-        //$this->middleware('auth.basic', ['only' => 'store']);
-        // $this->middleware('auth.basic');
-        // $this->middleware('jwt.auth', ['except' => ['authenticate', 'index', 'show']]);
+        $this->middleware('jwt.auth');
     }
     /**
      * Display a listing of the resource.

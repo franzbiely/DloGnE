@@ -14,7 +14,10 @@ use Input;
 
 class SalesController extends Controller
 {
-    public function __construct(){}
+    public function __construct(){
+        $this->middleware('jwt.auth');
+    }
+    
     public function index(Request $request) {        
         $search_term = $request->input('search');
         $limit = $request->input('limit', 100);

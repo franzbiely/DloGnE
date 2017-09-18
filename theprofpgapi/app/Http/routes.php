@@ -21,6 +21,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api'], function()
     Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
+
 });
 
 // JWT
@@ -38,6 +39,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	
 	Route::get('sale/prop/{property_id}', 'SalesController@getByProperty');
 	Route::resource('sale', 'SalesController');
+	Route::get('users/logout/{token}', 'UsersController@invalidateToken' );
 	Route::resource('users', 'UsersController');
 });
 
