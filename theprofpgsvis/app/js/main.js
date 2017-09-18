@@ -145,6 +145,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 },
                 'find-result@sales.find': {
                     templateUrl: "views/property/property-sales.html",
+                },
+                'searchform@sales.find': {
+                    templateUrl : "views/searchform.html"
                 }
             },
             controller: "SalesController",
@@ -434,6 +437,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 },
                 'find-result@valuations': {
                     templateUrl: "views/property/property-valuations.html",
+                },
+                'searchform@valuations': {
+                    templateUrl : "views/searchform.html"
                 }
             },
             controller: "ValuationsController",
@@ -470,6 +476,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 },
                 'sales-details@reports' : {
                     templateUrl : "views/property/property-sales.html"
+                },
+                'searchform@reports': {
+                    templateUrl : "views/searchform.html"
                 }
             },
             controller: "ReportsController",
