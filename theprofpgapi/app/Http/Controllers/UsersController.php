@@ -54,6 +54,7 @@ class UsersController extends Controller
         if(isset($request->email)) $user->email = $request->email;
         if(isset($request->username)) $user->username = $request->username;
         if(isset($request->role)) $user->role = $request->role;
+        if(isset($request->isDisabled)) $user->isDisabled = $request->isDisabled;
         
         $user->save(); 
 
@@ -80,7 +81,8 @@ class UsersController extends Controller
                 'name' => $user['name'],
                 'email' => $user['email'],
                 'username'=>$user['username'],
-                'role'=>$user['role']
+                'role'=>$user['role'],
+                'isDisabled'=>$user['isDisabled']
         ];
     }
 }

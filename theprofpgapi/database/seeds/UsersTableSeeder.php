@@ -21,7 +21,8 @@ class UsersTableSeeder extends Seeder
                 'email' =>$faker->email,
                 'username'=>$faker->userName,
                 'password' =>bcrypt('secret_pass'),
-                'role' =>$roles[$faker->numberBetween($min = 0, $max = 2)]
+                'role' =>$roles[$faker->numberBetween($min = 0, $max = 2)],
+                'isDisabled' => false
             ]);
         }
     }
