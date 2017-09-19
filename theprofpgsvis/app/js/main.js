@@ -139,7 +139,14 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider) {
 
-    $authProvider.loginUrl = 'https://theprofessionals.dev/api/authenticate';
+    var isLive = false;
+    if(isLive) {
+        $authProvider.loginUrl = 'https://svisapi.theprofessionals.com.pg/public/api/authenticate';    
+    }
+    else {
+        $authProvider.loginUrl = 'https://theprofessionals.dev/api/authenticate';
+    }
+    
 
     $urlRouterProvider.otherwise("/login");  
     

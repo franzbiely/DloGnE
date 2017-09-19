@@ -17,6 +17,7 @@ angular.module('MetronicApp')
         $scope.$on('$viewContentLoaded', function() {
             App.initAjax();
             Dropzone.autoDiscover = false;
+            $scope.data;
         });
 
         // Creating Select Options
@@ -113,20 +114,19 @@ angular.module('MetronicApp')
             console.info('onCompleteAll');
         };
         
+        $scope.select_change = function(res, model) {
+            $scope[model] = res;
+        }
         // Add
         $scope.addProperty = function() {
-
-            console.log($scope.property_use_options);
-
-
             var param = {
                 code : $scope.data.code,
                 description : $scope.data.description,
-                property_use_id : $scope.data.property_use_id,
-                property_class_id : $scope.data.property_class_id,
-                property_lease_type_id : $scope.data.property_lease_type_id,
-                property_city_id : $scope.data.property_city_id,
-                property_suburb_id : $scope.data.property_suburb_id,
+                property_use_id : $scope.data.property_use_selected.id,
+                property_class_id : $scope.data.property_class_selected.id,
+                property_lease_type_id : $scope.data.property_lease_type_selected.id,
+                property_city_id : $scope.data.property_city_selected.id,
+                property_suburb_id : $scope.data.property_suburb_selected.id,
                 port : $scope.data.port,
                 sec : $scope.data.sec,
                 lot : $scope.data.lot,
@@ -136,13 +136,12 @@ angular.module('MetronicApp')
                 improvement_component : $scope.data.improvement_component,
                 area : $scope.data.area
             };
-            console.log(param);
 
-            // $http.post($rootScope.apiURL + 'v1/property?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
-            //     $state.go('property.list');
-            // }).error(function(){
-            //     console.log("error");
-            // });
+            $http.post($rootScope.apiURL + 'v1/property?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
+                $state.go('property.list');
+            }).error(function(){
+                console.log("error");
+            });
         }
 
     }
