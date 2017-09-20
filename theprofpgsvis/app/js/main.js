@@ -316,6 +316,43 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }]
             }
         })
+        .state("property.edit", {
+            url: "/edit-property/:id",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/property-new.html",
+                },
+                'property-detail@property.edit': {
+                    templateUrl : "views/property/property-details.html"
+                }
+            },
+            controller: "PropertyNewController",
+            data: {pageTitle: 'Edit Property'},
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
+                            './assets/vendor/css/bootstrap-wysihtml5.css',
+                            './assets/vendor/js/wysihtml5-0.3.0.js',
+                            './assets/vendor/js/bootstrap-wysihtml5.js',
+                            './assets/vendor/css/bootstrap-fileinput.css',
+                            './assets/vendor/css/bootstrap-switch.min.css',
+                            './assets/vendor/css/bootstrap-markdown.min.css',
+                            './assets/vendor/css/typeahead.css',
+                            './assets/vendor/js/spinner.min.js',
+                            './assets/vendor/js/bootstrap-fileinput.js',
+                            './assets/vendor/js/jquery.inputmask.bundle.min.js',
+                            './assets/vendor/js/angular-file-upload.min.js',
+                            'js/controllers/PropertyNewController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
         .state("property.list", {
             url: "/properties",
             views: {

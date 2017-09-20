@@ -23,20 +23,48 @@ class PropertiesController extends Controller
     public function index(Request $request) {        
         $search_term = $request->input('search');
         $limit = $request->input('limit', 100);
-
         if ($search_term) {
             $properties = Property::orderBy('id', 'DESC')->
                 where('code', 'LIKE', "%$search_term%")->
                 with(
-                    array('City'=>function($query){
-                        $query->select('id','name');
-                    })
-                )->select('id', 'code', 'city_id')->paginate($limit); 
+                    array(
+                        'Property_City'=>function($query){
+                            $query->select('id','name');
+                        },
+                        'Property_Suburb'=>function($query){
+                            $query->select('id','name');
+                        },
+                        'Property_Lease_Type'=>function($query){
+                            $query->select('id','name');
+                        },
+                        'Property_Class'=>function($query){
+                            $query->select('id','name');
+                        },
+                        'Property_Use'=>function($query){
+                            $query->select('id','name');
+                        }
+                    )
+                )->select('id', 
+                    'code',
+                    'description',
+                    'property_use_id',
+                    'property_class_id',
+                    'property_lease_type_id',
+                    'property_city_id',
+                    'property_suburb_id',
+                    'port',
+                    'sec',
+                    'lot',
+                    'unit',
+                    'land_value',
+                    'land_component',
+                    'improvement_component',
+                    'area'
+                )->paginate($limit); 
 
-            $properties->appends(array(
-                'search' => $search_term,
-                'limit' => $limit
-            ));
+                $properties->appends(array(            
+                    'limit' => $limit
+                )); 
         }
         else
         {
@@ -110,11 +138,40 @@ class PropertiesController extends Controller
 
     public function show($id)
     {
-        $property = Property::with(
-            array('City'=>function($query){
-                $query->select('id','name');
-            })
-            )->find($id);
+        $property = Property::with(array(
+                'Property_City'=>function($query){
+                    $query->select('id','name');
+                },
+                'Property_Suburb'=>function($query){
+                    $query->select('id','name');
+                },
+                'Property_Lease_Type'=>function($query){
+                    $query->select('id','name');
+                },
+                'Property_Class'=>function($query){
+                    $query->select('id','name');
+                },
+                'Property_Use'=>function($query){
+                    $query->select('id','name');
+                }
+            )
+        )->select('id', 
+            'code',
+            'description',
+            'property_use_id',
+            'property_class_id',
+            'property_lease_type_id',
+            'property_city_id',
+            'property_suburb_id',
+            'port',
+            'sec',
+            'lot',
+            'unit',
+            'land_value',
+            'land_component',
+            'improvement_component',
+            'area'
+        )->find($id);
         if(!$property){
             return Response::json([
                 'error' => [
@@ -134,7 +191,7 @@ class PropertiesController extends Controller
         return Response::json([
             'previous_Property_id'=> $previous,
             'next_Property_id'=> $next,
-            'data' => $this->transform($property)
+            'data' => $property
         ], 200);
     }
 
