@@ -5,16 +5,4 @@ angular.module('MetronicApp').controller('UserProfileController', function($root
         $scope.account = [];
         
     });
-    var user = JSON.parse(localStorage.getItem('user'));
-    // Display
-    $scope.init = function() {
-        // $http.get($rootScope.apiURL + 'v1/users/'+ '1' +'?token='+localStorage.getItem('satellizer_token')).success(function(property_uses) {
-        //     $scope.account = property_uses.data;
-        //     console.log($scope.property_uses);
-        // }).error(function(error) {
-        //     $scope.error = error;
-        // })
-    };
-    $scope.init();
-    $scope.user = user;
 }); 

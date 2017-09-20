@@ -86,6 +86,24 @@ MetronicApp.controller('AppController', function($auth, $state, $scope, $rootSco
             });
         }
 
+        var user = JSON.parse(localStorage.getItem('user'));
+        $scope.user = user;
+        $scope.role = [];
+
+        switch($scope.user.role) {
+            case 'valuer' : 
+                $scope.role.can_access_reports = true;
+                break;
+            case 'dataentry' : 
+
+                break;
+            case 'admin' : 
+                $scope.role.can_manage_staffs = true;
+
+                $scope.can_access_audit_trail = true;
+                $scope.role.can_access_reports = true;
+                break;
+        }
     });
 });
 
@@ -287,6 +305,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 },
                 'property-detail@property.new': {
                     templateUrl : "views/property/property-details.html"
+                },
+                'extract-buttons@property.new' : {
+                    templateUrl: "views/extract-buttons.html",   
                 }
             },
             controller: "PropertyNewController",
@@ -358,6 +379,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             views: {
                 'app-body-inner': {
                     templateUrl: "views/property/property.html",
+                },
+                'extract-buttons@property.list' : {
+                    templateUrl: "views/extract-buttons.html",   
                 }
             },
             controller: "PropertiesController",
@@ -383,6 +407,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             views: {
                 'app-body-inner': {
                     templateUrl: "views/property/city.html",
+                },
+                'extract-buttons@property.city' : {
+                    templateUrl: "views/extract-buttons.html",   
                 }
             },
             data: {pageTitle: 'City List'},
@@ -406,6 +433,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             views: {
                 'app-body-inner': {
                     templateUrl: "views/property/suburb.html",
+                },
+                'extract-buttons@property.suburb' : {
+                    templateUrl: "views/extract-buttons.html",   
                 }
             },
             data: {pageTitle: 'Suburb List'},
@@ -429,6 +459,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             views: {
                 'app-body-inner': {
                     templateUrl: "views/property/lease-type.html",
+                },
+                'extract-buttons@property.leaseType' : {
+                    templateUrl: "views/extract-buttons.html",   
                 }
             },
             data: {pageTitle: 'Lease Type List'},
@@ -452,6 +485,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             views: {
                 'app-body-inner': {
                     templateUrl: "views/property/class.html",
+                },
+                'extract-buttons@property.class' : {
+                    templateUrl: "views/extract-buttons.html",   
                 }
             },
             data: {pageTitle: 'Class List'},
@@ -475,6 +511,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             views: {
                 'app-body-inner': {
                     templateUrl: "views/property/use.html",
+                },
+                'extract-buttons@property.use' : {
+                    templateUrl: "views/extract-buttons.html",   
                 }
             },
             data: {pageTitle: 'Use List'},
@@ -601,6 +640,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     controller: "DashboardController"
                 }
             },
+            controller: "DashboardController",
             data: {pageTitle: 'Admin Dashboard Template'},
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
