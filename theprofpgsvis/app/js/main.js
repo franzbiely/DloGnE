@@ -661,8 +661,19 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl: "views/profile/account.html",
                 }
             },
-            
-            data: {pageTitle: 'User Account'}
+            controller: "UserProfileController",
+            data: {pageTitle: 'User Account'},
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'js/controllers/UserProfileController.js'
+                        ]                    
+                    });
+                }]
+            }
         })
 
         // Audit Trail

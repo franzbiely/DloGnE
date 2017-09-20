@@ -37,10 +37,10 @@
             <!-- END LANGUAGE BAR -->
             <!-- BEGIN USER LOGIN DROPDOWN -->
             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-            <li class="dropdown dropdown-user">
+            <li class="dropdown dropdown-user" ng-controller="UserProfileController">
                 <a href="#" class="dropdown-toggle" dropdown-menu-hover data-toggle="dropdown" data-close-others="true">
                     <img alt="" class="img-circle" src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&f=y" />
-                    <span class="username username-hide-on-mobile"> Mike </span>
+                    <span class="username username-hide-on-mobile"> {{user.name}} </span>
                     <i class="fa fa-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-default">
