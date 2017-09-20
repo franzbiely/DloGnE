@@ -87,7 +87,7 @@ angular.module('MetronicApp')
             },true);
             
         });
-        
+
         $scope.dzOptions = {
             url : '/alt_upload_url',
             paramName : 'photo',
@@ -160,7 +160,7 @@ angular.module('MetronicApp')
         
 
         // Add
-        $scope.addProperty = function() {
+        $scope.saveProperty = function() {
             var param = {
                 code : $scope.data.code,
                 description : $scope.data.description,
@@ -178,14 +178,25 @@ angular.module('MetronicApp')
                 improvement_component : $scope.data.improvement_component,
                 area : $scope.data.area
             };
-            console.log('from angular', param);
-            $http.post($rootScope.apiURL + 'v1/property?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
-                // $state.go('property.list');
-            }).error(function(){
-                console.log("error");
-            });
-        }
 
+            if($scope.params.id !== "") {
+                // if edit
+                $http.put($rootScope.apiURL + 'v1/property/' + $scope.params.id + '?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
+                    alert('Update Successfully');
+                    $state.go('property.list');    
+                }).error(function(){
+                    console.log("error");
+                });
+            }
+            else {
+                // if add
+                $http.post($rootScope.apiURL + 'v1/property?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
+                    $state.go('property.list');    
+                }).error(function(){
+                    console.log("error");
+                });
+            }   
+        }
 
 
     }
