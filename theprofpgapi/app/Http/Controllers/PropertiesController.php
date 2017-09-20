@@ -110,6 +110,76 @@ class PropertiesController extends Controller
         }
         return Response::json($this->transformCollection($properties), 200);
     }
+    public function getByParam(Request $request, $params) {
+        $limit = $request->input('limit', 100);
+
+        parse_str($params, $ret);
+        $where = [];
+        foreach($ret as $key=>$val) {
+            if(isset($val))
+                $where[$key] = $val;
+        };
+        
+        $properties = Property::orderBy('id', 'DESC')->
+            where($where)->
+            with(
+                array(
+                    'Property_City'=>function($query){
+                        $query->select('id','name');
+                    },
+                    'Property_Suburb'=>function($query){
+                        $query->select('id','name');
+                    },
+                    'Property_Lease_Type'=>function($query){
+                        $query->select('id','name');
+                    },
+                    'Property_Class'=>function($query){
+                        $query->select('id','name');
+                    },
+                    'Property_Use'=>function($query){
+                        $query->select('id','name');
+                    }
+                )
+            )->select('id', 
+                'code',
+                'description',
+                'property_use_id',
+                'property_class_id',
+                'property_lease_type_id',
+                'property_city_id',
+                'property_suburb_id',
+                'port',
+                'sec',
+                'lot',
+                'unit',
+                'land_value',
+                'land_component',
+                'improvement_component',
+                'area'
+            )->paginate($limit); 
+
+            $properties->appends(array(            
+                'limit' => $limit
+            ));  
+
+        //  // get previous Property id
+        // $previous = Property::where('id', '<', $properties->id)->max('id');
+
+        // // get next Property id
+        // $next = Property::where('id', '>', $properties->id)->min('id');
+
+        
+            if(count($properties)==1) {
+                return Response::json([
+                    'data' => $properties[0]
+                ], 200);        
+            }
+            elseif(count($properties) > 1) {
+                return Response::json($this->transformCollection($properties)['data'], 200);
+            }
+        
+
+    }
 
     public function store(Request $request) {
         // if(! $request->property_use_id or
@@ -172,6 +242,8 @@ class PropertiesController extends Controller
             'improvement_component',
             'area'
         )->find($id);
+
+        print_r($property); exit();
         if(!$property){
             return Response::json([
                 'error' => [

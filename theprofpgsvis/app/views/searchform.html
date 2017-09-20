@@ -7,14 +7,14 @@
         </div>
     </div>
     <div class="portlet-body">
-        <form action="#" class="form-horizontal">
+        <form class="form-horizontal" ng-submit="showResult()">
             <div class="form-body">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label col-md-3">Port</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" placeholder="Port 10">
+                                <input ng-model="data.port" type="text" class="form-control" placeholder="Port 10">
                             </div>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Sec</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" placeholder="Sec 2">
+                                <input ng-model="data.sec" type="text" class="form-control" placeholder="Sec 2">
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Lot</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" placeholder="Lot 6">
+                                <input ng-model="data.lot" type="text" class="form-control" placeholder="Lot 6">
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Unit #</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" placeholder="Unit 2C">
+                                <input ng-model="data.unit" type="text" class="form-control" placeholder="Unit 2C">
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">City</label>
                             <div class="col-md-9">
-                                <select ng-model="property_city_selected" 
+                                <select ng-model="data.property_city_selected" 
                                         ng-options="item as item.label for item in property_city_options track by item.id" class="form-control" data-placeholder="Choose a Category" tabindex="1">
                                 </select>
                             </div>
@@ -65,7 +65,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Suburb</label>
                             <div class="col-md-9">
-                                <select ng-model="property_suburb_selected" 
+                                <select ng-model="data.property_suburb_selected" 
                                         ng-options="item as item.label for item in property_suburb_options track by item.id" class="form-control" data-placeholder="Choose a Suburb" tabindex="1">
                                 </select>
                             </div>
@@ -78,7 +78,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Class</label>
                             <div class="col-md-9">
-                                <select ng-model="property_class_selected" 
+                                <select ng-model="data.property_class_selected" 
                                         ng-options="item as item.label for item in property_class_options track by item.id" class="form-control">
                                 </select>
                                 <span class="help-block"> </span>
@@ -90,7 +90,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Lease Type</label>
                             <div class="col-md-9">
-                                <select ng-model="property_lease_type_selected" 
+                                <select ng-model="data.property_lease_type_selected" 
                                         ng-options="item as item.label for item in property_lease_type_options track by item.id" class="form-control">
                                 </select>
                                 <span class="help-block"> </span>
@@ -102,7 +102,7 @@
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <div class="form-group">
-                            <input type="button" ng-click="showResult()" class="btn btn-primary btn-lg" value="Search" />
+                            <input type="submit" class="btn btn-primary btn-lg" value="Search" />
                         </div>
                     </div>
                 </div>
