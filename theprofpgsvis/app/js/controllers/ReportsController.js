@@ -14,7 +14,9 @@ angular.module('MetronicApp').controller('ReportsController',
 
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax(); 
-            $scope.data = [];  
+            $scope.data = []; 
+            $scope.valuations = [];
+
             // Load Select options data
             $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_use_options = toOption(ret.data);
@@ -62,10 +64,11 @@ angular.module('MetronicApp').controller('ReportsController',
             $http.get($rootScope.apiURL + 'v1/property/param/'+ str +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
                 console.log(response.data);
                 if(response.data.length > 1) {
-                    // multiple
+                    alert('Multiple data view is still under construction.')
                 }
                 else {
                     // single
+                    $scope.property_id = response.data.id;
                     $scope.data.code = response.data.code;
                     $scope.data.description = response.data.description;
                     $scope.data.property_use_selected = response.data.property__use;
@@ -83,7 +86,22 @@ angular.module('MetronicApp').controller('ReportsController',
                     $scope.data.area = response.data.area;
                 }
                 
-                console.log($scope.data);
+                // Get Valuation data
+                $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+                    $scope.valuations = res.data;
+                    console.log($scope.valuations);
+                }).error(function(error) {
+                    console.log('Service error : ',error);
+                })
+
+                // Get Sales data
+                $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+                    $scope.sales = res.data;
+                    console.log($scope.sales);
+                }).error(function(error) {
+                    console.log('Service error : ',error);
+                })
+
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property/param/');  
             });
