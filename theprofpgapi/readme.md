@@ -38,4 +38,12 @@ Developer Notes Steps :
 11. View all routes
 	php artisan route:list
 	
-Thanks.
+Deploying : 
+1. cd theprofpgapi/gitsource
+2. git pull
+3. cd ../
+<!-- Copy svis source to domain folder -->
+4. cp -r theprofpgapi/gitsource/theprofpgsvis/app/ theprofpgsvis/public/
+<!-- Copy api source to domain folder -->
+5. cp -r theprofpgapi/gitsource/theprofpgapi/* theprofpgapi/public/
+6. 
