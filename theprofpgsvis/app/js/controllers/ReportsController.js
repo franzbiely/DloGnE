@@ -55,59 +55,75 @@ angular.module('MetronicApp').controller('ReportsController',
             },true);
         });
 
-        $scope.showResult = function() {
-            var str = Object.keys($scope.data).map(function(key){ 
-                if(encodeURIComponent($scope.data[key]) !== 'undefined'){
-                    return encodeURIComponent(key) + '=' + encodeURIComponent($scope.data[key]); 
-                }
-            }).join('&');
+        $scope.showResult = function(property_id) {
+            var str;
+
+            if(property_id != null) {
+                str = 'id='+ property_id;
+            }
+            else {
+                str = Object.keys($scope.data).map(function(key){ 
+                    if(encodeURIComponent($scope.data[key]) !== 'undefined'){
+                        return encodeURIComponent(key) + '=' + encodeURIComponent($scope.data[key]); 
+                    }
+                }).join('&');    
+            }
+            
             $http.get($rootScope.apiURL + 'v1/property/param/'+ str +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                console.log(response.data);
-                if(response.data.length > 1) {
-                    alert('Multiple data view is still under construction.')
+                    
+                if(response.length == '0') {
+                    alert('No result');
+                }
+                else if(response.length > 1) {
+                    $scope.multi_property_results = response;
+                    $scope.multipleResultsReady = true;
                 }
                 else {
-                    // single
-                    $scope.property_id = response.data.id;
-                    $scope.data.code = response.data.code;
-                    $scope.data.description = response.data.description;
-                    $scope.data.property_use_selected = response.data.property__use;
-                    $scope.data.property_class_selected = response.data.property__class;
-                    $scope.data.property_lease_type_selected = response.data.property__lease__type;
-                    $scope.data.property_city_selected = response.data.property__city;
-                    $scope.data.property_suburb_selected = response.data.property__suburb;
-                    $scope.data.port = response.data.port;
-                    $scope.data.sec = response.data.sec;
-                    $scope.data.lot = response.data.lot;
-                    $scope.data.unit = response.data.unit;
-                    $scope.data.land_value = response.data.land_value;
-                    $scope.data.land_component = response.data.land_component;
-                    $scope.data.improvement_component = response.data.improvement_component;
-                    $scope.data.area = response.data.area;
+                    for (var i = 0; i < response.length; i++) {
+                        $scope.property_id = response[i].id;
+                        $scope.data.code = response[i].code;
+                        $scope.data.description = response[i].description;
+                        $scope.data.property_use_selected = response[i].property__use;
+                        $scope.data.property_class_selected = response[i].property__class;
+                        $scope.data.property_lease_type_selected = response[i].property__lease__type;
+                        $scope.data.property_city_selected = response[i].property__city;
+                        $scope.data.property_suburb_selected = response[i].property__suburb;
+                        $scope.data.port = response[i].port;
+                        $scope.data.sec = response[i].sec;
+                        $scope.data.lot = response[i].lot;
+                        $scope.data.unit = response[i].unit;
+                        $scope.data.land_value = response[i].land_value;
+                        $scope.data.land_component = response[i].land_component;
+                        $scope.data.improvement_component = response[i].improvement_component;
+                        $scope.data.area = response[i].area;
+                    }
+                    // Get Valuation data
+                    $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+                        $scope.valuations = res.data;
+                        console.log($scope.valuations);
+                    }).error(function(error) {
+                        console.log('Service error : ',error);
+                    })
+
+                    // Get Sales data
+                    $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+                        $scope.sales = res.data;
+                        console.log($scope.sales);
+                    }).error(function(error) {
+                        console.log('Service error : ',error);
+                    })
+
+                    // show details below
+                    $scope.resultReady = true;
                 }
                 
-                // Get Valuation data
-                $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
-                    $scope.valuations = res.data;
-                    console.log($scope.valuations);
-                }).error(function(error) {
-                    console.log('Service error : ',error);
-                })
-
-                // Get Sales data
-                $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
-                    $scope.sales = res.data;
-                    console.log($scope.sales);
-                }).error(function(error) {
-                    console.log('Service error : ',error);
-                })
+                
 
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property/param/');  
             });
 
-            // show details below
-        	$scope.resultReady = true;
+            
         }
         $scope.type="reports";
 

@@ -1,0 +1,40 @@
+<div class="row" ng-controller="PropertiesController">
+    <div class="col-md-12">
+
+        
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet light">
+            <div class="portlet-title">
+                <div class="caption font-dark">
+                    <i class="icon-settings font-dark"></i>
+                    <span class="caption-subject bold uppercase"> Multiple Property Search Results</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                
+                <table class="table table-striped table-bordered table-hover order-column" id="sample_1">
+                    <thead>
+                        <tr>
+                            <th> ID </th>
+                            <th> City </th>
+                            <th> Lease Type </th>
+                            <th> Port/Sec/Lot </th>
+                            <th> Suburb </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(key, value) in multi_property_results" class="odd gradeX">
+                            <td><a ng-click="showResult(value.id)">{{value.id}}</a></td>
+                            <td>{{value.city}}</td>
+                            <td>{{value.lease_type}}</td>
+                            <td>{{value.port}} / {{value.sec}} / {{value.lot}}</td>
+                            <td>{{value.suburb}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+
+    </div>
+</div>

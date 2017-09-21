@@ -86,22 +86,25 @@ MetronicApp.controller('AppController', function($auth, $state, $scope, $rootSco
             });
         }
 
+        // when logged in
         var user = JSON.parse(localStorage.getItem('user'));
-        $scope.user = user;
-        $scope.role = [];
+        if((user != null)) {
+            $scope.user = user;
+            $scope.role = [];
 
-        switch($scope.user.role) {
-            case 'valuer' : 
-                $scope.role.can_access_reports = true;
-                break;
-            case 'dataentry' : 
+            switch($scope.user.role) {
+                case 'valuer' : 
+                    $scope.role.can_access_reports = true;
+                    break;
+                case 'dataentry' : 
 
-                break;
-            case 'admin' : 
-                $scope.role.can_manage_staffs = true;
-                $scope.role.can_access_audit_trail = true;
-                $scope.role.can_access_reports = true;
-                break;
+                    break;
+                case 'admin' : 
+                    $scope.role.can_manage_staffs = true;
+                    $scope.role.can_access_audit_trail = true;
+                    $scope.role.can_access_reports = true;
+                    break;
+            }
         }
     });
 });
@@ -584,6 +587,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 },
                 'searchform@reports': {
                     templateUrl : "views/searchform.html"
+                },
+                'multi-properties-result@reports' : {
+                    templateUrl : "views/multi-properties-result.html"
                 }
             },
             controller: "ReportsController",

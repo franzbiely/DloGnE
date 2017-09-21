@@ -170,9 +170,7 @@ class PropertiesController extends Controller
 
         
             if(count($properties)==1) {
-                return Response::json([
-                    'data' => $properties[0]
-                ], 200);        
+                return Response::json([$properties[0]], 200);        
             }
             elseif(count($properties) > 1) {
                 return Response::json($this->transformCollection($properties)['data'], 200);
