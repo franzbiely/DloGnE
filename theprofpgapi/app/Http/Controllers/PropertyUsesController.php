@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Response;
 use App\PropertyUse;
+use App\AuditTrail;
 
 class PropertyUsesController extends Controller
 {
@@ -47,8 +48,11 @@ class PropertyUsesController extends Controller
                 ]
             ], 422);
         }
+
         $property_use = PropertyUse::create($request->all());
- 
+
+        // AuditTrail::create();
+
         return Response::json([
                 'message' => 'Property-Use Created Succesfully',
                 'data' => $this->transform($property_use)

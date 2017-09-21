@@ -99,8 +99,7 @@ MetronicApp.controller('AppController', function($auth, $state, $scope, $rootSco
                 break;
             case 'admin' : 
                 $scope.role.can_manage_staffs = true;
-
-                $scope.can_access_audit_trail = true;
+                $scope.role.can_access_audit_trail = true;
                 $scope.role.can_access_reports = true;
                 break;
         }
@@ -727,8 +726,19 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl: "views/audit_trail.html",
                 }
             },
-            
-            data: {pageTitle: 'Audit Trail'}
+            controller: "AuditTrailController",
+            data: {pageTitle: 'Audit Trail'},
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            'js/controllers/AuditTrailController.js'
+                        ]                    
+                    });
+                }]
+            }
         })
 
                 // deps: ['$ocLazyLoad', function($ocLazyLoad) {

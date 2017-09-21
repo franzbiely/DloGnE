@@ -43,5 +43,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::resource('sale', 'SalesController');
 	Route::get('users/logout/{token}', 'UsersController@invalidateToken' );
 	Route::resource('users', 'UsersController');
+
+	Route::resource('audit_trail', 'AuditTrailsController');
 });
 
