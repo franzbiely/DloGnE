@@ -570,6 +570,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
         .state("reports", {
             url: "/find-reports",
             views: {
+
                 'app-body': {
                     templateUrl: "views/dashboard.html"          
                 },
