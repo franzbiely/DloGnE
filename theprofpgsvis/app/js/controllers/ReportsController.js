@@ -127,7 +127,6 @@ angular.module('MetronicApp').controller('ReportsController',
         }
         $scope.type="reports";
 
-        
 
     }
 );
