@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-controller="ValuationsController">
     <div class="col-md-12">
 
         
@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div ng-show="hasActions" class="btn-group">
-                                <a id="add_new_class" class="btn sbold green" ui-sref="property.new"> Add Valuation
+                                <a id="add_new_class" class="btn sbold green" ng-click="showModal()"> Add Valuation
                                     <i class="fa fa-plus"></i>
                                 </a>
                             </div>
@@ -37,9 +37,12 @@
                             <td>{{value.value}}</td>
                             <td>{{value.remarks}}</td>
                             <td ng-show="hasActions">
-                                <button type="button" class="btn btn-primary">Edit</button>
-                                <button type="button" class="btn btn-danger">Delete</button>
+                                <button ng-click="showModal(key, value)" type="button" class="btn btn-primary">Edit</button>
+                                <button ng-click="delete($index, value.id)" ng-disabled="isDisabled" type="button" class="btn btn-danger">Delete</button>
                             </td>
+                        </tr>
+                        <tr ng-show="!valuations.length">
+                            <td colspan="4">No record</td>
                         </tr>
                     </tbody>
                 </table>

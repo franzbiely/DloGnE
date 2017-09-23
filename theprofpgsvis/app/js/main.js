@@ -132,6 +132,10 @@ MetronicApp.controller('AppController', function($auth, $state, $scope, $rootSco
                     $scope.role.can_manage_staffs = true;
                     $scope.role.can_access_audit_trail = true;
                     $scope.role.can_access_reports = true;
+
+                    // below should be removed later, used only for testing
+                    $scope.role.can_access_reports = true;
+
                     break;
             }
         }
