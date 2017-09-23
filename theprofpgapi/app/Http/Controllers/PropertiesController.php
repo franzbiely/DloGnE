@@ -241,7 +241,6 @@ class PropertiesController extends Controller
             'area'
         )->find($id);
 
-        print_r($property); exit();
         if(!$property){
             return Response::json([
                 'error' => [
