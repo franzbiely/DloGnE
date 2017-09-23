@@ -34,8 +34,9 @@
 	                    <div class="form-actions">
 	                        <div class="row">
 	                            <div class="col-md-offset-3 col-md-9">
-	                                <button type="submit" class="btn purple">
-	                                    <i class="fa fa-check"></i> Login</button>
+
+	                                <button ng-disabled="isDisabled" type="submit" class="btn purple">
+	                                    <i class="fa fa-check" ng-class="{'fa-spinner fa-spin' : isDisabled}"></i> Login</button>
 	                            </div>
 	                        </div>
 	                    </div>

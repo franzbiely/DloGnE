@@ -3,6 +3,7 @@ angular.module('MetronicApp').controller('LoginController',
 	
     $scope.$on('$viewContentLoaded', function() {
         App.initAjax();
+        $scope.isDisabled = false;
     });
 
     var vm = this;
@@ -15,6 +16,7 @@ angular.module('MetronicApp').controller('LoginController',
 	// =====================================
 
     $scope.login = function() {
+        $scope.isDisabled = true;
         var credentials = {
             username: $scope.username,
             password: $scope.password
@@ -34,8 +36,9 @@ angular.module('MetronicApp').controller('LoginController',
                 })
         }, function(e) {
             alert('Incorrect credentials');
-            // $scope.username = '';
-            // $scope.password = '';
+            $scope.username = '';
+            $scope.password = '';
+            $scope.isDisabled = false;
         });
     }
 });
