@@ -9,9 +9,48 @@ var MetronicApp = angular.module("MetronicApp", [
     "oc.lazyLoad",  
     "ngSanitize",
     'satellizer',
+    'permission',
     'thatisuday.dropzone'
 ]);
 
+/* Init global settings and run the app */
+MetronicApp.run(['$rootScope', 'settings', '$state', '$templateCache', '$templateRequest', '$auth', 'Permission',
+    function($rootScope, settings, $state, $templateCache, $templateRequest, $auth, Permission) {
+    $rootScope.$state = $state; // state to be accessed from view
+    $rootScope.$settings = settings; // state to be accessed from view
+
+    $rootScope.isLive = false;
+    $rootScope.logout = function() {
+
+        $auth.logout().then(function() {
+
+            // Remove the authenticated user from local storage
+            localStorage.removeItem('user');
+
+            // Remove the current user info from rootscope
+            $rootScope.currentUser = null;
+            $state.go('login');
+        });
+    }
+
+    // $rootScope.currentUser = JSON.parse(localStorage.getItem('user'));
+    
+    // Define anonymous role
+    
+    Permission.defineRole('anonymous', function (stateParams) {
+        if (!$auth.isAuthenticated()) {
+            return true; // Is anonymous
+        }
+        return false;
+    })
+    .defineRole('isloggedin', function (stateParams) {
+        if ($auth.isAuthenticated()) {
+            return true; // Is loggedin
+        }
+        return false;
+    });
+
+}]);
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
 MetronicApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
     $ocLazyLoadProvider.config({
@@ -35,8 +74,6 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
 MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
     // supported languages
 
-    var isLive = false;
-    
     var settings = {
         layout: {
             pageSidebarClosed: false, // sidebar menu state
@@ -49,7 +86,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         layoutPath: '../assets/layouts/layout',
     };
 
-    if( isLive ) {
+    if( $rootScope.isLive ) {
         $rootScope.apiURL = 'https://svisapi.theprofessionals.com.pg/public/api/';
     }
     else {
@@ -77,14 +114,6 @@ MetronicApp.controller('AppController', function($auth, $state, $scope, $rootSco
     $scope.$on('$viewContentLoaded', function() {
         //App.initComponents(); // init core components
         //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
-
-        $scope.logout = function() {
-            $auth.logout().then(function() {
-                localStorage.removeItem('user');
-                $rootScope.currentUser = null;
-                $state.go('login');
-            });
-        }
 
         // when logged in
         var user = JSON.parse(localStorage.getItem('user'));
@@ -181,12 +210,19 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl: "views/dashboard.html"          
                 }
             },
-            data: {pageTitle: 'Sales'}
+            data: {
+                pageTitle: 'Sales',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
         })
 
         // Sales Find
         .state("sales.find", {
             url: "/find",
+
             views: {
                 'app-body-inner': {
                     templateUrl: "views/sales.html"
@@ -212,7 +248,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }]
             },
             
-            data: {pageTitle: 'Find Sales'}
+            data: {
+                pageTitle: 'Find Sales',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
         })
 
         .state("sales.details", {
@@ -241,7 +283,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     });
                 }]
             },
-            data: {pageTitle: 'Sales Details'}
+            data: {
+                pageTitle: 'Sales Details',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
         })
 
         // Property
@@ -252,7 +300,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl: "views/dashboard.html"          
                 }
             },
-            data: {pageTitle: 'Property'}
+            data: {
+                pageTitle: 'Property',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
         })
 
         .state("property.valuations", {
@@ -263,7 +317,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             },
             controller: "ValuationsController",
-            data: {pageTitle: 'Property Valuation List'},
+            data: {
+                pageTitle: 'Property Valuation List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -285,7 +345,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             },
             controller: "SalesController",
-            data: {pageTitle: 'Property Sales List'},
+            data: {
+                pageTitle: 'Property Sales List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -313,7 +379,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             },
             controller: "PropertyNewController",
-            data: {pageTitle: 'Create New Property'},
+            data: {
+                pageTitle: 'Create New Property',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -350,7 +422,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             },
             controller: "PropertyNewController",
-            data: {pageTitle: 'Edit Property'},
+            data: {
+                pageTitle: 'Edit Property',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -388,7 +466,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             },
             controller: "PropertiesController",
             data: {
-                pageTitle: 'Property List'
+                pageTitle: 'Property List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
             },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -414,7 +496,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl: "views/extract-buttons.html",   
                 }
             },
-            data: {pageTitle: 'City List'},
+            data: {
+                pageTitle: 'City List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             controller: "CityController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -440,7 +528,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl: "views/extract-buttons.html",   
                 }
             },
-            data: {pageTitle: 'Suburb List'},
+            data: {
+                pageTitle: 'Suburb List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             controller: "SuburbController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -466,7 +560,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl: "views/extract-buttons.html",   
                 }
             },
-            data: {pageTitle: 'Lease Type List'},
+            data: {
+                pageTitle: 'Lease Type List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             controller: "LeaseTypeController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -492,7 +592,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl: "views/extract-buttons.html",   
                 }
             },
-            data: {pageTitle: 'Class List'},
+            data: {
+                pageTitle: 'Class List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             controller: "ClassController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -518,7 +624,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl: "views/extract-buttons.html",   
                 }
             },
-            data: {pageTitle: 'Use List'},
+            data: {
+                pageTitle: 'Use List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             controller: "UseController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -563,7 +675,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     });
                 }]
             },
-            data: {pageTitle: 'Find Valuations'}
+            data: {
+                pageTitle: 'Find Valuations',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
         })
 
          // Reports
@@ -606,7 +724,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     });
                 }]
             },
-            data: {pageTitle: 'Find Reports'}
+            data: {
+                pageTitle: 'Find Reports',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
         })
 
 
@@ -633,7 +757,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     });
                 }]
             },
-            data: {pageTitle: 'Audit Trail'}
+            data: {
+                pageTitle: 'Audit Trail',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
         })
 
         // Dashboard
@@ -646,7 +776,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             },
             controller: "DashboardController",
-            data: {pageTitle: 'Admin Dashboard Template'},
+            data: {
+                pageTitle: 'Admin Dashboard Template',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -675,7 +811,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             },
             // 
-            data: {pageTitle: 'User Profile'},
+            data: {
+                pageTitle: 'User Profile',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             controller: "UserProfileController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -707,7 +849,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             },
             controller: "UserProfileController",
-            data: {pageTitle: 'User Account'},
+            data: {
+                pageTitle: 'User Account',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -733,7 +881,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             },
             controller: "AuditTrailController",
-            data: {pageTitle: 'Audit Trail'},
+            data: {
+                pageTitle: 'Audit Trail',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -769,8 +923,11 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             },
             
             data: {
-                pageTitle: 'Login Page'
-
+                pageTitle: 'Login Page',
+                permissions: {
+                    except: ['isloggedin'],
+                    redirectTo: 'dashboard'
+                }
             },
             controller: "LoginController",
             resolve: {
@@ -798,7 +955,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             },
 
-            data: {pageTitle: 'AngularJS File Upload'},
+            data: {
+                pageTitle: 'AngularJS File Upload',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
             controller: "GeneralPageController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -824,17 +987,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
         .state("profile.dashboard", {
             url: "/dashboard",
             templateUrl: "views/profile/dashboard.html",
-            data: {pageTitle: 'User Profile'}
+            data: {
+                pageTitle: 'User Profile',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
         })
 
 }]);
-
-/* Init global settings and run the app */
-MetronicApp.run(function($rootScope, settings, $state, $templateCache, $templateRequest) {
-    $templateRequest('./views/property/property-upload-gallery.html').then(function (response) {
-        $templateCache.put('property-upload-gallery.html', response);
-    });
-    $rootScope.$state = $state; // state to be accessed from view
-    $rootScope.$settings = settings; // state to be accessed from view
-
-});
