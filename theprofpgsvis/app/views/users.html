@@ -15,7 +15,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="btn-group">
-                                <a id="add_new_class" class="btn sbold green" ui-sref="property.new"> Add New Staff Account
+                                <a id="add_new_class" class="btn sbold green" ng-click="showModal()"> Add New Staff Account
                                     <i class="fa fa-plus"></i>
                                 </a>
                             </div>
@@ -26,6 +26,7 @@
                     <thead>
                         <tr>
                             <th> Username </th>
+                            <th> Email </th>
                             <th> Role </th>
                             <th> &nbsp; </th>
                         </tr>
@@ -33,12 +34,16 @@
                     <tbody>
                         <tr ng-repeat="(key, value) in users" class="odd gradeX">
                             <td>{{value.username}}</td>
+                            <td>{{value.email}}</td>
                             <td>{{value.role}}</td>
                             <td>
-                                <button type="button" class="btn btn-primary">Edit</button>
-                                <button type="button" class="btn btn-danger">Delete</button>
-                                <button type="button" class="btn btn-default">Disable</button>
+                                <button ng-click="showModal(key, value)" type="button" class="btn btn-primary">Edit</button>
+                                <button ng-click="delete($index, value.id)" ng-disabled="isDisabled" type="button" class="btn btn-danger">Delete</button>
+                                <button ng-click="setDisable(value.id)" type="button" class="btn btn-default">Disable</button>
                             </td>
+                        </tr>
+                        <tr ng-show="!users.length">
+                            <td colspan="4">No record</td>
                         </tr>
                     </tbody>
                 </table>
