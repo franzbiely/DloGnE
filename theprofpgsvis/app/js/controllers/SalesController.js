@@ -12,10 +12,11 @@ angular.module('MetronicApp').controller('SalesController',
         var singular = 'sale', plural = 'sales';
 
 
-        // Display
+        // Display List
         $scope.init = function() {
             $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
                 $scope.sales = res.data;
+                console.log(res.data);
             }).error(function(error) {
                 console.log('Service error : ',error);
             })

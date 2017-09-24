@@ -262,16 +262,17 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
         })
 
         .state("sales.details", {
-            url: "/details",
+            url: "/details/:sales_id/:property_id",
             views: {
                 'app-body-inner': {
                     templateUrl: "views/sales/sales-details.html",
+                    controller: "SalesDetailsController"
                 },
                 'property-detail@sales.details': {
-                    templateUrl : "views/property/property-details.html"
+                    templateUrl : "views/property/property-details.html",
+                    controller: "PropertyNewController"
                 }
             },
-            controller: "SalesController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -279,10 +280,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
                             './assets/vendor/css/bootstrap-fileinput.css',
-                            './assets/vendor/css/bootstrap-fileinput.js',
-                            './assets/vendor/css/jquery.inputmask.bundle.min.js',
-
-                            'js/controllers/SalesController.js'
+                            './assets/vendor/js/bootstrap-fileinput.js',
+                            './assets/vendor/js/jquery.inputmask.bundle.min.js',
+                            'js/controllers/PropertyNewController.js',
+                            'js/controllers/SalesDetailsController.js'
                         ]                    
                     });
                 }]
@@ -416,7 +417,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             }
         })
         .state("property.edit", {
-            url: "/edit-property/:id",
+            url: "/edit-property/:property_id",
             views: {
                 'app-body-inner': {
                     templateUrl: "views/property/property-new.html",

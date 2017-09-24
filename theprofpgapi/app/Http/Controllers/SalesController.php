@@ -166,7 +166,8 @@ class SalesController extends Controller
                 'value' => $sale['value'],
                 'buyer'=>$sale['buyer'],
                 'remarks'=>$sale['remarks'],
-                'property_id'=>$sale['property']['code']
+                'property_id'=>$sale['property_id'],
+                'property'=>$sale['property']['code']
         ];
     }
 }

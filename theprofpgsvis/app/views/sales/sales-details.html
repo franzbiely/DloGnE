@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-controller="SalesDetailsController">
 
     <div class="col-md-12">
     	<div class="portlet  light form-fit bordered">
@@ -21,7 +21,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Sale Date / Date Sold</label>
                                     <div class="col-md-9">
-                                        <input class="form-control form-control-inline input-medium date-picker" size="16" type="text" value="" placeholder="2017/01/28" />
+                                        <input ng-model="data.date" class="form-control form-control-inline input-medium date-picker" size="16" type="text" placeholder="2017/01/28" />
                                         <span class="help-block"> </span>
                                     </div>
                                 </div>
@@ -31,7 +31,27 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Buyer</label>
                                     <div class="col-md-9">
-                                        <p class="form-control-static">Chee Kin</p>
+                                        <input ng-model="data.buyer" class="form-control form-control-inline input-medium" type="text" placeholder="John Doe" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Remarks</label>
+                                    <div class="col-md-9">
+                                        <textarea rows="5" class="form-control" ng-model="data.remarks"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Value</label>
+                                    <div class="col-md-9">
+                                        <input ng-model="data.value" class="form-control form-control-inline input-medium" type="text" placeholder="100,000" />
                                         <span class="help-block"> </span>
                                     </div>
                                 </div>
@@ -40,29 +60,12 @@
                         <div class="row">
                             <div class="col-md-6">
                                     <label class="control-label col-md-3">Gallery Upload</label><br /><br />
-                                    <div class="dropzone" options="dzOptions" callbacks="dzCallbacks" methods="dzMethods" ng-dropzone></div>
+                                    <!-- <div class="dropzone" options="dzOptions" callbacks="dzCallbacks" methods="dzMethods" ng-dropzone></div> -->
                             </div>
                             <!--/span-->
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label col-md-3">File Attachment</label>
-                                    <div class="col-md-9">
-                                        <div class="fileinput fileinput-new" data-provides="fileinput">
-                                            <div class="input-group input-large">
-                                                <div class="form-control uneditable-input span3" data-trigger="fileinput">
-                                                    <i class="fa fa-file fileinput-exists"></i>&nbsp;
-                                                    <span class="fileinput-filename"> </span>
-                                                </div>
-
-                                                <span class="input-group-addon btn default btn-file">
-                                                    <span class="fileinput-new"> Select file </span>
-                                                    <span class="fileinput-exists"> Change </span>
-                                                    <input type="file" name="..."> </span>
-                                                <a href="#" class="input-group-addon btn red fileinput-exists" data-dismiss="fileinput"> Remove </a>
-
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
