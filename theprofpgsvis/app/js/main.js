@@ -19,7 +19,7 @@ MetronicApp.run(['$rootScope', 'settings', '$state', '$templateCache', '$templat
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
 
-    $rootScope.isLive = false;
+    $rootScope.isLive = true;
     $rootScope.logout = function() {
 
         $auth.logout().then(function() {
@@ -85,7 +85,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         globalPath: '../assets/global',
         layoutPath: '../assets/layouts/layout',
     };
-
+    $rootScope.isLive = true;
     if( $rootScope.isLive ) {
         $rootScope.apiURL = 'https://svisapi.theprofessionals.com.pg/public/api/';
     }
@@ -190,7 +190,7 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider) {
 
-    var isLive = false;
+    var isLive = true;
     if(isLive) {
         $authProvider.loginUrl = 'https://svisapi.theprofessionals.com.pg/public/api/authenticate';    
     }
