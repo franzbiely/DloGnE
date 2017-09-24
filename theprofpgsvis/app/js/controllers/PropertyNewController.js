@@ -5,8 +5,7 @@ angular.module('MetronicApp')
         // Load Data for Edit
         $scope.params = $stateParams; 
         $scope.isReadOnly = $scope.$parent.type === "sales" ? true : false;
-
-        console.log($scope.isReadOnly);
+        var isEdit = ($scope.params.property_id !== "" && typeof $scope.params.property_id !== 'undefined') ? true : false;
 
         function toOption(data, label='name') {
             var options = [ data.length ];
@@ -83,7 +82,7 @@ angular.module('MetronicApp')
                         return;
                 }
                 // check if edit mode
-                if($scope.params.property_id !== "") {
+                if(isEdit) {
                     loadData($scope.params.property_id);
                 }    
             },true);
@@ -181,7 +180,7 @@ angular.module('MetronicApp')
                 area : $scope.data.area
             };
 
-            if($scope.params.property_id !== "") {
+            if(isEdit) {
                 // if edit
                 $http.put($rootScope.apiURL + 'v1/property/' + $scope.params.property_id + '?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
                     alert('Update Successfully');

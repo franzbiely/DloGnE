@@ -118,7 +118,7 @@ class ValuationsController extends Controller
         return Response::json([
             'previous_Valuation_id'=> $previous,
             'next_Valuation_id'=> $next,
-            'data' => $this->transform($valuation)
+            'data' => $valuation
         ], 200);
     }
 

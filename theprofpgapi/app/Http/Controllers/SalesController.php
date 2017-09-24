@@ -54,7 +54,7 @@ class SalesController extends Controller
 
             $sales->appends(array(            
                 'limit' => $limit
-            ));   
+            ));
         }
         return Response::json($this->transformCollection($sales), 200);
     }

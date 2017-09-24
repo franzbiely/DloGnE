@@ -56,6 +56,7 @@ angular.module('MetronicApp').controller('ReportsController',
         });
 
         $scope.showResult = function(property_id) {
+            alert('Reports show result');
             var str;
 
             if(property_id != null) {
@@ -70,7 +71,7 @@ angular.module('MetronicApp').controller('ReportsController',
             }
             
             $http.get($rootScope.apiURL + 'v1/property/param/'+ str +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                    
+                console.log(response);
                 if(response.length == '0') {
                     alert('No result');
                 }
@@ -100,15 +101,14 @@ angular.module('MetronicApp').controller('ReportsController',
                     // Get Valuation data
                     $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
                         $scope.valuations = res.data;
-                        console.log($scope.valuations);
                     }).error(function(error) {
                         console.log('Service error : ',error);
                     })
 
+
                     // Get Sales data
                     $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
                         $scope.sales = res.data;
-                        console.log($scope.sales);
                     }).error(function(error) {
                         console.log('Service error : ',error);
                     })

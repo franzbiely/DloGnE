@@ -187,8 +187,6 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
     });
 }]);
 
-
-
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider) {
 
@@ -231,11 +229,15 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 'app-body-inner': {
                     templateUrl: "views/sales.html"
                 },
-                'find-result@sales.find': {
-                    templateUrl: "views/property/property-sales.html",
+                'sales-details@sales.find' : {
+                    templateUrl : "views/property/property-sales.html"
                 },
                 'searchform@sales.find': {
                     templateUrl : "views/searchform.html"
+                },
+                'multi-properties-result@sales.find' : {
+                    templateUrl : "views/multi-properties-result.html"
+                    
                 }
             },
             controller: "SalesController",
@@ -348,9 +350,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             views: {
                 'app-body-inner': {
                     templateUrl: "views/property/property-sales.html",
+                    controller: "SalesController"
                 }
             },
-            controller: "SalesController",
             data: {
                 pageTitle: 'Property Sales List',
                 permissions: {
@@ -661,14 +663,18 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 'app-body-inner@valuations': {
                     templateUrl: "views/valuations.html",
                 },
-                'find-result@valuations': {
-                    templateUrl: "views/property/property-valuations.html",
+                'valuation-details@valuations' : {
+                    templateUrl : "views/property/property-valuations.html"
                 },
                 'searchform@valuations': {
                     templateUrl : "views/searchform.html"
+                },
+                'multi-properties-result@valuations' : {
+                    templateUrl : "views/multi-properties-result.html",
+                    controller : "PropertiesController"
                 }
             },
-            controller: "ValuationsController",
+            controller : "ValuationsController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -725,7 +731,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                         files: [
                             'js/controllers/ReportsController.js',
                             'js/controllers/PropertiesController.js',
-                            'js/controllers/ValuationsController.js'
+                            'js/controllers/ValuationsController.js',
+                            'js/controllers/SalesDetailsController.js',
+                            'js/controllers/SalesController.js'
                         ]                    
                     });
                 }]
