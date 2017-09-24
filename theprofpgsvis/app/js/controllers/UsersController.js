@@ -55,6 +55,8 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             console.log($scope.users);
         }).error(function(error) {
             $scope.error = error;
+            if(error.error == "token_expired")
+                $rootScope.logout();
         })
     };
     $scope.init();

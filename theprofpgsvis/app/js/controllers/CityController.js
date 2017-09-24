@@ -57,6 +57,8 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
             console.log($scope.property_cities);
         }).error(function(error) {
             $scope.error = error;
+            if(error.error == "token_expired")
+                $rootScope.logout();
         })
     };
     $scope.init();

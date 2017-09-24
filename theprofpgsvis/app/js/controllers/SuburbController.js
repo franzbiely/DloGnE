@@ -99,6 +99,8 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
             $scope.property_suburbs = property_suburbs.data;
         }).error(function(error) {
             $scope.error = error;
+            if(error.error == "token_expired")
+                $rootScope.logout();
         })
     };
     $scope.init();

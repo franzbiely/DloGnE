@@ -121,6 +121,8 @@ angular.module('MetronicApp').controller('ReportsController',
 
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property/param/');  
+                if(error.error == "token_expired")
+                    $rootScope.logout();
             });
 
             

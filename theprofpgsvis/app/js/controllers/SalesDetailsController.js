@@ -10,8 +10,10 @@ angular.module('MetronicApp').controller('SalesDetailsController',
                 $scope.data.buyer = response.data.buyer;
                 $scope.data.value = response.data.value;
                 $scope.data.remarks = response.data.remarks;
-            }).error(function(){
+            }).error(function(error){
                 console.log("error");
+                if(error.error == "token_expired")
+                    $rootScope.logout();
             });
         }
 

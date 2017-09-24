@@ -19,6 +19,8 @@ angular.module('MetronicApp').controller('SalesController',
                 console.log(res.data);
             }).error(function(error) {
                 console.log('Service error : ',error);
+                if(error.error == "token_expired")
+                    $rootScope.logout();
             })
         };
         $scope.init();

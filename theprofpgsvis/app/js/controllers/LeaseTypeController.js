@@ -57,6 +57,8 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
             console.log($scope.property_lease_types);
         }).error(function(error) {
             $scope.error = error;
+            if(error.error == "token_expired")
+                $rootScope.logout();
         })
     };
     $scope.init();
