@@ -39,7 +39,10 @@
                             <td>
                                 <button ng-click="showModal(key, value)" type="button" class="btn btn-primary">Edit</button>
                                 <button ng-click="delete($index, value.id)" ng-disabled="isDisabled" type="button" class="btn btn-danger">Delete</button>
-                                <button ng-click="setDisable(value.id)" type="button" class="btn btn-default">Disable</button>
+                                
+                                <button ng-show="value.isDisabled == '0'" ng-click="value.isDisabled = setDisable(value.id)" type="button" class="btn btn-default">Disable</button>
+
+                                <button ng-hide="value.isDisabled == '0'" ng-click="value.isDisabled = setEnable(value.id)" type="button" class="btn btn-default">Enable</button>
                             </td>
                         </tr>
                         <tr ng-show="!users.length">

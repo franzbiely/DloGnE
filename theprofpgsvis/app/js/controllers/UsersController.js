@@ -161,12 +161,23 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
     }
 
     $scope.setDisable = function(id){
-      $http.patch($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'), {
+        $http.patch($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'), {
             isDisabled : 1
         }).success(function(response) {
             console.log("Updated Successfully");
         }).error(function(){
             console.log("error");
         });
+        return 1;
+    }
+    $scope.setEnable = function(id){
+        $http.patch($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'), {
+            isDisabled : 0
+        }).success(function(response) {
+            console.log("Updated Successfully");
+        }).error(function(){
+            console.log("error");
+        });
+        return 0;
     }
 });
