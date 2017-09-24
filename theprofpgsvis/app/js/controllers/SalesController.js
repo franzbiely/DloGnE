@@ -5,7 +5,6 @@ angular.module('MetronicApp').controller('SalesController',
         });
         $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
         $scope.property_id = $stateParams.property_id;
-        alert('Sales here');
         $scope.sales = [];
         $scope.sale = [];
         $scope.data = [];
@@ -27,7 +26,6 @@ angular.module('MetronicApp').controller('SalesController',
         // From Reports
         $scope.showResult = function(property_id) {
             $scope.hasActions = false;
-            alert('Sales show result');
             var str;
 
             if(property_id != null) {

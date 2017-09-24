@@ -7,7 +7,6 @@ angular.module('MetronicApp').controller('SalesDetailsController',
 
         $scope.isDisabled = false;
 
-        // alert('test');
         function loadData(id) {
             $http.get($rootScope.apiURL + 'v1/sale/'+ id +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
                 $scope.data.id = response.id;
