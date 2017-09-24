@@ -44,7 +44,7 @@
                             <td>{{value.port}} / {{value.sec}} / {{value.lot}}</td>
                             <td>{{value.suburb}}</td>
                             <td>
-                                <button ui-sref="property.edit({id : value.id})" type="button" class="btn btn-primary">Edit</button>
+                                <a ui-sref="property.edit({property_id:value.id})" type="button" class="btn btn-primary">Edit</a>
                                 <button ng-disabled="isDisabled" ng-click="deleteProperty($index, value.id)" type="button" class="btn btn-danger">
                                     Delete
                                 </button>

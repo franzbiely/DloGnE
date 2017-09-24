@@ -39,7 +39,8 @@
                             <td>{{value.buyer}}</td>
                             <td>{{value.remarks}}</td>
                             <td ng-show="hasActions">
-                                <button type="button" class="btn btn-default" ui-sref="sales.details">View Details</button>
+                                <button type="button" class="btn btn-default" 
+                                    ui-sref="sales.details({sales_id : value.id, property_id : value.property_id})">View Details</button>
                                 <button ng-click="showModal(key, value)" type="button" class="btn btn-primary">Edit</button>
                                 <button ng-click="delete($index, value.id)" ng-disabled="isDisabled" type="button" class="btn btn-danger">Delete</button>
                             </td>
