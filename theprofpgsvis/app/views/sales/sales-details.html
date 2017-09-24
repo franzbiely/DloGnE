@@ -13,9 +13,10 @@
             <div class="portlet-body form">
 
                 <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal">
+                <form class="form-horizontal" ng-submit="save()">
                     <div class="form-body">
-                        <h3 class="form-section">Sale Details</h3>
+                        
+                        <h3 class="form-section">Sale Details <button ng-disabled="isDisabled" type="submit" class="btn green"><i class="fa fa-check" ng-class="{'fa-spinner fa-spin' : isDisabled}"></i> Save</button></h3>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -73,19 +74,6 @@
 
                         <!-- CALL PROPERTY DETAIL -->
                         <div ui-view="property-detail" class="fade-in-up"> </div>
-                    </div>
-                    <div class="form-actions">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <button type="submit" class="btn green">Submit</button>
-                                        <button type="button" class="btn default">Cancel</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6"> </div>
-                        </div>
                     </div>
                 </form>
                 <!-- END FORM-->

@@ -1,11 +1,16 @@
 angular.module('MetronicApp').controller('SalesDetailsController', 
     function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http) {
+        $scope.type="sales";
         $scope.data = [];    
         // Load Data for Edit
         $scope.params = $stateParams; 
+
+        $scope.isDisabled = false;
+
         // alert('test');
         function loadData(id) {
             $http.get($rootScope.apiURL + 'v1/sale/'+ id +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
+                $scope.data.id = response.id;
                 $scope.data.date = response.data.date;
                 $scope.data.buyer = response.data.buyer;
                 $scope.data.value = response.data.value;
@@ -93,9 +98,11 @@ angular.module('MetronicApp').controller('SalesDetailsController',
         //     $scope[model] = res;
         // }
         
-
+        // console.log($scope.params);
         // Add
         $scope.save = function() {
+
+            $scope.isDisabled = true;
             var param = {
                 date : $scope.data.date,
                 buyer : $scope.data.buyer,
@@ -107,7 +114,7 @@ angular.module('MetronicApp').controller('SalesDetailsController',
                 // if edit
                 $http.put($rootScope.apiURL + 'v1/sale/' + $scope.params.sales_id + '?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
                     alert('Update Successfully');
-                    $state.go('property.sales');    
+                    $state.go('property.sales', {property_id : $scope.params.property_id});    
                 }).error(function(){
                     console.log("error");
                 });
@@ -115,7 +122,7 @@ angular.module('MetronicApp').controller('SalesDetailsController',
             else {
                 // if add
                 $http.post($rootScope.apiURL + 'v1/sale?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
-                    $state.go('property.sales');    
+                    $state.go('property.sales', {property_id : $scope.params.property_id});    
                 }).error(function(){
                     console.log("error");
                 });

@@ -4,6 +4,9 @@ angular.module('MetronicApp')
         $scope.data = [];    
         // Load Data for Edit
         $scope.params = $stateParams; 
+        $scope.isReadOnly = $scope.$parent.type === "sales" ? true : false;
+
+        console.log($scope.isReadOnly);
 
         function toOption(data, label='name') {
             var options = [ data.length ];

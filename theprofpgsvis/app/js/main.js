@@ -273,6 +273,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     controller: "PropertyNewController"
                 }
             },
+            controller: "SalesDetailsController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
