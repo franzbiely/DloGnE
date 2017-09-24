@@ -1,7 +1,6 @@
 angular.module('MetronicApp')
     .controller('PropertyNewController', 
-    function($rootScope, $scope, settings, $templateCache, $scope, FileUploader, $state, $stateParams, $http) {
-
+    function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http) {
         $scope.data = [];    
         // Load Data for Edit
         $scope.params = $stateParams; 
@@ -81,78 +80,78 @@ angular.module('MetronicApp')
                         return;
                 }
                 // check if edit mode
-                if($scope.params.id !== "") {
-                    loadData($scope.params.id);
+                if($scope.params.property_id !== "") {
+                    loadData($scope.params.property_id);
                 }    
             },true);
             
         });
 
-        $scope.dzOptions = {
-            url : '/alt_upload_url',
-            paramName : 'photo',
-            maxFilesize : '10',
-            acceptedFiles : 'image/jpeg, images/jpg, image/png',
-            addRemoveLinks : true
-        };
-        $scope.dzCallbacks = {
-            'addedfile' : function(file){
-                console.log(file);
-                $scope.newFile = file;
-            },
-            'success' : function(file, xhr){
-                console.log(file, xhr);
-            }
-        };
-        $scope.dzMethods = {};
-        var uploader = $scope.uploader = new FileUploader({
-            url: '../assets/global/plugins/angularjs/plugins/angular-file-upload/upload.php'
-        });
+        // $scope.dzOptions = {
+        //     url : '/alt_upload_url',
+        //     paramName : 'photo',
+        //     maxFilesize : '10',
+        //     acceptedFiles : 'image/jpeg, images/jpg, image/png',
+        //     addRemoveLinks : true
+        // };
+        // $scope.dzCallbacks = {
+        //     'addedfile' : function(file){
+        //         console.log(file);
+        //         $scope.newFile = file;
+        //     },
+        //     'success' : function(file, xhr){
+        //         console.log(file, xhr);
+        //     }
+        // };
+        // $scope.dzMethods = {};
+        // var uploader = $scope.uploader = new FileUploader({
+        //     url: '../assets/global/plugins/angularjs/plugins/angular-file-upload/upload.php'
+        // });
         // FILTERS
-        uploader.filters.push({
-            name: 'customFilter',
-            fn: function(item /*{File|FileLikeObject}*/ , options) {
-                return this.queue.length < 10;
-            }
-        });
-        $scope.removeNewFile = function(){
-            $scope.dzMethods.removeFile($scope.newFile); //We got $scope.newFile from 'addedfile' event callback
-        }
+        // uploader.filters.push({
+        //     name: 'customFilter',
+        //     fn: function(item /*{File|FileLikeObject}*/ , options) {
+        //         return this.queue.length < 10;
+        //     }
+        // });
+        // $scope.removeNewFile = function(){
+        //     $scope.dzMethods.removeFile($scope.newFile); //We got $scope.newFile from 'addedfile' event callback
+        // }
         
         // CALLBACKS
-        uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/ , filter, options) {
-            console.info('onWhenAddingFileFailed', item, filter, options);
-        };
-        uploader.onAfterAddingFile = function(fileItem) {
-            console.info('onAfterAddingFile', fileItem);
-        };
-        uploader.onAfterAddingAll = function(addedFileItems) {
-            console.info('onAfterAddingAll', addedFileItems);
-        };
-        uploader.onBeforeUploadItem = function(item) {
-            console.info('onBeforeUploadItem', item);
-        };
-        uploader.onProgressItem = function(fileItem, progress) {
-            console.info('onProgressItem', fileItem, progress);
-        };
-        uploader.onProgressAll = function(progress) {
-            console.info('onProgressAll', progress);
-        };
-        uploader.onSuccessItem = function(fileItem, response, status, headers) {
-            console.info('onSuccessItem', fileItem, response, status, headers);
-        };
-        uploader.onErrorItem = function(fileItem, response, status, headers) {
-            console.info('onErrorItem', fileItem, response, status, headers);
-        };
-        uploader.onCancelItem = function(fileItem, response, status, headers) {
-            console.info('onCancelItem', fileItem, response, status, headers);
-        };
-        uploader.onCompleteItem = function(fileItem, response, status, headers) {
-            console.info('onCompleteItem', fileItem, response, status, headers);
-        };
-        uploader.onCompleteAll = function() {
-            console.info('onCompleteAll');
-        };
+        // uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/ , filter, options) {
+        //     console.info('onWhenAddingFileFailed', item, filter, options);
+        // };
+        // uploader.onAfterAddingFile = function(fileItem) {
+        //     console.info('onAfterAddingFile', fileItem);
+        // };
+        // uploader.onAfterAddingAll = function(addedFileItems) {
+        //     console.info('onAfterAddingAll', addedFileItems);
+        // };
+        // uploader.onBeforeUploadItem = function(item) {
+        //     console.info('onBeforeUploadItem', item);
+        // };
+        // uploader.onProgressItem = function(fileItem, progress) {
+        //     console.info('onProgressItem', fileItem, progress);
+        // };
+        // uploader.onProgressAll = function(progress) {
+        //     console.info('onProgressAll', progress);
+        // };
+        // uploader.onSuccessItem = function(fileItem, response, status, headers) {
+        //     console.info('onSuccessItem', fileItem, response, status, headers);
+        // };
+        // uploader.onErrorItem = function(fileItem, response, status, headers) {
+        //     console.info('onErrorItem', fileItem, response, status, headers);
+        // };
+        // uploader.onCancelItem = function(fileItem, response, status, headers) {
+        //     console.info('onCancelItem', fileItem, response, status, headers);
+        // };
+        // uploader.onCompleteItem = function(fileItem, response, status, headers) {
+        //     console.info('onCompleteItem', fileItem, response, status, headers);
+        // };
+        // uploader.onCompleteAll = function() {
+        //     console.info('onCompleteAll');
+        // };
         
         $scope.select_change = function(res, model) {
             $scope[model] = res;
@@ -179,13 +178,15 @@ angular.module('MetronicApp')
                 area : $scope.data.area
             };
 
-            if($scope.params.id !== "") {
+            if($scope.params.property_id !== "") {
                 // if edit
-                $http.put($rootScope.apiURL + 'v1/property/' + $scope.params.id + '?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
+                $http.put($rootScope.apiURL + 'v1/property/' + $scope.params.property_id + '?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
                     alert('Update Successfully');
                     $state.go('property.list');    
                 }).error(function(){
                     console.log("error");
+                    if(error.error == "token_expired")
+                        $rootScope.logout();
                 });
             }
             else {
@@ -194,6 +195,8 @@ angular.module('MetronicApp')
                     $state.go('property.list');    
                 }).error(function(){
                     console.log("error");
+                    if(error.error == "token_expired")
+                        $rootScope.logout();
                 });
             }   
         }
