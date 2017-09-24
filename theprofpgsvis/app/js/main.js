@@ -322,9 +322,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             views: {
                 'app-body-inner': {
                     templateUrl: "views/property/property-valuations.html",
+                    controller: "ValuationsController"
                 }
             },
-            controller: "ValuationsController",
             data: {
                 pageTitle: 'Property Valuation List',
                 permissions: {
