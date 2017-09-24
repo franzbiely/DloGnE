@@ -1,7 +1,6 @@
 angular.module('MetronicApp').controller('LoginController', 
-    function($auth, $state, $rootScope, $scope, $http, $timeout, $rootScope) {
-	
-    $scope.$on('$viewContentLoaded', function() {
+    function($auth, $state, $rootScope, $scope, $http, $timeout) {
+	$scope.$on('$viewContentLoaded', function() {
         App.initAjax();
         $scope.isDisabled = false;
     });
