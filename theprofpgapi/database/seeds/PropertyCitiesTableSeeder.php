@@ -7,12 +7,41 @@ class PropertyCitiesTableSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Faker\Factory::create(); 
+        $cities = [
+            'Alotau',
+            'Banz',
+            'Bulolo',
+            'Daru',
+            'Finschhafen',
+            'Goroka',
+            'Kainantu',
+            'Kavieng',
+            'Kerema',
+            'Kimbe',
+            'Kiunga',
+            'Kokopo',
+            'Kundiawa',
+            'Lae',
+            'Lorengau',
+            'Madang',
+            'Markham Valley',
+            'Mendi',
+            'Mt Hagen',
+            'Popondetta',
+            'Port Moresby',
+            'Rabaul',
+            'Ramu',
+            'Vanimo',
+            'Wabag',
+            'Waghi Valley',
+            'Wewak',
+            'Other'
+        ];
  
-        foreach(range(1,10) as $index)
+        foreach($cities as $city)
         {
             PropertyCity::create([                
-                'name' => $faker->city()
+                'name' => $city
             ]);
         }
     }
