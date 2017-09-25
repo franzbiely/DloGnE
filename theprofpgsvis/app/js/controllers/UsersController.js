@@ -37,6 +37,20 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             form +=             '</div>\
                             </div>\
                             <div class="form-group">\
+                                <label class="col-md-4 control-label">Password</label>\
+                                <div class="col-md-8">\
+                                    <div class="input-icon right">\
+                                        <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                            
+            if(key > -1) {
+                form +=                     '<input type="password" value="'+$scope.users[key].password+'" class="form-control" name="password" id="password"> </div>';
+            }
+            else {
+                form +=                     '<input type="password" class="form-control" name="password" id="password"> </div>';    
+            }
+            form +=             '</div>\
+                            </div>\
+                            <div class="form-group">\
                                 <label class="col-md-4 control-label">Full Name</label>\
                                 <div class="col-md-8">\
                                     <div class="input-icon right">\

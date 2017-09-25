@@ -32,8 +32,9 @@ class UsersController extends Controller
     }
 
     public function store(Request $request) {
-        $user = User::create($request->all());
+        $request['password'] = bcrypt($request->password);
 
+        $user = User::create($request->all());
         return Response::json([
                 'message' => 'Data created succesfully',
                 'data' => $this->transform($user)
