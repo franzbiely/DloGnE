@@ -26,3 +26,7 @@
     border:0;
     background:transparent;
 }
+
+.page-header.navbar .page-logo .logo-default {
+	margin-top:5px;
+}
