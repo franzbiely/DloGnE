@@ -16,7 +16,8 @@
                 <span class="title">Dashboard</span>
             </a>
         </li> -->
-        <li class="nav-item">
+        
+        <li ng-show="role.can_manage_tables" class="nav-item">
             <a href="#" class="nav-link nav-toggle">
                 <i class="icon-settings"></i>
                 <span class="title">DB Maintenance</span>
@@ -24,17 +25,12 @@
             </a>
             <ul class="sub-menu">
                 <li>
-                    <a ui-sref="property.list">
-                        <i class="icon-paper-clip"></i> Properties</span>
-                    </a>
-                </li>
-                <li>
-                    <a ui-sref="property.use">
+                    <a  ui-sref="property.use">
                         <i class="icon-paper-clip"></i> Property Use</span>
                     </a>
                 </li>
                 <li>
-                    <a ui-sref="property.class">
+                    <a  ui-sref="property.class">
                         <i class="icon-paper-clip"></i> Property Class</span>
                     </a>
                 </li>
@@ -54,6 +50,11 @@
                     </a>
                 </li>
             </ul>
+        </li>
+        <li ng-show="role.can_access_property_list">
+            <a ui-sref="property.list">
+                <i class="icon-paper-clip"></i> Properties</span>
+            </a>
         </li>
         <li ng-show="role.can_access_audit_trail" class="nav-item">
             <a ui-sref="audit_trail">

@@ -20,10 +20,6 @@ angular.module('MetronicApp').controller('DashboardController',
     };
     $scope.init();
     
-
-    // User Capabilities
-    
-
-    $state.go('property.list');
+    $state.go('profile.account');
     
 });

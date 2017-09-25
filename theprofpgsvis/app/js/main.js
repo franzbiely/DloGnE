@@ -19,7 +19,7 @@ MetronicApp.run(['$rootScope', 'settings', '$state', '$templateCache', '$templat
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
 
-    $rootScope.isLive = true;
+    $rootScope.isLive = false;
     $rootScope.logout = function() {
 
         $auth.logout().then(function() {
@@ -85,7 +85,7 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         globalPath: '../assets/global',
         layoutPath: '../assets/layouts/layout',
     };
-    $rootScope.isLive = true;
+    $rootScope.isLive = false;
     if( $rootScope.isLive ) {
         $rootScope.apiURL = 'https://svisapi.theprofessionals.com.pg/public/api/';
     }
@@ -124,18 +124,15 @@ MetronicApp.controller('AppController', function($auth, $state, $scope, $rootSco
             switch($scope.user.role) {
                 case 'valuer' : 
                     $scope.role.can_access_reports = true;
+                    $scope.role.can_access_property_list = true;
                     break;
-                case 'dataentry' : 
-
+                case 'data-entry' : 
+                    $scope.role.can_access_property_list = true;
                     break;
                 case 'admin' : 
                     $scope.role.can_manage_staffs = true;
                     $scope.role.can_access_audit_trail = true;
-                    $scope.role.can_access_reports = true;
-
-                    // below should be removed later, used only for testing
-                    $scope.role.can_access_reports = true;
-
+                    $scope.role.can_manage_tables = true;
                     break;
             }
         }
@@ -190,7 +187,7 @@ MetronicApp.controller('FooterController', ['$scope', function($scope) {
 /* Setup Rounting For All Pages */
 MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', function($stateProvider, $urlRouterProvider, $authProvider) {
 
-    var isLive = true;
+    var isLive = false;
     if(isLive) {
         $authProvider.loginUrl = 'https://svisapi.theprofessionals.com.pg/public/api/authenticate';    
     }
