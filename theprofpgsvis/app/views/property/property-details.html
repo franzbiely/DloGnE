@@ -8,7 +8,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Property Code</label>
             <div class="col-md-9">
-                <input ng-disabled="isReadOnly" ng-model="data.code" type="text" class="form-control" placeholder="Chee Kin">
+                <input ng-disabled="isReadOnly" ng-model="data.code" type="text" class="form-control" placeholder="">
                 <span class="help-block"> </span>
             </div>
         </div>
@@ -71,7 +71,7 @@
                         ng-model="data.property_city_selected" 
                         ng-options="item as item.label for item in property_city_options track by item.id" 
                         ng-change="select_change(data.property_city_selected,'data.property_city_selected')" 
-                        class="form-control" data-placeholder="Choose a Category" tabindex="1">
+                        class="form-control" data-placeholder="" tabindex="1">
                 </select>
             </div>
         </div>
@@ -85,7 +85,7 @@
                         ng-model="data.property_suburb_selected" 
                         ng-options="item as item.label for item in property_suburb_options track by item.id" 
                         ng-change="select_change(data.property_suburb_selected,'data.property_suburb_selected')" 
-                        class="form-control" data-placeholder="Choose a Suburb" tabindex="1">
+                        class="form-control" data-placeholder="" tabindex="1">
                 </select>
             </div>
         </div>
@@ -99,7 +99,7 @@
             <label class="control-label col-md-3">Port</label>
             <div class="col-md-9">
                 <input ng-disabled="isReadOnly"
-                        ng-model="data.port" type="text" class="form-control" placeholder="Port 10">
+                        ng-model="data.port" type="text" class="form-control" placeholder="">
             </div>
         </div>
     </div>
@@ -109,7 +109,7 @@
             <label class="control-label col-md-3">Sec</label>
             <div class="col-md-9">
                 <input ng-disabled="isReadOnly"
-                        ng-model="data.sec" type="text" class="form-control" placeholder="Sec 2">
+                        ng-model="data.sec" type="text" class="form-control" placeholder="">
             </div>
         </div>
     </div>
@@ -121,7 +121,7 @@
             <label class="control-label col-md-3">Lot</label>
             <div class="col-md-9">
                 <input ng-disabled="isReadOnly"
-                        ng-model="data.lot" type="text" class="form-control" placeholder="Lot 6">
+                        ng-model="data.lot" type="text" class="form-control" placeholder="">
             </div>
         </div>
     </div>
@@ -131,7 +131,7 @@
             <label class="control-label col-md-3">Unit #</label>
             <div class="col-md-9">
                 <input ng-disabled="isReadOnly"
-                        ng-model="data.unit" type="text" class="form-control" placeholder="Unit 2C">
+                        ng-model="data.unit" type="text" class="form-control" placeholder="">
             </div>
         </div>
     </div>
@@ -141,20 +141,20 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Land Value / sq.m</label>
+            <label class="control-label col-md-3">Land Value / sq.m (K)</label>
             <div class="col-md-9">
                 <input ng-disabled="isReadOnly"
-                        ng-model="data.land_value" type="text" class="form-control" placeholder="K3555">
+                        ng-model="data.land_value" type="text" class="form-control" placeholder="">
             </div>
         </div>
     </div>
     <!--/span-->
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Land Component</label>
+            <label class="control-label col-md-3">Land Component (K)</label>
             <div class="col-md-9">
                 <input ng-disabled="isReadOnly"
-                        ng-model="data.land_component" type="text" class="form-control" placeholder="K1.6M">
+                        ng-model="data.land_component" type="text" class="form-control" placeholder="">
             </div>
         </div>
     </div>
@@ -164,20 +164,20 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Improvement Component</label>
+            <label class="control-label col-md-3">Improvement Component (K)</label>
             <div class="col-md-9">
                 <input ng-disabled="isReadOnly"
-                        ng-model="data.improvement_component" type="text" class="form-control" placeholder="K4.0M">
+                        ng-model="data.improvement_component" type="text" class="form-control" placeholder="">
             </div>
         </div>
     </div>
     <!--/span-->
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Area</label>
+            <label class="control-label col-md-3">Area (sq.m)</label>
             <div class="col-md-9">
                 <input ng-disabled="isReadOnly"
-                        ng-model="data.area" type="text" class="form-control" placeholder="450 sq.m">
+                        ng-model="data.area" type="text" class="form-control" placeholder="">
             </div>
         </div>
     </div>
