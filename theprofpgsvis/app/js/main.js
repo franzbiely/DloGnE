@@ -122,14 +122,14 @@ MetronicApp.controller('AppController', function($auth, $state, $scope, $rootSco
             $scope.role = [];
 
             switch($scope.user.role) {
-                case 'valuer' : 
+                case 'Data Access Level' : 
                     $scope.role.can_access_reports = true;
                     $scope.role.can_access_property_list = true;
                     break;
-                case 'data-entry' : 
+                case 'Data Entry Level' : 
                     $scope.role.can_access_property_list = true;
                     break;
-                case 'admin' : 
+                case 'Administrator Level' : 
                     $scope.role.can_manage_staffs = true;
                     $scope.role.can_access_audit_trail = true;
                     $scope.role.can_manage_tables = true;
