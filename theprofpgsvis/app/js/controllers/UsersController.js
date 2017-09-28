@@ -7,8 +7,8 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
     });
     $scope.user_role_selected;
     $scope.user_role_options = [
-        { id : 'Data Access Level', label : 'Data Access Level' },
-        { id : 'Data Entry Level', label : 'Data Entry Level'}
+        { id : 'Data Access', label : 'Data Access Level' },
+        { id : 'Data Entry', label : 'Data Entry Level'}
     ];
 
     $scope.showModal = function(key = -1) {
