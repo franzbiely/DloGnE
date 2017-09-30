@@ -11,13 +11,17 @@ use App\PropertyUse;
 use App\PropertyClass;
 use App\PropertyLeaseType;
 use App\PropertyCity;
+use App\Media;
 
+use App\Http\Controllers\MediaController;
 use Response;
 use Input;
 
 class PropertiesController extends Controller
 {
     public function __construct(){
+        // $mc = new MediaController();
+        // $mc->remove_image_by_propertyID(14, [31,32,38]);
         $this->middleware('jwt.auth');
     }
     public function index(Request $request) {        
@@ -180,23 +184,37 @@ class PropertiesController extends Controller
     }
 
     public function store(Request $request) {
-        // if(! $request->property_use_id or
-        //    ! $request->property_class_id or
-        //    ! $request->property_lease_type_id or
-        //    ! $request->property_city_id or
-        //    ! $request->property_suburb_id or
-        //    ! $request->port or
-        //    ! $request->sec or
-        //    ! $request->lot or
-        //    ! $request->unit or
-        //    ! $request->land_value ){
-        //     return Response::json([
-        //         'error' => [
-        //             'message' => 'Some mandatory fields are not filled up'
-        //         ]
-        //     ], 422);
-        // }
-        $property = Property::create($request->all());
+        try {
+            if(! $request->property_use_id or
+               ! $request->property_class_id or
+               ! $request->property_lease_type_id or
+               ! $request->property_city_id or
+               ! $request->property_suburb_id or
+               ! $request->port or
+               ! $request->sec or
+               ! $request->lot or
+               ! $request->unit or
+               ! $request->land_value ){
+                return Response::json([
+                    'error' => [
+                        'message' => 'Some mandatory fields are not filled up'
+                    ]
+                ], 422);
+            }
+            $property = Property::create($request->all());
+        }
+        catch(\Exception $e){
+            return 'Error on inserting property details ' . $e->getMessage();
+        }
+        try {
+            foreach($request->photo_ids as $photo_id) {
+                $media_controller = new MediaController();
+                $media_controller->update_source_id($photo_id, $property->id);
+            }
+        }
+        catch(\Exception $e){
+            return 'Error on updating image source ' . $e->getMessage();
+        }
 
         return Response::json([
                 'message' => 'Property Created Succesfully',
@@ -266,24 +284,42 @@ class PropertiesController extends Controller
 
     public function update(Request $request, $id)
     {    
-        $property = Property::find($id);
-        if(isset($request->code)) $property->code = $request->code;
-        if(isset($request->description)) $property->description = $request->description;
-        if(isset($request->property_use_id)) $property->property_use_id = $request->property_use_id;
-        if(isset($request->property_class_id)) $property->property_class_id = $request->property_class_id;
-        if(isset($request->property_lease_type_id)) $property->property_lease_type_id = $request->property_lease_type_id;
-        if(isset($request->property_city_id)) $property->property_city_id = $request->property_city_id;
-        if(isset($request->property_suburb_id)) $property->property_suburb_id = $request->property_suburb_id;
-        if(isset($request->port)) $property->port = $request->port;
-        if(isset($request->sec)) $property->sec = $request->sec;
-        if(isset($request->lot)) $property->lot = $request->lot;
-        if(isset($request->unit)) $property->unit = $request->unit;
-        if(isset($request->land_value)) $property->land_value = $request->land_value;
-        if(isset($request->land_component)) $property->land_component = $request->land_component;
-        if(isset($request->improvement_component)) $property->improvement_component = $request->improvement_component;
-        if(isset($request->area)) $property->area = $request->area;
-        
-        $property->save(); 
+        try {
+            $property = Property::find($id);
+            if(isset($request->code)) $property->code = $request->code;
+            if(isset($request->description)) $property->description = $request->description;
+            if(isset($request->property_use_id)) $property->property_use_id = $request->property_use_id;
+            if(isset($request->property_class_id)) $property->property_class_id = $request->property_class_id;
+            if(isset($request->property_lease_type_id)) $property->property_lease_type_id = $request->property_lease_type_id;
+            if(isset($request->property_city_id)) $property->property_city_id = $request->property_city_id;
+            if(isset($request->property_suburb_id)) $property->property_suburb_id = $request->property_suburb_id;
+            if(isset($request->port)) $property->port = $request->port;
+            if(isset($request->sec)) $property->sec = $request->sec;
+            if(isset($request->lot)) $property->lot = $request->lot;
+            if(isset($request->unit)) $property->unit = $request->unit;
+            if(isset($request->land_value)) $property->land_value = $request->land_value;
+            if(isset($request->land_component)) $property->land_component = $request->land_component;
+            if(isset($request->improvement_component)) $property->improvement_component = $request->improvement_component;
+            if(isset($request->area)) $property->area = $request->area;
+
+            $property->save(); 
+        }
+        catch(\Exception $e){
+            return 'Error on updating property details  ' . $e->getMessage();
+        }
+
+        try {
+            // remove not in array anymore
+            $media_controller = new MediaController();
+            $media_controller->remove_image_by_propertyID($property->id, $request->photo_ids);
+            // update and insert new photo_ids
+            foreach($request->photo_ids as $photo_id) {
+                $media_controller->update_source_id($photo_id, $property->id);
+            }
+        }
+        catch(\Exception $e){
+            return 'Error on updating image source ' . $e->getMessage();
+        }
 
         return Response::json([
                 'message' => 'Property Updated Succesfully'

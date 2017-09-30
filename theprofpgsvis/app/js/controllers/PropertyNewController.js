@@ -1,10 +1,52 @@
 angular.module('MetronicApp')
     .controller('PropertyNewController', 
-    function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http) {
-        $scope.data = [];    
+    function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http, FileUploader, $timeout) {
+        $scope.data = [];  
+        $scope.photos = [];  
+        $scope.data.photo_ids = [];
+
+        $scope.data.attached_ids = [];
         // Load Data for Edit
         $scope.params = $stateParams; 
         $scope.isReadOnly = $scope.$parent.type === "sales" ? true : false;
+
+        //======= dropzone ===========
+        $scope.dzOptions = {
+            url : $rootScope.apiURL + 'v1/media' + '?token='+localStorage.getItem('satellizer_token'),
+            paramName : 'photo',
+            params : {
+                source_table : 'properties',
+                media_type : 'image',
+                source_id : 0
+            },
+            maxFilesize : '10',
+            acceptedFiles : 'image/jpeg, images/jpg, image/png',
+            addRemoveLinks : true
+        };
+        $scope.dzCallbacks = {
+            'addedfile' : function(file){
+                console.log(file);
+                $scope.newFile = file;
+            },
+            'success' : function(file, xhr){
+                $scope.data.photo_ids.push(xhr.data.id);
+            }
+        };
+        
+        //========= /dropzone ========
+
+        $scope.select_change = function(res, model) {
+            $scope[model] = res;
+        }
+        $scope.removePhoto = function(key) {
+            delete $scope.data.photo_ids[key];
+            delete $scope.photos[key];
+            $scope.photos.splice(key, 1);
+            $scope.data.photo_ids.splice(key,1);
+            console.log($scope.photos);
+            console.log($scope.data.photo_ids);
+        }
+
         var isEdit = ($scope.params.property_id !== "" && typeof $scope.params.property_id !== 'undefined') ? true : false;
 
         function toOption(data, label='name') {
@@ -20,7 +62,6 @@ angular.module('MetronicApp')
 
         function loadData(id) {
             $http.get($rootScope.apiURL + 'v1/property/'+ id +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                console.log(response.data);
                 $scope.data.code = response.data.code;
                 $scope.data.description = response.data.description;
                 $scope.data.property_use_selected = response.data.property__use;
@@ -37,6 +78,18 @@ angular.module('MetronicApp')
                 $scope.data.improvement_component = response.data.improvement_component;
                 $scope.data.area = response.data.area;
                 console.log($scope.data);
+            }).error(function(){
+                console.log("error");
+            });
+            var param = "source_id=" + id + "&source_table=properties&media_type=image";
+            $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
+                for(var x=0; x < response.data.length; x++) {
+                    $scope.photos[x] = {
+                        file_path : $rootScope.apiPublicURL + response.data[x].file_path,
+                        file_name : response.data[x].file_name    
+                    }    
+                    $scope.data.photo_ids[x] = response.data[x].id;
+                }
             }).error(function(){
                 console.log("error");
             });
@@ -89,75 +142,7 @@ angular.module('MetronicApp')
             
         });
 
-        // $scope.dzOptions = {
-        //     url : '/alt_upload_url',
-        //     paramName : 'photo',
-        //     maxFilesize : '10',
-        //     acceptedFiles : 'image/jpeg, images/jpg, image/png',
-        //     addRemoveLinks : true
-        // };
-        // $scope.dzCallbacks = {
-        //     'addedfile' : function(file){
-        //         console.log(file);
-        //         $scope.newFile = file;
-        //     },
-        //     'success' : function(file, xhr){
-        //         console.log(file, xhr);
-        //     }
-        // };
-        // $scope.dzMethods = {};
-        // var uploader = $scope.uploader = new FileUploader({
-        //     url: '../assets/global/plugins/angularjs/plugins/angular-file-upload/upload.php'
-        // });
-        // FILTERS
-        // uploader.filters.push({
-        //     name: 'customFilter',
-        //     fn: function(item /*{File|FileLikeObject}*/ , options) {
-        //         return this.queue.length < 10;
-        //     }
-        // });
-        // $scope.removeNewFile = function(){
-        //     $scope.dzMethods.removeFile($scope.newFile); //We got $scope.newFile from 'addedfile' event callback
-        // }
         
-        // CALLBACKS
-        // uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/ , filter, options) {
-        //     console.info('onWhenAddingFileFailed', item, filter, options);
-        // };
-        // uploader.onAfterAddingFile = function(fileItem) {
-        //     console.info('onAfterAddingFile', fileItem);
-        // };
-        // uploader.onAfterAddingAll = function(addedFileItems) {
-        //     console.info('onAfterAddingAll', addedFileItems);
-        // };
-        // uploader.onBeforeUploadItem = function(item) {
-        //     console.info('onBeforeUploadItem', item);
-        // };
-        // uploader.onProgressItem = function(fileItem, progress) {
-        //     console.info('onProgressItem', fileItem, progress);
-        // };
-        // uploader.onProgressAll = function(progress) {
-        //     console.info('onProgressAll', progress);
-        // };
-        // uploader.onSuccessItem = function(fileItem, response, status, headers) {
-        //     console.info('onSuccessItem', fileItem, response, status, headers);
-        // };
-        // uploader.onErrorItem = function(fileItem, response, status, headers) {
-        //     console.info('onErrorItem', fileItem, response, status, headers);
-        // };
-        // uploader.onCancelItem = function(fileItem, response, status, headers) {
-        //     console.info('onCancelItem', fileItem, response, status, headers);
-        // };
-        // uploader.onCompleteItem = function(fileItem, response, status, headers) {
-        //     console.info('onCompleteItem', fileItem, response, status, headers);
-        // };
-        // uploader.onCompleteAll = function() {
-        //     console.info('onCompleteAll');
-        // };
-        
-        $scope.select_change = function(res, model) {
-            $scope[model] = res;
-        }
         
 
         // Add
@@ -177,15 +162,15 @@ angular.module('MetronicApp')
                 land_value : $scope.data.land_value,
                 land_component : $scope.data.land_component,
                 improvement_component : $scope.data.improvement_component,
-                area : $scope.data.area
+                area : $scope.data.area,
+                photo_ids : $scope.data.photo_ids
             };
-
             if(isEdit) {
                 // if edit
                 $http.put($rootScope.apiURL + 'v1/property/' + $scope.params.property_id + '?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
                     alert('Update Successfully');
                     $state.go('property.list');    
-                }).error(function(){
+                }).error(function(error){
                     console.log("error");
                     if(error.error == "token_expired")
                         $rootScope.logout();

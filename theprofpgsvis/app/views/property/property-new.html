@@ -25,7 +25,13 @@
                         <div class="row">
                         	<div class="col-md-6">
                                 <h4>Photo Gallery</h4>
-                                <!-- <div class="dropzone" options="dzOptions" callbacks="dzCallbacks" methods="dzMethods" ng-dropzone></div> -->
+                                <ul class="photo-gallery clearfix">
+                                    <li ng-repeat="(key, value) in photos">
+                                        <img ng-src="{{value.file_path}}" alt="{{value.file_name}}" />
+                                        <a ng-click="removePhoto(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="dropzone" options="dzOptions" callbacks="dzCallbacks" methods="dzMethods" ng-dropzone></div>
                             </div>
                             <div class="col-md-6">
                                 <h4>Valuations PDF files</h4>

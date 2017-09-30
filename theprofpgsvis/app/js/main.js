@@ -88,9 +88,11 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
     $rootScope.isLive = false;
     if( $rootScope.isLive ) {
         $rootScope.apiURL = 'https://svisapi.theprofessionals.com.pg/public/api/';
+        $rootScope.apiPublicURL = 'https://svisapi.theprofessionals.com.pg/public/';
     }
     else {
         $rootScope.apiURL = 'https://theprofessionals.dev/api/';
+        $rootScope.apiPublicURL = 'https://theprofessionals.dev/';
     }
 
     $rootScope.settings = settings;

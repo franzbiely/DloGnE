@@ -36,6 +36,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::get('property/param/{params}', 'PropertiesController@getByParam');
 	Route::resource('property', 'PropertiesController');
 
+	Route::get('media/param/{params}', 'MediaController@getByParam');
+	Route::resource('media', 'MediaController');
+
 	Route::get('valuation/prop/{property_id}', 'ValuationsController@getByProperty');
 	Route::resource('valuation', 'ValuationsController');
 	
