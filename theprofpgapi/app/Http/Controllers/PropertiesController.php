@@ -65,7 +65,8 @@ class PropertiesController extends Controller
                     'land_value',
                     'land_component',
                     'improvement_component',
-                    'area'
+                    'area',
+                    'owner'
                 )->paginate($limit); 
 
                 $properties->appends(array(            
@@ -168,7 +169,8 @@ class PropertiesController extends Controller
                 'land_value',
                 'land_component',
                 'improvement_component',
-                'area'
+                'area',
+                'owner'
             )->paginate($limit); 
 
             $properties->appends(array(            
