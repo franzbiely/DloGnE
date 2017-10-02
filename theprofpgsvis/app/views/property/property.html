@@ -45,8 +45,8 @@
                             <td>{{value.suburb}}</td>
                             <td>
                                 <a ui-sref="property.edit({property_id:value.id})" type="button" class="btn btn-primary">Edit</a>
-                                <button ng-disabled="isDisabled" ng-click="deleteProperty($index, value.id)" type="button" class="btn btn-danger">
-                                    Delete
+                                <button ng-disabled="isDisabled" ng-click="archiveProperty($index, value.id)" type="button" class="btn btn-warning">
+                                    Archive
                                 </button>
                                 <a type="button" ui-sref="property.valuations({property_id:value.id})" class="btn btn-link">View Valuations</a>
                                 <a type="button" ui-sref="property.sales({property_id:value.id})" class="btn btn-link">View Sales</a>

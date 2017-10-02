@@ -55,6 +55,18 @@
             <a ui-sref="property.list">
                 <i class="icon-paper-clip"></i> Properties</span>
             </a>
+            <ul class="sub-menu">
+                <li>
+                    <a  ui-sref="property.list">
+                        <i class="icon-paper-clip"></i> Available</span>
+                    </a>
+                </li>
+                <li>
+                    <a  ui-sref="property.archives">
+                        <i class="icon-paper-clip"></i> Archives</span>
+                    </a>
+                </li>
+            </ul>
         </li>
         <li ng-show="role.can_access_audit_trail" class="nav-item">
             <a ui-sref="audit_trail">

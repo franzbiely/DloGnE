@@ -299,6 +299,7 @@ class PropertiesController extends Controller
             if(isset($request->land_component)) $property->land_component = $request->land_component;
             if(isset($request->improvement_component)) $property->improvement_component = $request->improvement_component;
             if(isset($request->area)) $property->area = $request->area;
+            if(isset($request->is_archive)) $property->is_archive = $request->is_archive;
 
             $property->save(); 
         }
@@ -306,21 +307,23 @@ class PropertiesController extends Controller
             return 'Error on updating property details  ' . $e->getMessage();
         }
 
-        try {
-            // remove not in array anymore
-            $media_controller = new MediaController();
-            $media_controller->remove_image_by_propertyID($property->id, $request->photo_ids);
-            $media_controller->remove_pdf_by_propertyID($property->id, $request->pdf_ids);
-            // update and insert new photo_ids
-            foreach($request->photo_ids as $photo_id) {
-                $media_controller->update_source_id($photo_id, $property->id);
+        if(isset($request->photo_ids)) {
+            try {
+                // remove not in array anymore
+                $media_controller = new MediaController();
+                $media_controller->remove_image_by_propertyID($property->id, $request->photo_ids);
+                $media_controller->remove_pdf_by_propertyID($property->id, $request->pdf_ids);
+                // update and insert new photo_ids
+                foreach($request->photo_ids as $photo_id) {
+                    $media_controller->update_source_id($photo_id, $property->id);
+                }
+                foreach($request->pdf_ids as $pdf_id) {
+                    $media_controller->update_source_id($pdf_id, $property->id);
+                }
             }
-            foreach($request->pdf_ids as $pdf_id) {
-                $media_controller->update_source_id($pdf_id, $property->id);
+            catch(\Exception $e){
+                return 'Error on updating image source ' . $e->getMessage();
             }
-        }
-        catch(\Exception $e){
-            return 'Error on updating image source ' . $e->getMessage();
         }
 
         return Response::json([
