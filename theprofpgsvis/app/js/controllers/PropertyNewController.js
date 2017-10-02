@@ -129,6 +129,7 @@ angular.module('MetronicApp')
                 $scope.data.land_component = response.data.land_component;
                 $scope.data.improvement_component = response.data.improvement_component;
                 $scope.data.area = response.data.area;
+                $scope.data.owner = response.data.owner;
             }).error(function(){
                 console.log("error");
             });
@@ -229,6 +230,7 @@ angular.module('MetronicApp')
                 land_component : $scope.data.land_component,
                 improvement_component : $scope.data.improvement_component,
                 area : $scope.data.area,
+                owner : $scope.data.owner,
                 photo_ids : $scope.data.photo_ids,
                 pdf_ids : $scope.data.pdf_ids
             };

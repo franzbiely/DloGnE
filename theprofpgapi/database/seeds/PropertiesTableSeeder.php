@@ -26,7 +26,8 @@ class PropertiesTableSeeder extends Seeder
 				'land_value' => $faker->numberBetween($min = 1, $max = 100),
 				'land_component' => $faker->text,
 				'improvement_component' => $faker->text,
-				'area' => $faker->randomDigit
+				'area' => $faker->randomDigit,
+				'owner' =>$faker->name
             ]);
         }
     }

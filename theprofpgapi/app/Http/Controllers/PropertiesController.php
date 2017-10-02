@@ -109,6 +109,7 @@ class PropertiesController extends Controller
                 'land_component',
                 'improvement_component',
                 'area',
+                'owner',
                 DB::raw('COUNT(valuations.id) AS valuations_count'),
                 DB::raw('COUNT(sales.id) AS sales_count')
             )->leftJoin('valuations', 'valuations.property_id', '=', 'properties.id')
@@ -264,7 +265,8 @@ class PropertiesController extends Controller
             'land_value',
             'land_component',
             'improvement_component',
-            'area'
+            'area',
+            'owner'
         )->find($id);
 
         if(!$property){
@@ -310,6 +312,7 @@ class PropertiesController extends Controller
             if(isset($request->improvement_component)) $property->improvement_component = $request->improvement_component;
             if(isset($request->area)) $property->area = $request->area;
             if(isset($request->is_archive)) $property->is_archive = $request->is_archive;
+            if(isset($request->owner)) $property->owner = $request->owner;
 
             $property->save(); 
         }
@@ -381,7 +384,8 @@ class PropertiesController extends Controller
                 'land_value'=> $property['land_value'],
                 'land_component'=> $property['land_component'],
                 'improvement_component'=> $property['improvement_component'],
-                'area'=> $property['area']
+                'area'=> $property['area'],
+                'owner'=> $property['owner']
         ];
         if(isset($property['valuations_count']))
             $ret['valuations_count'] = $property['valuations_count'];
