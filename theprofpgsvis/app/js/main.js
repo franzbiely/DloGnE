@@ -274,13 +274,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     controller: "PropertyNewController"
                 }
             },
-            controller: "SalesDetailsController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
                         name: 'MetronicApp',  
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
+                            './assets/vendor/js/angular-file-upload.min.js',
                             './assets/vendor/css/bootstrap-fileinput.css',
                             './assets/vendor/js/bootstrap-fileinput.js',
                             './assets/vendor/js/jquery.inputmask.bundle.min.js',

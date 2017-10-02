@@ -1,7 +1,12 @@
 angular.module('MetronicApp').controller('SalesDetailsController', 
     function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http) {
+        console.log('im here');
         $scope.type="sales";
-        $scope.data = [];    
+        $scope.data = [];   
+        $scope.pdfs = [];  
+        $scope.photos = [];  
+        $scope.data.photo_ids = [];
+        $scope.data.pdf_ids = []; 
         // Load Data for Edit
         $scope.params = $stateParams; 
 
@@ -18,6 +23,32 @@ angular.module('MetronicApp').controller('SalesDetailsController',
                 console.log("error");
                 if(error.error == "token_expired")
                     $rootScope.logout();
+            });
+            var param = "source_id=" + id + "&source_table=sales";
+            $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
+                var photo_counter = 0, pdf_counter = 0;
+
+                for(var x=0; x < response.data.length; x++) {
+                    if(response.data[x].media_type.indexOf('image') >= 0) {
+                        // true
+                        $scope.photos[photo_counter] = {
+                            file_path : $rootScope.apiPublicURL + response.data[x].file_path,
+                            file_name : response.data[x].file_name    
+                        }    
+                        $scope.data.photo_ids[photo_counter] = response.data[x].id;
+                        photo_counter++;
+                    }
+                    else {
+                        $scope.pdfs[pdf_counter] = {
+                            file_path : $rootScope.apiPublicURL + response.data[x].file_path,
+                            file_name : response.data[x].file_name    
+                        }
+                        $scope.data.pdf_ids[pdf_counter] = response.data[x].id;
+                        pdf_counter++;
+                    }
+                }
+            }).error(function(){
+                console.log("error");
             });
         }
 
@@ -106,7 +137,9 @@ angular.module('MetronicApp').controller('SalesDetailsController',
                 date : $scope.data.date,
                 buyer : $scope.data.buyer,
                 value : $scope.data.value,
-                remarks : $scope.data.remarks
+                remarks : $scope.data.remarks,
+                photo_ids : $scope.data.photo_ids,
+                pdf_ids : $scope.data.pdf_ids
             };
 
             if($scope.params.sales_id !== "") {
@@ -126,6 +159,65 @@ angular.module('MetronicApp').controller('SalesDetailsController',
                     console.log("error");
                 });
             }   
+        }
+
+        //======= dropzone for photos===========
+        $scope.dzOptions = {
+            url : $rootScope.apiURL + 'v1/media' + '?token='+localStorage.getItem('satellizer_token'),
+            paramName : 'photo',
+            params : {
+                source_table : 'properties',
+                media_type : 'image',
+                source_id : 0
+            },
+            maxFilesize : '10',
+            acceptedFiles : 'image/jpeg, images/jpg, image/png',
+            addRemoveLinks : true
+        };
+        $scope.dzCallbacks = {
+            'addedfile' : function(file){
+                console.log(file);
+                $scope.newFile = file;
+            },
+            'success' : function(file, xhr){
+                $scope.data.photo_ids.push(xhr.data.id);
+            }
+        };
+        //========= /dropzone ========
+        //======= dropzone for PDF===========
+        $scope.dzOptionsPDF = {
+            url : $rootScope.apiURL + 'v1/media' + '?token='+localStorage.getItem('satellizer_token'),
+            paramName : 'files',
+            params : {
+                source_table : 'properties',
+                media_type : 'attached',
+                source_id : 0
+            },
+            maxFilesize : '10',
+            acceptedFiles : 'application/pdf',
+            addRemoveLinks : true
+        };
+        $scope.dzCallbacksPDF = {
+            'addedfile' : function(file){
+                console.log(file);
+                $scope.newPDFFile = file;
+            },
+            'success' : function(file, xhr){
+                $scope.data.pdf_ids.push(xhr.data.id);
+            }
+        };
+        //========= /dropzone PDF ========
+        $scope.removePhoto = function(key) {
+            delete $scope.data.photo_ids[key];
+            delete $scope.photos[key];
+            $scope.photos.splice(key, 1);
+            $scope.data.photo_ids.splice(key,1);
+        }
+        $scope.removePDF = function(key) {
+            delete $scope.data.pdf_ids[key];
+            delete $scope.pdfs[key];
+            $scope.pdfs.splice(key, 1);
+            $scope.data.pdf_ids.splice(key,1);
         }
     }
 );
