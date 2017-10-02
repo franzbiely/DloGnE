@@ -45,11 +45,11 @@
                             <td>{{value.suburb}}</td>
                             <td>
                                 <a ui-sref="property.edit({property_id:value.id})" type="button" class="btn btn-primary">Edit</a>
-                                <button ng-disabled="isDisabled" ng-click="archiveProperty($index, value.id)" type="button" class="btn btn-warning">
+                                <button ng-disabled="isDisabled" ng-click="archiveProperty($index, value.id, value.valuations_count, value.sales_count)" type="button" class="btn btn-warning">
                                     Archive
                                 </button>
-                                <a type="button" ui-sref="property.valuations({property_id:value.id})" class="btn btn-link">View Valuations</a>
-                                <a type="button" ui-sref="property.sales({property_id:value.id})" class="btn btn-link">View Sales</a>
+                                <a type="button" ui-sref="property.valuations({property_id:value.id})" class="btn btn-link">View Valuations ({{value.valuations_count}})</a>
+                                <a type="button" ui-sref="property.sales({property_id:value.id})" class="btn btn-link">View Sales ({{value.sales_count}})</a>
                             </td>
                         </tr>
                     </tbody>

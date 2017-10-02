@@ -16,6 +16,7 @@ use App\Media;
 use App\Http\Controllers\MediaController;
 use Response;
 use Input;
+use DB;
 
 class PropertiesController extends Controller
 {
@@ -92,7 +93,7 @@ class PropertiesController extends Controller
                         $query->select('id','name');
                     }
                 )
-            )->select('id', 
+            )->select('properties.id', 
                 'code',
                 'description',
                 'property_use_id',
@@ -107,8 +108,13 @@ class PropertiesController extends Controller
                 'land_value',
                 'land_component',
                 'improvement_component',
-                'area'
-            )->paginate($limit); 
+                'area',
+                DB::raw('COUNT(valuations.id) AS valuations_count'),
+                DB::raw('COUNT(sales.id) AS sales_count')
+            )->leftJoin('valuations', 'valuations.property_id', '=', 'properties.id')
+            ->leftJoin('sales', 'sales.property_id', '=', 'properties.id')
+            ->groupBy('properties.id')
+            ->paginate($limit); 
 
             $properties->appends(array(            
                 'limit' => $limit
@@ -359,7 +365,7 @@ class PropertiesController extends Controller
     }
 
     private function transform($property){
-        return [
+        $ret = [
                 'id' => $property['id'],
                 'city' => $property['property__city']['name'],
                 'suburb' => $property['property__suburb']['name'],
@@ -376,7 +382,11 @@ class PropertiesController extends Controller
                 'land_component'=> $property['land_component'],
                 'improvement_component'=> $property['improvement_component'],
                 'area'=> $property['area']
-
         ];
+        if(isset($property['valuations_count']))
+            $ret['valuations_count'] = $property['valuations_count'];
+        if(isset($property['sales_count']))
+            $ret['sales_count'] = $property['sales_count'];
+        return $ret;
     }
 }
