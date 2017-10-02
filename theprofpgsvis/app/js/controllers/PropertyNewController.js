@@ -1,15 +1,19 @@
 angular.module('MetronicApp')
     .controller('PropertyNewController', 
     function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http, FileUploader, $timeout) {
+        console.log('here yeah');
         $scope.data = [];  
         $scope.pdfs = [];  
         $scope.photos = [];  
         $scope.data.photo_ids = [];
         $scope.data.pdf_ids = [];
+        $scope.data.lot = '';
+        $scope.data.sec = '';
+        $scope.data.port ='';
+
         // Load Data for Edit
         $scope.params = $stateParams; 
         $scope.isReadOnly = $scope.$parent.type === "sales" ? true : false;
-
         //======= dropzone for photos===========
         $scope.dzOptions = {
             url : $rootScope.apiURL + 'v1/media' + '?token='+localStorage.getItem('satellizer_token'),
@@ -71,6 +75,28 @@ angular.module('MetronicApp')
             delete $scope.pdfs[key];
             $scope.pdfs.splice(key, 1);
             $scope.data.pdf_ids.splice(key,1);
+        }
+        $scope.address_option = 'na';
+        $scope.property_set_address_option = function(option) {
+            switch(option) {
+                case 1 : {
+                    if($scope.data.sec != '' || $scope.data.lot !='') {
+                        $scope.address_option = 'seclot';
+                    }
+                    else {
+                        $scope.address_option = 'na';
+                    }
+                    break;
+                }
+                case 2 :
+                    if($scope.data.port != '') {
+                        $scope.address_option = 'port';
+                    }
+                    else {
+                        $scope.address_option = 'na';
+                    }
+                    break;
+            }
         }
 
         var isEdit = ($scope.params.property_id !== "" && typeof $scope.params.property_id !== 'undefined') ? true : false;
