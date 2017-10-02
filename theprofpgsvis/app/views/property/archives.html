@@ -30,7 +30,9 @@
                             <td>{{value.port}} / {{value.sec}} / {{value.lot}}</td>
                             <td>{{value.suburb}}</td>
                             <td>
-                                <a ui-sref="property.edit({property_id:value.id})" type="button" class="btn btn-primary">Unarchive</a>
+                                <button ng-disabled="isDisabled" ng-click="unarchiveProperty($index, value.id)" type="button" class="btn btn-info">
+                                    Unarchive
+                                </button>
                             </td>
                         </tr>
                         <tr ng-show="!properties.length">

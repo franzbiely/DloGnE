@@ -49,5 +49,17 @@ angular.module('MetronicApp').controller('PropertiesController',
                     $scope.isDisabled = false;
                 });;
         }
+        // Unarchive
+        $scope.unarchiveProperty = function(index, id) {
+            $scope.isDisabled = true;
+            var param = {
+                is_archive : 0
+            };
+            $http.patch($rootScope.apiURL + 'v1/property/' + id + '?token='+localStorage.getItem('satellizer_token'), param)
+                .success(function() {
+                    $scope.properties.splice(index, 1);
+                    $scope.isDisabled = false;
+                });;
+        }
     }
 );
