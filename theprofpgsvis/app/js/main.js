@@ -124,14 +124,14 @@ MetronicApp.controller('AppController', function($auth, $state, $scope, $rootSco
             $scope.role = [];
 
             switch($scope.user.role) {
-                case 'Data Access Level' : 
+                case 'Data Access' : 
                     $scope.role.can_access_reports = true;
                     $scope.role.can_access_property_list = true;
                     break;
-                case 'Data Entry Level' : 
+                case 'Data Entry' : 
                     $scope.role.can_access_property_list = true;
                     break;
-                case 'Administrator Level' : 
+                case 'Administrator' : 
                     $scope.role.can_manage_staffs = true;
                     $scope.role.can_access_audit_trail = true;
                     $scope.role.can_manage_tables = true;
@@ -474,6 +474,33 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             controller: "PropertiesController",
             data: {
                 pageTitle: 'Property List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/PropertiesController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+        .state("property.archives", {
+            url: "/archives",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/archives.html",
+                    controller: "PropertiesController"
+                }
+            },
+            data: {
+                pageTitle: 'Property Archive List',
                 permissions: {
                     except: ['anonymous'],
                     redirectTo: 'login'
