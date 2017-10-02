@@ -173,12 +173,7 @@ class PropertiesController extends Controller
         // $next = Property::where('id', '>', $properties->id)->min('id');
 
         
-            if(count($properties)==1) {
-                return Response::json([$properties[0]], 200);        
-            }
-            elseif(count($properties) > 1) {
-                return Response::json($this->transformCollection($properties)['data'], 200);
-            }
+            return Response::json($this->transformCollection($properties), 200);
         
 
     }

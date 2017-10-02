@@ -70,31 +70,32 @@ angular.module('MetronicApp').controller('ReportsController',
             }
             
             $http.get($rootScope.apiURL + 'v1/property/param/'+ str +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                if(response.length == '0') {
+                console.log(response);
+                if(response.data.length == '0') {
                     alert('No result');
                 }
-                else if(response.length > 1) {
-                    $scope.multi_property_results = response;
+                else if(response.data.length > 1) {
+                    $scope.multi_property_results = response.data;
                     $scope.multipleResultsReady = true;
                 }
                 else {
-                    for (var i = 0; i < response.length; i++) {
-                        $scope.property_id = response[i].id;
-                        $scope.data.code = response[i].code;
-                        $scope.data.description = response[i].description;
-                        $scope.data.property_use_selected = response[i].property__use;
-                        $scope.data.property_class_selected = response[i].property__class;
-                        $scope.data.property_lease_type_selected = response[i].property__lease__type;
-                        $scope.data.property_city_selected = response[i].property__city;
-                        $scope.data.property_suburb_selected = response[i].property__suburb;
-                        $scope.data.port = response[i].port;
-                        $scope.data.sec = response[i].sec;
-                        $scope.data.lot = response[i].lot;
-                        $scope.data.unit = response[i].unit;
-                        $scope.data.land_value = response[i].land_value;
-                        $scope.data.land_component = response[i].land_component;
-                        $scope.data.improvement_component = response[i].improvement_component;
-                        $scope.data.area = response[i].area;
+                    for (var i = 0; i < response.data.length; i++) {
+                        $scope.property_id = response.data[i].id;
+                        $scope.data.code = response.data[i].code;
+                        $scope.data.description = response.data[i].description;
+                        $scope.data.property_use_selected = response.data[i].property__use;
+                        $scope.data.property_class_selected = response.data[i].property__class;
+                        $scope.data.property_lease_type_selected = response.data[i].property__lease__type;
+                        $scope.data.property_city_selected = response.data[i].property__city;
+                        $scope.data.property_suburb_selected = response.data[i].property__suburb;
+                        $scope.data.port = response.data[i].port;
+                        $scope.data.sec = response.data[i].sec;
+                        $scope.data.lot = response.data[i].lot;
+                        $scope.data.unit = response.data[i].unit;
+                        $scope.data.land_value = response.data[i].land_value;
+                        $scope.data.land_component = response.data[i].land_component;
+                        $scope.data.improvement_component = response.data[i].improvement_component;
+                        $scope.data.area = response.data[i].area;
                     }
                     // Get Valuation data
                     $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
