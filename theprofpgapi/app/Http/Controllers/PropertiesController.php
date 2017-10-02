@@ -184,6 +184,7 @@ class PropertiesController extends Controller
     }
 
     public function store(Request $request) {
+        $media_controller = new MediaController();
         try {
             if(! $request->property_use_id or
                ! $request->property_class_id or
@@ -208,8 +209,10 @@ class PropertiesController extends Controller
         }
         try {
             foreach($request->photo_ids as $photo_id) {
-                $media_controller = new MediaController();
                 $media_controller->update_source_id($photo_id, $property->id);
+            }
+            foreach($request->pdf_ids as $pdf_id) {
+                $media_controller->update_source_id($pdf_id, $property->id);
             }
         }
         catch(\Exception $e){
@@ -312,9 +315,13 @@ class PropertiesController extends Controller
             // remove not in array anymore
             $media_controller = new MediaController();
             $media_controller->remove_image_by_propertyID($property->id, $request->photo_ids);
+            $media_controller->remove_pdf_by_propertyID($property->id, $request->pdf_ids);
             // update and insert new photo_ids
             foreach($request->photo_ids as $photo_id) {
                 $media_controller->update_source_id($photo_id, $property->id);
+            }
+            foreach($request->pdf_ids as $pdf_id) {
+                $media_controller->update_source_id($pdf_id, $property->id);
             }
         }
         catch(\Exception $e){

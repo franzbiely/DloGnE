@@ -82,15 +82,22 @@ class MediaController extends Controller
     }
     public function store(Request $request)
     {   
-        $file = $request->file('photo');
+        if(null !== $request->file('photo')) {
+            $file = $request->file('photo');    
+            $dest = 'uploads/photo/';
+        }
+        else {
+            $file = $request->file('files');
+            $dest = 'uploads/file/';
+        }
         $filename = uniqid() . $file->getClientOriginalName();
-        $file->move('uploads/photo', $filename);
+        $file->move($dest, $filename);
         
         $media = Media::create([
             'file_name' => $filename,
             'file_size' => $file->getClientSize(),
             'file_mime' => $file->getClientMimeType(),
-            'file_path' => 'uploads/photo/' . $filename,
+            'file_path' => $dest . $filename,
             'source_id' => $request->source_id,
             'source_table' => $request->source_table,
             'media_type' => $request->media_type
@@ -113,12 +120,16 @@ class MediaController extends Controller
     }
 
     public function remove_image_by_propertyID($property_id, $excemption) {
-        $where = [
-            'source_id' => $property_id,
-            'source_table' => 'properties',
-            'media_type' => 'image'
-        ];
-        $media = Media::where($where)->whereNotIn('id', $excemption)->delete();
+        $media = Media::where('source_id','=',$property_id)
+                    ->where('source_table','=','properties')
+                    ->where('file_mime','LIKE','%image%')
+                    ->whereNotIn('id', $excemption)->delete();
+    }
+    public function remove_pdf_by_propertyID($property_id, $excemption) {
+        $media = Media::where('source_id','=',$property_id)
+                    ->where('source_table','=','properties')
+                    ->where('file_mime','LIKE','%pdf%')
+                    ->whereNotIn('id', $excemption)->delete();
     }
 
     public function remove_attached_by_propertyID($property_id) {

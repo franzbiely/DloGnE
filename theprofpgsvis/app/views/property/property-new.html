@@ -35,7 +35,13 @@
                             </div>
                             <div class="col-md-6">
                                 <h4>Valuations PDF files</h4>
-                                <!-- <div class="dropzone" options="dzOptions" callbacks="dzCallbacks" methods="dzMethods" ng-dropzone></div> -->
+                                <ul class="pdf-gallery clearfix">
+                                    <li ng-repeat="(key, value) in pdfs">
+                                        <strong>{{value.file_name}}</strong>
+                                        <a ng-click="removePDF(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="dropzone" options="dzOptionsPDF" callbacks="dzCallbacksPDF" methods="dzMethodsPDF" ng-dropzone></div>
                             </div>
                         </div>
                         <!--/row-->
