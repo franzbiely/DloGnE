@@ -38,16 +38,36 @@ angular.module('MetronicApp').controller('PropertiesController',
         }
 
         // Archive
-        $scope.archiveProperty = function(index, id) {
-            $scope.isDisabled = true;
-            var param = {
-                is_archive : 1
-            };
-            $http.patch($rootScope.apiURL + 'v1/property/' + id + '?token='+localStorage.getItem('satellizer_token'), param)
-                .success(function() {
-                    $scope.properties.splice(index, 1);
-                    $scope.isDisabled = false;
-                });;
+        $scope.archiveProperty = function(index, id, vals_count, sales_count) {
+            // $scope.isDisabled = true;
+
+            if(vals_count > 0 || sales_count > 0) {
+                var archive_confirmed = confirm("This property has valuation/sales information. \nIf you continue, the sales and valuation record will be archived as well. \nDo you want to continue?");
+                if(archive_confirmed) {
+                    var param = {
+                        is_archive : 1
+                    };
+                    $http.patch($rootScope.apiURL + 'v1/property/' + id + '?token='+localStorage.getItem('satellizer_token'), param)
+                        .success(function() {
+                            $scope.properties.splice(index, 1);
+                            $scope.isDisabled = false;
+                        });;        
+                }
+            }
+            else {
+                var param = {
+                    is_archive : 1
+                };
+                $http.patch($rootScope.apiURL + 'v1/property/' + id + '?token='+localStorage.getItem('satellizer_token'), param)
+                    .success(function() {
+                        $scope.properties.splice(index, 1);
+                        $scope.isDisabled = false;
+                    });;
+            }
+
+
+
+            
         }
         // Unarchive
         $scope.unarchiveProperty = function(index, id) {
