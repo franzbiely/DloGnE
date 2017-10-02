@@ -29,6 +29,7 @@ class CreateProperty extends Migration
             $table->text('land_component');
             $table->text('improvement_component');
             $table->text('area');
+            $table->boolean('is_archive');
             $table->timestamps();
         });
     }
