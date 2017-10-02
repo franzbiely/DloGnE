@@ -1,6 +1,6 @@
 angular.module('MetronicApp').controller('ReportsController', 
     function($rootScope, $scope, $http, $timeout) {
-
+        $scope.multipleResultsShow = false;
         function toOption(data, label='name') {
             var options = [ data.length ];
             for(i = 0; i < data.length; i++){
@@ -57,11 +57,15 @@ angular.module('MetronicApp').controller('ReportsController',
 
         $scope.showResult = function(property_id) {
             var str;
+            console.log('here');
+            
 
             if(property_id != null) {
+                $scope.multipleResultsShow = false;
                 str = 'id='+ property_id;
             }
             else {
+                $scope.multipleResultsShow = true;
                 str = Object.keys($scope.data).map(function(key){ 
                     if(encodeURIComponent($scope.data[key]) !== 'undefined'){
                         return encodeURIComponent(key) + '=' + encodeURIComponent($scope.data[key]); 
