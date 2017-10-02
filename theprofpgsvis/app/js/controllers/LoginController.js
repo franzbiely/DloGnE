@@ -10,7 +10,7 @@ angular.module('MetronicApp').controller('LoginController',
     vm.loginErrorText;
 
 	// Temporary only ======================
-	$scope.username = 'admin';
+	$scope.username = 'valuer';
 	$scope.password = 'secret_pass';
 	// =====================================
 
