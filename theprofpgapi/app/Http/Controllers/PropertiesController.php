@@ -30,6 +30,7 @@ class PropertiesController extends Controller
         if ($search_term) {
             $properties = Property::orderBy('id', 'DESC')->
                 where('code', 'LIKE', "%$search_term%")->
+                where('is_archive', '=', "0")->
                 with(
                     array(
                         'Property_City'=>function($query){
@@ -72,7 +73,8 @@ class PropertiesController extends Controller
         }
         else
         {
-            $properties = Property::orderBy('id', 'DESC')->with(
+            $properties = Property::orderBy('id', 'DESC')->
+                where('is_archive', '=', "0")->with(
                 array(
                     'Property_City'=>function($query){
                         $query->select('id','name');
@@ -239,7 +241,9 @@ class PropertiesController extends Controller
                     $query->select('id','name');
                 }
             )
-        )->select('id', 
+        )->
+        where('is_archive', '=', "0")->
+        select('id', 
             'code',
             'description',
             'property_use_id',
