@@ -9,12 +9,21 @@ class PropertyUsesTableSeeder extends Seeder
 {
     public function run()
     {
-    	$faker = Faker\Factory::create(); 
+        $uses = [
+            'Vacant',
+            'Commercial',
+            'Industrial',
+            'Residential',
+            'Institutional',
+            'Agriculture',
+            'Other',
+            'Traditional'
+        ];
  
-        foreach(range(1,10) as $index)
+        foreach($uses as $use)
         {
             PropertyUse::create([                
-                'name' => $faker->cityPrefix()
+                'name' => $use
             ]);
         }
     }

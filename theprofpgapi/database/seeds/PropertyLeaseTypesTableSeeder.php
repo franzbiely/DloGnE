@@ -7,12 +7,22 @@ class PropertyLeaseTypesTableSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Faker\Factory::create(); 
- 
-        foreach(range(1,10) as $index)
+        $lease_types = [
+            'Residential',
+            'Commercial',
+            'Industrial',
+            'Business',
+            'Agricultural',
+            'SABL',
+            'ILG',
+            'Traditional',
+            'Other',
+            'Free Hold'
+        ];
+        foreach($lease_types as $lease_type)
         {
             PropertyLeaseType::create([                
-                'name' => $faker->stateAbbr()
+                'name' => $lease_type
             ]);
         }
     }
