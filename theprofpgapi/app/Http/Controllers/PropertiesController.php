@@ -18,187 +18,89 @@ use Response;
 use Input;
 use DB;
 
-class PropertiesController extends Controller
-{
+class PropertiesController extends Controller {
+
     private $price_min;
     private $price_max;
+    private $with;
+    private $default_select;
 
-    public function __construct(){
-        // $mc = new MediaController();
-        // $mc->remove_image_by_propertyID(14, [31,32,38]);
+    public function __construct() {
         $this->middleware('jwt.auth');
+        $this->price_min = -1;
+        $this->price_max = -1;
+        $this->with = array(
+            'Property_City'       =>function($query) { $query->select('id','name'); },
+            'Property_Suburb'     =>function($query) { $query->select('id','name'); },
+            'Property_Lease_Type' =>function($query) { $query->select('id','name'); },
+            'Property_Class'      =>function($query) { $query->select('id','name'); },
+            'Property_Use'        =>function($query) { $query->select('id','name'); },
+            'Current_Value',
+            'Valuation'
+        );
+        $this->default_select = [
+            'properties.id','code','description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner'
+        ];
     }
     public function index(Request $request) {        
         $search_term = $request->input('search');
-        $limit = $request->input('limit', 100);
+        $limit       = $request->input('limit', 100);
         if ($search_term) {
-            $properties = Property::orderBy('id', 'DESC')->
-                where('code', 'LIKE', "%$search_term%")->
-                where('is_archive', '=', "0")->
-                with(
-                    array(
-                        'Property_City'=>function($query){
-                            $query->select('id','name');
-                        },
-                        'Property_Suburb'=>function($query){
-                            $query->select('id','name');
-                        },
-                        'Property_Lease_Type'=>function($query){
-                            $query->select('id','name');
-                        },
-                        'Property_Class'=>function($query){
-                            $query->select('id','name');
-                        },
-                        'Property_Use'=>function($query){
-                            $query->select('id','name');
-                        }
-                    )
-                )->select('id', 
-                    'code',
-                    'description',
-                    'property_use_id',
-                    'property_class_id',
-                    'property_lease_type_id',
-                    'property_city_id',
-                    'property_suburb_id',
-                    'port',
-                    'sec',
-                    'lot',
-                    'unit',
-                    'land_value',
-                    'land_component',
-                    'improvement_component',
-                    'area',
-                    'owner'
-                )->paginate($limit); 
-
-                $properties->appends(array(            
-                    'limit' => $limit
-                )); 
+            $properties = Property::orderBy('id', 'DESC')
+                ->where('code', 'LIKE', "%$search_term%")
+                ->where('is_archive', '=', "0")
+                ->with( $this->with )
+                ->select( $this->default_select )
+                ->paginate($limit); 
+            $properties->appends(array(            
+                'limit' => $limit
+            )); 
         }
-        else
-        {
-            $properties = Property::orderBy('id', 'DESC')->
-                where('is_archive', '=', "0")->with(
-                array(
-                    'Property_City'=>function($query){
-                        $query->select('id','name');
-                    },
-                    'Property_Suburb'=>function($query){
-                        $query->select('id','name');
-                    },
-                    'Property_Lease_Type'=>function($query){
-                        $query->select('id','name');
-                    },
-                    'Property_Class'=>function($query){
-                        $query->select('id','name');
-                    },
-                    'Property_Use'=>function($query){
-                        $query->select('id','name');
-                    }
-                )
-            )->select('properties.id', 
-                'code',
-                'description',
-                'property_use_id',
-                'property_class_id',
-                'property_lease_type_id',
-                'property_city_id',
-                'property_suburb_id',
-                'port',
-                'sec',
-                'lot',
-                'unit',
-                'land_value',
-                'land_component',
-                'improvement_component',
-                'area',
-                'owner',
-                DB::raw('COUNT(valuations.id) AS valuations_count'),
-                DB::raw('COUNT(sales.id) AS sales_count')
-            )->leftJoin('valuations', 'valuations.property_id', '=', 'properties.id')
-            ->leftJoin('sales', 'sales.property_id', '=', 'properties.id')
-            ->groupBy('properties.id')
-            ->paginate($limit); 
-
+        else {
+            $properties = Property::orderBy('id', 'DESC')
+                ->where('is_archive', '=', "0")
+                ->with($this->with)
+                ->select(
+                    'properties.id','code','description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner',
+                    DB::raw('COUNT(valuations.id) AS valuations_count'), 
+                    DB::raw('COUNT(sales.id) AS sales_count'))
+                ->leftJoin('valuations', 'valuations.property_id', '=', 'properties.id')
+                ->leftJoin('sales',      'sales.property_id',      '=', 'properties.id')
+                ->groupBy('properties.id')
+                ->paginate($limit); 
             $properties->appends(array(            
                 'limit' => $limit
             ));   
         }
         return Response::json($this->transformCollection($properties), 200);
     }
+
     public function getByParam(Request $request, $params) {
         $limit = $request->input('limit', 100);
 
         parse_str($params, $ret);
         
-        $this->price_min = $ret['price_min'];
-        $this->price_max = $ret['price_max'];
-        unset($ret['price_min']);
-        unset($ret['price_max']);
+        if(isset($ret['price_min']) || isset($ret['price_max'])) {
+            $this->price_min = $ret['price_min'];
+            $this->price_max = $ret['price_max'];
+            unset($ret['price_min']);
+            unset($ret['price_max']);
+        }
         
-        // no condition for the following block because this will always exist in this parameter(report generation)
         foreach($ret as $key=>$val) {
             if(isset($val))
                 $where[$key] = $val;
         };
-        // $properties = Property::with('Valuation')->get
-        $properties = Property::orderBy('id', 'DESC')->
-            where($where)
-            ->with(
-                array(
-                    'Property_City'=>function($query){
-                        $query->select('id','name');
-                    },
-                    'Property_Suburb'=>function($query){
-                        $query->select('id','name');
-                    },
-                    'Property_Lease_Type'=>function($query){
-                        $query->select('id','name');
-                    },
-                    'Property_Class'=>function($query){
-                        $query->select('id','name');
-                    },
-                    'Property_Use'=>function($query){
-                        $query->select('id','name');
-                    },
-                    'Current_Value',
-                    'Valuation'
-                )
-            )
-            ->select('id', 
-                'code',
-                'description',
-                'property_use_id',
-                'property_class_id',
-                'property_lease_type_id',
-                'property_city_id',
-                'property_suburb_id',
-                'port',
-                'sec',
-                'lot',
-                'unit',
-                'land_value',
-                'land_component',
-                'improvement_component',
-                'area',
-                'owner'
-            )
+        $properties = Property::orderBy('id', 'DESC')
+            ->where($where)
+            ->with( $this->with)
+            ->select($this->default_select)
             ->paginate($limit); 
-            $properties->appends(array(            
-                'limit' => $limit
-            ));  
-
-        //  // get previous Property id
-        // $previous = Property::where('id', '<', $properties->id)->max('id');
-
-        // // get next Property id
-        // $next = Property::where('id', '>', $properties->id)->min('id');
-
+        $properties->appends(array(            
+            'limit' => $limit
+        )); 
                
-            return Response::json($this->transformCollection($properties), 200);
-        
-
+        return Response::json($this->transformCollection($properties), 200);
     }
 
     public function store(Request $request) {
@@ -222,9 +124,8 @@ class PropertiesController extends Controller
             }
             $property = Property::create($request->all());
         }
-        catch(\Exception $e){
-            return 'Error on inserting property details ' . $e->getMessage();
-        }
+        catch(\Exception $e){ return 'Error on inserting property details ' . $e->getMessage(); }
+
         try {
             foreach($request->photo_ids as $photo_id) {
                 $media_controller->update_source_id($photo_id, $property->id);
@@ -233,9 +134,7 @@ class PropertiesController extends Controller
                 $media_controller->update_source_id($pdf_id, $property->id);
             }
         }
-        catch(\Exception $e){
-            return 'Error on updating image source ' . $e->getMessage();
-        }
+        catch(\Exception $e){ return 'Error on updating image source ' . $e->getMessage(); }
 
         return Response::json([
                 'message' => 'Property Created Succesfully',
@@ -245,43 +144,10 @@ class PropertiesController extends Controller
 
     public function show($id)
     {
-        $property = Property::with(array(
-                'Property_City'=>function($query){
-                    $query->select('id','name');
-                },
-                'Property_Suburb'=>function($query){
-                    $query->select('id','name');
-                },
-                'Property_Lease_Type'=>function($query){
-                    $query->select('id','name');
-                },
-                'Property_Class'=>function($query){
-                    $query->select('id','name');
-                },
-                'Property_Use'=>function($query){
-                    $query->select('id','name');
-                }
-            )
-        )->
-        where('is_archive', '=', "0")->
-        select('id', 
-            'code',
-            'description',
-            'property_use_id',
-            'property_class_id',
-            'property_lease_type_id',
-            'property_city_id',
-            'property_suburb_id',
-            'port',
-            'sec',
-            'lot',
-            'unit',
-            'land_value',
-            'land_component',
-            'improvement_component',
-            'area',
-            'owner'
-        )->find($id);
+        $property = Property::with($this->with)
+            ->where('is_archive', '=', "0")
+            ->select($this->default_select)
+            ->find($id);
 
         if(!$property){
             return Response::json([
@@ -297,8 +163,6 @@ class PropertiesController extends Controller
         // get next Property id
         $next = Property::where('id', '>', $property->id)->min('id');
 
-        
-
         return Response::json([
             'previous_Property_id'=> $previous,
             'next_Property_id'=> $next,
@@ -306,33 +170,30 @@ class PropertiesController extends Controller
         ], 200);
     }
 
-    public function update(Request $request, $id)
-    {    
+    public function update(Request $request, $id) {    
         try {
             $property = Property::find($id);
-            if(isset($request->code)) $property->code = $request->code;
-            if(isset($request->description)) $property->description = $request->description;
-            if(isset($request->property_use_id)) $property->property_use_id = $request->property_use_id;
-            if(isset($request->property_class_id)) $property->property_class_id = $request->property_class_id;
+            if(isset($request->code))               $property->code = $request->code;
+            if(isset($request->description))        $property->description = $request->description;
+            if(isset($request->property_use_id))    $property->property_use_id = $request->property_use_id;
+            if(isset($request->property_class_id))  $property->property_class_id = $request->property_class_id;
             if(isset($request->property_lease_type_id)) $property->property_lease_type_id = $request->property_lease_type_id;
-            if(isset($request->property_city_id)) $property->property_city_id = $request->property_city_id;
+            if(isset($request->property_city_id))   $property->property_city_id = $request->property_city_id;
             if(isset($request->property_suburb_id)) $property->property_suburb_id = $request->property_suburb_id;
-            if(isset($request->port)) $property->port = $request->port;
-            if(isset($request->sec)) $property->sec = $request->sec;
-            if(isset($request->lot)) $property->lot = $request->lot;
-            if(isset($request->unit)) $property->unit = $request->unit;
-            if(isset($request->land_value)) $property->land_value = $request->land_value;
-            if(isset($request->land_component)) $property->land_component = $request->land_component;
+            if(isset($request->port))               $property->port = $request->port;
+            if(isset($request->sec))                $property->sec = $request->sec;
+            if(isset($request->lot))                $property->lot = $request->lot;
+            if(isset($request->unit))               $property->unit = $request->unit;
+            if(isset($request->land_value))         $property->land_value = $request->land_value;
+            if(isset($request->land_component))     $property->land_component = $request->land_component;
             if(isset($request->improvement_component)) $property->improvement_component = $request->improvement_component;
-            if(isset($request->area)) $property->area = $request->area;
-            if(isset($request->is_archive)) $property->is_archive = $request->is_archive;
-            if(isset($request->owner)) $property->owner = $request->owner;
+            if(isset($request->area))               $property->area = $request->area;
+            if(isset($request->is_archive))         $property->is_archive = $request->is_archive;
+            if(isset($request->owner))              $property->owner = $request->owner;
 
             $property->save(); 
         }
-        catch(\Exception $e){
-            return 'Error on updating property details  ' . $e->getMessage();
-        }
+        catch(\Exception $e) { return 'Error on updating property details  ' . $e->getMessage(); }
 
         if(isset($request->photo_ids)) {
             try {
@@ -348,9 +209,7 @@ class PropertiesController extends Controller
                     $media_controller->update_source_id($pdf_id, $property->id);
                 }
             }
-            catch(\Exception $e){
-                return 'Error on updating image source ' . $e->getMessage();
-            }
+            catch(\Exception $e){ return 'Error on updating image source ' . $e->getMessage(); }
         }
 
         return Response::json([
@@ -372,14 +231,17 @@ class PropertiesController extends Controller
         $data = array_map([$this, 'transform'], $propertiesArray['data']);
         $total = $propertiesArray['total'];
 
-        foreach($data as $key=>$val) {
-            if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
-                unset($data[$key]);
-                $total--;
-                continue;
+        if($this->price_min !=-1 || $this->price_max !=-1) {
+            foreach($data as $key=>$val) {
+                if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
+                    unset($data[$key]);
+                    $total--;
+                    continue;
+                }
             }
+            $data = array_values($data);
         }
-        $data = array_values($data);
+        
 
         return [
             'total' => $total,
