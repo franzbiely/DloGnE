@@ -15,12 +15,7 @@ angular.module('MetronicApp').controller('ReportsController',
 
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax(); 
-            $scope.data = [];
-            $scope.searchdata = []; 
-            $scope.data_temp = [];
-            $scope.valuations = [];
-            $scope.searchdata.price_min = 1000;
-            $scope.searchdata.price_max = 9000;
+            $scope.resetform();
             $scope.price_options = {
                 floor: 1000,
                 ceil: 9000,
@@ -63,7 +58,17 @@ angular.module('MetronicApp').controller('ReportsController',
                 }
             },true);
         });
-
+        $scope.resetform = function() {
+            $scope.data = [];
+            $scope.searchdata = []; 
+            $scope.data_temp = [];
+            $scope.valuations = [];
+            $scope.searchdata.price_min = 1000;
+            $scope.searchdata.price_max = 9000;
+            $scope.multipleResultsShow = false;
+            $scope.multi_property_results = false;
+            $scope.resultReady = false;
+        }
         $scope.showResult = function(property_id) {
             var str;
             $scope.multi_property_results = false;
