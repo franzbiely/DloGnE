@@ -20,6 +20,9 @@ use DB;
 
 class PropertiesController extends Controller
 {
+    private $price_min;
+    private $price_max;
+
     public function __construct(){
         // $mc = new MediaController();
         // $mc->remove_image_by_propertyID(14, [31,32,38]);
@@ -128,15 +131,21 @@ class PropertiesController extends Controller
         $limit = $request->input('limit', 100);
 
         parse_str($params, $ret);
-        $where = [];
+        
+        $this->price_min = $ret['price_min'];
+        $this->price_max = $ret['price_max'];
+        unset($ret['price_min']);
+        unset($ret['price_max']);
+        
+        // no condition for the following block because this will always exist in this parameter(report generation)
         foreach($ret as $key=>$val) {
             if(isset($val))
                 $where[$key] = $val;
         };
-        
+        // $properties = Property::with('Valuation')->get
         $properties = Property::orderBy('id', 'DESC')->
-            where($where)->
-            with(
+            where($where)
+            ->with(
                 array(
                     'Property_City'=>function($query){
                         $query->select('id','name');
@@ -152,9 +161,12 @@ class PropertiesController extends Controller
                     },
                     'Property_Use'=>function($query){
                         $query->select('id','name');
-                    }
+                    },
+                    'Current_Value',
+                    'Valuation'
                 )
-            )->select('id', 
+            )
+            ->select('id', 
                 'code',
                 'description',
                 'property_use_id',
@@ -171,8 +183,8 @@ class PropertiesController extends Controller
                 'improvement_component',
                 'area',
                 'owner'
-            )->paginate($limit); 
-
+            )
+            ->paginate($limit); 
             $properties->appends(array(            
                 'limit' => $limit
             ));  
@@ -183,7 +195,7 @@ class PropertiesController extends Controller
         // // get next Property id
         // $next = Property::where('id', '>', $properties->id)->min('id');
 
-        
+               
             return Response::json($this->transformCollection($properties), 200);
         
 
@@ -356,16 +368,29 @@ class PropertiesController extends Controller
 
     private function transformCollection($properties){
         $propertiesArray = $properties->toArray();
+
+        $data = array_map([$this, 'transform'], $propertiesArray['data']);
+        $total = $propertiesArray['total'];
+
+        foreach($data as $key=>$val) {
+            if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
+                unset($data[$key]);
+                $total--;
+                continue;
+            }
+        }
+        $data = array_values($data);
+
         return [
-            'total' => $propertiesArray['total'],
+            'total' => $total,
             'per_page' => intval($propertiesArray['per_page']),
             'current_page' => $propertiesArray['current_page'],
             'last_page' => $propertiesArray['last_page'],
             'next_page_url' => $propertiesArray['next_page_url'],
             'prev_page_url' => $propertiesArray['prev_page_url'],
             'from' => $propertiesArray['from'],
-            'to' =>$propertiesArray['to'],
-            'data' => array_map([$this, 'transform'], $propertiesArray['data'])
+            'to' =>$total,
+            'data' => $data
         ];
     }
 
@@ -387,7 +412,9 @@ class PropertiesController extends Controller
                 'land_component'=> $property['land_component'],
                 'improvement_component'=> $property['improvement_component'],
                 'area'=> $property['area'],
-                'owner'=> $property['owner']
+                'owner'=> $property['owner'],
+                'valuation'=> $property['valuation'],
+                'current_value'=>floatval($property['current__value']['value'])
         ];
         if(isset($property['valuations_count']))
             $ret['valuations_count'] = $property['valuations_count'];

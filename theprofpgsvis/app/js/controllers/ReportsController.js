@@ -1,6 +1,7 @@
 angular.module('MetronicApp').controller('ReportsController', 
     function($rootScope, $scope, $http, $timeout) {
         $scope.multipleResultsShow = false;
+        
         function toOption(data, label='name') {
             var options = [ data.length ];
             for(i = 0; i < data.length; i++){
@@ -16,7 +17,13 @@ angular.module('MetronicApp').controller('ReportsController',
             App.initAjax(); 
             $scope.data = []; 
             $scope.valuations = [];
-
+            $scope.data.price_min = 2000;
+            $scope.data.price_max = 3000;
+            $scope.price_options = {
+                floor: 1000,
+                ceil: 9000,
+                step : 100
+            };
             // Load Select options data
             $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_use_options = toOption(ret.data);
@@ -57,8 +64,6 @@ angular.module('MetronicApp').controller('ReportsController',
 
         $scope.showResult = function(property_id) {
             var str;
-            console.log('here');
-            
 
             if(property_id != null) {
                 $scope.multipleResultsShow = false;

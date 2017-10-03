@@ -10,7 +10,8 @@ var MetronicApp = angular.module("MetronicApp", [
     "ngSanitize",
     'satellizer',
     'permission',
-    'thatisuday.dropzone'
+    'thatisuday.dropzone',
+    'rzModule'
 ]);
 
 /* Init global settings and run the app */

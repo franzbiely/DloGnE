@@ -17,6 +17,7 @@
     "bootstrap": "^3.3.7",
     "jquery": "^3.2.1",
     "ng-dropzone": "ngdropzone#^2.0.2",
-    "ng-buffer-dropzone": "ngdropzone-buffer#^1.0.0"
+    "ng-buffer-dropzone": "ngdropzone-buffer#^1.0.0",
+    "angularjs-slider": "^6.4.0"
   }
 }

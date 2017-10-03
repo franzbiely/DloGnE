@@ -8,6 +8,7 @@ use App\PropertyClass;
 use App\PropertyLeaseType;
 use App\PropertyCity;
 use App\PropertySuburb;
+use App\Valuation;
 
 class Property extends Model
 {
@@ -26,7 +27,8 @@ class Property extends Model
 		'land_value',
 		'land_component',
 		'improvement_component',
-		'area'
+		'area',
+        'owner'
 	];
 
     protected $hidden = ['created_at', 'updated_at'];
@@ -45,5 +47,11 @@ class Property extends Model
     }
     public function property_suburb(){
         return $this->belongsTo('App\PropertySuburb');
+    }
+    public function valuation(){
+        return $this->hasMany('App\Valuation');
+    }
+    public function current_value(){
+        return $this->hasOne('App\Valuation')->select('property_id','value')->orderBy('id','DESC')->latest();
     }
 }
