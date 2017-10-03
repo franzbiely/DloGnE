@@ -214,6 +214,7 @@ angular.module('MetronicApp')
 
         // Add
         $scope.saveProperty = function() {
+            console.log($scope.data);
             var param = {
                 code : $scope.data.code,
                 description : $scope.data.description,

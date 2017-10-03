@@ -1,7 +1,6 @@
 angular.module('MetronicApp').controller('ReportsController', 
     function($rootScope, $scope, $http, $timeout) {
         $scope.multipleResultsShow = false;
-        
         function toOption(data, label='name') {
             var options = [ data.length ];
             for(i = 0; i < data.length; i++){
@@ -100,18 +99,14 @@ angular.module('MetronicApp').controller('ReportsController',
             }
             
             $http.get($rootScope.apiURL + 'v1/property/param/'+ str +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                console.log(response);
                 if(response.data.length == '0') {
                     alert('No result');
                 }
                 else if(response.data.length > 1) {
-                    console.log('multiple');
                     $scope.multi_property_results = response.data;
                     $scope.multipleResultsReady = true;
                 }
                 else {
-                    console.log('single');
-                    console.log(response.data);
                     $scope.multipleResultsShow = false;
                     for (var i = 0; i < response.data.length; i++) {
                         $scope.property_id = response.data[i].id;

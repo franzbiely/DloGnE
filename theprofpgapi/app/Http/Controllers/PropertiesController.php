@@ -77,7 +77,7 @@ class PropertiesController extends Controller {
 
     public function getByParam(Request $request, $params) {
         $limit = $request->input('limit', 100);
-
+        $where = [];
         parse_str($params, $ret);
         
         if(isset($ret['price_min']) || isset($ret['price_max'])) {

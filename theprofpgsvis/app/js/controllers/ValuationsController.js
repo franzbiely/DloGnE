@@ -1,10 +1,21 @@
 angular.module('MetronicApp').controller('ValuationsController', 
     function($rootScope, $scope, $http, settings, $stateParams) {
+        $scope.multipleResultsShow = false;
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax();
+            $scope.resetform();
         });
-        $scope.data = [];
-        $scope.valuations = [];
+        $scope.resetform = function() {
+            $scope.data = [];
+            $scope.searchdata = []; 
+            $scope.data_temp = [];
+            $scope.valuations = [];
+            $scope.searchdata.price_min = 1000;
+            $scope.searchdata.price_max = 9000;
+            $scope.multipleResultsShow = false;
+            $scope.multi_property_results = false;
+            $scope.resultReady = false;
+        }
         $scope.valuation = [];
         $scope.property_id = $stateParams.property_id;
         $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
