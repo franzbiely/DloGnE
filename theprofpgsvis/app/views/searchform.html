@@ -14,7 +14,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Port</label>
                             <div class="col-md-9">
-                                <input ng-model="data.port" type="text" class="form-control" placeholder="">
+                                <input ng-model="searchdata.port" type="text" class="form-control" placeholder="">
                             </div>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Sec</label>
                             <div class="col-md-9">
-                                <input ng-model="data.sec" type="text" class="form-control" placeholder="">
+                                <input ng-model="searchdata.sec" type="text" class="form-control" placeholder="">
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Lot</label>
                             <div class="col-md-9">
-                                <input ng-model="data.lot" type="text" class="form-control" placeholder="">
+                                <input ng-model="searchdata.lot" type="text" class="form-control" placeholder="">
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Unit #</label>
                             <div class="col-md-9">
-                                <input ng-model="data.unit" type="text" class="form-control" placeholder="">
+                                <input ng-model="searchdata.unit" type="text" class="form-control" placeholder="">
                             </div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">City</label>
                             <div class="col-md-9">
-                                <select ng-model="data.property_city_selected" 
+                                <select ng-model="data_temp.property_city_selected" 
                                         ng-options="item as item.label for item in property_city_options track by item.id" class="form-control" data-placeholder="" tabindex="1">
                                 </select>
                             </div>
@@ -65,7 +65,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Suburb</label>
                             <div class="col-md-9">
-                                <select ng-model="data.property_suburb_selected" 
+                                <select ng-model="data_temp.property_suburb_selected" 
                                         ng-options="item as item.label for item in property_suburb_options track by item.id" class="form-control" data-placeholder="" tabindex="1">
                                 </select>
                             </div>
@@ -78,7 +78,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Class</label>
                             <div class="col-md-9">
-                                <select ng-model="data.property_class_selected" 
+                                <select ng-model="data_temp.property_class_selected" 
                                         ng-options="item as item.label for item in property_class_options track by item.id" class="form-control">
                                 </select>
                                 <span class="help-block"> </span>
@@ -90,7 +90,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Lease Type</label>
                             <div class="col-md-9">
-                                <select ng-model="data.property_lease_type_selected" 
+                                <select ng-model="data_temp.property_lease_type_selected" 
                                         ng-options="item as item.label for item in property_lease_type_options track by item.id" class="form-control">
                                 </select>
                                 <span class="help-block"> </span>
@@ -106,8 +106,8 @@
                             <label class="control-label col-md-3">Price Range</label>
                             <div class="col-md-9">
                                 <rzslider
-                                    rz-slider-model="data.price_min"
-                                    rz-slider-high="data.price_max"
+                                    rz-slider-model="searchdata.price_min"
+                                    rz-slider-high="searchdata.price_max"
                                     rz-slider-options="price_options"></rzslider>
                                 <span class="help-block"> </span>
                             </div>
@@ -124,6 +124,6 @@
                 </div>
             </div>
         </form>
-        <div ng-show="multipleResultsReady && multipleResultsShow" class="reports-container" ui-view="multi-properties-result"></div>
+        <div ng-show="multipleResultsReady && multipleResultsShow && multi_property_results" class="reports-container" ui-view="multi-properties-result"></div>
     </div>
 </div>

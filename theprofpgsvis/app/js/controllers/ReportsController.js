@@ -15,10 +15,12 @@ angular.module('MetronicApp').controller('ReportsController',
 
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax(); 
-            $scope.data = []; 
+            $scope.data = [];
+            $scope.searchdata = []; 
+            $scope.data_temp = [];
             $scope.valuations = [];
-            $scope.data.price_min = 2000;
-            $scope.data.price_max = 3000;
+            $scope.searchdata.price_min = 1000;
+            $scope.searchdata.price_max = 9000;
             $scope.price_options = {
                 floor: 1000,
                 ceil: 9000,
@@ -64,16 +66,30 @@ angular.module('MetronicApp').controller('ReportsController',
 
         $scope.showResult = function(property_id) {
             var str;
+            $scope.multi_property_results = false;
+            $scope.resultReady = false;
 
+            if(typeof $scope.data_temp.property_city_selected !== 'undefined') {
+                $scope.searchdata.property_city_id = $scope.data_temp.property_city_selected.id;
+            }
+            if(typeof $scope.data_temp.property_suburb_selected !== 'undefined') {
+                $scope.searchdata.property_suburb_id = $scope.data_temp.property_suburb_selected.id;
+            }
+            if(typeof $scope.data_temp.property_class_selected !== 'undefined') {
+                $scope.searchdata.property_class_id = $scope.data_temp.property_class_selected.id;
+            }
+            if(typeof $scope.data_temp.property_lease_type_selected !== 'undefined') {
+                $scope.searchdata.property_lease_type_id = $scope.data_temp.property_lease_type_selected.id;
+            }
             if(property_id != null) {
                 $scope.multipleResultsShow = false;
                 str = 'id='+ property_id;
             }
             else {
                 $scope.multipleResultsShow = true;
-                str = Object.keys($scope.data).map(function(key){ 
-                    if(encodeURIComponent($scope.data[key]) !== 'undefined'){
-                        return encodeURIComponent(key) + '=' + encodeURIComponent($scope.data[key]); 
+                str = Object.keys($scope.searchdata).map(function(key){ 
+                    if(encodeURIComponent($scope.searchdata[key]) !== 'undefined' && encodeURIComponent($scope.searchdata[key]) !== ''){
+                        return encodeURIComponent(key) + '=' + encodeURIComponent($scope.searchdata[key]); 
                     }
                 }).join('&');    
             }
@@ -84,10 +100,14 @@ angular.module('MetronicApp').controller('ReportsController',
                     alert('No result');
                 }
                 else if(response.data.length > 1) {
+                    console.log('multiple');
                     $scope.multi_property_results = response.data;
                     $scope.multipleResultsReady = true;
                 }
                 else {
+                    console.log('single');
+                    console.log(response.data);
+                    $scope.multipleResultsShow = false;
                     for (var i = 0; i < response.data.length; i++) {
                         $scope.property_id = response.data[i].id;
                         $scope.data.code = response.data[i].code;
