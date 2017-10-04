@@ -39,7 +39,6 @@ angular.module('MetronicApp').controller('SalesController',
                 }).join('&');    
             }
             $http.get($rootScope.apiURL + 'v1/property/param/'+ str +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                console.log(response);
                 if(response.data.length == '0') {
                     alert('No result');
                 }
@@ -69,7 +68,6 @@ angular.module('MetronicApp').controller('SalesController',
                     // Get Sales data
                     $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
                         $scope.sales = res.data;
-                        console.log($scope.sales);
                     }).error(function(error) {
                         console.log('Service error : ',error);
                     })
@@ -203,7 +201,7 @@ angular.module('MetronicApp').controller('SalesController',
                 value : $scope[singular].value,
                 remarks : $scope[singular].remarks,
           }).success(function(response) {
-                console.log("Updated Successfully");
+                alert("Updated Successfully");
             }).error(function(){
                 console.log("error");
             });

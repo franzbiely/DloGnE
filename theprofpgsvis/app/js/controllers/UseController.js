@@ -11,11 +11,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
     });
     
     
-    $scope.foo = function() {
-        console.log('test');
-    }
     $scope.useModal = function(key = -1) {
-        console.log($scope.property_uses[key].name);
 
         var form = '<form ng-submit="foo()" id="frmUse" name="frmUse" role="form" class="form-horizontal">\
                         <div class="form-body">\
@@ -66,7 +62,6 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
     $scope.init = function() {
         $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(property_uses) {
             $scope.property_uses = property_uses.data;
-            console.log($scope.property_uses);
         }).error(function(error) {
             $scope.error = error;
             if(error.error == "token_expired")
@@ -77,8 +72,6 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
 
     // Delete
     $scope.deleteUse = function(index, useId) {
-        console.log(index, useId);
-
         $http.delete($rootScope.apiURL + 'v1/property_use/' + useId + '?token='+localStorage.getItem('satellizer_token'))
             .success(function() {
                 $scope.property_uses.splice(index, 1);
@@ -91,11 +84,8 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
         $http.post($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token'), {
             name: $scope.property_use
         }).success(function(response) {
-
             $scope.property_uses.push(response.data);
-            console.log($scope.property_use);
             $scope.property_use = '';
-
         }).error(function(){
             console.log("error");
         });
@@ -106,7 +96,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
       $http.put($rootScope.apiURL + 'v1/property_use/' + useId + '?token='+localStorage.getItem('satellizer_token'), {
             name: $scope.property_use
         }).success(function(response) {
-            console.log("Updated Successfully");
+            alert("Updated Successfully");
         }).error(function(){
             console.log("error");
         });

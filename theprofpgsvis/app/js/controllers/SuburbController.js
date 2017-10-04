@@ -117,10 +117,8 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
 
     // Delete
     $scope.deleteSuburb = function(index, id) {
-        console.log($rootScope.apiURL + 'v1/property_suburb/' + id + '?token='+localStorage.getItem('satellizer_token'));
         $http.delete($rootScope.apiURL + 'v1/property_suburb/' + id + '?token='+localStorage.getItem('satellizer_token'))
             .success(function() {
-                console.log('deleted');
                 $scope.property_suburbs.splice(index, 1);
             });;
     }
@@ -149,7 +147,7 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
             name: $scope.property_suburb,
             city_id : $scope.property_suburb_city_id
         }).success(function(response) {
-            console.log("Updated Successfully");
+            alert("Updated Successfully");
         }).error(function(){
             console.log("error");
         });

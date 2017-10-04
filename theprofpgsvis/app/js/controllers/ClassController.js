@@ -54,7 +54,6 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
     $scope.init = function() {
         $http.get($rootScope.apiURL + 'v1/property_class?token='+localStorage.getItem('satellizer_token')).success(function(property_classes) {
             $scope.property_classes = property_classes.data;
-            console.log($scope.property_classes);
         }).error(function(error) {
             $scope.error = error;
             if(error.error == "token_expired")
@@ -65,8 +64,6 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
 
     // Delete
     $scope.deleteClass = function(index, id) {
-        console.log(index, id);
-
         $http.delete($rootScope.apiURL + 'v1/property_class/' + id + '?token='+localStorage.getItem('satellizer_token'))
             .success(function() {
                 $scope.property_classes.splice(index, 1);
@@ -79,11 +76,8 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
         $http.post($rootScope.apiURL + 'v1/property_class?token='+localStorage.getItem('satellizer_token'), {
             name: $scope.property_class
         }).success(function(response) {
-
             $scope.property_classes.push(response.data);
-            console.log($scope.property_class);
             $scope.property_class = '';
-
         }).error(function(){
             console.log("error");
         });
@@ -94,7 +88,7 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
       $http.put($rootScope.apiURL + 'v1/property_class/' + id + '?token='+localStorage.getItem('satellizer_token'), {
             name: $scope.property_class
         }).success(function(response) {
-            console.log("Updated Successfully");
+            alert("Updated Successfully");
         }).error(function(){
             console.log("error");
         });

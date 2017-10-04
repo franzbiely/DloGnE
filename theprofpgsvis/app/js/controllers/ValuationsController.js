@@ -78,7 +78,6 @@ angular.module('MetronicApp').controller('ValuationsController',
                     // Get Valuation data
                     $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
                         $scope.valuations = res.data;
-                        console.log($scope.valuations);
                     }).error(function(error) {
                         console.log('Service error : ',error);
                     })

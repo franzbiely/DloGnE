@@ -1,6 +1,5 @@
 angular.module('MetronicApp').controller('SalesDetailsController', 
     function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http) {
-        console.log('im here');
         $scope.type="sales";
         $scope.data = [];   
         $scope.pdfs = [];  
@@ -176,7 +175,6 @@ angular.module('MetronicApp').controller('SalesDetailsController',
         };
         $scope.dzCallbacks = {
             'addedfile' : function(file){
-                console.log(file);
                 $scope.newFile = file;
             },
             'success' : function(file, xhr){
@@ -199,7 +197,6 @@ angular.module('MetronicApp').controller('SalesDetailsController',
         };
         $scope.dzCallbacksPDF = {
             'addedfile' : function(file){
-                console.log(file);
                 $scope.newPDFFile = file;
             },
             'success' : function(file, xhr){

@@ -122,7 +122,6 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
     $scope.init = function() {
         $http.get($rootScope.apiURL + 'v1/users?token='+localStorage.getItem('satellizer_token')).success(function(users) {
             $scope.users = users.data;
-            console.log($scope.users);
         }).error(function(error) {
             $scope.error = error;
             if(error.error == "token_expired")
@@ -133,8 +132,6 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
 
     // Delete
     $scope.delete = function(index, id) {
-        console.log(index, id);
-
         $http.delete($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'))
             .success(function() {
                 $scope.users.splice(index, 1);
@@ -150,11 +147,8 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             email: $scope.user.email,
             role: $scope.user.role
         }).success(function(response) {
-
             $scope.users.push(response.data);
-            console.log($scope.user);
             $scope.user = '';
-
         }).error(function(){
             console.log("error");
         });
@@ -168,7 +162,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             email: $scope.user.email,
             role: $scope.user.role
         }).success(function(response) {
-            console.log("Updated Successfully");
+            alert("Updated Successfully");
         }).error(function(){
             console.log("error");
         });
