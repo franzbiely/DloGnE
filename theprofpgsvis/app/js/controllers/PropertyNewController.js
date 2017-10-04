@@ -147,6 +147,13 @@ angular.module('MetronicApp')
                 $scope.data.improvement_component = response.data.improvement_component;
                 $scope.data.area = response.data.area;
                 $scope.data.owner = response.data.owner;
+
+                if(response.data.port === '' && (response.data.sec !== '' || $scope.data.lot !== '' )) {
+                    $scope.address_option = "seclot";
+                }
+                else if(response.data.port !== '' && (response.data.sec === '' && $scope.data.lot === '')) {
+                    $scope.address_option = "port";
+                }
             }).error(function(){
                 console.log("error");
             });
