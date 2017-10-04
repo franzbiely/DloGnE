@@ -6,9 +6,9 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Property Code</label>
+            <label class="control-label col-md-3">Property Code <span class="required" aria-required="true"> * </span></label>
             <div class="col-md-9">
-                <input ng-disabled="isReadOnly" ng-model="data.code" type="text" class="form-control" placeholder="">
+                <input ng-disabled="isReadOnly" required ng-model="data.code" type="text" class="form-control" placeholder="">
                 <span class="help-block"> </span>
             </div>
         </div>
@@ -16,12 +16,13 @@
     <!--/span-->
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Use</label>
+            <label class="control-label col-md-3">Use <span class="required" aria-required="true"> * </span></label>
             <div class="col-md-9">
                 <select ng-disabled="isReadOnly"
                         ng-model="data.property_use_selected" 
                         ng-options="item as item.label for item in property_use_options track by item.id"
-                        ng-change="select_change(data.property_use_selected,'data.property_use_selected')" class="form-control">
+                        ng-change="select_change(data.property_use_selected,'data.property_use_selected')" 
+                        required class="form-control">
                 </select>
                 <span class="help-block"> </span>
             </div>
@@ -33,9 +34,10 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Class</label>
+            <label class="control-label col-md-3">Class <span class="required" aria-required="true"> * </span></label>
             <div class="col-md-9">
-                <select ng-disabled="isReadOnly"
+                <select required
+                        ng-disabled="isReadOnly"
                         ng-model="data.property_class_selected" 
                         ng-options="item as item.label for item in property_class_options track by item.id" 
                         ng-change="select_change(data.property_class_selected,'data.property_class_selected')" class="form-control">
@@ -47,9 +49,10 @@
     <!--/span-->
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Lease Type</label>
+            <label class="control-label col-md-3">Lease Type <span class="required" aria-required="true"> * </span></label>
             <div class="col-md-9">
-                <select ng-disabled="isReadOnly"
+                <select required
+                        ng-disabled="isReadOnly"
                         ng-model="data.property_lease_type_selected" 
                         ng-options="item as item.label for item in property_lease_type_options track by item.id" 
                         ng-change="select_change(data.property_lease_type_selected,'data.property_lease_type_selected')" 
@@ -65,9 +68,10 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">City</label>
+            <label class="control-label col-md-3">City <span class="required" aria-required="true"> * </span></label>
             <div class="col-md-9">
-                <select ng-disabled="isReadOnly"
+                <select required
+                        ng-disabled="isReadOnly"
                         ng-model="data.property_city_selected" 
                         ng-options="item as item.label for item in property_city_options track by item.id" 
                         ng-change="select_change(data.property_city_selected,'data.property_city_selected')" 
@@ -79,9 +83,10 @@
     <!--/span-->
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Suburb</label>
+            <label class="control-label col-md-3">Suburb <span class="required" aria-required="true"> * </span></label>
             <div class="col-md-9">
-                <select ng-disabled="isReadOnly"
+                <select required
+                        ng-disabled="isReadOnly"
                         ng-model="data.property_suburb_selected" 
                         ng-options="item as item.label for item in property_suburb_options track by item.id" 
                         ng-change="select_change(data.property_suburb_selected,'data.property_suburb_selected')" 
@@ -145,9 +150,9 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Land Value / sq.m (K)</label>
+            <label class="control-label col-md-3">Land Value / sq.m (K) <span class="required" aria-required="true"> * </span></label>
             <div class="col-md-9">
-                <input ng-disabled="isReadOnly"
+                <input required ng-disabled="isReadOnly"
                         ng-model="data.land_value" type="text" class="form-control" placeholder="">
             </div>
         </div>
@@ -155,9 +160,9 @@
     <!--/span-->
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Land Component (K)</label>
+            <label class="control-label col-md-3">Land Component (K) <span class="required" aria-required="true"> * </span></label>
             <div class="col-md-9">
-                <input ng-disabled="isReadOnly"
+                <input required ng-disabled="isReadOnly"
                         ng-model="data.land_component" type="text" class="form-control" placeholder="">
             </div>
         </div>
@@ -168,9 +173,9 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Improvement Component (K)</label>
+            <label class="control-label col-md-3">Improvement Component (K) <span class="required" aria-required="true"> * </span></label>
             <div class="col-md-9">
-                <input ng-disabled="isReadOnly"
+                <input required ng-disabled="isReadOnly"
                         ng-model="data.improvement_component" type="text" class="form-control" placeholder="">
             </div>
         </div>
@@ -178,9 +183,9 @@
     <!--/span-->
     <div class="col-md-6">
         <div class="form-group">
-            <label class="control-label col-md-3">Area (sq.m)</label>
+            <label class="control-label col-md-3">Area (sq.m) <span class="required" aria-required="true"> * </span></label>
             <div class="col-md-9">
-                <input ng-disabled="isReadOnly"
+                <input required ng-disabled="isReadOnly"
                         ng-model="data.area" type="text" class="form-control" placeholder="">
             </div>
         </div>

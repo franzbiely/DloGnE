@@ -1,34 +1,29 @@
 <div class="row" ng-controller="PropertyNewController">
 
     <div class="col-md-12">
-    	<div class="portlet  light form-fit bordered">
+    	<div class="portlet light portlet-fit portlet-form bordered">
             <div class="portlet-title">
                 <div class="caption"><i class="fa fa-gift"></i>New/Edit Property</div>
             </div>
-            <div class="portlet-body form">
+            <div class="portlet-body">
                 <!-- BEGIN FORM-->
                 <form class="form-horizontal" ng-submit="saveProperty()">
                     <div class="form-body">
                     	<h3 class="form-section">Property Brief</h3>
-                        <div class="row">
-                        	<div class="col-md-12">
-	                            <div class="form-group">
-	                                <label class="control-label col-md-2">Brief Description</label>
-	                                <div class="col-md-10">
-	                                    <textarea ng-model="data.description" class="wysihtml5 form-control" rows="6"></textarea>
-	                                </div>
-	                            </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                Brief Description 
+                                <span class="required" aria-required="true"> * </span>
+                            </label>
+                            <div class="col-md-9">
+                                <textarea ng-model="data.description" required class="wysihtml5 form-control" rows="2"></textarea>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label col-md-3">Property Owner</label>
-                                    <div class="col-md-9">
-                                        <input ng-disabled="isReadOnly" ng-model="data.owner" type="text" class="form-control" placeholder="">
-                                        <span class="help-block"> </span>
-                                    </div>
-                                </div>
+                        <div class="form-group" ng-class="">
+                            <label class="control-label col-md-3">Property Owner <span class="required" aria-required="true"> * </span></label>
+                            <div class="col-md-4">
+                                <input ng-disabled="isReadOnly" ng-model="data.owner" required type="text" class="form-control" placeholder="">
+                                <span class="help-block"> </span>
                             </div>
                         </div>
                         <!--/row-->
@@ -48,7 +43,7 @@
                                 <h4>Valuations PDF files</h4>
                                 <ul class="pdf-gallery clearfix">
                                     <li ng-repeat="(key, value) in pdfs">
-                                        <strong>{{value.file_name}}</strong>
+                                        <strong><a ng-href="{{value.file_path}}" target="_self" download="{{value.file_name}}">{{value.file_name}}</a></strong>
                                         <a ng-click="removePDF(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
