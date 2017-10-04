@@ -23,26 +23,37 @@ angular.module('MetronicApp').controller('ReportsController',
             // Load Select options data
             $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_use_options = toOption(ret.data);
+                $scope.property_use_options.splice(0, 0, { id : '', label : '[Choose Use]' });
+                $scope.data_temp.property_use_selected = $scope.property_use_options[0];
+                console.log($scope.searchdata);
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_use');  
             })
             $http.get($rootScope.apiURL + 'v1/property_class?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_class_options = toOption(ret.data);
+                $scope.property_class_options.splice(0, 0, { id : '', label : '[Choose Class]' });
+                $scope.data_temp.property_class_selected = $scope.property_class_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_class');  
             })
             $http.get($rootScope.apiURL + 'v1/property_lease_type?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_lease_type_options = toOption(ret.data);
+                $scope.property_lease_type_options.splice(0, 0, { id : '', label : '[Choose Lease Type]' });
+                $scope.data_temp.property_lease_type_selected = $scope.property_lease_type_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_lease_type');  
             })
             $http.get($rootScope.apiURL + 'v1/property_city?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_city_options = toOption(ret.data);
+                $scope.property_city_options.splice(0, 0, { id : '', label : '[Choose City]' });
+                $scope.data_temp.property_city_selected = $scope.property_city_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_city');  
             })
             $http.get($rootScope.apiURL + 'v1/property_suburb?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_suburb_options = toOption(ret.data, 'suburb');
+                $scope.property_suburb_options.splice(0, 0, { id : '', label : '[Choose Suburb]' });
+                $scope.data_temp.property_suburb_selected = $scope.property_suburb_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_suburb');  
             })
@@ -73,18 +84,19 @@ angular.module('MetronicApp').controller('ReportsController',
             $scope.multi_property_results = false;
             $scope.resultReady = false;
 
-            if(typeof $scope.data_temp.property_city_selected !== 'undefined') {
+            if(typeof $scope.data_temp.property_city_selected !== 'undefined' && $scope.data_temp.property_city_selected.id !== '') {
                 $scope.searchdata.property_city_id = $scope.data_temp.property_city_selected.id;
             }
-            if(typeof $scope.data_temp.property_suburb_selected !== 'undefined') {
+            if(typeof $scope.data_temp.property_suburb_selected !== 'undefined' && $scope.data_temp.property_suburb_selected.id !== '') {
                 $scope.searchdata.property_suburb_id = $scope.data_temp.property_suburb_selected.id;
             }
-            if(typeof $scope.data_temp.property_class_selected !== 'undefined') {
+            if(typeof $scope.data_temp.property_class_selected !== 'undefined' && $scope.data_temp.property_class_selected.id !== '') {
                 $scope.searchdata.property_class_id = $scope.data_temp.property_class_selected.id;
             }
-            if(typeof $scope.data_temp.property_lease_type_selected !== 'undefined') {
+            if(typeof $scope.data_temp.property_lease_type_selected !== 'undefined' && $scope.data_temp.property_lease_type_selected.id !== '') {
                 $scope.searchdata.property_lease_type_id = $scope.data_temp.property_lease_type_selected.id;
             }
+            console.log($scope.searchdata);
             if(property_id != null) {
                 $scope.multipleResultsShow = false;
                 str = 'id='+ property_id;
