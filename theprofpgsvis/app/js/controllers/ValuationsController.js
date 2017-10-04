@@ -90,42 +90,42 @@ angular.module('MetronicApp').controller('ValuationsController',
 
         // Modal
         $scope.showModal = function(key = -1) {
-            var form = '<form ng-submit="foo()" id="frmValuation" name="frmValuation" role="form" class="form-horizontal">\
+            var form = '<form id="frmValuation" name="frmValuation" role="form" class="form-horizontal">\
                             <div class="form-body">\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Date</label>\
+                                    <label class="col-md-4 control-label">Date <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
             if (key > -1) {
-                form += '<input type="text" value="' + $scope.valuations[key].date + '" class="form-control date-picker" name="date" id="date"> </div>';
+                form += '<input required type="text" value="' + $scope.valuations[key].date + '" class="form-control date-picker" name="date" id="date"> </div>';
             } else {
 
-                form += '<input type="text" class="form-control date-picker" name="date" id="date" placeholder=""> </div>';
+                form += '<input required type="text" class="form-control date-picker" name="date" id="date" placeholder=""> </div>';
             }
             form += '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Value</label>\
+                                    <label class="col-md-4 control-label">Value <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
             if (key > -1) {
-                form += '<input type="text" value="' + $scope.valuations[key].value + '" class="form-control" name="value" id="value"> </div>';
+                form += '<input required type="text" value="' + $scope.valuations[key].value + '" class="form-control" name="value" id="value"> </div>';
             } else {
-                form += '<input type="text" class="form-control" name="value" id="value"> </div>';
+                form += '<input required type="text" class="form-control" name="value" id="value"> </div>';
             }
             form += '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Remarks</label>\
+                                    <label class="col-md-4 control-label">Remarks <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
             if (key > -1) {
-                form += '<input type="text" value="' + $scope.valuations[key].remarks + '" class="form-control" name="remarks" id="remarks"> </div>';
+                form += '<input required type="text" value="' + $scope.valuations[key].remarks + '" class="form-control" name="remarks" id="remarks"> </div>';
             } else {
-                form += '<input type="text" class="form-control" name="remarks" id="remarks"> </div>';
+                form += '<input required type="text" class="form-control" name="remarks" id="remarks"> </div>';
             }
             form += '</div>\
                                 </div>\
@@ -143,21 +143,30 @@ angular.module('MetronicApp').controller('ValuationsController',
                 message: form,
                 callback: function(res) {
                     if (res) {
-                        $scope.valuation.date = $('#frmValuation')[0]['elements'].date.value;
-                        $scope.valuation.value = $('#frmValuation')[0]['elements'].value.value;
-                        $scope.valuation.remarks = $('#frmValuation')[0]['elements'].remarks.value;
+                        if(
+                            $('#frmValuation')[0]['elements'].date.value !== '' &&
+                            $('#frmValuation')[0]['elements'].value.value !== '' &&
+                            $('#frmValuation')[0]['elements'].remarks.value !== ''
+                            ) {
+                            $scope.valuation.date = $('#frmValuation')[0]['elements'].date.value;
+                            $scope.valuation.value = $('#frmValuation')[0]['elements'].value.value;
+                            $scope.valuation.remarks = $('#frmValuation')[0]['elements'].remarks.value;
 
-                        $scope.$apply();
-                        if (key > -1) {
-                            // Edit
-                            $scope.valuations[key].date = $scope.valuation.date;
-                            $scope.valuations[key].value = $scope.valuation.value;
-                            $scope.valuations[key].remarks = $scope.valuation.remarks;
                             $scope.$apply();
-                            $scope.updateValuation($scope.valuations[key].id);
-                        } else {
-                            // New
-                            $scope.addValuation();
+                            if (key > -1) {
+                                // Edit
+                                $scope.valuations[key].date = $scope.valuation.date;
+                                $scope.valuations[key].value = $scope.valuation.value;
+                                $scope.valuations[key].remarks = $scope.valuation.remarks;
+                                $scope.$apply();
+                                $scope.updateValuation($scope.valuations[key].id);
+                            } else {
+                                // New
+                                $scope.addValuation();
+                            }
+                        }
+                        else {
+                            alert('Please fill up mandatory fields.'); return false;
                         }
 
                     }
