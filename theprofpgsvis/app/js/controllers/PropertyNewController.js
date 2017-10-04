@@ -1,7 +1,6 @@
 angular.module('MetronicApp')
     .controller('PropertyNewController', 
     function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http, FileUploader, $timeout) {
-        console.log('here yeah');
         $scope.data = [];  
         $scope.pdfs = [];  
         $scope.photos = [];  
@@ -10,6 +9,7 @@ angular.module('MetronicApp')
         $scope.data.lot = '';
         $scope.data.sec = '';
         $scope.data.port ='';
+
 
         // Load Data for Edit
         $scope.params = $stateParams; 
@@ -29,12 +29,30 @@ angular.module('MetronicApp')
         };
         $scope.dzCallbacks = {
             'addedfile' : function(file){
-                console.log(file);
                 $scope.newFile = file;
             },
             'success' : function(file, xhr){
                 $scope.data.photo_ids.push(xhr.data.id);
             }
+        };
+        $scope.fill_sample_data = function() {
+            console.log($scope.property_use_options);
+            $scope.data.code = 'CODE123';
+            $scope.data.description = 'Lorem Ipsum';
+            $scope.data.property_use_selected = $scope.property_use_options[1];
+            $scope.data.property_class_selected = $scope.property_class_options[1];
+            $scope.data.property_lease_type_selected = $scope.property_lease_type_options[1];
+            $scope.data.property_city_selected = $scope.property_city_options[1];
+            $scope.data.property_suburb_selected = $scope.property_suburb_options[1];
+            $scope.data.port = 1;
+            $scope.data.sec = 2;
+            $scope.data.lot = '';
+            $scope.data.unit = 3;
+            $scope.data.land_value = 4;
+            $scope.data.land_component = 5;
+            $scope.data.improvement_component = 6;
+            $scope.data.area = 7;
+            $scope.data.owner = "Owner";
         };
         //========= /dropzone ========
         //======= dropzone for PDF===========
@@ -52,7 +70,6 @@ angular.module('MetronicApp')
         };
         $scope.dzCallbacksPDF = {
             'addedfile' : function(file){
-                console.log(file);
                 $scope.newPDFFile = file;
             },
             'success' : function(file, xhr){
@@ -169,26 +186,36 @@ angular.module('MetronicApp')
 
             $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_use_options = toOption(ret.data);
+                $scope.property_use_options.splice(0, 0, { id : '', label : '[Choose Use]' });
+                $scope.data.property_use_selected = $scope.property_use_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_use');  
             })
             $http.get($rootScope.apiURL + 'v1/property_class?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_class_options = toOption(ret.data);
+                $scope.property_class_options.splice(0, 0, { id : '', label : '[Choose Class]' });
+                $scope.data.property_class_selected = $scope.property_class_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_class');  
             })
             $http.get($rootScope.apiURL + 'v1/property_lease_type?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_lease_type_options = toOption(ret.data);
+                $scope.property_lease_type_options.splice(0, 0, { id : '', label : '[Choose Lease Type]' });
+                $scope.data.property_lease_type_selected = $scope.property_lease_type_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_lease_type');  
             })
             $http.get($rootScope.apiURL + 'v1/property_city?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_city_options = toOption(ret.data);
+                $scope.property_city_options.splice(0, 0, { id : '', label : '[Choose City]' });
+                $scope.data.property_city_selected = $scope.property_city_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_city');  
             })
             $http.get($rootScope.apiURL + 'v1/property_suburb?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_suburb_options = toOption(ret.data, 'suburb');
+                $scope.property_suburb_options.splice(0, 0, { id : '', label : '[Choose Suburb]' });
+                $scope.data.property_suburb_selected = $scope.property_suburb_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_suburb');  
             })
@@ -214,7 +241,6 @@ angular.module('MetronicApp')
 
         // Add
         $scope.saveProperty = function() {
-            console.log($scope.data);
             var param = {
                 code : $scope.data.code,
                 description : $scope.data.description,
