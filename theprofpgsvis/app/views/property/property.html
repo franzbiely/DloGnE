@@ -54,6 +54,9 @@
                                 <a type="button" ui-sref="property.sales({property_id:value.id})" class="btn btn-link">Sales ({{value.sales_count}})</a>
                             </td>
                         </tr>
+                        <tr ng-show="!properties.length">
+                            <td colspan="7">No data.</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

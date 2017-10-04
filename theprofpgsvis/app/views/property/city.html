@@ -47,6 +47,9 @@
                                 <button ng-click="deleteCity($index, property_cities.id)" type="button" class="btn btn-danger">Delete</button>
                             </td>
                         </tr>
+                        <tr ng-show="!property_cities.length">
+                            <td colspan="6">No city data.</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

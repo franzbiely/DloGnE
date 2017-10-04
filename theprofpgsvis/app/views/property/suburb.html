@@ -41,6 +41,9 @@
                                 <button ng-click="deleteSuburb($index, value.id)" type="button" class="btn btn-danger">Delete</button>
                             </td>
                         </tr>
+                        <tr ng-show="!property_suburbs.length">
+                            <td colspan="6">No data.</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
