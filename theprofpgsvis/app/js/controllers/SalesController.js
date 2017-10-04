@@ -1,5 +1,5 @@
 angular.module('MetronicApp').controller('SalesController', 
-    function($rootScope, $scope, $http, $timeout, $stateParams) {
+    function($rootScope, $scope, $http, $timeout, $stateParams, moment) {
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax(); // initialize core components  
         });
@@ -82,87 +82,102 @@ angular.module('MetronicApp').controller('SalesController',
 
         // Modal
         $scope.showModal = function(key = -1) {
-            var form = '<form ng-submit="foo()" id="frmSale" name="frmSale" role="form" class="form-horizontal">\
+            var form = '<form id="frmSale" name="frmSale" role="form" class="form-horizontal">\
                             <div class="form-body">\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Date</label>\
+                                    <label class="col-md-4 control-label">Date <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
                 if(key > -1) {
-                    form +=                     '<input type="text" value="'+$scope[plural][key].date+'" class="form-control" name="date" id="date"> </div>';
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].date+'" class="form-control date-picker" name="date" id="date"> </div>';
                 }
                 else {
-                    form +=                     '<input type="text" class="form-control" name="date" id="date" placeholder=""> </div>';    
+                    form +=                     '<input required type="text" class="form-control date-picker" name="date" id="date" placeholder=""> </div>';    
                 }
                 form +=             '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Value</label>\
+                                    <label class="col-md-4 control-label">Value <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
                 if(key > -1) {
-                    form +=                     '<input type="text" value="'+$scope[plural][key].value+'" class="form-control" name="value" id="value"> </div>';
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].value+'" class="form-control" name="value" id="value"> </div>';
                 }
                 else {
-                    form +=                     '<input type="text" class="form-control" name="value" id="value"> </div>';    
+                    form +=                     '<input required type="text" class="form-control" name="value" id="value"> </div>';    
                 }
                 form +=             '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Buyer</label>\
+                                    <label class="col-md-4 control-label">Buyer <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
                 if(key > -1) {
-                    form +=                     '<input type="text" value="'+$scope[plural][key].buyer+'" class="form-control" name="buyer" id="buyer"> </div>';
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].buyer+'" class="form-control" name="buyer" id="buyer"> </div>';
                 }
                 else {
-                    form +=                     '<input type="text" class="form-control" name="buyer" id="buyer"> </div>';    
+                    form +=                     '<input required type="text" class="form-control" name="buyer" id="buyer"> </div>';    
                 }
                 form +=             '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Remarks</label>\
+                                    <label class="col-md-4 control-label">Remarks <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
                 if(key > -1) {
-                    form +=                     '<input type="text" value="'+$scope[plural][key].remarks+'" class="form-control" name="remarks" id="remarks"> </div>';
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].remarks+'" class="form-control" name="remarks" id="remarks"> </div>';
                 }
                 else {
-                    form +=                     '<input type="text" class="form-control" name="remarks" id="remarks"> </div>';    
+                    form +=                     '<input required type="text" class="form-control" name="remarks" id="remarks"> </div>';    
                 }
                 form +=             '</div>\
                                 </div>\
                             </div>\
                         </form>';
                 form = $(form);
+                form.find('.date-picker').datepicker({
+                    format: 'dd-mm-yyyy',
+                    autoclose: true}).on('changeDate', function (ev) {
+                       $(this).blur();
+                       $(this).datepicker('hide');
+                });
             bootbox.confirm({
                 title: "Add New Sale",
                 message: form,
                 callback: function(res) {
                     if (res){
-                        $scope[singular].date = $('#frmSale')[0]['elements'].date.value;
-                        $scope[singular].value = $('#frmSale')[0]['elements'].value.value;
-                        $scope[singular].buyer = $('#frmSale')[0]['elements'].buyer.value;
-                        $scope[singular].remarks = $('#frmSale')[0]['elements'].remarks.value;
-                        $scope.$apply();
-                        if(key > -1) {
-                            // Edit
-                            $scope[plural][key].date = $scope[singular].date;
-                            $scope[plural][key].value = $scope[singular].value;
-                            $scope[plural][key].buyer = $scope[singular].buyer;
-                            $scope[plural][key].remarks = $scope[singular].remarks;
+                        if(
+                            $('#frmSale')[0]['elements'].date.value !== '' &&
+                            $('#frmSale')[0]['elements'].value.value !== '' &&
+                            $('#frmSale')[0]['elements'].buyer.value !== '' &&
+                            $('#frmSale')[0]['elements'].remarks.value !== ''
+                            ) {
+                            $scope[singular].date = moment($('#frmSale')[0]['elements'].date.value, 'DD-MM-YYYY').format('YYYY-MM-DD');
+                            $scope[singular].value = $('#frmSale')[0]['elements'].value.value;
+                            $scope[singular].buyer = $('#frmSale')[0]['elements'].buyer.value;
+                            $scope[singular].remarks = $('#frmSale')[0]['elements'].remarks.value;
                             $scope.$apply();
-                            $scope.update($scope[plural][key].id);
+                            if(key > -1) {
+                                // Edit
+                                $scope[plural][key].date = $scope[singular].date;
+                                $scope[plural][key].value = $scope[singular].value;
+                                $scope[plural][key].buyer = $scope[singular].buyer;
+                                $scope[plural][key].remarks = $scope[singular].remarks;
+                                $scope.$apply();
+                                $scope.update($scope[plural][key].id);
+                            }
+                            else {
+                                // New
+                                $scope.add();
+                            }
                         }
                         else {
-                            // New
-                            $scope.add();
+                            alert('Please fill up mandatory fields.'); return false;
                         }
-
                     }
                 }
             });

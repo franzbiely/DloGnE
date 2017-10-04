@@ -340,8 +340,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                         files: [
                             './assets/vendor/css/bootstrap-datepicker3.min.css',
                             './assets/vendor/js/bootstrap-datepicker.min.js',
-                            
-                            
                             'js/controllers/ValuationsController.js'
                         ] 
                     });
@@ -370,6 +368,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                         name: 'MetronicApp',
                         insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
                         files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
                             'js/controllers/SalesController.js'
                         ] 
                     });

@@ -150,7 +150,7 @@ angular.module('MetronicApp').controller('ValuationsController',
                             ) {
 
 
-                            $scope.valuation.date = moment($('#frmValuation')[0]['elements'].date.value).format('YYYY-MM-DD');
+                            $scope.valuation.date = moment($('#frmValuation')[0]['elements'].date.value, 'DD-MM-YYYY').format('YYYY-MM-DD');
                             $scope.valuation.value = $('#frmValuation')[0]['elements'].value.value;
                             $scope.valuation.remarks = $('#frmValuation')[0]['elements'].remarks.value;
                             $scope.$apply();
@@ -192,6 +192,7 @@ angular.module('MetronicApp').controller('ValuationsController',
                 remarks: $scope.valuation.remarks,
                 property_id: $scope.property_id
             }).success(function(response) {
+                console.log(response);
                 $scope.valuations.push(response.data);
                 $scope.valuation = '';
 
