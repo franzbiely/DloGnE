@@ -93,7 +93,7 @@ angular.module('MetronicApp').controller('SalesController',
                     form +=                     '<input type="text" value="'+$scope[plural][key].date+'" class="form-control" name="date" id="date"> </div>';
                 }
                 else {
-                    form +=                     '<input type="text" class="form-control" name="date" id="date" placeholder="2017-01-20"> </div>';    
+                    form +=                     '<input type="text" class="form-control" name="date" id="date" placeholder=""> </div>';    
                 }
                 form +=             '</div>\
                                 </div>\

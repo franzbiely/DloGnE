@@ -1,13 +1,13 @@
-angular.module('MetronicApp').controller('ValuationsController', 
-    function($rootScope, $scope, $http, settings, $stateParams) {
+angular.module('MetronicApp').controller('ValuationsController',
+    function($rootScope, $scope, $http, settings, $stateParams, $uibModal) {
         $scope.multipleResultsShow = false;
-        $scope.$on('$viewContentLoaded', function() {   
+        $scope.$on('$viewContentLoaded', function() {
             App.initAjax();
             $scope.resetform();
         });
         $scope.resetform = function() {
             $scope.data = [];
-            $scope.searchdata = []; 
+            $scope.searchdata = [];
             $scope.data_temp = [];
             $scope.valuations = [];
             $scope.searchdata.price_min = 1000;
@@ -22,11 +22,11 @@ angular.module('MetronicApp').controller('ValuationsController',
 
         // Display
         $scope.init = function() {
-            $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+            $http.get($rootScope.apiURL + 'v1/valuation/prop/' + $scope.property_id + '?token=' + localStorage.getItem('satellizer_token')).success(function(res) {
                 $scope.valuations = res.data;
             }).error(function(error) {
-                console.log('Service error : ',error);
-                if(error.error == "token_expired")
+                console.log('Service error : ', error);
+                if (error.error == "token_expired")
                     $rootScope.logout();
             })
         };
@@ -38,25 +38,22 @@ angular.module('MetronicApp').controller('ValuationsController',
             $scope.hasActions = false;
             var str;
 
-            if(property_id != null) {
-                str = 'id='+ property_id;
-            }
-            else {
-                str = Object.keys($scope.data).map(function(key){ 
-                    if(encodeURIComponent($scope.data[key]) !== 'undefined'){
-                        return encodeURIComponent(key) + '=' + encodeURIComponent($scope.data[key]); 
+            if (property_id != null) {
+                str = 'id=' + property_id;
+            } else {
+                str = Object.keys($scope.data).map(function(key) {
+                    if (encodeURIComponent($scope.data[key]) !== 'undefined') {
+                        return encodeURIComponent(key) + '=' + encodeURIComponent($scope.data[key]);
                     }
-                }).join('&');    
+                }).join('&');
             }
-            $http.get($rootScope.apiURL + 'v1/property/param/'+ str +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                if(response.data.length == '0') {
+            $http.get($rootScope.apiURL + 'v1/property/param/' + str + '?token=' + localStorage.getItem('satellizer_token')).success(function(response) {
+                if (response.data.length == '0') {
                     alert('No result');
-                }
-                else if(response.data.length > 1) {
+                } else if (response.data.length > 1) {
                     $scope.multi_property_results = response.data;
                     $scope.multipleResultsReady = true;
-                }
-                else {
+                } else {
                     for (var i = 0; i < response.data.length; i++) {
                         $scope.property_id = response.data[i].id;
                         $scope.data.code = response.data[i].code;
@@ -76,19 +73,19 @@ angular.module('MetronicApp').controller('ValuationsController',
                         $scope.data.area = response.data[i].area;
                     }
                     // Get Valuation data
-                    $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+                    $http.get($rootScope.apiURL + 'v1/valuation/prop/' + $scope.property_id + '?token=' + localStorage.getItem('satellizer_token')).success(function(res) {
                         $scope.valuations = res.data;
                     }).error(function(error) {
-                        console.log('Service error : ',error);
+                        console.log('Service error : ', error);
                     })
 
                     $scope.resultReady = true;
                 }
 
             }).error(function(error) {
-                console.log('Error loading '+ $rootScope.apiURL + 'v1/property/param/');  
+                console.log('Error loading ' + $rootScope.apiURL + 'v1/property/param/');
             });
-            
+
         }
 
         // Modal
@@ -100,62 +97,65 @@ angular.module('MetronicApp').controller('ValuationsController',
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
-                if(key > -1) {
-                    form +=                     '<input type="text" value="'+$scope.valuations[key].date+'" class="form-control" name="date" id="date"> </div>';
-                }
-                else {
-                    form +=                     '<input type="text" class="form-control" name="date" id="date" placeholder="2017-01-20"> </div>';    
-                }
-                form +=             '</div>\
+            if (key > -1) {
+                form += '<input type="text" value="' + $scope.valuations[key].date + '" class="form-control date-picker" name="date" id="date"> </div>';
+            } else {
+
+                form += '<input type="text" class="form-control date-picker" name="date" id="date" placeholder=""> </div>';
+            }
+            form += '</div>\
                                 </div>\
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Value</label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
-                if(key > -1) {
-                    form +=                     '<input type="text" value="'+$scope.valuations[key].value+'" class="form-control" name="value" id="value"> </div>';
-                }
-                else {
-                    form +=                     '<input type="text" class="form-control" name="value" id="value"> </div>';    
-                }
-                form +=             '</div>\
+            if (key > -1) {
+                form += '<input type="text" value="' + $scope.valuations[key].value + '" class="form-control" name="value" id="value"> </div>';
+            } else {
+                form += '<input type="text" class="form-control" name="value" id="value"> </div>';
+            }
+            form += '</div>\
                                 </div>\
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Remarks</label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
-                if(key > -1) {
-                    form +=                     '<input type="text" value="'+$scope.valuations[key].remarks+'" class="form-control" name="remarks" id="remarks"> </div>';
-                }
-                else {
-                    form +=                     '<input type="text" class="form-control" name="remarks" id="remarks"> </div>';    
-                }
-                form +=             '</div>\
+            if (key > -1) {
+                form += '<input type="text" value="' + $scope.valuations[key].remarks + '" class="form-control" name="remarks" id="remarks"> </div>';
+            } else {
+                form += '<input type="text" class="form-control" name="remarks" id="remarks"> </div>';
+            }
+            form += '</div>\
                                 </div>\
                             </div>\
                         </form>';
-                form = $(form);
+            form = $(form);
+            form.find('.date-picker').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true}).on('changeDate', function (ev) {
+                   $(this).blur();
+                   $(this).datepicker('hide');
+            });
             bootbox.confirm({
                 title: "Add New Valuation",
                 message: form,
                 callback: function(res) {
-                    if (res){
+                    if (res) {
                         $scope.valuation.date = $('#frmValuation')[0]['elements'].date.value;
                         $scope.valuation.value = $('#frmValuation')[0]['elements'].value.value;
                         $scope.valuation.remarks = $('#frmValuation')[0]['elements'].remarks.value;
 
                         $scope.$apply();
-                        if(key > -1) {
+                        if (key > -1) {
                             // Edit
                             $scope.valuations[key].date = $scope.valuation.date;
                             $scope.valuations[key].value = $scope.valuation.value;
                             $scope.valuations[key].remarks = $scope.valuation.remarks;
                             $scope.$apply();
                             $scope.updateValuation($scope.valuations[key].id);
-                        }
-                        else {
+                        } else {
                             // New
                             $scope.addValuation();
                         }
@@ -168,7 +168,7 @@ angular.module('MetronicApp').controller('ValuationsController',
         // Delete
         $scope.delete = function(index, id) {
 
-            $http.delete($rootScope.apiURL + 'v1/valuation/' + id + '?token='+localStorage.getItem('satellizer_token'))
+            $http.delete($rootScope.apiURL + 'v1/valuation/' + id + '?token=' + localStorage.getItem('satellizer_token'))
                 .success(function() {
                     $scope.valuations.splice(index, 1);
                 });;
@@ -176,29 +176,29 @@ angular.module('MetronicApp').controller('ValuationsController',
 
         // Add
         $scope.addValuation = function() {
-            $http.post($rootScope.apiURL + 'v1/valuation?token='+localStorage.getItem('satellizer_token'), {
-                date : $scope.valuation.date,
-                value : $scope.valuation.value,
-                remarks : $scope.valuation.remarks,
-                property_id : $scope.property_id 
+            $http.post($rootScope.apiURL + 'v1/valuation?token=' + localStorage.getItem('satellizer_token'), {
+                date: $scope.valuation.date,
+                value: $scope.valuation.value,
+                remarks: $scope.valuation.remarks,
+                property_id: $scope.property_id
             }).success(function(response) {
                 $scope.valuations.push(response.data);
                 $scope.valuation = '';
 
-            }).error(function(){
+            }).error(function() {
                 console.log("error");
             });
         };
 
         // Update
-        $scope.updateValuation = function(id){
-          $http.put($rootScope.apiURL + 'v1/valuation/' + id + '?token='+localStorage.getItem('satellizer_token'), {
-                date : $scope.valuation.date,
-                value : $scope.valuation.value,
-                remarks : $scope.valuation.remarks,
-          }).success(function(response) {
+        $scope.updateValuation = function(id) {
+            $http.put($rootScope.apiURL + 'v1/valuation/' + id + '?token=' + localStorage.getItem('satellizer_token'), {
+                date: $scope.valuation.date,
+                value: $scope.valuation.value,
+                remarks: $scope.valuation.remarks,
+            }).success(function(response) {
                 console.log("Updated Successfully");
-            }).error(function(){
+            }).error(function() {
                 console.log("error");
             });
         }

@@ -49,3 +49,8 @@
     background-color: #eee;
     border-bottom: 1px solid #aaa;
 }
+
+.modal-open .datepicker {
+    left: 52% !important; //Change it according to the position of your dialog
+    top: 25% !important; //Change it according to the position of your dialog
+}
