@@ -111,10 +111,6 @@ class PropertiesController extends Controller {
                ! $request->property_lease_type_id or
                ! $request->property_city_id or
                ! $request->property_suburb_id or
-               ! $request->port or
-               ! $request->sec or
-               ! $request->lot or
-               ! $request->unit or
                ! $request->land_value ){
                 return Response::json([
                     'error' => [
