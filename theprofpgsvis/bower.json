@@ -18,6 +18,9 @@
     "jquery": "^3.2.1",
     "ng-dropzone": "ngdropzone#^2.0.2",
     "ng-buffer-dropzone": "ngdropzone-buffer#^1.0.0",
-    "angularjs-slider": "^6.4.0"
+    "angularjs-slider": "^6.4.0",
+    "moment": "^2.18.1",
+    "angular-momentjs": "^0.2.2",
+    "angular-moment": "^1.1.0"
   }
 }

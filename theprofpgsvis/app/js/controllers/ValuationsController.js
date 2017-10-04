@@ -1,5 +1,5 @@
 angular.module('MetronicApp').controller('ValuationsController',
-    function($rootScope, $scope, $http, settings, $stateParams, $uibModal) {
+    function($rootScope, $scope, $http, settings, $stateParams, $uibModal, moment) {
         $scope.multipleResultsShow = false;
         $scope.$on('$viewContentLoaded', function() {
             App.initAjax();
@@ -148,10 +148,11 @@ angular.module('MetronicApp').controller('ValuationsController',
                             $('#frmValuation')[0]['elements'].value.value !== '' &&
                             $('#frmValuation')[0]['elements'].remarks.value !== ''
                             ) {
-                            $scope.valuation.date = $('#frmValuation')[0]['elements'].date.value;
+
+
+                            $scope.valuation.date = moment($('#frmValuation')[0]['elements'].date.value).format('YYYY-MM-DD');
                             $scope.valuation.value = $('#frmValuation')[0]['elements'].value.value;
                             $scope.valuation.remarks = $('#frmValuation')[0]['elements'].remarks.value;
-
                             $scope.$apply();
                             if (key > -1) {
                                 // Edit

@@ -11,7 +11,8 @@ var MetronicApp = angular.module("MetronicApp", [
     'satellizer',
     'permission',
     'thatisuday.dropzone',
-    'rzModule'
+    'rzModule',
+    'angularMoment'
 ]);
 
 /* Init global settings and run the app */
@@ -66,7 +67,6 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
   // in new ones!
   $controllerProvider.allowGlobals();
 }]);
-
 /********************************************
  END: BREAKING CHANGE in AngularJS v1.3.x:
 *********************************************/
