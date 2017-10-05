@@ -1,0 +1,146 @@
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-4">Property Code</label>
+            <div class="col-md-8">
+                {{data.code}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-4">Use</label>
+            <div class="col-md-8">
+                {{data.use}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+</div>
+<!--/row-->
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-4">Class</label>
+            <div class="col-md-8">
+                {{data.class}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-4">Lease Type</label>
+            <div class="col-md-8">
+                {{data.lease_type}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+</div>
+<!--/row-->
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-4">City</label>
+            <div class="col-md-8">
+                {{data.city}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-4">Suburb</label>
+            <div class="col-md-8">
+                {{data.suburb}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-6" ng-hide="showPort">
+        <div class="form-group">
+            <label class="control-label col-md-4">Sec</label>
+            <div class="col-md-8">
+                {{data.sec}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+    <div class="col-md-6" ng-show="showPort">
+        <div class="form-group">
+            <label class="control-label col-md-4">Port</label>
+            <div class="col-md-8">
+                {{data.port}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <!--/span-->
+    <div class="col-md-6" ng-hide="showPort">
+        <div class="form-group">
+            <label class="control-label col-md-4">Lot</label>
+            <div class="col-md-8">
+                {{data.lot}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-4">Unit #</label>
+            <div class="col-md-8">
+                {{data.unit}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-4">Land Value / sq.m (K)</label>
+            <div class="col-md-8">
+                {{data.land_value}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-4">Land Component (K)</label>
+            <div class="col-md-8">
+                {{data.land_component}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-4">Improvement Component (K)</label>
+            <div class="col-md-8">
+                {{data.improvement_component}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label col-md-4">Area (sq.m)</label>
+            <div class="col-md-8">
+                {{data.area}}
+            </div>
+        </div>
+    </div>
+    <!--/span-->
+</div>

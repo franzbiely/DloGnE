@@ -1,6 +1,7 @@
 angular.module('MetronicApp').controller('ReportsController', 
     function($rootScope, $scope, $http, $timeout) {
         $scope.multipleResultsShow = false;
+        $scope.isReport = true;
         function toOption(data, label='name') {
             var options = [ data.length ];
             for(i = 0; i < data.length; i++){
@@ -124,15 +125,34 @@ angular.module('MetronicApp').controller('ReportsController',
                         $scope.property_id = response.data[i].id;
                         $scope.data.code = response.data[i].code;
                         $scope.data.description = response.data[i].description;
+
+                        $scope.data.use = response.data[i].use;
+                        $scope.data.class = response.data[i].class;
+                        $scope.data.lease_type = response.data[i].lease_type;
+                        $scope.data.city = response.data[i].city;
+                        $scope.data.suburb = response.data[i].suburb;
+
+                        $scope.data.port = response.data[i].port;
+                        $scope.data.sec = response.data[i].sec;
+                        $scope.data.lot = response.data[i].lot;
+                        $scope.data.unit = response.data[i].unit;
+
+                        if($scope.data.port == '') {
+                            $scope.showPort = false;
+                        }
+                        else {
+                            $scope.showPort = true;   
+                        }
+
+                        // NOT SURE IF THE FOLLOWING IS IN USE
                         $scope.data.property_use_selected = response.data[i].property__use;
                         $scope.data.property_class_selected = response.data[i].property__class;
                         $scope.data.property_lease_type_selected = response.data[i].property__lease__type;
                         $scope.data.property_city_selected = response.data[i].property__city;
                         $scope.data.property_suburb_selected = response.data[i].property__suburb;
-                        $scope.data.port = response.data[i].port;
-                        $scope.data.sec = response.data[i].sec;
-                        $scope.data.lot = response.data[i].lot;
-                        $scope.data.unit = response.data[i].unit;
+                        // ======
+
+                        
                         $scope.data.land_value = response.data[i].land_value;
                         $scope.data.land_component = response.data[i].land_component;
                         $scope.data.improvement_component = response.data[i].improvement_component;
