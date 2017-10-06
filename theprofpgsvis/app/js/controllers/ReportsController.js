@@ -17,9 +17,9 @@ angular.module('MetronicApp').controller('ReportsController',
             App.initAjax(); 
             $scope.resetform();
             $scope.price_options = {
-                floor: 1000,
-                ceil: 9000,
-                step : 100
+                floor: 0,
+                ceil: 1000000,
+                step : 1000
             };
             // Load Select options data
             $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -74,8 +74,8 @@ angular.module('MetronicApp').controller('ReportsController',
             $scope.searchdata = []; 
             $scope.data_temp = [];
             $scope.valuations = [];
-            $scope.searchdata.price_min = 1000;
-            $scope.searchdata.price_max = 9000;
+            $scope.searchdata.price_min = 0;
+            $scope.searchdata.price_max = 1000000;
             $scope.multipleResultsShow = false;
             $scope.multi_property_results = false;
             $scope.resultReady = false;
