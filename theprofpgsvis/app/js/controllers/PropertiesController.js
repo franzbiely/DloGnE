@@ -42,7 +42,7 @@ angular.module('MetronicApp').controller('PropertiesController',
             // $scope.isDisabled = true;
 
             if(vals_count > 0 || sales_count > 0) {
-                var archive_confirmed = confirm("This property has valuation/sales information. \nIf you continue, the sales and valuation record will be archived as well. \nDo you want to continue?");
+                var archive_confirmed = confirm("This property has valuation/sales information. \nIf you continue, the sales and valuation records will be archived as well. \nDo you want to continue?");
                 if(archive_confirmed) {
                     var param = {
                         is_archive : 1
