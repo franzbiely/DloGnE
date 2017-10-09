@@ -59,3 +59,9 @@
     color: #999;
     font-style: italic;
 }
+
+@media (min-width: 992px) {
+    .page-sidebar.collapse {
+        position:fixed;
+    }
+}

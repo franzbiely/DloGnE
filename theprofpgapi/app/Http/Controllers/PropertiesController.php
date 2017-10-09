@@ -18,6 +18,8 @@ use Response;
 use Input;
 use DB;
 
+use Excel;
+
 class PropertiesController extends Controller {
 
     private $price_min;
@@ -26,7 +28,7 @@ class PropertiesController extends Controller {
     private $default_select;
 
     public function __construct() {
-        $this->middleware('jwt.auth');
+        // $this->middleware('jwt.auth');
         $this->price_min = -1;
         $this->price_max = -1;
         $this->with = array(
@@ -137,7 +139,6 @@ class PropertiesController extends Controller {
                 'data' => $this->transform($property)
         ]);
     }
-
     public function show($id)
     {
         $property = Property::with($this->with)
@@ -158,7 +159,7 @@ class PropertiesController extends Controller {
 
         // get next Property id
         $next = Property::where('id', '>', $property->id)->min('id');
-
+        // return Response::json([]);
         return Response::json([
             'previous_Property_id'=> $previous,
             'next_Property_id'=> $next,
@@ -279,5 +280,123 @@ class PropertiesController extends Controller {
         if(isset($property['sales_count']))
             $ret['sales_count'] = $property['sales_count'];
         return $ret;
+    }
+    private function export_report($request, $_property, $type) {
+        parse_str($_property, $property);
+        $filename = "SVIS-Property-".$property['id'];
+        $filetype = $type;
+        Excel::create($filename, function($excel) use($property, $request){
+            $excel->sheet('Excel sheet', function($sheet) use($property, $request) {
+                $ROW = 3;
+                
+
+                $sheet ->mergeCells('A1:D1');
+                $sheet->setCellValue('A1', 'Property Details of - #' . $property['id']);
+
+                if(isset($property['code'])) {
+                    $sheet->setCellValue('A'.$ROW, 'Property Code');
+                    $sheet->setCellValue('B'.$ROW, $property['code']);    
+                }
+
+                if(isset($property['class'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Class');
+                    $sheet->setCellValue('B'.$ROW, $property['class']);
+                }
+                    
+                if(isset($property['city'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'City');
+                    $sheet->setCellValue('B'.$ROW, $property['city']);
+                }
+                    
+                if(isset($property['use'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Use');
+                    $sheet->setCellValue('B'.$ROW, $property['use']);
+                }
+                    
+                if(isset($property['lease_type'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Lease Type');
+                    $sheet->setCellValue('B'.$ROW, $property['lease_type']);
+                }
+                    
+                if(isset($property['suburb'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Suburb');
+                    $sheet->setCellValue('B'.$ROW, $property['suburb']);
+                }
+                    
+                if(isset($property['sec'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Sec');
+                    $sheet->setCellValue('B'.$ROW, $property['sec']);
+                }
+                    
+                if(isset($property['lot'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Lot');
+                    $sheet->setCellValue('B'.$ROW, $property['lot']);
+                }
+                    
+                if(isset($property['unit'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Unit #');
+                    $sheet->setCellValue('B'.$ROW, $property['unit']);
+                }
+                    
+                if(isset($property['land_value'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Land Value / sq.m (K)');
+                    $sheet->setCellValue('B'.$ROW, $property['land_value']);
+                }
+                    
+                if(isset($property['land_component'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Land Component (K)');
+                    $sheet->setCellValue('B'.$ROW, $property['land_component']);
+                }
+                    
+                if(isset($property['improvement_component'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Improvement Component (K)');
+                    $sheet->setCellValue('B'.$ROW, $property['improvement_component']);
+                }
+                    
+                if(isset($property['area'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Area (sq.m)');
+                    $sheet->setCellValue('B'.$ROW, $property['area']);
+                }
+                    
+                if(isset($property['owner'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Seller');
+                    $sheet->setCellValue('B'.$ROW, $property['owner']);
+                }
+                    
+
+                $sheet ->mergeCells('A' . ($ROW+=2) . ':D'.$ROW);
+                $sheet->setCellValue('A'.$ROW, 'VALUATION HISTORY OF PROPERTY #');
+                $sheet->setCellValue('A'.$ROW+=1, 'Date');
+                $sheet->setCellValue('B'.$ROW, 'Value');
+                $sheet->setCellValue('C'.$ROW, 'Remarks');
+
+                foreach($request->valuations as $key=>$valuation) {
+                    $sheet->setCellValue('A'.$ROW+=1, $valuation['date']);
+                    $sheet->setCellValue('B'.$ROW, $valuation['value']);
+                    $sheet->setCellValue('C'.$ROW, $valuation['remarks']);                    
+                }
+
+                $sheet ->mergeCells('A' . ($ROW+=2) .':D'.$ROW);
+                $sheet->setCellValue('A'.$ROW, 'SALES HISTORY OF PROPERTY #');
+                $sheet->setCellValue('A'.$ROW+=1, 'Date');
+                $sheet->setCellValue('B'.$ROW, 'Value');
+                $sheet->setCellValue('C'.$ROW, 'Buyer');
+                $sheet->setCellValue('D'.$ROW, 'Remarks');
+
+                foreach($request->sales as $sale) {
+                    $sheet->setCellValue('A'.$ROW+=1, $sale['date']);
+                    $sheet->setCellValue('B'.$ROW, $sale['value']);
+                    $sheet->setCellValue('C'.$ROW, $sale['buyer']);
+                    $sheet->setCellValue('D'.$ROW, $sale['remarks']);                    
+                }
+            });
+
+        })->download($filetype);
+    }
+    public function export_report_csv(Request $request, $_property) {
+        $this->export_report($request, $_property, 'csv');
+    }
+    public function export_report_excel(Request $request, $_property) {
+        $this->export_report($request, $_property, 'xls');
     }
 }

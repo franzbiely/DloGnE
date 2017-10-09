@@ -1,5 +1,5 @@
 angular.module('MetronicApp').controller('ReportsController', 
-    function($rootScope, $scope, $http, $timeout) {
+    function($rootScope, $scope, $http, $timeout, $window, $http) {
         $scope.multipleResultsShow = false;
         $scope.isReport = true;
         function toOption(data, label='name') {
@@ -11,6 +11,22 @@ angular.module('MetronicApp').controller('ReportsController',
                 };
             }
             return options;
+        }
+        function toQueryString(obj, prefix) {
+            var str = [], k, v;
+            for(var p in obj) {
+                if (!obj.hasOwnProperty(p)) {continue;} // skip things from the prototype
+                if (~p.indexOf('[')) {
+                    k = prefix ? prefix + "[" + p.substring(0, p.indexOf('[')) + "]" + p.substring(p.indexOf('[')) : p;
+                } else {
+                    k = prefix ? prefix + "[" + p + "]" : p;
+                }
+                v = obj[p];
+                str.push(typeof v == "object" ?
+                  toQueryString(v, k) :
+                  k + "=" + v);
+            }
+            return str.join("&");
         }
 
         $scope.$on('$viewContentLoaded', function() {   
@@ -69,6 +85,7 @@ angular.module('MetronicApp').controller('ReportsController',
                 }
             },true);
         });
+        
         $scope.resetform = function() {
             $scope.data = [];
             $scope.searchdata = []; 
@@ -123,6 +140,7 @@ angular.module('MetronicApp').controller('ReportsController',
                     $scope.multipleResultsShow = false;
                     for (var i = 0; i < response.data.length; i++) {
                         $scope.property_id = response.data[i].id;
+                        $scope.data.id = response.data[i].id;
                         $scope.data.code = response.data[i].code;
                         $scope.data.description = response.data[i].description;
 
@@ -189,6 +207,33 @@ angular.module('MetronicApp').controller('ReportsController',
         }
         $scope.type="reports";
 
+        $scope.export = function(type) {
+            details = Object.keys($scope.data).filter(function(key){ 
+                if(encodeURIComponent($scope.data[key]) !== 'undefined' && encodeURIComponent($scope.data[key]) !== '' && typeof $scope.data[key] !== 'undefined'){
+                    return true;
+                }
+            }).map(function(key) {
+                return encodeURIComponent(key) + '=' + encodeURIComponent($scope.data[key]); 
+            }).join('&');
+
+            var valuations = toQueryString($scope.valuations, 'valuations');
+            var sales = toQueryString($scope.sales, 'sales');
+            
+
+            var file_path = $rootScope.apiURL + 'v1/property/export/report/' + type + '/' + details +'?token='+localStorage.getItem('satellizer_token') + '&' + valuations + '&' + sales;
+            console.log(file_path);
+            var a = document.createElement('A');
+            a.href = file_path;
+            a.download = file_path.substr(file_path.lastIndexOf('/') + 1);
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
 
     }
 );
+
+
+
+
+

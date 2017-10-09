@@ -60,6 +60,8 @@
     font-style: italic;
 }
 
-.page-sidebar.collapse {
-    position: fixed;
+@media (min-width: 992px) {
+    .page-sidebar.collapse {
+        position:fixed;
+    }
 }

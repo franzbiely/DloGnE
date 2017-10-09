@@ -751,6 +751,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 },
                 'multi-properties-result@reports' : {
                     templateUrl : "views/multi-properties-result.html"
+                },
+                'extract-buttons@reports' : {
+                    templateUrl: "views/extract-buttons.html",   
                 }
             },
             controller: "ReportsController",

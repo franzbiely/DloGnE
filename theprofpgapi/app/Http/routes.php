@@ -27,6 +27,23 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api'], function()
 // JWT
 
 Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
+
+	// Route::get('download/{filename}', function($filename) {
+	//     $filePath = storage_path().'/exports/'.$filename;
+
+
+	//     if ( ! File::exists($filePath) ) {
+	//         return Response::make("File does not exist.", 404);
+	//     }
+
+	//     $fileContents = File::get($filePath);
+	//     $mimeType = 'application/vnd.ms-excel';
+	//     return Response::make($fileContents, 200, array('Content-Type' => $mimeType));
+	// });
+
+
+
+
 	Route::resource('property_use', 'PropertyUsesController');
 	Route::resource('property_class', 'PropertyClassesController');
 	Route::resource('property_lease_type', 'PropertyLeaseTypesController');
@@ -34,6 +51,10 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::resource('property_suburb', 'PropertySuburbsController');
 	
 	Route::get('property/param/{params}', 'PropertiesController@getByParam');
+	
+	Route::get('property/export/report/csv/{property}', 'PropertiesController@export_report_csv');
+	Route::get('property/export/report/excel/{property}', 'PropertiesController@export_report_excel');
+
 	Route::resource('property', 'PropertiesController');
 
 	Route::get('media/param/{params}', 'MediaController@getByParam');
