@@ -399,4 +399,68 @@ class PropertiesController extends Controller {
     public function export_report_excel(Request $request, $_property) {
         $this->export_report($request, $_property, 'xls');
     }
+    private function export_report_list($request, $type) {
+        $filename = "SVIS-Properties";
+        $filetype = $type;
+        
+        Excel::create($filename, function($excel) use($request){
+            $excel->sheet('Excel sheet', function($sheet) use($request) {
+                $ROW = 4;
+
+                $sheet ->mergeCells('A1:E1');
+                $sheet->setCellValue('A1', 'MULTIPLE PROPERTY SEARCH RESULTS');
+
+                $sheet->setCellValue('A3', 'Filters made for this result :');
+
+                foreach($request->searchquery as $key=>$val) {
+                    switch($key) {
+                        case 'property_class_id' : 
+                            $key = 'Class'; $val = $request->properties[0]['class']; break;
+                        case 'property_city_id' : 
+                            $key = 'City'; $val = $request->properties[0]['city']; break;
+                        case 'property_suburb_id' : 
+                            $key = 'Suburb'; $val = $request->properties[0]['suburb']; break;
+                        case 'property_lease_type_id' :
+                            $key = 'Lease Type'; $val = $request->properties[0]['lease_type']; break;
+                    }
+                    $sheet->setCellValue('A'.$ROW+=1, $key);
+                    $sheet->setCellValue('B'.$ROW, $val);    
+                }
+
+                $sheet->setCellValue('A'.$ROW+=2, 'ID');
+                $sheet->setCellValue('B'.$ROW, 'City');
+                $sheet->setCellValue('C'.$ROW, 'Suburb');
+                $sheet->setCellValue('D'.$ROW, 'Class');
+                $sheet->setCellValue('E'.$ROW, 'Lease Type');
+                $sheet->setCellValue('F'.$ROW, 'Port');
+                $sheet->setCellValue('G'.$ROW, 'Sec');
+                $sheet->setCellValue('H'.$ROW, 'Lot');
+                $sheet->setCellValue('I'.$ROW, 'Unit #');
+                $sheet->setCellValue('J'.$ROW, 'Current Value');
+                $sheet->setCellValue('K'.$ROW, 'Seller');
+
+                foreach($request->properties as $key=>$property) {
+                    $sheet->setCellValue('A'.$ROW+=1, $property['id']);
+                    $sheet->setCellValue('B'.$ROW, $property['city']);
+                    $sheet->setCellValue('C'.$ROW, $property['suburb']);                    
+                    $sheet->setCellValue('D'.$ROW, $property['class']);                    
+                    $sheet->setCellValue('E'.$ROW, $property['lease_type']);                    
+                    $sheet->setCellValue('F'.$ROW, $property['port']);                    
+                    $sheet->setCellValue('G'.$ROW, $property['sec']);                    
+                    $sheet->setCellValue('H'.$ROW, $property['lot']);                    
+                    $sheet->setCellValue('I'.$ROW, $property['unit']);                    
+                    $sheet->setCellValue('J'.$ROW, $property['current_value']);                    
+                    $sheet->setCellValue('K'.$ROW, $property['owner']);                    
+                }
+
+            });
+
+        })->download($filetype);
+    }
+    public function export_report_csv_list(Request $request) {
+        $this->export_report_list($request, 'csv');
+    }
+    public function export_report_excel_list(Request $request) {
+        $this->export_report_list($request, 'xls');
+    }
 }

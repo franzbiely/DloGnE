@@ -207,20 +207,25 @@ angular.module('MetronicApp').controller('ReportsController',
         }
         $scope.type="reports";
 
-        $scope.export = function(type) {
-            details = Object.keys($scope.data).filter(function(key){ 
-                if(encodeURIComponent($scope.data[key]) !== 'undefined' && encodeURIComponent($scope.data[key]) !== '' && typeof $scope.data[key] !== 'undefined'){
-                    return true;
-                }
-            }).map(function(key) {
-                return encodeURIComponent(key) + '=' + encodeURIComponent($scope.data[key]); 
-            }).join('&');
+        $scope.export = function(filetype) {
 
-            var valuations = toQueryString($scope.valuations, 'valuations');
-            var sales = toQueryString($scope.sales, 'sales');
-            
-
-            var file_path = $rootScope.apiURL + 'v1/property/export/report/' + type + '/' + details +'?token='+localStorage.getItem('satellizer_token') + '&' + valuations + '&' + sales;
+            if($scope.multipleResultsShow) {
+                var details = toQueryString($scope.multi_property_results, 'properties');
+                var query = toQueryString($scope.searchdata, 'searchquery');
+                var file_path = $rootScope.apiURL + 'v1/property/export/report/list/' + filetype + '/' + '?token='+localStorage.getItem('satellizer_token') + '&' + details + '&' + query;                
+            }
+            else {
+                details = Object.keys($scope.data).filter(function(key){ 
+                    if(encodeURIComponent($scope.data[key]) !== 'undefined' && encodeURIComponent($scope.data[key]) !== '' && typeof $scope.data[key] !== 'undefined'){
+                        return true;
+                    }
+                }).map(function(key) {
+                    return encodeURIComponent(key) + '=' + encodeURIComponent($scope.data[key]); 
+                }).join('&');
+                var valuations = toQueryString($scope.valuations, 'valuations');
+                var sales = toQueryString($scope.sales, 'sales');
+                var file_path = $rootScope.apiURL + 'v1/property/export/report/' + filetype + '/' + details +'?token='+localStorage.getItem('satellizer_token') + '&' + valuations + '&' + sales;
+            }
             console.log(file_path);
             var a = document.createElement('A');
             a.href = file_path;
@@ -229,7 +234,6 @@ angular.module('MetronicApp').controller('ReportsController',
             a.click();
             document.body.removeChild(a);
         }
-
     }
 );
 

@@ -129,11 +129,12 @@
                 </div>
             </div>
         </form>
-        <div ng-show="multipleResultsReady && multipleResultsShow && multi_property_results" class="reports-container" ui-view="multi-properties-result"></div>
         <div class="row" ng-show="multipleResultsReady || resultReady">
             <!-- <div class="col-md-1"> -->
                 <div ui-view="extract-buttons" class="fade-in-up"></div>
             <!-- </div> -->
         </div>
+        <div ng-show="multipleResultsReady && multipleResultsShow && multi_property_results" class="reports-container" ui-view="multi-properties-result"></div>
+        
     </div>
 </div>
