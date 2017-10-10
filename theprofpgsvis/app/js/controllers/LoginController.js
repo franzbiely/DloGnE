@@ -10,14 +10,14 @@ angular.module('MetronicApp').controller('LoginController',
     vm.loginErrorText;
 
 	// Temporary only ======================
-	$scope.username = 'valuer';
+	$scope.email = 'valuer';
 	$scope.password = 'secret_pass';
 	// =====================================
 
     $scope.login = function() {
         $scope.isDisabled = true;
         var credentials = {
-            username: $scope.username,
+            email: $scope.email,
             password: $scope.password
         }
         $auth.login(credentials).then(function(response) {
@@ -35,7 +35,7 @@ angular.module('MetronicApp').controller('LoginController',
                 })
         }, function(e) {
             alert('Incorrect credentials');
-            $scope.username = '';
+            $scope.email = '';
             $scope.password = '';
             $scope.isDisabled = false;
         });

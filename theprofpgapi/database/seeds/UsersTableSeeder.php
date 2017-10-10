@@ -39,17 +39,7 @@ class UsersTableSeeder extends Seeder
                 'role' => 'Data Access'
             ],
             [
-                'name' => 'Udu Malaga',
-                'email'=> 'valuations2.ncd@theprofessionals.com.pg',
-                'role' => 'Data Access'
-            ],
-            [
                 'name' => 'Purinda Nosa',
-                'email'=> 'valuations@theprofessionals.com.pg',
-                'role' => 'Data Access'
-            ],
-            [
-                'name' => 'Rose Kuniaka',
                 'email'=> 'valuations@theprofessionals.com.pg',
                 'role' => 'Data Access'
             ],
@@ -75,7 +65,7 @@ class UsersTableSeeder extends Seeder
             User::create([                
                 'name' => $user['name'],
                 'email' =>$user['email'],
-                'username'=>$user['name'],
+                'username'=>$user['email'],
                 'password' =>bcrypt('secret_pass'),
                 'role' =>$user['role'],
                 'isDisabled' => false
