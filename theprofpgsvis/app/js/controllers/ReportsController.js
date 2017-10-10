@@ -32,15 +32,17 @@ angular.module('MetronicApp').controller('ReportsController',
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax(); 
             $scope.resetform();
-            $scope.price_slider = {
-                minValue: 10000,
-                maxValue: 1000000,
-                options : {
-                    floor: 0,
-                    ceil: 1000000,
-                    step : 1000
-                }
-            };
+// Enable when slider is needed =============
+// $scope.price_slider = {
+//     minValue: 10000,
+//     maxValue: 1000000,
+//     options : {
+//         floor: 0,
+//         ceil: 1000000,
+//         step : 1000
+//     }
+// };
+// ==================================
             // Load Select options data
             $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_use_options = toOption(ret.data);
