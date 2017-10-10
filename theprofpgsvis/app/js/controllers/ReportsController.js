@@ -97,7 +97,7 @@ angular.module('MetronicApp').controller('ReportsController',
             $scope.searchdata = []; 
             $scope.data_temp = [];
             $scope.valuations = [];
-            $scope.searchdata.price_min = 10000;
+            $scope.searchdata.price_min = 0;
             $scope.searchdata.price_max = 1000000;
             $scope.multipleResultsShow = false;
             $scope.multi_property_results = false;
