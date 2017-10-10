@@ -68,13 +68,39 @@
         position: fixed;
         bottom: 0;
         width: 100%;
-        background: #364150;
+        background: #ccc;
+        border-top: 1px solid #999;
     }
 }
 .scroll-to-top {
     bottom: -3px;
 }
 .scroll-to-top>i {
-    color: #fff;
+    color: #3d4957;
+}
+.site-title {
+    font-size: 25px;
+    font-family: Georgia;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #3d4957;
+    text-shadow: #fff 1px 1px;
+    line-height: 50px;
+    margin-left: 30px;
+}
+.page-header.navbar .page-logo {
+    padding-left: 0;
+    background: #fff;
+    border-bottom: 1px solid #aaa;
+}
+.page-header.navbar .page-logo>.logo-image, .page-header.navbar .page-logo>a {
+    background: #fff;
+    position: relative;
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+.page-footer .page-footer-inner, .page-header.navbar .top-menu .navbar-nav>li.dropdown.open .dropdown-toggle{
+    color: #3d4957;
 }
 
