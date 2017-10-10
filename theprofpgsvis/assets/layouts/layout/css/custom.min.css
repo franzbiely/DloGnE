@@ -64,4 +64,17 @@
     .page-sidebar.collapse {
         position:fixed;
     }
+    .page-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: #364150;
+    }
 }
+.scroll-to-top {
+    bottom: -3px;
+}
+.scroll-to-top>i {
+    color: #fff;
+}
+
