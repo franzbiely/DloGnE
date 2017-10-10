@@ -32,17 +32,21 @@ angular.module('MetronicApp').controller('ReportsController',
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax(); 
             $scope.resetform();
-            $scope.price_options = {
-                floor: 0,
-                ceil: 1000000,
-                step : 1000
+            $scope.price_slider = {
+                minValue: 10000,
+                maxValue: 1000000,
+                options : {
+                    floor: 0,
+                    ceil: 1000000,
+                    step : 1000
+                }
             };
             // Load Select options data
             $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_use_options = toOption(ret.data);
                 $scope.property_use_options.splice(0, 0, { id : '', label : '[Choose Use]' });
                 $scope.data_temp.property_use_selected = $scope.property_use_options[0];
-                console.log($scope.searchdata);
+                // console.log($scope.searchdata);
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_use');  
             })
@@ -91,7 +95,7 @@ angular.module('MetronicApp').controller('ReportsController',
             $scope.searchdata = []; 
             $scope.data_temp = [];
             $scope.valuations = [];
-            $scope.searchdata.price_min = 0;
+            $scope.searchdata.price_min = 10000;
             $scope.searchdata.price_max = 1000000;
             $scope.multipleResultsShow = false;
             $scope.multi_property_results = false;
@@ -114,7 +118,7 @@ angular.module('MetronicApp').controller('ReportsController',
             if(typeof $scope.data_temp.property_lease_type_selected !== 'undefined' && $scope.data_temp.property_lease_type_selected.id !== '') {
                 $scope.searchdata.property_lease_type_id = $scope.data_temp.property_lease_type_selected.id;
             }
-            console.log($scope.searchdata);
+            // console.log($scope.searchdata);
             if(property_id != null) {
                 $scope.multipleResultsShow = false;
                 str = 'id='+ property_id;
@@ -234,6 +238,8 @@ angular.module('MetronicApp').controller('ReportsController',
             a.click();
             document.body.removeChild(a);
         }
+
+
     }
 );
 
