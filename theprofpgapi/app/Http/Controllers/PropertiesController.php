@@ -370,10 +370,16 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('B'.$ROW, 'Value');
                 $sheet->setCellValue('C'.$ROW, 'Remarks');
 
-                foreach($request->valuations as $key=>$valuation) {
-                    $sheet->setCellValue('A'.$ROW+=1, $valuation['date']);
-                    $sheet->setCellValue('B'.$ROW, $valuation['value']);
-                    $sheet->setCellValue('C'.$ROW, $valuation['remarks']);                    
+                if(count($request->valuations) > 0 ) {
+                    foreach($request->valuations as $key=>$valuation) {
+                        $sheet->setCellValue('A'.$ROW+=1, $valuation['date']);
+                        $sheet->setCellValue('B'.$ROW, $valuation['value']);
+                        $sheet->setCellValue('C'.$ROW, $valuation['remarks']);                    
+                    }
+                }
+                else {
+                    $sheet ->mergeCells('A' . ($ROW+=1) .':D'.$ROW);
+                    $sheet->setCellValue('A'.$ROW, 'No data');
                 }
 
                 $sheet ->mergeCells('A' . ($ROW+=2) .':D'.$ROW);
@@ -383,11 +389,17 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('C'.$ROW, 'Buyer');
                 $sheet->setCellValue('D'.$ROW, 'Remarks');
 
-                foreach($request->sales as $sale) {
-                    $sheet->setCellValue('A'.$ROW+=1, $sale['date']);
-                    $sheet->setCellValue('B'.$ROW, $sale['value']);
-                    $sheet->setCellValue('C'.$ROW, $sale['buyer']);
-                    $sheet->setCellValue('D'.$ROW, $sale['remarks']);                    
+                if(count($request->sale) > 0 ) {
+                    foreach($request->sales as $sale) {
+                        $sheet->setCellValue('A'.$ROW+=1, $sale['date']);
+                        $sheet->setCellValue('B'.$ROW, $sale['value']);
+                        $sheet->setCellValue('C'.$ROW, $sale['buyer']);
+                        $sheet->setCellValue('D'.$ROW, $sale['remarks']);                    
+                    }
+                }
+                else {
+                    $sheet ->mergeCells('A' . ($ROW+=1) .':D'.$ROW);
+                    $sheet->setCellValue('A'.$ROW, 'No data');
                 }
             });
 
@@ -412,6 +424,7 @@ class PropertiesController extends Controller {
 
                 $sheet->setCellValue('A3', 'Filters made for this result :');
 
+                
                 foreach($request->searchquery as $key=>$val) {
                     switch($key) {
                         case 'property_class_id' : 

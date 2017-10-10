@@ -216,7 +216,7 @@ angular.module('MetronicApp').controller('ReportsController',
             if($scope.multipleResultsShow) {
                 var details = toQueryString($scope.multi_property_results, 'properties');
                 var query = toQueryString($scope.searchdata, 'searchquery');
-                var file_path = $rootScope.apiURL + 'v1/property/export/report/list/' + filetype + '/' + '?token='+localStorage.getItem('satellizer_token') + '&' + details + '&' + query;                
+                var file_path = $rootScope.apiURL + 'v1/properties/export/report/' + filetype + '?token='+localStorage.getItem('satellizer_token') + '&' + details + '&' + query;                
             }
             else {
                 details = Object.keys($scope.data).filter(function(key){ 
