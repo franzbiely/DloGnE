@@ -28,6 +28,31 @@ angular.module('MetronicApp').controller('ReportsController',
             }
             return str.join("&");
         }
+        function createFormFields(obj, prefix, form) {
+            // console.log(obj, obj.length);
+            for(var i in obj) {
+                // console.log(obj[i], Object.keys(obj[i]).length);
+                if(Object.keys(obj[i]).length < 1) {
+                    // console.log('here');
+                    var hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("name", prefix + "["+i+"]");
+                    hiddenField.setAttribute("value", obj[i] );
+                    hiddenField.setAttribute("type", "hidden");
+                    form.appendChild(hiddenField);
+                }
+                else {
+                    for (var c in obj[i]) {
+                        // console.log(obj[i][c]);
+                        var hiddenField = document.createElement("input");
+                        hiddenField.setAttribute("name", prefix + "["+i+"]["+c+"]");
+                        hiddenField.setAttribute("value", obj[i][c] );
+                        hiddenField.setAttribute("type", "hidden");
+                        form.appendChild(hiddenField);
+                    }
+                }
+            }
+            return form;
+        }
 
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax(); 
@@ -215,10 +240,13 @@ angular.module('MetronicApp').controller('ReportsController',
 
         $scope.export = function(filetype) {
 
+            var form = document.createElement("form");
+            form.setAttribute("method", "post");
+
             if($scope.multipleResultsShow) {
-                var details = toQueryString($scope.multi_property_results, 'properties');
-                var query = toQueryString($scope.searchdata, 'searchquery');
-                var file_path = $rootScope.apiURL + 'v1/properties/export/report/' + filetype + '?token='+localStorage.getItem('satellizer_token') + '&' + details + '&' + query;                
+                var file_path = $rootScope.apiURL + 'v1/properties/export/report/' + filetype + '?token='+localStorage.getItem('satellizer_token');
+                form = createFormFields($scope.multi_property_results, "properties", form);
+                form = createFormFields($scope.searchdata, "searchquery", form);
             }
             else {
                 details = Object.keys($scope.data).filter(function(key){ 
@@ -228,20 +256,17 @@ angular.module('MetronicApp').controller('ReportsController',
                 }).map(function(key) {
                     return encodeURIComponent(key) + '=' + encodeURIComponent($scope.data[key]); 
                 }).join('&');
-                var valuations = toQueryString($scope.valuations, 'valuations');
-                var sales = toQueryString($scope.sales, 'sales');
-                var file_path = $rootScope.apiURL + 'v1/property/export/report/' + filetype + '/' + details +'?token='+localStorage.getItem('satellizer_token') + '&' + valuations + '&' + sales;
+                var file_path = $rootScope.apiURL + 'v1/property/export/report/' + filetype + '/' + details +'?token='+localStorage.getItem('satellizer_token');
+                form = createFormFields($scope.valuations, "valuations", form);
+                form = createFormFields($scope.sales, "sales", form);
             }
-            console.log(file_path);
-            var a = document.createElement('A');
-            a.href = file_path;
-            a.download = file_path.substr(file_path.lastIndexOf('/') + 1);
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            form.setAttribute("action", file_path);
+            form.setAttribute("target", "_blank");
+            document.body.appendChild(form);
+            form.submit();
+            form.outerHTML = '';
+            delete form;
         }
-
-
     }
 );
 

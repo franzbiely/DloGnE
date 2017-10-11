@@ -5,7 +5,11 @@
     <ul class="dropdown-menu pull-right">
         <li>
             <a ng-click="export('csv')">
-                <i class="fa fa-file-pdf-o"></i> Export to CSV </a>
+                <i class="fa fa-file-excel-o"></i> Export to CSV </a>
+        </li>
+        <li ng-hide="multipleResultsShow">
+            <a ng-click="export('pdf')">
+                <i class="fa fa-file-pdf-o"></i> Export to PDF </a>
         </li>
         <li>
             <a ng-click="export('excel')">

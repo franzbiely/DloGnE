@@ -18,7 +18,9 @@ use Response;
 use Input;
 use DB;
 
+
 use Excel;
+use PDF;
 
 class PropertiesController extends Controller {
 
@@ -374,7 +376,7 @@ class PropertiesController extends Controller {
                     foreach($request->valuations as $key=>$valuation) {
                         $sheet->setCellValue('A'.$ROW+=1, $valuation['date']);
                         $sheet->setCellValue('B'.$ROW, $valuation['value']);
-                        $sheet->setCellValue('C'.$ROW, $valuation['remarks']);                    
+                        $sheet->setCellValue('C'.$ROW, $valuation['remarks']);
                     }
                 }
                 else {
@@ -389,7 +391,7 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('C'.$ROW, 'Buyer');
                 $sheet->setCellValue('D'.$ROW, 'Remarks');
 
-                if(count($request->sale) > 0 ) {
+                if(count($request->sales) > 0 ) {
                     foreach($request->sales as $sale) {
                         $sheet->setCellValue('A'.$ROW+=1, $sale['date']);
                         $sheet->setCellValue('B'.$ROW, $sale['value']);
@@ -411,6 +413,87 @@ class PropertiesController extends Controller {
     public function export_report_excel(Request $request, $_property) {
         $this->export_report($request, $_property, 'xls');
     }
+    public function export_report_pdf(Request $request, $_property) {
+        // $this->export_report($request, $_property, 'pdf');
+        parse_str($_property, $property);
+        // ob_start();
+        header("Content-Type: text/html; charset=utf-8");
+        ?>
+<center><h2>(SVIS) SALES AND VALUATION INFORMATION SYSTEM <br /><sub><i>The Professionals</i></sub> </h2></center>
+<br /><br />
+<h3>Property Details of - #<?php echo $property['id'] ?></h3>
+<?php if(isset($property['code'])) { ?>Property Code   <strong><?php echo $property['code'] ?></strong><br /><?php } ?>
+<?php if(isset($property['class'])) { ?>Class           <strong><?php echo $property['class'] ?></strong><br /><?php } ?>
+<?php if(isset($property['city'])) { ?>City            <strong><?php echo $property['city'] ?></strong><br /><?php } ?>
+<?php if(isset($property['use'])) { ?>Use             <strong><?php echo $property['use'] ?></strong><br /><?php } ?>
+<?php if(isset($property['lease_type'])) { ?>Lease Type      <strong><?php echo $property['lease_type'] ?></strong><br /><?php } ?>
+<?php if(isset($property['suburb'])) { ?>Suburb          <strong><?php echo $property['suburb'] ?></strong><br /><?php } ?>
+<?php if(isset($property['sec'])) { ?>Sec             <strong><?php echo $property['sec'] ?></strong><br /><?php } ?>
+<?php if(isset($property['lot'])) { ?>Lot             <strong><?php echo $property['lot'] ?></strong><br /><?php } ?>
+<?php if(isset($property['unit'])) { ?>Unit #          <strong><?php echo $property['unit'] ?></strong><br /><?php } ?>
+<?php if(isset($property['land_value'])) { ?>Land Value / sq.m (K)       <strong><?php echo $property['land_value'] ?></strong><br /><?php } ?>
+<?php if(isset($property['land_component'])) { ?>Land Component (K)          <strong><?php echo $property['land_component'] ?></strong><br /><?php } ?>
+<?php if(isset($property['improvement_component'])) { ?>Improvement Component (K)   <strong><?php echo $property['improvement_component'] ?></strong><br /><?php } ?>
+<?php if(isset($property['area'])) { ?>Area (sq.m)     <strong><?php echo $property['area'] ?></strong><br /><?php } ?>
+<?php if(isset($property['owner'])) { ?>Seller <strong><?php echo $property['owner'] ?></strong><br /><?php } ?>
+<hr />
+<h3>VALUATION HISTORY OF PROPERTY #<?php echo $property['id'] ?></h3>
+<table border="1" cellpadding="10" cellspacing="0">
+    <tr>
+        <th>Date</th>
+        <th>Value</th>
+        <th>Remarks</th>
+    </tr>
+    <?php
+    if(count($request->valuations) > 0 ) {
+        foreach($request->valuations as $key=>$valuation) { ?>
+            <tr>
+                <td><?php echo $valuation['date'] ?></td>
+                <td><?php echo $valuation['value'] ?></td>
+                <td><?php echo $valuation['remarks'] ?></td>
+            </tr>
+        <?php }
+    }
+    else {
+        ?><tr><td colspan="3">No data</td></tr><?php
+    } ?>
+</table>
+<br /><br />
+<h3>SALES HISTORY OF PROPERTY #<?php echo $property['id'] ?></h3>
+<table border="1" cellpadding="10" cellspacing="0">
+    <tr>
+        <th>Date</th>
+        <th>Value</th>
+        <th>Buyer</th>
+        <th>Remarks</th>
+    </tr>
+    <?php
+    if(count($request->sales) > 0 ) {
+        foreach($request->sales as $key=>$sale) { ?>
+            <tr>
+                <td><?php echo $sale['date'] ?></td>
+                <td><?php echo $sale['value'] ?></td>
+                <td><?php echo $sale['buyer'] ?></td>
+                <td><?php echo $sale['remarks'] ?></td>
+            </tr>
+        <?php }
+    }
+    else {
+        ?><tr><td colspan="3">No data</td></tr><?php
+    } ?>
+</table>
+<br /><br /><br />
+<p align="center">2017 &copy; The Professionals | SVIS v1.0</p>
+        <?php
+        $html = ob_get_contents();
+        ob_end_clean();
+        $pdf = PDF::loadHTML($html);
+        return $pdf->download('invoice.pdf');
+    }
+
+
+
+
     private function export_report_list($request, $type) {
         $filename = "SVIS-Properties";
         $filetype = $type;
@@ -471,6 +554,9 @@ class PropertiesController extends Controller {
         })->download($filetype);
     }
     public function export_report_csv_list(Request $request) {
+        // echo "HELLO WORLD";
+        // print_r($request->properties);
+        // print_r($request->searchquery); exit();
         $this->export_report_list($request, 'csv');
     }
     public function export_report_excel_list(Request $request) {

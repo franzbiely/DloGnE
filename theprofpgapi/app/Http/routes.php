@@ -53,12 +53,13 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::get('property/param/{params}', 'PropertiesController@getByParam');
 	
 	// Single
-	Route::get('property/export/report/csv/{property}', 'PropertiesController@export_report_csv');
-	Route::get('property/export/report/excel/{property}', 'PropertiesController@export_report_excel');
+	Route::post('property/export/report/csv/{property}', 'PropertiesController@export_report_csv');
+	Route::post('property/export/report/excel/{property}', 'PropertiesController@export_report_excel');
+	Route::post('property/export/report/pdf/{property}', 'PropertiesController@export_report_pdf');
 
 	// Multiple
-	Route::get('properties/export/report/csv', 'PropertiesController@export_report_csv_list');
-	Route::get('properties/export/report/excel', 'PropertiesController@export_report_excel_list');
+	Route::post('properties/export/report/csv', 'PropertiesController@export_report_csv_list');
+	Route::post('properties/export/report/excel', 'PropertiesController@export_report_excel_list');
 
 	Route::resource('property', 'PropertiesController');
 
