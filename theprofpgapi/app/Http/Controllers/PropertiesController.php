@@ -415,8 +415,10 @@ class PropertiesController extends Controller {
     }
     public function export_report_pdf(Request $request, $_property) {
         // $this->export_report($request, $_property, 'pdf');
+
         parse_str($_property, $property);
-        // ob_start();
+        $filename = "SVIS-Property-".$property['id'];
+        ob_start();
         header("Content-Type: text/html; charset=utf-8");
         ?>
 <center><h2>(SVIS) SALES AND VALUATION INFORMATION SYSTEM <br /><sub><i>The Professionals</i></sub> </h2></center>
@@ -479,7 +481,7 @@ class PropertiesController extends Controller {
         <?php }
     }
     else {
-        ?><tr><td colspan="3">No data</td></tr><?php
+        ?><tr><td colspan="4">No data</td></tr><?php
     } ?>
 </table>
 <br /><br /><br />
@@ -488,7 +490,7 @@ class PropertiesController extends Controller {
         $html = ob_get_contents();
         ob_end_clean();
         $pdf = PDF::loadHTML($html);
-        return $pdf->download('invoice.pdf');
+        return $pdf->download($filename.'.pdf');
     }
 
 
