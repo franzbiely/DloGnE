@@ -149,6 +149,7 @@ angular.module('MetronicApp').controller('ReportsController',
             if(property_id != null) {
                 $scope.multipleResultsShow = false;
                 str = 'id='+ property_id;
+                
             }
             else {
                 $scope.multipleResultsShow = true;
@@ -166,6 +167,11 @@ angular.module('MetronicApp').controller('ReportsController',
                 else if(response.data.length > 1) {
                     $scope.multi_property_results = response.data;
                     $scope.multipleResultsReady = true;
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                        user_id : user.id,
+                        log : 'generated reports for property list with filter (' + str + ')'
+                    }).success(function(response) {});
                 }
                 else {
                     $scope.multipleResultsShow = false;
@@ -222,6 +228,12 @@ angular.module('MetronicApp').controller('ReportsController',
                         console.log('Service error : ',error);
                     })
 
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                        user_id : user.id,
+                        log : 'generated report for property #' + $scope.property_id
+                    }).success(function(response) {});
+
                     // show details below
                     $scope.resultReady = true;
                 }
@@ -247,6 +259,18 @@ angular.module('MetronicApp').controller('ReportsController',
                 var file_path = $rootScope.apiURL + 'v1/properties/export/report/' + filetype + '?token='+localStorage.getItem('satellizer_token');
                 form = createFormFields($scope.multi_property_results, "properties", form);
                 form = createFormFields($scope.searchdata, "searchquery", form);
+                
+                str = Object.keys($scope.searchdata).map(function(key){ 
+                    if(encodeURIComponent($scope.searchdata[key]) !== 'undefined' && encodeURIComponent($scope.searchdata[key]) !== ''){
+                        return encodeURIComponent(key) + '=' + encodeURIComponent($scope.searchdata[key]); 
+                    }
+                }).join('&');  
+
+                const user = JSON.parse(localStorage.getItem('user'));
+                $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                    user_id : user.id,
+                    log : 'Extracted '+ filetype +' reports for property list with filter (' + str + ')'
+                }).success(function(response) {});
             }
             else {
                 details = Object.keys($scope.data).filter(function(key){ 
@@ -259,6 +283,12 @@ angular.module('MetronicApp').controller('ReportsController',
                 var file_path = $rootScope.apiURL + 'v1/property/export/report/' + filetype + '/' + details +'?token='+localStorage.getItem('satellizer_token');
                 form = createFormFields($scope.valuations, "valuations", form);
                 form = createFormFields($scope.sales, "sales", form);
+
+                const user = JSON.parse(localStorage.getItem('user'));
+                $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                    user_id : user.id,
+                    log : 'Extracted '+ filetype +' report for property #' + $scope.property_id
+                }).success(function(response) {});
             }
             form.setAttribute("action", file_path);
             form.setAttribute("target", "_blank");
