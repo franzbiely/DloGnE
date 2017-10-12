@@ -16,25 +16,13 @@ var MetronicApp = angular.module("MetronicApp", [
 ]);
 
 /* Init global settings and run the app */
-MetronicApp.run(['$rootScope', 'settings', '$state', '$templateCache', '$templateRequest', '$auth', 'Permission',
-    function($rootScope, settings, $state, $templateCache, $templateRequest, $auth, Permission) {
+MetronicApp.run(['$rootScope', 'settings', '$state', '$templateCache', '$templateRequest', '$auth', 'Permission','$http',
+    function($rootScope, settings, $state, $templateCache, $templateRequest, $auth, Permission, $http) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
-
+    
     $rootScope.isLive = false;
-    $rootScope.logout = function() {
-
-        $auth.logout().then(function() {
-
-            // Remove the authenticated user from local storage
-            localStorage.removeItem('user');
-
-            // Remove the current user info from rootscope
-            $rootScope.currentUser = null;
-            $state.go('login',{}, {reload: true});
-        });
-    }
-
+    
     // $rootScope.currentUser = JSON.parse(localStorage.getItem('user'));
     
     // Define anonymous role
@@ -113,7 +101,27 @@ MetronicApp.factory('authProvider', function() {
     };
 });
 /* Setup App Main Controller */
-MetronicApp.controller('AppController', function($auth, $state, $scope, $rootScope) {
+MetronicApp.controller('AppController', function($auth, $state, $scope, $rootScope, $http) {
+    
+    const token = localStorage.getItem('satellizer_token');
+    
+    $rootScope.logout = function() {
+        $auth.logout().then(function() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            $http.post($rootScope.apiURL + 'v1/audit_trail?token='+token, {
+                user_id : user.id,
+                log : 'loged out'
+            }).success(function(response) {
+                // Remove the authenticated user from local storage
+                localStorage.removeItem('user');
+
+                // Remove the current user info from rootscope
+                $rootScope.currentUser = null;
+                $state.go('login',{}, {reload: true});
+            })
+        });
+    }
+
     $scope.$on('$viewContentLoaded', function() {
         //App.initComponents(); // init core components
         //Layout.init(); //  Init entire layout(header, footer, sidebar, etc) on page load if the partials included in server side instead of loading with ng-include directive 
