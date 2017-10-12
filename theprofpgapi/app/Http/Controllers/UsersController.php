@@ -20,7 +20,7 @@ class UsersController extends Controller
     }
     
     public function index(Request $request) {        
-        $data = User::all();
+        $data = User::orderBy('ID', 'DESC')->get();
         return Response::json([
             'data' => $this->transformCollection($data)
         ], 200);
