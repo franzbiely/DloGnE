@@ -188,6 +188,11 @@ angular.module('MetronicApp').controller('SalesController',
 
             $http.delete($rootScope.apiURL + 'v1/'+singular+'/' + id + '?token='+localStorage.getItem('satellizer_token'))
                 .success(function() {
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                        user_id : user.id,
+                        log : 'deleted sales #'+id
+                    }).success(function(response) {alert('Deleted sales #'+id)});
                     $scope[plural].splice(index, 1);
                 });;
         }
@@ -201,6 +206,11 @@ angular.module('MetronicApp').controller('SalesController',
                 remarks : $scope[singular].remarks,
                 property_id : $scope.property_id 
             }).success(function(response) {
+                const user = JSON.parse(localStorage.getItem('user'));
+                $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                    user_id : user.id,
+                    log : 'added sales for property #' + $scope.property_id
+                }).success(function(response) {alert('Added sales successfully!')});
                 $scope[plural].push(response.data);
                 $scope[singular] = '';
 
@@ -216,6 +226,11 @@ angular.module('MetronicApp').controller('SalesController',
                 value : $scope[singular].value,
                 remarks : $scope[singular].remarks,
           }).success(function(response) {
+                const user = JSON.parse(localStorage.getItem('user'));
+                $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                    user_id : user.id,
+                    log : 'modified sales #'+id+' for Property #' + $scope.property_id
+                }).success(function(response) {});
                 alert("Updated Successfully");
             }).error(function(){
                 console.log("error");
