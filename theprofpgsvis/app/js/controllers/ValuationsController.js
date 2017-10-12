@@ -180,6 +180,11 @@ angular.module('MetronicApp').controller('ValuationsController',
 
             $http.delete($rootScope.apiURL + 'v1/valuation/' + id + '?token=' + localStorage.getItem('satellizer_token'))
                 .success(function() {
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                        user_id : user.id,
+                        log : 'deleted valuation #'+id
+                    }).success(function(response) {alert('Deleted valuation #'+id)});
                     $scope.valuations.splice(index, 1);
                 });;
         }
@@ -192,6 +197,11 @@ angular.module('MetronicApp').controller('ValuationsController',
                 remarks: $scope.valuation.remarks,
                 property_id: $scope.property_id
             }).success(function(response) {
+                const user = JSON.parse(localStorage.getItem('user'));
+                $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                    user_id : user.id,
+                    log : 'added valuation for property #' + $scope.property_id
+                }).success(function(response) {});
                 console.log(response);
                 $scope.valuations.push(response.data);
                 $scope.valuation = '';
@@ -208,7 +218,12 @@ angular.module('MetronicApp').controller('ValuationsController',
                 value: $scope.valuation.value,
                 remarks: $scope.valuation.remarks,
             }).success(function(response) {
-                console.log("Updated Successfully");
+                const user = JSON.parse(localStorage.getItem('user'));
+                $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                    user_id : user.id,
+                    log : 'modified valuation #'+id+' for Property #' + $scope.property_id
+                }).success(function(response) {});
+                alert("Updated Successfully");
             }).error(function() {
                 console.log("error");
             });
