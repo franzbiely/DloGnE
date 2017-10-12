@@ -25,9 +25,15 @@ angular.module('MetronicApp').controller('UserProfileController', function($root
 	        	$http.put($rootScope.apiURL + 'v1/users/' + current_user.id + '?token='+localStorage.getItem('satellizer_token'), {
 		            password: $scope.new_password
 		        }).success(function(response) {
-		            alert('Password changed succesfully! You will be needed to login again.');
-		            $rootScope.logout();
-		            $state.go('login');
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                        user_id : user.id,
+                        log : 'changed password'
+                    }).success(function(response) { 
+                        alert('Password changed succesfully! You will be needed to login again.');
+                        $rootScope.logout();
+                        $state.go('login');
+                    });
 		        }).error(function(){
 		            console.log("error on updating password.");
 		        });
