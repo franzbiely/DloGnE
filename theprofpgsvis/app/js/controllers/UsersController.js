@@ -7,6 +7,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
     });
     $scope.user_role_selected;
     $scope.user_role_options = [
+        { id : 'Administrator', label : 'Administrator Level' },
         { id : 'Data Access', label : 'Data Access Level' },
         { id : 'Data Entry', label : 'Data Entry Level'}
     ];
@@ -19,7 +20,6 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             }
             
         }
-
         var form = '<form id="frmUser" role="form" class="form-horizontal" ng-controller="UsersController">\
                         <div class="form-body">\
                             <div class="form-group">\
@@ -29,7 +29,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
                                         <i class="fa fa-info-circle tooltips" data-container="body"></i>';
                             
             if(key > -1) {
-                form +=                     '<input type="text" value="'+$scope.users[key].username+'" class="form-control" name="username" id="username"> </div>';
+                form +=                     '<input type="text" disabled value="'+$scope.users[key].username+'" class="form-control" name="username" id="username"> </div>';
             }
             else {
                 form +=                     '<input type="text" class="form-control" name="username" id="username"> </div>';    
@@ -81,7 +81,11 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
                                 <div class="col-md-8">\
                                     <div class="input-icon right">\
                                         <i class="fa fa-info-circle tooltips" data-container="body"></i>\
-                                        <select id="role" name="role" ng-model="user_role_selected" ng-options="item as item.label for item in user_role_options track by item.id" class="form-control"></select>\
+                                        <select id="role"';
+                                        if($scope.user_role_selected.id == "Administrator") {
+                                            form += " disabled='disabled' ";
+                                        }
+            form +=                     'name="role" ng-model="user_role_selected" ng-options="item as item.label for item in user_role_options track by item.id" class="form-control"></select>\
                                     </div>\
                                 </div>\
                             </div>\
@@ -133,10 +137,13 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
 
     // Delete
     $scope.delete = function(index, id) {
-        $http.delete($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'))
-            .success(function() {
-                $scope.users.splice(index, 1);
-            });;
+        var action_confirm = confirm("Are you sure you want to remove this data?");
+        if(action_confirm) {
+            $http.delete($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'))
+                .success(function() {
+                    $scope.users.splice(index, 1);
+                });;
+        }
     }
 
     // Add
