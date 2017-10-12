@@ -95,6 +95,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             callback: function(res) {
                 if (res){
                     $scope.user.username = $('#frmUser')[0]['elements'].username.value;
+                    $scope.user.password = $('#frmUser')[0]['elements'].password.value;
                     $scope.user.name = $('#frmUser')[0]['elements'].name.value;
                     $scope.user.email = $('#frmUser')[0]['elements'].email.value;
                     $scope.user.role = $('#frmUser')[0]['elements'].role.options[ $('#frmUser')[0]['elements'].role.selectedIndex ].value;
@@ -160,7 +161,8 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             username: $scope.user.username,
             name: $scope.user.name,
             email: $scope.user.email,
-            role: $scope.user.role
+            role: $scope.user.role,
+            password : $scope.user.password
         }).success(function(response) {
             alert("Updated Successfully");
         }).error(function(){
@@ -169,7 +171,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
     }
 
     $scope.setDisable = function(id){
-        $http.patch($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'), {
+        $http.put($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'), {
             isDisabled : 1
         }).success(function(response) {
             console.log("Updated Successfully");
@@ -179,7 +181,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
         return 1;
     }
     $scope.setEnable = function(id){
-        $http.patch($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'), {
+        $http.put($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'), {
             isDisabled : 0
         }).success(function(response) {
             console.log("Updated Successfully");

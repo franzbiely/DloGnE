@@ -11,14 +11,15 @@ angular.module('MetronicApp').controller('LoginController',
 
 	// Temporary only ======================
 	$scope.email = 'adoko@theprofessionals.com.pg';
-	$scope.password = '123123';
+	$scope.password = 'secret_pass';
 	// =====================================
 
     $scope.login = function() {
         $scope.isDisabled = true;
         var credentials = {
             email: $scope.email,
-            password: $scope.password
+            password: $scope.password,
+            isDisabled : 0
         }
         $auth.login(credentials).then(function(_response) {
             $http.get($rootScope.apiURL + 'authenticate/user?token='+_response.data.token).success(function(response) {

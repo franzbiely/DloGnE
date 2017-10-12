@@ -30,7 +30,7 @@ class AuthenticateController extends Controller
 
     public function authenticate(Request $request)
     {   
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('email', 'password','isDisabled');
         
         try {
             // verify the credentials and create a token for the user
@@ -41,7 +41,7 @@ class AuthenticateController extends Controller
             // something went wrong
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
- 
+
         // if no errors are encountered we can return a JWT
         return response()->json(compact('token'));
     }
