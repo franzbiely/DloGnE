@@ -271,8 +271,14 @@ angular.module('MetronicApp')
             if(isEdit) {
                 // if edit
                 $http.put($rootScope.apiURL + 'v1/property/' + $scope.params.property_id + '?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
-                    alert('Update Successfully');
-                    $state.go('property.list');    
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                        user_id : user.id,
+                        log : 'modified property #' + $scope.params.property_id
+                    }).success(function(response) {
+                        alert('Update Successfully');
+                        $state.go('property.list');
+                    });
                 }).error(function(error){
                     console.log("error");
                     if(error.error == "token_expired")
@@ -282,7 +288,13 @@ angular.module('MetronicApp')
             else {
                 // if add
                 $http.post($rootScope.apiURL + 'v1/property?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
-                    $state.go('property.list');    
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                        user_id : user.id,
+                        log : 'added new property'
+                    }).success(function(response) {
+                        $state.go('property.list');
+                    });
                 }).error(function(){
                     console.log("error");
                     if(error.error == "token_expired")

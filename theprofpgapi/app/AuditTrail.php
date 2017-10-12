@@ -14,7 +14,7 @@ class AuditTrail extends Model
 	];
 	protected $hidden = ['updated_at'];
 	
-	public function User(){
+	public function user(){
         return $this->belongsTo('App\User');
     }
 }
