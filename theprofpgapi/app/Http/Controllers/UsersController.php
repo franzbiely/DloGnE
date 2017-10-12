@@ -62,11 +62,11 @@ class UsersController extends Controller
     {    
         $user = User::find($id);
         if(isset($request->name)) $user->name = $request->name;
+        if(isset($request->password)) $user->password = bcrypt($request->password);
         if(isset($request->email)) $user->email = $request->email;
         if(isset($request->username)) $user->username = $request->username;
         if(isset($request->role)) $user->role = $request->role;
         if(isset($request->isDisabled)) $user->isDisabled = $request->isDisabled;
-        
         $user->save(); 
 
         return Response::json([
