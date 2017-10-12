@@ -709,8 +709,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl : "views/searchform.html"
                 },
                 'multi-properties-result@valuations' : {
-                    templateUrl : "views/multi-properties-result.html",
-                    controller : "PropertiesController"
+                    templateUrl : "views/multi-properties-result.html"
                 }
             },
             controller : "ValuationsController",
@@ -720,8 +719,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                         name: 'MetronicApp',  
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
-                            'js/controllers/ValuationsController.js',
-                            'js/controllers/PropertiesController.js'
+                            'js/controllers/ValuationsController.js'
                         ]                    
                     });
                 }]
