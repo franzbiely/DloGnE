@@ -10,8 +10,8 @@ angular.module('MetronicApp').controller('LoginController',
     vm.loginErrorText;
 
 	// Temporary only ======================
-	$scope.email = 'valuer';
-	$scope.password = 'secret_pass';
+	$scope.email = 'adoko@theprofessionals.com.pg';
+	$scope.password = '123123';
 	// =====================================
 
     $scope.login = function() {
@@ -20,13 +20,24 @@ angular.module('MetronicApp').controller('LoginController',
             email: $scope.email,
             password: $scope.password
         }
-        $auth.login(credentials).then(function(response) {
-            $http.get($rootScope.apiURL + 'authenticate/user?token='+response.data.token).success(function(response) {
-                
+        $auth.login(credentials).then(function(_response) {
+            $http.get($rootScope.apiURL + 'authenticate/user?token='+_response.data.token).success(function(response) {
+                    
                     var user = JSON.stringify(response.user);
-                    localStorage.setItem('user', user);
-                    $rootScope.currentUser = response.user;
-                    $state.go('dashboard');
+
+                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+_response.data.token, {
+                        user_id : user.name,
+                        log : 'loged in'
+                    }).success(function(response) {
+                        localStorage.setItem('user', user);
+                        $rootScope.currentUser = response.user;
+                        $state.go('dashboard');    
+                    }).error(function() {
+                        $rootScope.logout();
+                        alert('Error on database. Please contact the webmaster.');
+
+                    });
+
                 })
                 .error(function() {
                     vm.loginError = true;

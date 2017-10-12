@@ -31,7 +31,7 @@ MetronicApp.run(['$rootScope', 'settings', '$state', '$templateCache', '$templat
 
             // Remove the current user info from rootscope
             $rootScope.currentUser = null;
-            $state.go('login');
+            $state.go('login',{}, {reload: true});
         });
     }
 
