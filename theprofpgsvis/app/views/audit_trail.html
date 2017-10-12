@@ -6,46 +6,19 @@
                 <div class="caption caption-md">
                     <i class="icon-globe theme-font hide"></i>
                     <span class="caption-subject font-blue-madison bold uppercase">Audit Trail</span>
+                    <button ng-click="clear_logs()" class="btn btn-danger">Clear logs</button>
                 </div>
             </div>
             <div class="portlet-body">
-                <p ng-repeat="(key, value) in audit_trails" >
-                    <strong>{{value.user}}</strong> 
-                    {{value.log}} 
-                    on {{value.created_at}}
-                </p>
-                <div>
-                    <ul class="pagination pagination-sm">
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;"> 1 </a>
-                        </li>
-                        <li class="active">
-                            <a href="javascript:;"> 2 </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;"> 3 </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;"> 4 </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;"> 5 </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;"> 6 </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                <ol class="logs">
+                    <li class='log' ng-repeat="(key, value) in audit_trails" >
+                        <strong>{{value.user}}</strong> 
+                        {{value.log}} 
+                        on {{value.created_at}}
+                    </li>
+                    <span ng-show="!audit_trails.length">No record</span>
+                </ol>
+
             </div>
         </div>
 

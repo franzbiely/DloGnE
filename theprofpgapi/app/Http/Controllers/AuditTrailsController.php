@@ -114,6 +114,13 @@ class AuditTrailsController extends Controller
         ]);
     }
 
+    public function emptylogs() {
+        AuditTrail::truncate();
+        return Response::json([
+                'message' => 'Audit Trail table truncated successfully'
+        ]);
+    }
+
     private function transformCollection($datas){
         $dataArray = $datas->toArray();
         return [

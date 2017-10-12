@@ -104,3 +104,16 @@
     color: #3d4957;
 }
 
+.logs {
+    background: #eee;
+    line-height: 1.75;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.log {
+    padding-left: 30px;
+    font-family: courier;
+}
+.log:hover {
+    background: aliceblue;
+}

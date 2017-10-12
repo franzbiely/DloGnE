@@ -17,4 +17,13 @@ angular.module('MetronicApp').controller('AuditTrailController', function($rootS
         })
     };
     $scope.init();
+
+    $scope.clear_logs = function() {
+        var action_confirm = confirm("Are you sure you want to empty the audit trail?");
+        if(action_confirm) {
+            $http.post($rootScope.apiURL + 'v1/audit_trail/empty?token=' + localStorage.getItem('satellizer_token')).success(function(ret) {
+                $scope.audit_trails = [];
+            });
+        }
+    }
 });
