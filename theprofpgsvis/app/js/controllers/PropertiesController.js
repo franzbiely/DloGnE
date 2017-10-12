@@ -47,7 +47,7 @@ angular.module('MetronicApp').controller('PropertiesController',
                     var param = {
                         is_archive : 1
                     };
-                    $http.patch($rootScope.apiURL + 'v1/property/' + id + '?token='+localStorage.getItem('satellizer_token'), param)
+                    $http.put($rootScope.apiURL + 'v1/property/' + id + '?token='+localStorage.getItem('satellizer_token'), param)
                         .success(function() {
                             $scope.properties.splice(index, 1);
                             $scope.isDisabled = false;
@@ -58,7 +58,7 @@ angular.module('MetronicApp').controller('PropertiesController',
                 var param = {
                     is_archive : 1
                 };
-                $http.patch($rootScope.apiURL + 'v1/property/' + id + '?token='+localStorage.getItem('satellizer_token'), param)
+                $http.put($rootScope.apiURL + 'v1/property/' + id + '?token='+localStorage.getItem('satellizer_token'), param)
                     .success(function() {
                         $scope.properties.splice(index, 1);
                         $scope.isDisabled = false;
