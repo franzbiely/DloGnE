@@ -28,11 +28,8 @@ angular.module('MetronicApp').controller('SalesController',
             return str.join("&");
         }
         function createFormFields(obj, prefix, form) {
-            // console.log(obj, obj.length);
             for(var i in obj) {
-                // console.log(obj[i], Object.keys(obj[i]).length);
                 if(Object.keys(obj[i]).length < 1) {
-                    // console.log('here');
                     var hiddenField = document.createElement("input");
                     hiddenField.setAttribute("name", prefix + "["+i+"]");
                     hiddenField.setAttribute("value", obj[i] );
@@ -41,7 +38,6 @@ angular.module('MetronicApp').controller('SalesController',
                 }
                 else {
                     for (var c in obj[i]) {
-                        // console.log(obj[i][c]);
                         var hiddenField = document.createElement("input");
                         hiddenField.setAttribute("name", prefix + "["+i+"]["+c+"]");
                         hiddenField.setAttribute("value", obj[i][c] );
@@ -71,7 +67,6 @@ angular.module('MetronicApp').controller('SalesController',
                 $scope.property_use_options = toOption(ret.data);
                 $scope.property_use_options.splice(0, 0, { id : '', label : '[Choose Use]' });
                 $scope.data_temp.property_use_selected = $scope.property_use_options[0];
-                // console.log($scope.searchdata);
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_use');  
             })

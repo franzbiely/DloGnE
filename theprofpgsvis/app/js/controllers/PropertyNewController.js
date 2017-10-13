@@ -36,7 +36,6 @@ angular.module('MetronicApp')
             }
         };
         $scope.fill_sample_data = function() {
-            console.log($scope.property_use_options);
             $scope.data.code = 'CODE123';
             $scope.data.description = 'Lorem Ipsum';
             $scope.data.property_use_selected = $scope.property_use_options[1];

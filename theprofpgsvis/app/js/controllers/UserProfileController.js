@@ -5,7 +5,6 @@ angular.module('MetronicApp').controller('UserProfileController', function($root
         $scope.account = [];
     });
     $scope.frmChangePassword = function() {
-    	console.log($scope.current_password, $scope.new_password, $scope.confirm_new_password);
     	// check if new password match
     	if($scope.new_password != $scope.confirm_new_password) {
     		alert('Password mismatch');
@@ -21,7 +20,6 @@ angular.module('MetronicApp').controller('UserProfileController', function($root
 	            password: $scope.current_password
 	        }
 	        $auth.login(credentials).then(function(response) {
-	        	console.log(current_user);
 	        	$http.put($rootScope.apiURL + 'v1/users/' + current_user.id + '?token='+localStorage.getItem('satellizer_token'), {
 		            password: $scope.new_password
 		        }).success(function(response) {

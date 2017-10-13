@@ -30,11 +30,8 @@ angular.module('MetronicApp').controller('ValuationsController',
             return str.join("&");
         }
         function createFormFields(obj, prefix, form) {
-            // console.log(obj, obj.length);
             for(var i in obj) {
-                // console.log(obj[i], Object.keys(obj[i]).length);
                 if(Object.keys(obj[i]).length < 1) {
-                    // console.log('here');
                     var hiddenField = document.createElement("input");
                     hiddenField.setAttribute("name", prefix + "["+i+"]");
                     hiddenField.setAttribute("value", obj[i] );
@@ -43,7 +40,6 @@ angular.module('MetronicApp').controller('ValuationsController',
                 }
                 else {
                     for (var c in obj[i]) {
-                        // console.log(obj[i][c]);
                         var hiddenField = document.createElement("input");
                         hiddenField.setAttribute("name", prefix + "["+i+"]["+c+"]");
                         hiddenField.setAttribute("value", obj[i][c] );
@@ -152,7 +148,6 @@ angular.module('MetronicApp').controller('ValuationsController',
             if(typeof $scope.data_temp.property_lease_type_selected !== 'undefined' && $scope.data_temp.property_lease_type_selected.id !== '') {
                 $scope.searchdata.property_lease_type_id = $scope.data_temp.property_lease_type_selected.id;
             }
-            // console.log($scope.searchdata);
             if(property_id != null) {
                 $scope.multipleResultsShow = false;
                 str = 'id='+ property_id;
@@ -348,7 +343,6 @@ angular.module('MetronicApp').controller('ValuationsController',
                     user_id : user.id,
                     log : 'added valuation for property #' + $scope.property_id
                 }).success(function(response) {});
-                console.log(response);
                 $scope.valuations.push(response.data);
                 $scope.valuation = '';
 
