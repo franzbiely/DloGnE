@@ -163,6 +163,7 @@ class SalesController extends Controller
                 $media_controller->remove_image_by_salesID($sale->id, $request->photo_ids);
                 $media_controller->remove_pdf_by_salesID($sale->id, $request->pdf_ids);
                 // update and insert new photo_ids
+                
                 foreach($request->photo_ids as $photo_id) {
                     $media_controller->update_source_id($photo_id, $sale->id);
                 }

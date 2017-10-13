@@ -165,7 +165,7 @@ angular.module('MetronicApp').controller('SalesDetailsController',
             url : $rootScope.apiURL + 'v1/media' + '?token='+localStorage.getItem('satellizer_token'),
             paramName : 'photo',
             params : {
-                source_table : 'properties',
+                source_table : 'sales',
                 media_type : 'image',
                 source_id : 0
             },
@@ -187,7 +187,7 @@ angular.module('MetronicApp').controller('SalesDetailsController',
             url : $rootScope.apiURL + 'v1/media' + '?token='+localStorage.getItem('satellizer_token'),
             paramName : 'files',
             params : {
-                source_table : 'properties',
+                source_table : 'sales',
                 media_type : 'attached',
                 source_id : 0
             },

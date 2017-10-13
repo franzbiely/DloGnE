@@ -140,21 +140,17 @@ class MediaController extends Controller
         ];
         $media = Media::where($where)->delete();
     }
-    public function remove_image_by_salesID($sales_id) {
-        $where = [
-            'source_id' => $sales_id,
-            'source_table' => 'sales',
-            'media_type' => 'image'
-        ];
-        $media = Media::where($where)->delete();
+    public function remove_image_by_salesID($sales_id, $excemption) {
+        $media = Media::where('source_id','=',$sales_id)
+                    ->where('source_table','=','sales')
+                    ->where('file_mime','LIKE','%image%')
+                    ->whereNotIn('id', $excemption)->delete();
     }
-    public function remove_attached_by_salesID($sales_id) {
-        $where = [
-            'source_id' => $sales_id,
-            'source_table' => 'sales',
-            'media_type' => 'attached'
-        ];
-        $media = Media::where($where)->delete();
+    public function remove_pdf_by_salesID($sales_id, $excemption) {
+        $media = Media::where('source_id','=',$sales_id)
+                    ->where('source_table','=','sales')
+                    ->where('file_mime','LIKE','%pdf%')
+                    ->whereNotIn('id', $excemption)->delete();
     }
     /**
      * Display the specified resource.
