@@ -122,3 +122,11 @@
         z-index: 99;
     position: fixed;
 }
+
+.price-range-div .col-md-9 div input {
+    width: 100%;
+}
+
+.price-range-div .col-md-9 div {
+    width: 45%;
+}
