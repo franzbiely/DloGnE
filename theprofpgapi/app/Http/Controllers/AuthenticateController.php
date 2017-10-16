@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -27,7 +28,15 @@ class AuthenticateController extends Controller
         $users = User::all();
         return $users;
     }
-
+    public function checkSession()
+    {
+        if ($user = JWTAuth::parseToken()->authenticate()) {
+            return response()->json(compact('user'));
+        }
+        else {
+            return response()->json(['token_expired'], $e->getStatusCode());
+        }
+    }
     public function authenticate(Request $request)
     {   
         $credentials = $request->only('email', 'password','isDisabled');

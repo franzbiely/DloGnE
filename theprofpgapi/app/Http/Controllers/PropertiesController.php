@@ -30,7 +30,7 @@ class PropertiesController extends Controller {
     private $default_select;
 
     public function __construct() {
-        // $this->middleware('jwt.auth');
+        $this->middleware('jwt.auth');
         $this->price_min = -1;
         $this->price_max = -1;
         $this->with = array(

@@ -18,6 +18,7 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'cors', 'prefix' => 'api'], function()
 {
+	Route::get('check-session', 'AuthenticateController@checkSession');
     Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');

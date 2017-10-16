@@ -40,6 +40,9 @@ MetronicApp.run(['$rootScope', 'settings', '$state', '$templateCache', '$templat
         return false;
     });
 
+    // check if laravel session is still alive
+    // $http.get($rootScope.apiURL + 'check-session?token=' + localStorage.getItem('satellizer_token'));
+
 }]);
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
 MetronicApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
@@ -102,7 +105,6 @@ MetronicApp.factory('authProvider', function() {
 });
 /* Setup App Main Controller */
 MetronicApp.controller('AppController', function($auth, $state, $scope, $rootScope, $http) {
-    
     const token = localStorage.getItem('satellizer_token');
     
     $rootScope.logout = function() {
