@@ -2,6 +2,8 @@ angular.module('MetronicApp').controller('ReportsController',
     function($rootScope, $scope, $http, $timeout, $window, $http) {
         $scope.multipleResultsShow = false;
         $scope.isReport = true;
+        $scope.pdfs = [];  
+        $scope.photos = [];  
         function toOption(data, label='name') {
             var options = [ data.length ];
             for(i = 0; i < data.length; i++){
@@ -206,6 +208,33 @@ angular.module('MetronicApp').controller('ReportsController',
                         $scope.data.improvement_component = response.data[i].improvement_component;
                         $scope.data.area = response.data[i].area;
                     }
+
+                    // Get property media
+                    var param = "source_id=" + $scope.property_id + "&source_table=properties";
+                    $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token')).success(function(mpres) {
+                        var photo_counter = 0, pdf_counter = 0;
+
+                        for(var x=0; x < mpres.data.length; x++) {
+                            if(mpres.data[x].media_type.indexOf('image') >= 0) {
+                                // true
+                                $scope.photos[photo_counter] = {
+                                    file_path : $rootScope.apiPublicURL + mpres.data[x].file_path,
+                                    file_name : mpres.data[x].file_name    
+                                }    
+                                photo_counter++;
+                            }
+                            else {
+                                $scope.pdfs[pdf_counter] = {
+                                    file_path : $rootScope.apiPublicURL + mpres.data[x].file_path,
+                                    file_name : mpres.data[x].file_name    
+                                }
+                                pdf_counter++;
+                            }
+                        }
+                    }).error(function(){
+                        console.log("error");
+                    });
+
                     // Get Valuation data
                     $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
                         $scope.valuations = res.data;
