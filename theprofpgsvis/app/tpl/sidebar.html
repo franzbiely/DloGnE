@@ -1,69 +1,54 @@
 <div class="page-sidebar navbar-collapse collapse">
-    <!-- BEGIN SIDEBAR MENU -->
-    <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
-    <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
-    <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
-    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
-    <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
-    <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-    <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': settings.layout.pageSidebarClosed}">
-        <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below "sidebar-search-wrapper" LI element -->
-        <!-- 
-        Enable only if there is a custom dashbaord page.
-        <li class="start nav-item">
-            <a ui-sref="dashboard">
-                <i class="icon-home"></i>
-                <span class="title">Dashboard</span>
-            </a>
-        </li> -->
-        
+
+    <ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200" ng-class="{'page-sidebar-menu-closed': $root.pageSidebarClosed}">
+
         <li ng-show="role.can_manage_tables" class="nav-item">
             <a href="#" class="nav-link nav-toggle">
-                <i class="icon-settings"></i>
+                <i class=" icon-wrench"></i>
                 <span class="title">DB Maintenance</span>
                 <span class="arrow"></span>
             </a>
             <ul class="sub-menu">
                 <li>
                     <a  ui-sref="property.use">
-                        <i class="icon-paper-clip"></i> Property Use</span>
+                        <span class="title" >Property Use</span>
                     </a>
                 </li>
                 <li>
                     <a  ui-sref="property.class">
-                        <i class="icon-paper-clip"></i> Property Class</span>
+                        <span class="title" >Property Class</span>
                     </a>
                 </li>
                 <li>
                     <a ui-sref="property.leaseType">
-                        <i class="icon-paper-clip"></i> Property Lease Type</span>
+                        <span class="title" >Property Lease Type</span>
                     </a>
                 </li>
                 <li>
                     <a ui-sref="property.city">
-                        <i class="icon-paper-clip"></i> Property City</span>
+                        <span class="title" >Property City</span>
                     </a>
                 </li>
                 <li>
                     <a ui-sref="property.suburb">
-                        <i class="icon-paper-clip"></i> Property Suburb</span>
+                        <span class="title" >Property Suburb</span>
                     </a>
                 </li>
             </ul>
         </li>
         <li ng-show="role.can_access_property_list">
             <a ui-sref="property.list">
-                <i class="icon-paper-clip"></i> Properties</span>
+                <i class="icon-home"></i> <span class="title" >Properties</span>
             </a>
             <ul class="sub-menu">
                 <li>
                     <a  ui-sref="property.list">
-                        <i class="icon-paper-clip"></i> Available</span>
+                        <span class="title" >Available</span>
                     </a>
                 </li>
                 <li>
                     <a  ui-sref="property.archives">
-                        <i class="icon-paper-clip"></i> Archives</span>
+                        <span class="title" >Archives</span>
                     </a>
                 </li>
             </ul>
@@ -71,37 +56,37 @@
         <li ng-show="role.can_access_audit_trail" class="nav-item">
             <a ui-sref="audit_trail">
                 <i class="icon-home"></i>
-                <span class="title">Audit Trail</span>
+                <span class="title" >Audit Trail</span>
             </a>
         </li>
         <li ng-show="role.can_access_reports" class="nav-item">
             <a ui-sref="reports">
-                <i class="icon-home"></i>
-                <span class="title">Reports</span>
+                <i class="icon-bar-chart"></i>
+                <span class="title" >Reports</span>
             </a>
         </li>
         <li ng-show="role.can_access_reports" class="nav-item">
             <a ui-sref="valuations">
-                <i class="icon-home"></i>
-                <span class="title">Valuation</span>
+                <i class="icon-diamond"></i>
+                <span class="title" >Valuation</span>
             </a>
         </li>
         <li ng-show="role.can_access_reports" class="nav-item">
             <a ui-sref="sales.find">
-                <i class="icon-home"></i>
-                <span class="title">Sales</span>
+                <i class="icon-wallet"></i>
+                <span class="title" >Sales</span>
             </a>
         </li>
         <li ng-show="role.can_manage_staffs" class="nav-item">
             <a ui-sref="users" id="sidebar_menu_link_profile">
                 <i class="icon-user"></i>
-                <span class="title">Staffs</span>
+                <span class="title" >Staffs</span>
             </a>
         </li>
         <li class="nav-item">
             <a ui-sref="profile.account" id="sidebar_menu_link_profile">
                 <i class="icon-user"></i>
-                <span class="title">Staff Profile</span>
+                <span class="title" >Staff Profile</span>
             </a>
         </li>
     </ul>

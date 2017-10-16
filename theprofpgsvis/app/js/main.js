@@ -22,7 +22,7 @@ MetronicApp.run(['$rootScope', 'settings', '$state', '$templateCache', '$templat
     $rootScope.$settings = settings; // state to be accessed from view
     
     $rootScope.isLive = false;
-    
+    $rootScope.pageSidebarClosed = false;
     // $rootScope.currentUser = JSON.parse(localStorage.getItem('user'));
     
     // Define anonymous role
@@ -121,6 +121,7 @@ MetronicApp.controller('AppController', function($auth, $state, $scope, $rootSco
             })
         });
     }
+
 
     $scope.$on('$viewContentLoaded', function() {
         //App.initComponents(); // init core components

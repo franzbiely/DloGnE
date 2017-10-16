@@ -117,3 +117,8 @@
 .log:hover {
     background: aliceblue;
 }
+
+.page-sidebar-wrapper {
+        z-index: 99;
+    position: fixed;
+}
