@@ -34,7 +34,8 @@
                                 <ul class="photo-gallery clearfix">
                                     <li ng-repeat="(key, value) in photos">
                                         <img ng-src="{{value.file_path}}" alt="{{value.file_name}}" />
-                                        <a ng-click="removePhoto(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                        <span>{{ value.created_at | amDateFormat:'DD-MM-YYYY'}}</span>
+                                        <a class="pull-right" ng-click="removePhoto(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
                             </div>

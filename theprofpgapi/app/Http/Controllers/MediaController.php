@@ -69,7 +69,8 @@ class MediaController extends Controller
                 'file_path',
                 'source_id',
                 'source_table',
-                'media_type'
+                'media_type',
+                'created_at'
             )->paginate($limit); 
 
             $media->appends(array(            

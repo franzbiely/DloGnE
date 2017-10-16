@@ -219,14 +219,16 @@ angular.module('MetronicApp').controller('ReportsController',
                                 // true
                                 $scope.photos[photo_counter] = {
                                     file_path : $rootScope.apiPublicURL + mpres.data[x].file_path,
-                                    file_name : mpres.data[x].file_name    
+                                    file_name : mpres.data[x].file_name,
+                                    created_at :  mpres.data[x].created_at  
                                 }    
                                 photo_counter++;
                             }
                             else {
                                 $scope.pdfs[pdf_counter] = {
                                     file_path : $rootScope.apiPublicURL + mpres.data[x].file_path,
-                                    file_name : mpres.data[x].file_name    
+                                    file_name : mpres.data[x].file_name,
+                                    created_at :  mpres.data[x].created_at    
                                 }
                                 pdf_counter++;
                             }

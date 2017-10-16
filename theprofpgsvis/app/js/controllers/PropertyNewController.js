@@ -165,7 +165,8 @@ angular.module('MetronicApp')
                         // true
                         $scope.photos[photo_counter] = {
                             file_path : $rootScope.apiPublicURL + response.data[x].file_path,
-                            file_name : response.data[x].file_name    
+                            file_name : response.data[x].file_name,
+                            created_at :  response.data[x].created_at
                         }    
                         $scope.data.photo_ids[photo_counter] = response.data[x].id;
                         photo_counter++;
@@ -173,7 +174,8 @@ angular.module('MetronicApp')
                     else {
                         $scope.pdfs[pdf_counter] = {
                             file_path : $rootScope.apiPublicURL + response.data[x].file_path,
-                            file_name : response.data[x].file_name    
+                            file_name : response.data[x].file_name,
+                            created_at :  response.data[x].created_at
                         }
                         $scope.data.pdf_ids[pdf_counter] = response.data[x].id;
                         pdf_counter++;
