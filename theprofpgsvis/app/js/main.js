@@ -40,8 +40,25 @@ MetronicApp.run(['$rootScope', 'settings', '$state', '$templateCache', '$templat
         return false;
     });
 
-    // check if laravel session is still alive
-    // $http.get($rootScope.apiURL + 'check-session?token=' + localStorage.getItem('satellizer_token'));
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    if(getCookie("username") == "") {
+        localStorage.removeItem('user');
+        localStorage.removeItem('satellizer_token');
+    }
 
 }]);
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */

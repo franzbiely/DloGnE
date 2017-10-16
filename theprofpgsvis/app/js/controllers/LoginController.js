@@ -30,7 +30,12 @@ angular.module('MetronicApp').controller('LoginController',
                         log : 'loged in'
                     }).success(function(_response) {
                         localStorage.setItem('user', user);
+
                         $rootScope.currentUser = response.user;
+                        var date = new Date();
+
+                        date.setDate(date.getDate() + 1);
+                        document.cookie = "username="+response.user.name+"; expires="+date.toGMTString();
                         $state.go('dashboard');    
                     }).error(function() {
                         $rootScope.logout();
