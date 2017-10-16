@@ -16,7 +16,7 @@ class PropertyClassesController extends Controller
     
     public function index()
     {
-        $data = PropertyClass::all();
+        $data = PropertyClass::orderBy('name')->get();
         return Response::json([
             'data' => $this->transformCollection($data)
         ], 200);

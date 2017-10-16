@@ -37,7 +37,7 @@ class PropertySuburbsController extends Controller
         //dd($query);
         if ($search_term)
         {
-            $suburbs = PropertySuburb::orderBy('id', 'DESC')->where('name', 'LIKE', "%$search_term%")->with(
+            $suburbs = PropertySuburb::orderBy('name', 'ASC')->where('name', 'LIKE', "%$search_term%")->with(
             array('City'=>function($query){
                 $query->select('id','name');
             })
@@ -51,7 +51,7 @@ class PropertySuburbsController extends Controller
         }
         else
         {
-            $suburbs = PropertySuburb::orderBy('id', 'DESC')->with(
+            $suburbs = PropertySuburb::orderBy('name', 'ASC')->with(
             array('City'=>function($query){
                 $query->select('id','name');
             })

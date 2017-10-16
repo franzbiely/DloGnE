@@ -16,7 +16,7 @@ class PropertyLeaseTypesController extends Controller
     
     public function index()
     {
-        $data = PropertyLeaseType::all();
+        $data = PropertyLeaseType::orderBy('name')->get();
         return Response::json([
             'data' => $this->transformCollection($data)
         ], 200);

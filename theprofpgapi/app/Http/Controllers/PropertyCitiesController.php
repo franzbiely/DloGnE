@@ -16,7 +16,7 @@ class PropertyCitiesController extends Controller
     
     public function index()
     {
-        $data = PropertyCity::all();
+        $data = PropertyCity::orderBy('name')->get();
         return Response::json([
             'data' => $this->transformCollection($data)
         ], 200);

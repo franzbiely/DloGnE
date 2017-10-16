@@ -17,7 +17,7 @@ class PropertyUsesController extends Controller
     
     public function index()
     {
-        $property_use = PropertyUse::all();
+        $property_use = PropertyUse::orderBy('name')->get();
         return Response::json([
             'data' => $this->transformCollection($property_use)
         ], 200);
