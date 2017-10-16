@@ -13,7 +13,20 @@ angular.module('MetronicApp').controller('DashboardController',
     $scope.init = function() {
     };
     $scope.init();
-    
-    $state.go('profile.account');
-    
+
+    var user = JSON.parse(localStorage.getItem('user'));
+    if((user != null)) {
+        $scope.user = user;
+        switch($scope.user.role) {
+            case 'Data Access' : 
+                $state.go('reports'); 
+                break;
+            case 'Data Entry' : 
+                $state.go('property.list');
+                break;
+            case 'Administrator' : 
+                $state.go('audit_trail');
+                break;
+        }
+    }
 });
