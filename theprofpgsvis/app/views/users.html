@@ -38,11 +38,11 @@
                             <td>{{value.role}}</td>
                             <td>
                                 <button ng-click="showModal(key, value)" type="button" class="btn btn-primary">Edit</button>
-                                <button ng-hide="value.role == 'Administrator'" ng-click="delete($index, value.id)" ng-disabled="isDisabled" type="button" class="btn btn-danger">Delete</button>
+                                <button ng-hide="value.email == 'mike@theprofessionals.com.pg'" ng-click="delete($index, value.id)" ng-disabled="isDisabled" type="button" class="btn btn-danger">Delete</button>
                                 
-                                <button ng-show="value.isDisabled == '0' && value.role != 'Administrator'" ng-click="value.isDisabled = setDisable(value.id)" type="button" class="btn btn-default btn-warning">Disable</button>
+                                <button ng-show="value.isDisabled == '0' && value.email != 'mike@theprofessionals.com.pg'" ng-click="value.isDisabled = setDisable(value.id)" type="button" class="btn btn-default btn-warning">Disable</button>
 
-                                <button ng-hide="value.role == 'Administrator' || value.isDisabled == '0'" ng-click="value.isDisabled = setEnable(value.id)" type="button" class="btn btn-default btn-info">Enable</button>
+                                <button ng-hide="value.email == 'mike@theprofessionals.com.pg' || value.isDisabled == '0'" ng-click="value.isDisabled = setEnable(value.id)" type="button" class="btn btn-default btn-info">Enable</button>
                             </td>
                         </tr>
                         <tr ng-show="!users.length">
