@@ -13,6 +13,7 @@ use App\Sale;
 
 use Response;
 use Input;
+use File;
 
 class MediaController extends Controller
 {
@@ -124,12 +125,24 @@ class MediaController extends Controller
     }
 
     public function remove_image_by_propertyID($property_id, $excemption) {
+        $file_path = public_path() . '/';
+        $file_path .= Media::where('source_id','=',$property_id)
+                    ->where('source_table','=','properties')
+                    ->where('file_mime','LIKE','%image%')
+                    ->whereNotIn('id', $excemption)->pluck('file_path');
+        File::delete($file_path);
         $media = Media::where('source_id','=',$property_id)
                     ->where('source_table','=','properties')
                     ->where('file_mime','LIKE','%image%')
                     ->whereNotIn('id', $excemption)->delete();
     }
     public function remove_pdf_by_propertyID($property_id, $excemption) {
+        $file_path = public_path() . '/';
+        $file_path .= Media::where('source_id','=',$property_id)
+                    ->where('source_table','=','properties')
+                    ->where('file_mime','LIKE','%pdf%')
+                    ->whereNotIn('id', $excemption)->pluck('file_path');
+        File::delete($file_path);
         $media = Media::where('source_id','=',$property_id)
                     ->where('source_table','=','properties')
                     ->where('file_mime','LIKE','%pdf%')
@@ -145,12 +158,24 @@ class MediaController extends Controller
         $media = Media::where($where)->delete();
     }
     public function remove_image_by_salesID($sales_id, $excemption) {
+        $file_path = public_path() . '/';
+        $file_path .= Media::where('source_id','=',$sales_id)
+                    ->where('source_table','=','sales')
+                    ->where('file_mime','LIKE','%image%')
+                    ->whereNotIn('id', $excemption)->pluck('file_path');
+        File::delete($file_path);
         $media = Media::where('source_id','=',$sales_id)
                     ->where('source_table','=','sales')
                     ->where('file_mime','LIKE','%image%')
                     ->whereNotIn('id', $excemption)->delete();
     }
     public function remove_pdf_by_salesID($sales_id, $excemption) {
+        $file_path = public_path() . '/';
+        $file_path .= Media::where('source_id','=',$sales_id)
+                    ->where('source_table','=','sales')
+                    ->where('file_mime','LIKE','%pdf%')
+                    ->whereNotIn('id', $excemption)->pluck('file_path');
+        File::delete($file_path);
         $media = Media::where('source_id','=',$sales_id)
                     ->where('source_table','=','sales')
                     ->where('file_mime','LIKE','%pdf%')

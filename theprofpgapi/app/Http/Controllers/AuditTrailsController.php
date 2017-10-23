@@ -12,7 +12,7 @@ use App\User;
 
 use Response;
 use Input;
-
+use File;
 class AuditTrailsController extends Controller
 {
     public function __construct(){
