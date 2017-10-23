@@ -9,6 +9,7 @@ angular.module('MetronicApp')
         $scope.data.lot = '';
         $scope.data.sec = '';
         $scope.data.port ='';
+        $scope.page_title = '';
 
 
         // Load Data for Edit
@@ -238,8 +239,12 @@ angular.module('MetronicApp')
                 }
                 // check if edit mode
                 if(isEdit) {
+                    $scope.page_title = "Edit Property";
                     loadData($scope.params.property_id);
                 }    
+                else {
+                    $scope.page_title = "New Property";
+                }
             },true);
             
         });
