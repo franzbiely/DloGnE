@@ -21,8 +21,7 @@ angular.module('MetronicApp').controller('PropertiesController',
                 $scope.properties = property.data;
             }).error(function(error) {
                 console.log('Service error : ',error);
-                if(error.error == "token_expired")
-                    $rootScope.logout();
+                $rootScope.logout();
             })
         }
         $scope.init();

@@ -20,8 +20,7 @@ angular.module('MetronicApp').controller('SalesDetailsController',
                 $scope.data.remarks = response.data.remarks;
             }).error(function(error){
                 console.log("error");
-                if(error.error == "token_expired")
-                    $rootScope.logout();
+                $rootScope.logout();
             });
             var param = "source_id=" + id + "&source_table=sales";
             $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {

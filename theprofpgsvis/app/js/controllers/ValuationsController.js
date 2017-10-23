@@ -61,6 +61,8 @@ angular.module('MetronicApp').controller('ValuationsController',
                 // console.log($scope.searchdata);
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_use');  
+                if (error.error == "token_expired")
+                    $rootScope.logout();
             })
             $http.get($rootScope.apiURL + 'v1/property_class?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_class_options = toOption(ret.data);
@@ -68,6 +70,8 @@ angular.module('MetronicApp').controller('ValuationsController',
                 $scope.data_temp.property_class_selected = $scope.property_class_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_class');  
+                if (error.error == "token_expired")
+                    $rootScope.logout();
             })
             $http.get($rootScope.apiURL + 'v1/property_lease_type?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_lease_type_options = toOption(ret.data);
@@ -75,6 +79,8 @@ angular.module('MetronicApp').controller('ValuationsController',
                 $scope.data_temp.property_lease_type_selected = $scope.property_lease_type_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_lease_type');  
+                if (error.error == "token_expired")
+                    $rootScope.logout();
             })
             $http.get($rootScope.apiURL + 'v1/property_city?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_city_options = toOption(ret.data);
@@ -82,6 +88,8 @@ angular.module('MetronicApp').controller('ValuationsController',
                 $scope.data_temp.property_city_selected = $scope.property_city_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_city');  
+                if (error.error == "token_expired")
+                    $rootScope.logout();
             })
             $http.get($rootScope.apiURL + 'v1/property_suburb?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_suburb_options = toOption(ret.data, 'suburb');
@@ -89,6 +97,8 @@ angular.module('MetronicApp').controller('ValuationsController',
                 $scope.data_temp.property_suburb_selected = $scope.property_suburb_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_suburb');  
+                if (error.error == "token_expired")
+                    $rootScope.logout();
             })
 
             $scope.$watchGroup( ["property_use_options", "property_class_options","property_lease_type_options","property_city_options","property_suburb_options"] , function(n,o){  
@@ -225,6 +235,8 @@ angular.module('MetronicApp').controller('ValuationsController',
                 
             }).error(function(error) {
                 console.log('Error loading ' + $rootScope.apiURL + 'v1/property/param/');
+                if (error.error == "token_expired")
+                    $rootScope.logout();
             });
 
         }
@@ -348,6 +360,8 @@ angular.module('MetronicApp').controller('ValuationsController',
 
             }).error(function() {
                 console.log("error");
+                if (error.error == "token_expired")
+                    $rootScope.logout();
             });
         };
 
@@ -366,6 +380,8 @@ angular.module('MetronicApp').controller('ValuationsController',
                 alert("Updated Successfully");
             }).error(function() {
                 console.log("error");
+                if (error.error == "token_expired")
+                    $rootScope.logout();
             });
         }
 
