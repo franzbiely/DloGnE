@@ -178,7 +178,6 @@ angular.module('MetronicApp').controller('ValuationsController',
                 $scope.searchdata.property_lease_type_id = $scope.data_temp.property_lease_type_selected.id;
             }
             if(property_id != null) {
-                // $scope.multipleResultsShow = false;
                 str = 'id='+ property_id;
                 
             }

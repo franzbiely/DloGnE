@@ -2,6 +2,15 @@ angular.module('MetronicApp').controller('SalesController',
     function($rootScope, $scope, $http, $timeout, $stateParams, moment) {
         $scope.multipleResultsShow = false;
         $scope.page_name = "sales";
+        function capitalizeString(string) {
+            return string.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+        }
+        function replaceUnderScoreToSpace(string) {
+            return string.split('_').join(' ');
+        }
+        function dataToReadable(string) {
+            return capitalizeString(replaceUnderScoreToSpace(string));
+        }
         function toOption(data, label='name') {
             var options = [ data.length ];
             for(i = 0; i < data.length; i++){
@@ -60,6 +69,25 @@ angular.module('MetronicApp').controller('SalesController',
             $scope.multi_property_results = false;
             $scope.resultReady = false;
         }
+        $scope.show_sales = function(prop_id) {
+            // Get Sales data
+            $http.get($rootScope.apiURL + 'v1/sale/prop/'+ prop_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+                $scope.sales = res.data;
+            }).error(function(error) {
+                console.log('Service error : ',error);
+            })
+
+            const user = JSON.parse(localStorage.getItem('user'));
+            $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                user_id : user.id,
+                log : 'generated sales report for property #' + prop_id
+            }).success(function(response) {});
+
+            // show details below
+            $scope.resultReady = true;
+            $scope.multipleResultsShow = false;
+        }
+
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax(); // initialize core components  
             $scope.resetform();
@@ -137,7 +165,6 @@ angular.module('MetronicApp').controller('SalesController',
         // From Reports
         $scope.showResult = function(property_id) {
             $scope.hasActions = false;
-            $scope.multi_property_results = false;
             $scope.resultReady = false;
             var str;
 
@@ -156,7 +183,6 @@ angular.module('MetronicApp').controller('SalesController',
             }
             
             if(property_id != null) {
-                $scope.multipleResultsShow = false;
                 str = 'id='+ property_id;
                 
             }
@@ -183,55 +209,23 @@ angular.module('MetronicApp').controller('SalesController',
                     }).success(function(response) {});
                 }
                 else {
-                    $scope.multipleResultsShow = false;
-                    for (var i = 0; i < response.data.length; i++) {
-                        $scope.property_id = response.data[i].id;
-                        $scope.data.id = response.data[i].id;
-                        $scope.data.code = response.data[i].code;
-                        $scope.data.description = response.data[i].description;
-
-                        $scope.data.use = response.data[i].use;
-                        $scope.data.class = response.data[i].class;
-                        $scope.data.lease_type = response.data[i].lease_type;
-                        $scope.data.city = response.data[i].city;
-                        $scope.data.suburb = response.data[i].suburb;
-
-                        $scope.data.port = response.data[i].port;
-                        $scope.data.sec = response.data[i].sec;
-                        $scope.data.lot = response.data[i].lot;
-                        $scope.data.unit = response.data[i].unit;
-
-                        if($scope.data.port == '') {
-                            $scope.showPort = false;
-                        }
-                        else {
-                            $scope.showPort = true;   
-                        }
-                        
-                        $scope.data.land_value = response.data[i].land_value;
-                        $scope.data.land_component = response.data[i].land_component;
-                        $scope.data.improvement_component = response.data[i].improvement_component;
-                        $scope.data.area = response.data[i].area;
+                    $scope.multipleResultsShow = true;
+                    console.log(response.data);
+                    var property_details = 
+                        '<table class="table table-bordered">\
+                        <caption>Property Details</caption>';
+                    var prop_detail = [
+                            'id','city','suburb','lease_type','class','use','description','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner'
+                        ];
+                    for(var key in prop_detail) {
+                        property_details += '<tr>\
+                            <td class="col-md-4">'+ dataToReadable(prop_detail[key]) +'</td>\
+                            <td>'+ response.data[0][prop_detail[key]] +'</td>\
+                        </tr>';
                     }
-
-                    // Get Sales data
-                    $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
-                        $scope.sales = res.data;
-                    }).error(function(error) {
-                        console.log('Service error : ',error);
-                    })
-
-                    const user = JSON.parse(localStorage.getItem('user'));
-                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
-                        user_id : user.id,
-                        log : 'generated sales report for property #' + $scope.property_id
-                    }).success(function(response) {});
-
-                    // show details below
-                    $scope.resultReady = true;
+                        property_details += '</table>';
+                    bootbox.alert(property_details);
                 }
-                
-                
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property/param/');  
             });
