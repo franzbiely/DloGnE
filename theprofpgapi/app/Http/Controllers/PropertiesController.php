@@ -106,7 +106,10 @@ class PropertiesController extends Controller {
             unset($ret['price_min']);
             unset($ret['price_max']);
         }
-        
+        if(isset($ret['id'])) {
+            $ret['properties.id'] = $ret['id'];
+            unset($ret['id']);
+        }
         foreach($ret as $key=>$val) {
             if(isset($val))
                 $where[$key] = $val;

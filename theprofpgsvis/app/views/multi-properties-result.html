@@ -31,7 +31,7 @@
                             <td>{{value.port}} / {{value.sec}} / {{value.lot}}</td>
                             <td>{{value.suburb}}</td>
                             <td ng-show="page_name == 'valuations' || page_name == 'sales'">
-                                <a ng-show="page_name == 'valuations'" type="button" ui-sref="property.valuations({property_id:value.id})" class="btn btn-link">Valuations ({{value.valuations_count}})</a>
+                                <a ng-show="page_name == 'valuations'" type="button" ng-click="show_valuation(value.id)" class="btn btn-link">Valuations ({{value.valuations_count}})</a>
                                 <a ng-show="page_name == 'sales'" type="button" ui-sref="property.sales({property_id:value.id})" class="btn btn-link">Sales ({{value.sales_count}})</a>
                             </td>
                         </tr>
