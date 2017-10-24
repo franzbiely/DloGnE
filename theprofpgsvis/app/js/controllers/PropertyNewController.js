@@ -155,7 +155,9 @@ angular.module('MetronicApp')
                     $scope.address_option = "port";
                 }
             }).error(function(){
+
                 console.log("error");
+                $rootScope.logout();
             });
             var param = "source_id=" + id + "&source_table=properties";
             $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {

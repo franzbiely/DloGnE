@@ -23,6 +23,7 @@ MetronicApp.run(['$rootScope', 'settings', '$state', '$templateCache', '$templat
     
     $rootScope.isLive = false;
     $rootScope.pageSidebarClosed = false;
+
     // $rootScope.currentUser = JSON.parse(localStorage.getItem('user'));
     
     // Define anonymous role
