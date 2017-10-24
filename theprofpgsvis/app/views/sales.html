@@ -2,7 +2,9 @@
     <div class="col-md-12">
         <h3>Sales Page</h3>
         <div ui-view="searchform" class="fade-in-up"> </div>
-        
+        <p ng-show="resultReady">
+        	<button class="btn btn-info" ng-click="backToMultiple()"><i class="fa fa-chevron-left"></i> Back</button>
+        </p>
         <div ng-show="resultReady" class="reports-container" ui-view="sales-details"></div>
         <!-- END EXAMPLE TABLE PORTLET-->
     </div>

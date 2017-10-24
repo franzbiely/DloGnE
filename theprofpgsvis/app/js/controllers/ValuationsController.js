@@ -60,6 +60,10 @@ angular.module('MetronicApp').controller('ValuationsController',
             }
             return form;
         }
+        $scope.backToMultiple = function() {
+            $scope.multipleResultsShow = true;
+            $scope.resultReady = false;
+        }
         $scope.$on('$viewContentLoaded', function() {
             App.initAjax();
             $scope.resetform();

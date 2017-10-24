@@ -58,6 +58,10 @@ angular.module('MetronicApp').controller('SalesController',
             }
             return form;
         }
+        $scope.backToMultiple = function() {
+            $scope.multipleResultsShow = true;
+            $scope.resultReady = false;
+        }
         $scope.resetform = function() {
             $scope.data = [];
             $scope.searchdata = []; 
