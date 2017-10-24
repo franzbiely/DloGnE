@@ -1,6 +1,7 @@
 angular.module('MetronicApp').controller('SalesController', 
     function($rootScope, $scope, $http, $timeout, $stateParams, moment) {
         $scope.multipleResultsShow = false;
+        $scope.page_name = "sales";
         function toOption(data, label='name') {
             var options = [ data.length ];
             for(i = 0; i < data.length; i++){
@@ -69,6 +70,7 @@ angular.module('MetronicApp').controller('SalesController',
                 $scope.data_temp.property_use_selected = $scope.property_use_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_use');  
+                $rootScope.logout();
             })
             $http.get($rootScope.apiURL + 'v1/property_class?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_class_options = toOption(ret.data);
@@ -76,6 +78,7 @@ angular.module('MetronicApp').controller('SalesController',
                 $scope.data_temp.property_class_selected = $scope.property_class_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_class');  
+                $rootScope.logout();
             })
             $http.get($rootScope.apiURL + 'v1/property_lease_type?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_lease_type_options = toOption(ret.data);
@@ -83,6 +86,7 @@ angular.module('MetronicApp').controller('SalesController',
                 $scope.data_temp.property_lease_type_selected = $scope.property_lease_type_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_lease_type');  
+                $rootScope.logout();
             })
             $http.get($rootScope.apiURL + 'v1/property_city?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_city_options = toOption(ret.data);
@@ -90,6 +94,7 @@ angular.module('MetronicApp').controller('SalesController',
                 $scope.data_temp.property_city_selected = $scope.property_city_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_city');  
+                $rootScope.logout();
             })
             $http.get($rootScope.apiURL + 'v1/property_suburb?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_suburb_options = toOption(ret.data, 'suburb');
@@ -97,6 +102,7 @@ angular.module('MetronicApp').controller('SalesController',
                 $scope.data_temp.property_suburb_selected = $scope.property_suburb_options[0];
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_suburb');  
+                $rootScope.logout();
             })
 
             $scope.$watchGroup( ["property_use_options", "property_class_options","property_lease_type_options","property_city_options","property_suburb_options"] , function(n,o){  
