@@ -43,7 +43,23 @@ class PropertiesController extends Controller {
             'Valuation'
         );
         $this->default_select = [
-            'properties.id','code','description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner'
+            'properties.id',
+            'code',
+            'description',
+            'property_use_id',
+            'property_class_id',
+            'property_lease_type_id',
+            'property_city_id',
+            'property_suburb_id',
+            'port',
+            'sec',
+            'lot',
+            'unit',
+            'land_value',
+            'land_component',
+            'improvement_component',
+            'area',
+            'owner'
         ];
     }
     public function index(Request $request) {        
@@ -95,15 +111,20 @@ class PropertiesController extends Controller {
             if(isset($val))
                 $where[$key] = $val;
         };
+
         $properties = Property::orderBy('id', 'DESC')
             ->where($where)
             ->with( $this->with)
-            ->select($this->default_select)
+            ->select('properties.id','code','description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner',
+                    DB::raw('COUNT(valuations.id) AS valuations_count'), 
+                    DB::raw('COUNT(sales.id) AS sales_count'))
+            ->leftJoin('valuations', 'valuations.property_id', '=', 'properties.id')
+            ->leftJoin('sales',      'sales.property_id',      '=', 'properties.id')
+            ->groupBy('properties.id')
             ->paginate($limit); 
         $properties->appends(array(            
             'limit' => $limit
         )); 
-               
         return Response::json($this->transformCollection($properties), 200);
     }
 
