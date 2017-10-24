@@ -66,6 +66,9 @@ angular.module('MetronicApp').controller('ReportsController',
 //     }
 // };
 // ==================================
+            $scope.backToMultiple = function() {
+                $scope.showResult();
+            }
             // Load Select options data
             $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_use_options = toOption(ret.data);
