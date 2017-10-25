@@ -83,7 +83,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
                                     <div class="input-icon right">\
                                         <i class="fa fa-info-circle tooltips" data-container="body"></i>\
                                         <select required id="role"';
-                                        if(typeof $scope.user_role_selected !== 'undefined' && $scope.user_role_selected.id == "Administrator") {
+                                        if(typeof $scope.users[key].email !== 'undefined' && $scope.users[key].email == 'mike@theprofessionals.com.pg') {
                                             form += " disabled='disabled' ";
                                         }
             form +=                     'name="role" ng-model="user_role_selected" ng-options="item as item.label for item in user_role_options track by item.id" class="form-control"></select>\
