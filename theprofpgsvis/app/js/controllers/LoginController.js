@@ -27,7 +27,7 @@ angular.module('MetronicApp').controller('LoginController',
                     var user = JSON.stringify(response.user);
                     $http.post($rootScope.apiURL + 'v1/audit_trail?token='+_response.data.token, {
                         user_id : response.user.id,
-                        log : 'loged in'
+                        log : 'logged in'
                     }).success(function(_response) {
                         localStorage.setItem('user', user);
 

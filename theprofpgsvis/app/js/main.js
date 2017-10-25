@@ -130,7 +130,7 @@ MetronicApp.controller('AppController', function($auth, $state, $scope, $rootSco
             const user = JSON.parse(localStorage.getItem('user'));
             $http.post($rootScope.apiURL + 'v1/audit_trail?token='+token, {
                 user_id : user.id,
-                log : 'loged out'
+                log : 'logged out'
             }).success(function(response) {
                 // Remove the authenticated user from local storage
                 localStorage.removeItem('user');
