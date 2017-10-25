@@ -205,7 +205,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             const user = JSON.parse(localStorage.getItem('user'));
             $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
                 user_id : user.id,
-                log : 'modified '+ $scope.user.username +'(staff) details'
+                log : 'modified '+ $scope.user.email +'(staff) details'
             }).success(function(response) { 
                 alert("Updated Successfully");
             });
