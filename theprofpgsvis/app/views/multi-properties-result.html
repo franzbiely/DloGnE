@@ -25,7 +25,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="(key, value) in multi_property_results" class="odd gradeX">
-                            <td><a ng-click="showResult(value.id)">{{value.id}}</a></td>
+                            <td><a ng-click="showResult(value.id, true)">{{value.id}}</a></td>
                             <td>{{value.city}}</td>
                             <td>{{value.lease_type}}</td>
                             <td>{{value.port}} / {{value.sec}} / {{value.lot}}</td>

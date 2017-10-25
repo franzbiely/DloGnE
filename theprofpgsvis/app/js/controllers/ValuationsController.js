@@ -1,6 +1,5 @@
 angular.module('MetronicApp').controller('ValuationsController',
     function($rootScope, $scope, $http, settings, $stateParams, $uibModal, moment) {
-
         $scope.multipleResultsShow = false;
         $scope.page_name = "valuations";
 
@@ -163,7 +162,7 @@ angular.module('MetronicApp').controller('ValuationsController',
             $scope.resultReady = true;
         }
         // From Reports
-        $scope.showResult = function(property_id) {
+        $scope.showResult = function(property_id, from_id_link = false) {
             $scope.hasActions = false;
             // $scope.multi_property_results = false;
             $scope.resultReady = false;
@@ -208,8 +207,12 @@ angular.module('MetronicApp').controller('ValuationsController',
                     }).success(function(response) {});
                 }
                 else {
-                    $scope.multipleResultsShow = true;
-                    console.log(response.data);
+                    if(!from_id_link) {
+                        $scope.multi_property_results = response.data;
+                        $scope.multipleResultsShow = true;
+                        $scope.multipleResultsReady = true;
+                    }
+                    // console.log(response.data);
                     var property_details = 
                         '<table class="table table-bordered">\
                         <caption>Property Details</caption>';

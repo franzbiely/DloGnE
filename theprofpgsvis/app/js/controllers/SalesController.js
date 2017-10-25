@@ -167,7 +167,7 @@ angular.module('MetronicApp').controller('SalesController',
         $scope.init();
 
         // From Reports
-        $scope.showResult = function(property_id) {
+        $scope.showResult = function(property_id, from_id_link = false) {
             $scope.hasActions = false;
             $scope.resultReady = false;
             var str;
@@ -213,8 +213,12 @@ angular.module('MetronicApp').controller('SalesController',
                     }).success(function(response) {});
                 }
                 else {
-                    $scope.multipleResultsShow = true;
-                    console.log(response.data);
+                    if(!from_id_link) {
+                        $scope.multi_property_results = response.data;
+                        $scope.multipleResultsShow = true;
+                        $scope.multipleResultsReady = true;
+                    }
+                    
                     var property_details = 
                         '<table class="table table-bordered">\
                         <caption>Property Details</caption>';
