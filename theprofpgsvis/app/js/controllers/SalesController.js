@@ -172,7 +172,11 @@ angular.module('MetronicApp').controller('SalesController',
             $scope.resultReady = false;
             var str;
 
-
+            $scope.searchdata.property_city_id = 
+            $scope.searchdata.property_suburb_id =
+            $scope.searchdata.property_class_id =
+            $scope.searchdata.property_lease_type_id = '';
+            
             if(typeof $scope.data_temp.property_city_selected !== 'undefined' && $scope.data_temp.property_city_selected.id !== '') {
                 $scope.searchdata.property_city_id = $scope.data_temp.property_city_selected.id;
             }
@@ -218,7 +222,7 @@ angular.module('MetronicApp').controller('SalesController',
                         $scope.multipleResultsShow = true;
                         $scope.multipleResultsReady = true;
                     }
-                    
+
                     var property_details = 
                         '<table class="table table-bordered">\
                         <caption>Property Details</caption>';

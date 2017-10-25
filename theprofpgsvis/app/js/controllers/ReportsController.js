@@ -137,6 +137,11 @@ angular.module('MetronicApp').controller('ReportsController',
             var str;
             $scope.multi_property_results = false;
             $scope.resultReady = false;
+            
+            $scope.searchdata.property_city_id = 
+            $scope.searchdata.property_suburb_id =
+            $scope.searchdata.property_class_id =
+            $scope.searchdata.property_lease_type_id = '';
 
             if(typeof $scope.data_temp.property_city_selected !== 'undefined' && $scope.data_temp.property_city_selected.id !== '') {
                 $scope.searchdata.property_city_id = $scope.data_temp.property_city_selected.id;

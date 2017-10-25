@@ -66,6 +66,7 @@ angular.module('MetronicApp').controller('ValuationsController',
         $scope.$on('$viewContentLoaded', function() {
             App.initAjax();
             $scope.resetform();
+
             // Load Select options data
             $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_use_options = toOption(ret.data);
@@ -167,6 +168,11 @@ angular.module('MetronicApp').controller('ValuationsController',
             // $scope.multi_property_results = false;
             $scope.resultReady = false;
             var str;
+            
+            $scope.searchdata.property_city_id = 
+            $scope.searchdata.property_suburb_id =
+            $scope.searchdata.property_class_id =
+            $scope.searchdata.property_lease_type_id = '';
 
             if(typeof $scope.data_temp.property_city_selected !== 'undefined' && $scope.data_temp.property_city_selected.id !== '') {
                 $scope.searchdata.property_city_id = $scope.data_temp.property_city_selected.id;
