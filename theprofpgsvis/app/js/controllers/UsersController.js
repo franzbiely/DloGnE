@@ -150,10 +150,18 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
     $scope.delete = function(index, id) {
         var action_confirm = confirm("Are you sure you want to remove this data?");
         if(action_confirm) {
-            $http.delete($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'))
+            $http
+                .delete($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'))
                 .success(function() {
-                    $scope.users.splice(index, 1);
-                });;
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                        user_id : user.id,
+                        log : 'removed staff #'+ id
+                    }).success(function(response) { 
+                        $scope.users.splice(index, 1);
+                    });
+                    
+                });
         }
     }
 
@@ -167,9 +175,18 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             role: $scope.user.role,
             isDisabled : 0
         }).success(function(response) {
-            $scope.users.unshift(response.data);
-            $scope.user = '';
-            alert('New user registered');
+           
+
+            const user = JSON.parse(localStorage.getItem('user'));
+            $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                user_id : user.id,
+                log : 'added new user '+ $scope.user.username +'(staff)'
+            }).success(function(response) { 
+                 $scope.users.unshift(response.data);
+                $scope.user = '';
+                alert('New user registered');
+            });
+
         }).error(function(){
             alert('Error occured. Please make sure that the email address is not already in used.');
             return false;
@@ -185,7 +202,13 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             role: $scope.user.role,
             password : $scope.user.password
         }).success(function(response) {
-            alert("Updated Successfully");
+            const user = JSON.parse(localStorage.getItem('user'));
+            $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                user_id : user.id,
+                log : 'modified '+ $scope.user.username +'(staff) details'
+            }).success(function(response) { 
+                alert("Updated Successfully");
+            });
         }).error(function(){
             console.log("error");
         });
@@ -195,7 +218,13 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
         $http.put($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'), {
             isDisabled : 1
         }).success(function(response) {
-            console.log("Updated Successfully");
+            const user = JSON.parse(localStorage.getItem('user'));
+            $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                user_id : user.id,
+                log : 'disabled staff # '+ id
+            }).success(function(response) { 
+                alert('Updated Successfully');
+            });
         }).error(function(){
             console.log("error");
         });
@@ -205,7 +234,13 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
         $http.put($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'), {
             isDisabled : 0
         }).success(function(response) {
-            console.log("Updated Successfully");
+            const user = JSON.parse(localStorage.getItem('user'));
+            $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                user_id : user.id,
+                log : 'enabled staff # '+ id
+            }).success(function(response) { 
+                alert('Updated Successfully');
+            });
         }).error(function(){
             console.log("error");
         });
