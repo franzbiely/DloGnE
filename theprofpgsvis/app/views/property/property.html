@@ -39,7 +39,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="(key, value) in properties" class="odd gradeX">
-                            <td><a href="#">{{value.id}}</a></td>
+                            <td><a ui-sref="property.edit({property_id:value.id})">{{value.id}}</a></td>
                             <td>{{value.city}}</td>
                             <td>{{value.lease_type}}</td>
                             <td>{{value.port}} / {{value.sec}} / {{value.lot}}</td>
