@@ -97,32 +97,32 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             message: form,
             callback: function(res) {
                 if (res){
-                    $scope.user.email = $('#frmUser')[0]['elements'].email.value;
-                    $scope.user.password = $('#frmUser')[0]['elements'].password.value;
-                    $scope.user.name = $('#frmUser')[0]['elements'].name.value;
-                    $scope.user.role = $('#frmUser')[0]['elements'].role.options[ $('#frmUser')[0]['elements'].role.selectedIndex ].value;
+                    var _user = {};
+                    _user.email = $scope.user.email = $('#frmUser')[0]['elements'].email.value;
+                    _user.password = $scope.user.password = $('#frmUser')[0]['elements'].password.value;
+                    _user.name = $scope.user.name = $('#frmUser')[0]['elements'].name.value;
+                    _user.role = $scope.user.role = $('#frmUser')[0]['elements'].role.options[ $('#frmUser')[0]['elements'].role.selectedIndex ].value;
                     $scope.$apply();
 
 
                     if($('#frmUser')[0]['elements'].password.disabled) {
                         //disabled password field    
-                        console.log($scope.user.name, $scope.user.email, $scope.user.role);
-                        if(!$scope.user.name || !$scope.user.email || !$scope.user.role) {
+                        if(!_user.name || !_user.email || !_user.role) {
                             alert('Please fill mandatory fields.');
                             return false;
                         }
                     }
                     else {
-                        if(!$scope.user.password || !$scope.user.name || !$scope.user.email || $scope.user.role == '?') {
+                        if(!_user.password || !_user.name || !_user.email || _user.role == '?') {
                             alert('Please fill mandatory fields.');
                             return false;
                         }
-                        else if($scope.user.password.length < 6 ) {
+                        else if(_user.password.length < 6 ) {
                             alert('Password must not less than 6 characters.');
                             return false;
                         }
                     }
-                    if(!ValidateEmail($scope.user.email)) {
+                    if(!ValidateEmail(_user.email)) {
                         return false;
                     }
 
@@ -132,7 +132,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
                     }
                     else {
                         // New
-                        $scope.addUser();
+                        $scope.addUser(_user);
                     }
 
                 }
@@ -174,14 +174,14 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
     }
 
     // Add
-    $scope.addUser = function() {
+    $scope.addUser = function(_user) {
  
         $http.post($rootScope.apiURL + 'v1/users?token='+localStorage.getItem('satellizer_token'), {
-            username: $scope.user.email,
-            name: $scope.user.name,
-            email: $scope.user.email,
-            password: $scope.user.password,
-            role: $scope.user.role,
+            username: _user.email,
+            name: _user.name,
+            email: _user.email,
+            password: _user.password,
+            role: _user.role,
             isDisabled : 0
         }).success(function(response) {
            
@@ -189,11 +189,11 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             const user = JSON.parse(localStorage.getItem('user'));
             $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
                 user_id : user.id,
-                log : 'added new user '+ $scope.user.email +'(staff)'
+                log : 'added new user '+ _user.email +'(staff)'
             }).success(function(res) { 
                 $scope.users.unshift(response.data);
                 $scope.user = '';
-                console.log($scope.users, response.data);
+                console.log(_user_user, response.data);
                 alert('New user registered');
             });
 
