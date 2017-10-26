@@ -5,13 +5,16 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
         $scope.users = [];
         $scope.user;
     });
+    
     $scope.user_role_selected;
     $scope.user_role_options = [
         { id : 'Administrator', label : 'Administrator Level' },
         { id : 'Data Access', label : 'Data Access Level' },
         { id : 'Data Entry', label : 'Data Entry Level'}
     ];
-
+    $scope.foo = function() {
+        alert('foo');
+    }
     $scope.showModal = function(key = -1) {
         delete $scope.user_role_selected;
         if(key > -1) {
@@ -41,15 +44,11 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
                                 <label class="col-md-4 control-label">Password <span class="required" aria-required="true"> * </span></label>\
                                 <div class="col-md-8">\
                                     <div class="input-icon right">\
-                                        <i class="fa fa-info-circle tooltips" data-container="body"></i>';
-                            
-            if(key > -1) {
-                form +=                     '<input required type="password" value="'+$scope.users[key].password+'" class="form-control" name="password" id="password"> </div>';
-            }
-            else {
-                form +=                     '<input required type="password" class="form-control" name="password" id="password"> </div>';    
-            }
-            form +=             '</div>\
+                                        <i class="fa fa-info-circle tooltips" data-container="body"></i>\
+                                        <a ng-hide="replace_password" ng-click="replace_password = true">Replace password</a>\
+                                        <input ng-show="replace_password" required type="password" class="form-control" name="password" id="password"> </div>\
+                                        <a ng-show="replace_password" ng-click="replace_password = false">Don\'t replace password</a>\
+                                    </div>\
                             </div>\
                             <div class="form-group">\
                                 <label class="col-md-4 control-label">Full Name</label>\
@@ -83,7 +82,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
                                     <div class="input-icon right">\
                                         <i class="fa fa-info-circle tooltips" data-container="body"></i>\
                                         <select required id="role"';
-                                        if(typeof $scope.users[key] !== 'undefined' && $scope.users[key].email == 'mike@theprofessionals.com.pg') {
+                                        if(typeof $scope.users[key] !== 'undefined' && $scope.users[key].id == '1') {
                                             form += " disabled='disabled' ";
                                         }
             form +=                     'name="role" ng-model="user_role_selected" ng-options="item as item.label for item in user_role_options track by item.id" class="form-control"></select>\
@@ -106,11 +105,11 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
                     $scope.user.role = $('#frmUser')[0]['elements'].role.options[ $('#frmUser')[0]['elements'].role.selectedIndex ].value;
                     $scope.$apply();
 
-                    if(!$scope.user.username || !$scope.user.password || !$scope.user.email || !$scope.user.role) {
+                    if(!$scope.user.username || !$scope.user.email || !$scope.user.role) {
                         alert('Please fill mandatory fields.');
                         return false;
                     }
-                    else if($scope.user.password.length < 6) {
+                    else if($scope.user.password != '' && $scope.user.password.length < 6 ) {
                         alert('Password must not less than 6 characters.');
                         return false;
                     }
@@ -138,6 +137,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
     $scope.init = function() {
         $http.get($rootScope.apiURL + 'v1/users?token='+localStorage.getItem('satellizer_token')).success(function(users) {
             $scope.users = users.data;
+            console.log(users.data);
         }).error(function(error) {
             $scope.error = error;
             if(error.error == "token_expired")
@@ -195,19 +195,28 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
 
     // Update
     $scope.updateUser = function(id){
-      $http.put($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'), {
+        var param = {
             username: $scope.user.username,
             name: $scope.user.name,
             email: $scope.user.email,
-            role: $scope.user.role,
-            password : $scope.user.password
-        }).success(function(response) {
+            role: $scope.user.role
+        };
+        if($scope.user.password != '') {
+            param.password = $scope.user.password
+        }
+        
+      $http.put($rootScope.apiURL + 'v1/users/' + id + '?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
             const user = JSON.parse(localStorage.getItem('user'));
             $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
                 user_id : user.id,
                 log : 'modified '+ $scope.user.email +'(staff) details'
             }).success(function(response) { 
-                alert("Updated Successfully");
+                if($scope.user.password == '') {
+                    alert("No password has changed. Updated Successfully");
+                }
+                else {
+                    alert("Updated Successfully");
+                }
             });
         }).error(function(){
             console.log("error");
