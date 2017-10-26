@@ -193,7 +193,6 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             }).success(function(res) { 
                 $scope.users.unshift(response.data);
                 $scope.user = '';
-                console.log(_user_user, response.data);
                 alert('New user registered');
             });
 
