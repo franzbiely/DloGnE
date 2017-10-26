@@ -5,7 +5,7 @@
             <div class="portlet-title">
                 <div class="caption font-green-sharp">
                     <i class="icon-settings font-green-sharp"></i>
-                    <span class="caption-subject bold uppercase">Select files {{foo}}</span>
+                    <span class="caption-subject bold uppercase">Select files {[{foo}]}</span>
                     <span class="caption-helper hide"></span>
                 </div>
                 <div class="actions">
@@ -40,7 +40,7 @@
                 <div class="caption font-green-sharp">
                     <i class="icon-settings font-green-sharp"></i>
                     <span class="caption-subject bold uppercase">Upload queue</span>
-                    <span class="caption-helper">Queue length: {{ uploader.queue.length }}</span>
+                    <span class="caption-helper">Queue length: {[{ uploader.queue.length }]}</span>
                 </div>
                 <div class="actions">
                     <div class="btn-group">
@@ -86,9 +86,9 @@
                         <tbody>
                             <tr ng-repeat="item in uploader.queue">
                                 <td>
-                                    <strong>{{ item.file.name }}</strong>
+                                    <strong>{[{ item.file.name }]}</strong>
                                 </td>
-                                <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                <td ng-show="uploader.isHTML5" nowrap>{[{ item.file.size/1024/1024|number:2 }]} MB</td>
                                 <td ng-show="uploader.isHTML5">
                                     <div class="progress progress-sm" style="margin-bottom: 0;">
                                         <div class="progress-bar progress-bar-info" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>

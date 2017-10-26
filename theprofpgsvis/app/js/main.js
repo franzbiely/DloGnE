@@ -1,7 +1,6 @@
 /***
 Metronic AngularJS App Main Script
 ***/
-
 /* Metronic App */
 
 var MetronicApp = angular.module("MetronicApp", [
@@ -68,6 +67,10 @@ MetronicApp.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
         // global configs go here
 
     });
+}]);
+
+MetronicApp.config(['$interpolateProvider', function($interpolateProvider) {
+    $interpolateProvider.startSymbol('{[{').endSymbol('}]}');
 }]);
 
 //AngularJS v1.3.x workaround for old style controller declarition in HTML
@@ -194,13 +197,13 @@ MetronicApp.controller('SidebarController', ['$state', '$scope', function($state
 }]);
 
 /* Setup Layout Part - Quick Sidebar */
-MetronicApp.controller('QuickSidebarController', ['$scope', function($scope) {    
-    $scope.$on('$includeContentLoaded', function() {
-       setTimeout(function(){
-            QuickSidebar.init(); // init quick sidebar        
-        }, 2000)
-    });
-}]);
+// MetronicApp.controller('QuickSidebarController', ['$scope', function($scope) {    
+//     $scope.$on('$includeContentLoaded', function() {
+//        setTimeout(function(){
+//             QuickSidebar.init(); // init quick sidebar        
+//         }, 2000)
+//     });
+// }]);
 
 /* Setup Layout Part - Theme Panel */
 MetronicApp.controller('ThemePanelController', ['$scope', function($scope) {    

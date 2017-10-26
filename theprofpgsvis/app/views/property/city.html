@@ -41,7 +41,7 @@
                     <tbody>
                         
                         <tr ng-repeat="(key, value) in property_cities" class="odd gradeX">
-                            <td> {{value.name}}</td>
+                            <td> {[{value.name}]}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" ng-click="useModal(key, value)">Edit</button>
                                 <button ng-click="deleteCity($index, property_cities.id)" type="button" class="btn btn-danger">Delete</button>

@@ -34,7 +34,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="(key, value) in property_classes" class="odd gradeX">
-                            <td>{{value.name}}</td>
+                            <td>{[{value.name}]}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" ng-click="useModal(key, value)">Edit</button>
                                 <button ng-click="deleteClass($index, property_classes.id)" type="button" class="btn btn-danger">Delete</button>

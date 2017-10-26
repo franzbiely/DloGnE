@@ -3,14 +3,14 @@
     <div class="col-md-12">
     	<div class="portlet light portlet-fit portlet-form bordered">
             <div class="portlet-title">
-                <div class="caption"><i class="fa fa-gift"></i>{{ page_title }}</div>
+                <div class="caption"><i class="fa fa-gift"></i>{[{ page_title }]}</div>
             </div>
             <div class="portlet-body">
 
                 <!-- BEGIN FORM-->
                 <form class="form-horizontal" ng-submit="saveProperty()">
                     <div class="form-body">
-                        <h4 ng-show="page_title == 'Edit Property'">Property # {{params.property_id}}</h4>
+                        <h4 ng-show="page_title == 'Edit Property'">Property # {[{params.property_id}]}</h4>
                     	<h3 class="form-section">Property Brief</h3>
                         <div class="form-group">
                             <label class="control-label col-md-3">
@@ -38,8 +38,8 @@
                                 <div class="dropzone" options="dzOptions" callbacks="dzCallbacks" methods="dzMethods" ng-dropzone></div> <br />
                                 <ul class="photo-gallery clearfix">
                                     <li ng-repeat="(key, value) in photos">
-                                        <img ng-src="{{value.file_path}}" alt="{{value.file_name}}" />
-                                        <span>{{ value.created_at | amDateFormat:'DD-MM-YYYY'}}</span>
+                                        <img ng-src="{[{value.file_path}]}" alt="{[{value.file_name}]}" />
+                                        <span>{[{ value.created_at | amDateFormat:'DD-MM-YYYY'}]}</span>
                                         <a class="pull-right" ng-click="removePhoto(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>
@@ -49,7 +49,7 @@
                                 <div class="dropzone" options="dzOptionsPDF" callbacks="dzCallbacksPDF" methods="dzMethodsPDF" ng-dropzone></div> <br />
                                 <ul class="pdf-gallery clearfix">
                                     <li ng-repeat="(key, value) in pdfs">
-                                        <strong><a ng-href="{{value.file_path}}" target="_self" download="{{value.file_name}}">{{value.file_name}}</a></strong>
+                                        <strong><a ng-href="{[{value.file_path}]}" target="_self" download="{[{value.file_name}]}">{[{value.file_name}]}</a></strong>
                                         <a ng-click="removePDF(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
                                     </li>
                                 </ul>

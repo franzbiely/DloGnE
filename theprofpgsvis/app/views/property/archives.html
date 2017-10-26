@@ -24,11 +24,11 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="(key, value) in properties" class="odd gradeX">
-                            <td>{{value.id}}</td>
-                            <td>{{value.city}}</td>
-                            <td>{{value.lease_type}}</td>
-                            <td>{{value.port}} / {{value.sec}} / {{value.lot}}</td>
-                            <td>{{value.suburb}}</td>
+                            <td>{[{value.id}]}</td>
+                            <td>{[{value.city}]}</td>
+                            <td>{[{value.lease_type}]}</td>
+                            <td>{[{value.port}]} / {[{value.sec}]} / {[{value.lot}]}</td>
+                            <td>{[{value.suburb}]}</td>
                             <td>
                                 <button ng-disabled="isDisabled" ng-click="unarchiveProperty($index, value.id)" type="button" class="btn btn-info">
                                     Unarchive

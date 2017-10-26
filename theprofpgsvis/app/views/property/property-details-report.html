@@ -4,7 +4,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Property Code</label>
             <div class="col-md-8">
-                {{data.code}}
+                {[{data.code}]}
             </div>
         </div>
     </div>
@@ -13,7 +13,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Use</label>
             <div class="col-md-8">
-                {{data.use}}
+                {[{data.use}]}
             </div>
         </div>
     </div>
@@ -25,7 +25,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Class</label>
             <div class="col-md-8">
-                {{data.class}}
+                {[{data.class}]}
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Lease Type</label>
             <div class="col-md-8">
-                {{data.lease_type}}
+                {[{data.lease_type}]}
             </div>
         </div>
     </div>
@@ -46,7 +46,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">City</label>
             <div class="col-md-8">
-                {{data.city}}
+                {[{data.city}]}
             </div>
         </div>
     </div>
@@ -55,7 +55,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Suburb</label>
             <div class="col-md-8">
-                {{data.suburb}}
+                {[{data.suburb}]}
             </div>
         </div>
     </div>
@@ -67,7 +67,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Sec</label>
             <div class="col-md-8">
-                {{data.sec}}
+                {[{data.sec}]}
             </div>
         </div>
     </div>
@@ -76,7 +76,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Port</label>
             <div class="col-md-8">
-                {{data.port}}
+                {[{data.port}]}
             </div>
         </div>
     </div>
@@ -87,7 +87,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Lot</label>
             <div class="col-md-8">
-                {{data.lot}}
+                {[{data.lot}]}
             </div>
         </div>
     </div>
@@ -96,7 +96,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Unit #</label>
             <div class="col-md-8">
-                {{data.unit}}
+                {[{data.unit}]}
             </div>
         </div>
     </div>
@@ -108,7 +108,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Land Value / sq.m (K)</label>
             <div class="col-md-8">
-                {{data.land_value}}
+                {[{data.land_value}]}
             </div>
         </div>
     </div>
@@ -117,7 +117,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Land Component (K)</label>
             <div class="col-md-8">
-                {{data.land_component}}
+                {[{data.land_component}]}
             </div>
         </div>
     </div>
@@ -129,7 +129,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Improvement Component (K)</label>
             <div class="col-md-8">
-                {{data.improvement_component}}
+                {[{data.improvement_component}]}
             </div>
         </div>
     </div>
@@ -138,7 +138,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">Area (sq.m)</label>
             <div class="col-md-8">
-                {{data.area}}
+                {[{data.area}]}
             </div>
         </div>
     </div>
@@ -150,8 +150,8 @@
             <label class="control-label col-md-12">Photo Gallery</label><br />
             <ul class="photo-gallery clearfix col-md-12">
                 <li ng-repeat="(key, value) in photos">
-                    <img ng-src="{{value.file_path}}" alt="{{value.file_name}}" />
-                    <span>{{ value.created_at | amDateFormat:'DD-MM-YYYY'}}</span>
+                    <img ng-src="{[{value.file_path}]}" alt="{[{value.file_name}]}" />
+                    <span>{[{ value.created_at | amDateFormat:'DD-MM-YYYY'}]}</span>
                     <a class="pull-right" ng-click="removePhoto(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
                 </li>
                 <li ng-show="!photos.length"><em>No photo attached</em></li>
@@ -165,7 +165,7 @@
             <div class="col-md-8">
                 <ul class="pdf-gallery clearfix">
                     <li ng-repeat="(key, value) in pdfs">
-                        <strong><a ng-href="{{value.file_path}}" target="_self" download="{{value.file_name}}">{{value.file_name}}</a></strong>
+                        <strong><a ng-href="{[{value.file_path}]}" target="_self" download="{[{value.file_name}]}">{[{value.file_name}]}</a></strong>
                         <a ng-click="removePDF(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
                     </li>
                     <li ng-show="!pdfs.length"><em>No pdf attached</em></li>

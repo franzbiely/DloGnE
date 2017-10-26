@@ -12,9 +12,9 @@
             <div class="portlet-body">
                 <ol class="logs">
                     <li class='log' ng-repeat="(key, value) in audit_trails" >
-                        <strong>{{value.user}}</strong> 
-                        {{value.log}} 
-                        on {{value.created_at}}
+                        <strong>{[{value.user}]}</strong> 
+                        {[{value.log}]} 
+                        on {[{value.created_at}]}
                     </li>
                     <span ng-show="!audit_trails.length">No record</span>
                 </ol>
