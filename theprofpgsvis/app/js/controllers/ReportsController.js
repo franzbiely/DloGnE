@@ -77,6 +77,7 @@ angular.module('MetronicApp').controller('ReportsController',
             }).error(function(error) {
                 console.log('Error loading '+ $rootScope.apiURL + 'v1/property_use');  
                 $rootScope.logout();
+                location.reload();
             })
             $http.get($rootScope.apiURL + 'v1/property_class?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
                 $scope.property_class_options = toOption(ret.data);

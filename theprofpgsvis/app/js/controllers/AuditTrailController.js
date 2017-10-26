@@ -14,6 +14,7 @@ angular.module('MetronicApp').controller('AuditTrailController', function($rootS
             $scope.error = error;
             if (error.error == "token_expired")
                 $rootScope.logout();
+            location.reload();
         })
     };
     $scope.init();
