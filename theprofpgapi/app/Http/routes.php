@@ -23,6 +23,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api'], function()
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
 
+    Route::get('pass_generator/{string}', function(Request $request, $params) {
+    	print_r(bcrypt($params)); exit();
+    });
 });
 
 // JWT
