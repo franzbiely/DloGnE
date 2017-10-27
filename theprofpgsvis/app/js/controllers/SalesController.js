@@ -82,7 +82,8 @@ angular.module('MetronicApp').controller('SalesController',
         function dataToReadable(string) {
             return capitalizeString(replaceUnderScoreToSpace(string));
         }
-        function toOption(data, label='name') {
+        function toOption(data, label) {
+            if (!label) label = 'name';
             var options = [ data.length ];
             for(i = 0; i < data.length; i++){
                 options[ i ] = {
@@ -188,7 +189,8 @@ angular.module('MetronicApp').controller('SalesController',
         $scope.init();
 
         // From Reports
-        $scope.showResult = function(property_id, from_id_link = false) {
+        $scope.showResult = function(property_id, from_id_link) {
+            if (!from_id_link) from_id_link = false;
             $scope.hasActions = false;
             $scope.resultReady = false;
             var str;
@@ -265,7 +267,8 @@ angular.module('MetronicApp').controller('SalesController',
         }
 
         // Modal
-        $scope.showModal = function(key = -1) {
+        $scope.showModal = function(key) {
+            if (key == null) key = -1;
             var form = '<form id="frmSale" name="frmSale" role="form" class="form-horizontal">\
                             <div class="form-body">\
                                 <div class="form-group">\

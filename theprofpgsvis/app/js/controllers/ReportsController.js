@@ -76,7 +76,8 @@ angular.module('MetronicApp').controller('ReportsController',
                     return;
             }
         },true);
-        function toOption(data, label='name') {
+        function toOption(data, label) {
+            if (!label) label = 'name';
             var options = [ data.length ];
             for(i = 0; i < data.length; i++){
                 options[ i ] = {

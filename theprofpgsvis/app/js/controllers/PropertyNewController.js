@@ -198,7 +198,8 @@ angular.module('MetronicApp')
 
         var isEdit = ($scope.params.property_id !== "" && typeof $scope.params.property_id !== 'undefined') ? true : false;
 
-        function toOption(data, label='name') {
+        function toOption(data, label) {
+            if (!label) label = 'name';
             var options = [ data.length ];
             for(i = 0; i < data.length; i++){
                 options[ i ] = {

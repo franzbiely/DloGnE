@@ -11,7 +11,8 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
     });
     
     
-    $scope.useModal = function(key = -1) {
+    $scope.useModal = function(key) {
+        if (!key) key = -1;
 
         var form = '<form ng-submit="foo()" id="frmUse" name="frmUse" role="form" class="form-horizontal">\
                         <div class="form-body">\

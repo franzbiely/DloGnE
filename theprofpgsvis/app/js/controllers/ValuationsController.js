@@ -77,7 +77,8 @@ angular.module('MetronicApp').controller('ValuationsController',
         },true);
     
 
-        function toOption(data, label='name') {
+        function toOption(data, label) {
+            if (!label) label = 'name';
             var options = [ data.length ];
             for(i = 0; i < data.length; i++){
                 options[ i ] = {
@@ -187,7 +188,8 @@ angular.module('MetronicApp').controller('ValuationsController',
             $scope.resultReady = true;
         }
         // From Reports
-        $scope.showResult = function(property_id, from_id_link = false) {
+        $scope.showResult = function(property_id, from_id_link) {
+            if (!from_id_link) from_id_link = false;
             $scope.hasActions = false;
             // $scope.multi_property_results = false;
             $scope.resultReady = false;
@@ -270,7 +272,8 @@ angular.module('MetronicApp').controller('ValuationsController',
         }
 
         // Modal
-        $scope.showModal = function(key = -1) {
+        $scope.showModal = function(key) {
+            if (key == null) key = -1;
             var form = '<form id="frmValuation" name="frmValuation" role="form" class="form-horizontal">\
                             <div class="form-body">\
                                 <div class="form-group">\

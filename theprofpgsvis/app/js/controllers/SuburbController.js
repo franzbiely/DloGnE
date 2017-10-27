@@ -11,7 +11,8 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
     $scope.property_suburb;
     $scope.property_suburb_city_selected;
 
-    $scope.suburbModal = function(key = -1) {
+    $scope.suburbModal = function(key) {
+        if (!key) key = -1;
         
         
         

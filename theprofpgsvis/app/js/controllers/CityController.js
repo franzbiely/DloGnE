@@ -8,7 +8,8 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
     $scope.error;
     $scope.property_city;
 
-    $scope.classModal = function(key = -1) {
+    $scope.classModal = function(key) {
+        if (!key) key = -1;
         var form = '<form ng-submit="foo()" id="frmCity" name="frmCity" role="form" class="form-horizontal">\
                         <div class="form-body">\
                             <div class="form-group">\

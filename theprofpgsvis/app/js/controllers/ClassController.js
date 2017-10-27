@@ -8,7 +8,8 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
     $scope.error;
     $scope.property_class;
 
-    $scope.classModal = function(key = -1) {
+    $scope.classModal = function(key) {
+        if (!key) key = -1;
         var form = '<form ng-submit="foo()" id="frmClass" name="frmClass" role="form" class="form-horizontal">\
                         <div class="form-body">\
                             <div class="form-group">\

@@ -23,7 +23,9 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
     $scope.foo = function() {
         alert('foo');
     }
-    $scope.showModal = function(key = -1) {
+    $scope.showModal = function(key) {
+        if (key == null) key = -1;
+        console.log(key);
         delete $scope.user_role_selected;
         if(key > -1) {
             for(i = 0; i < $scope.user_role_options.length; i++){

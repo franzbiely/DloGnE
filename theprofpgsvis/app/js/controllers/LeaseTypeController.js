@@ -8,7 +8,8 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
     $scope.error;
     $scope.property_lease_type;
 
-    $scope.classModal = function(key = -1) {
+    $scope.classModal = function(key) {
+        if (!key) key = -1;
         var form = '<form ng-submit="foo()" id="frmLeaseType" name="frmLeaseType" role="form" class="form-horizontal">\
                         <div class="form-body">\
                             <div class="form-group">\
