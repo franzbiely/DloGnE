@@ -1,8 +1,8 @@
-<div class="row reports-page" ng-controller="ReportsController">
+<div class="row reports-page">
     <div class="col-md-12">
         <h3>Reports Page</h3>
         
-        <div ui-view="searchform" class="fade-in-up"> </div>
+        <div ui-view="searchform" name="searchform" class="fade-in-up"> </div>
         <p ng-show="resultReady">
             <button class="btn btn-info" ng-click="backToMultiple()"><i class="fa fa-chevron-left"></i> Back</button>
         </p>
@@ -15,13 +15,13 @@
             </div>
             <div class="portlet-body">
                 <div class="form-body">
-                   <div class="reports-container" ui-view="property-details"></div>
+                   <div class="reports-container" ui-view="property-details" name="property-details"></div>
                 </div>
             </div>
         </div>
 
-        <div ng-show="resultReady" class="reports-container" ui-view="valuation-details"></div>
-        <div ng-show="resultReady" class="reports-container" ui-view="sales-details"></div>
+        <div ng-show="resultReady" class="reports-container" ui-view="valuation-details" name="valuation-details"></div>
+        <div ng-show="resultReady" class="reports-container" ui-view="sales-details" name="sales-details"></div>
         <!-- END EXAMPLE TABLE PORTLET-->
 
     </div>

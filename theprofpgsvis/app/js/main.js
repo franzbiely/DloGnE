@@ -240,7 +240,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/sales",
             views: {
                 'app-body': {
-                    templateUrl: "views/dashboard.html"          
+                    templateUrl: "views/dashboard.html",
+                    controller : "SalesController"
                 }
             },
             data: {
@@ -258,7 +259,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
 
             views: {
                 'app-body-inner': {
-                    templateUrl: "views/sales.html"
+                    templateUrl: "views/sales.html",controller: "SalesController"
                 },
                 'sales-details@sales.find' : {
                     templateUrl : "views/property/property-sales.html"
@@ -268,10 +269,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 },
                 'multi-properties-result@sales.find' : {
                     templateUrl : "views/multi-properties-result.html"
-                    
                 }
             },
-            controller: "SalesController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -334,9 +333,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
         // Property
         .state("property", {
             url: "/property",
+            controller: "PropertiesController",
             views: {
                 'app-body': {
-                    templateUrl: "views/dashboard.html"          
+                    templateUrl: "views/dashboard.html"
                 }
             },
             data: {
@@ -412,16 +412,15 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/new-property",
             views: {
                 'app-body-inner': {
-                    templateUrl: "views/property/property-new.html",
+                    templateUrl: "views/property/property-new.html",controller: "PropertyNewController"
                 },
                 'property-detail@property.new': {
                     templateUrl : "views/property/property-details.html"
                 },
                 'extract-buttons@property.new' : {
-                    templateUrl: "views/extract-buttons.html",   
+                    templateUrl: "views/extract-buttons.html"
                 }
             },
-            controller: "PropertyNewController",
             data: {
                 pageTitle: 'Create New Property',
                 permissions: {
@@ -458,13 +457,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/edit-property/:property_id",
             views: {
                 'app-body-inner': {
-                    templateUrl: "views/property/property-new.html",
+                    templateUrl: "views/property/property-new.html",controller: "PropertyNewController"
                 },
                 'property-detail@property.edit': {
                     templateUrl : "views/property/property-details.html"
                 }
             },
-            controller: "PropertyNewController",
             data: {
                 pageTitle: 'Edit Property',
                 permissions: {
@@ -501,13 +499,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/properties",
             views: {
                 'app-body-inner': {
-                    templateUrl: "views/property/property.html",
+                    templateUrl: "views/property/property.html",controller: "PropertiesController"
                 },
                 'extract-buttons@property.list' : {
-                    templateUrl: "views/extract-buttons.html",   
+                    templateUrl: "views/extract-buttons.html",controller: "PropertiesController"
                 }
             },
-            controller: "PropertiesController",
             data: {
                 pageTitle: 'Property List',
                 permissions: {
@@ -560,10 +557,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/city",
             views: {
                 'app-body-inner': {
-                    templateUrl: "views/property/city.html",
+                    templateUrl: "views/property/city.html",controller: "CityController"
                 },
                 'extract-buttons@property.city' : {
-                    templateUrl: "views/extract-buttons.html",   
+                    templateUrl: "views/extract-buttons.html",controller: "CityController"
                 }
             },
             data: {
@@ -573,7 +570,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     redirectTo: 'login'
                 }
             },
-            controller: "CityController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -592,10 +588,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/suburb",
             views: {
                 'app-body-inner': {
-                    templateUrl: "views/property/suburb.html",
+                    templateUrl: "views/property/suburb.html",controller: "SuburbController"
                 },
                 'extract-buttons@property.suburb' : {
-                    templateUrl: "views/extract-buttons.html",   
+                    templateUrl: "views/extract-buttons.html",controller: "SuburbController"
                 }
             },
             data: {
@@ -605,7 +601,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     redirectTo: 'login'
                 }
             },
-            controller: "SuburbController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -624,10 +619,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/lease-type",
             views: {
                 'app-body-inner': {
-                    templateUrl: "views/property/lease-type.html",
+                    templateUrl: "views/property/lease-type.html",controller: "LeaseTypeController"
                 },
                 'extract-buttons@property.leaseType' : {
-                    templateUrl: "views/extract-buttons.html",   
+                    templateUrl: "views/extract-buttons.html",controller: "LeaseTypeController"
                 }
             },
             data: {
@@ -637,7 +632,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     redirectTo: 'login'
                 }
             },
-            controller: "LeaseTypeController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -656,10 +650,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/class",
             views: {
                 'app-body-inner': {
-                    templateUrl: "views/property/class.html",
+                    templateUrl: "views/property/class.html",controller: "ClassController"
                 },
                 'extract-buttons@property.class' : {
-                    templateUrl: "views/extract-buttons.html",   
+                    templateUrl: "views/extract-buttons.html",controller: "ClassController"
                 }
             },
             data: {
@@ -669,7 +663,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     redirectTo: 'login'
                 }
             },
-            controller: "ClassController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -688,10 +681,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/use",
             views: {
                 'app-body-inner': {
-                    templateUrl: "views/property/use.html",
+                    templateUrl: "views/property/use.html",controller: "UseController" 
                 },
                 'extract-buttons@property.use' : {
-                    templateUrl: "views/extract-buttons.html",   
+                    templateUrl: "views/extract-buttons.html",controller: "UseController" 
                 }
             },
             data: {
@@ -701,7 +694,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     redirectTo: 'login'
                 }
             },
-            controller: "UseController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -720,10 +712,10 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/find-valuation",
             views: {
                 'app-body': {
-                    templateUrl: "views/dashboard.html"          
+                    templateUrl: "views/dashboard.html",controller : "ValuationsController"         
                 },
                 'app-body-inner@valuations': {
-                    templateUrl: "views/valuations.html",
+                    templateUrl: "views/valuations.html"
                 },
                 'valuation-details@valuations' : {
                     templateUrl : "views/property/property-valuations.html"
@@ -735,7 +727,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl : "views/multi-properties-result.html"
                 }
             },
-            controller : "ValuationsController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -758,13 +749,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
 
          // Reports
         .state("reports", {
-            url: "/find-reports",
+            url: "/find-reports/",
             views: {
                 'app-body': {
-                    templateUrl: "views/dashboard.html"          
+                    templateUrl: "views/dashboard.html",controller: "ReportsController"
                 },
                 'app-body-inner@reports': {
-                    templateUrl: "views/reports.html",
+                    templateUrl: "views/reports.html"
                 },
                 'property-details@reports' : {
                     templateUrl : "views/property/property-details-report.html"
@@ -782,10 +773,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     templateUrl : "views/multi-properties-result.html"
                 },
                 'extract-buttons@reports' : {
-                    templateUrl: "views/extract-buttons.html",   
+                    templateUrl: "views/extract-buttons.html"
                 }
             },
-            controller: "ReportsController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -816,13 +806,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/users",
             views: {
                 'app-body': {
-                    templateUrl: "views/dashboard.html"          
+                    templateUrl: "views/dashboard.html",controller: "UsersController"
                 },
                 'app-body-inner@users': {
-                    templateUrl: "views/users.html",
+                    templateUrl: "views/users.html",controller: "UsersController"
                 }
             },
-            controller: "UsersController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -852,7 +841,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     controller: "DashboardController"
                 }
             },
-            controller: "DashboardController",
             data: {
                 pageTitle: 'Admin Dashboard Template',
                 permissions: {
@@ -884,10 +872,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/profile",
             views: {
                 'app-body': {
-                    templateUrl: "views/dashboard.html"          
+                    templateUrl: "views/dashboard.html",controller: "UserProfileController"
                 }
             },
-            // 
             data: {
                 pageTitle: 'User Profile',
                 permissions: {
@@ -895,7 +882,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     redirectTo: 'login'
                 }
             },
-            controller: "UserProfileController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -922,10 +908,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/account",
             views: {
                 'app-body-inner': {
-                    templateUrl: "views/profile/account.html",
+                    templateUrl: "views/profile/account.html",controller: "UserProfileController"
                 }
             },
-            controller: "UserProfileController",
             data: {
                 pageTitle: 'User Account',
                 permissions: {
@@ -951,13 +936,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/audit-trail",
             views: {
                 'app-body': {
-                    templateUrl: "views/dashboard.html"          
+                    templateUrl: "views/dashboard.html",controller: "AuditTrailController"
                 },
                 'app-body-inner@audit_trail': {
-                    templateUrl: "views/audit_trail.html",
+                    templateUrl: "views/audit_trail.html",controller: "AuditTrailController"
                 }
             },
-            controller: "AuditTrailController",
             data: {
                 pageTitle: 'Audit Trail',
                 permissions: {
@@ -995,7 +979,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/login",
             views: {
                 'app-body': {
-                    templateUrl: "views/login.html",            
+                    templateUrl: "views/login.html",controller: "LoginController"        
                 }
             },
             
@@ -1006,7 +990,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     redirectTo: 'dashboard'
                 }
             },
-            controller: "LoginController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -1025,13 +1008,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/file_upload.html",
             views: {
                 'app-body': {
-                    templateUrl: "views/dashboard.html"          
+                    templateUrl: "views/dashboard.html",controller: "GeneralPageController"
                 },
                 'app-body-inner@fileupload': {
-                    templateUrl: "views/file_upload.html",
+                    templateUrl: "views/file_upload.html",controller: "GeneralPageController"
                 }
             },
-
             data: {
                 pageTitle: 'AngularJS File Upload',
                 permissions: {
@@ -1039,7 +1021,6 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                     redirectTo: 'login'
                 }
             },
-            controller: "GeneralPageController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([{

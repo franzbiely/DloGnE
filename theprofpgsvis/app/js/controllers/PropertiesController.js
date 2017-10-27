@@ -22,7 +22,6 @@ angular.module('MetronicApp').controller('PropertiesController',
             }).error(function(error) {
                 console.log('Service error : ',error);
                 $rootScope.logout();
-                location.reload();
             })
         }
         $scope.init();
