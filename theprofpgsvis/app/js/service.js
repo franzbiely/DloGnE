@@ -13,3 +13,25 @@ MetronicApp.service('PropertyService', function($http, $rootScope) {
         getProperties : getProperties
     }
 });
+
+MetronicApp.service('FUNC', function($http, $rootScope, $auth, $state) {
+    this.tryLogout = function(error) {
+        if(typeof error !== 'null') {
+            if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided' || error.error == 'user_not_found') {
+                this.forceLogout();    
+                return true;
+            }
+        }
+        return false;
+    };
+    this.forceLogout = function() {
+        $auth.logout().then(function() {
+                // Remove the authenticated user from local storage
+                localStorage.removeItem('user');
+                // Remove the current user info from rootscope
+                $rootScope.currentUser = null;
+                $state.go('login',{}, {reload: true});
+        });
+    }
+
+});

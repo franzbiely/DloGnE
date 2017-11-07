@@ -9,6 +9,7 @@ use App\PropertyLeaseType;
 use App\PropertyCity;
 use App\PropertySuburb;
 use App\Valuation;
+use DB;
 
 class Property extends Model
 {
@@ -24,10 +25,6 @@ class Property extends Model
 		'sec',
 		'lot',
 		'unit',
-		'land_value',
-		'land_component',
-		'improvement_component',
-		'area',
         'owner'
 	];
 
@@ -52,6 +49,8 @@ class Property extends Model
         return $this->hasMany('App\Valuation');
     }
     public function current_value(){
-        return $this->hasOne('App\Valuation')->select('property_id','value')->orderBy('id','DESC')->latest();
+        return $this->hasOne('App\Valuation')
+            ->select(DB::raw('property_id, (improvement_component + land_value) AS value'))
+            ->orderBy('id','DESC')->latest();
     }
 }

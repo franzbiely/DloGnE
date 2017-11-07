@@ -35,12 +35,14 @@
                                     <span></span>
                                 </label>
                             </th> -->
+                            <th>ID</th>
                             <th> Use's Name </th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="(key, value) in property_uses" class="odd gradeX">
+                            <td>{[{ value.id }]}</td>
                             <td> {[{value.name}]}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" ng-click="useModal(key, value)">Edit</button>

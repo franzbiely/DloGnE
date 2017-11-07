@@ -26,6 +26,8 @@ class PropertiesController extends Controller {
 
     private $price_min;
     private $price_max;
+    private $include_valuation_zero;
+    private $include_sales_zero;
     private $with;
     private $default_select;
 
@@ -33,6 +35,8 @@ class PropertiesController extends Controller {
         $this->middleware('jwt.auth');
         $this->price_min = -1;
         $this->price_max = -1;
+        $this->include_valuation_zero = false;
+        $this->include_sales_zero = false;
         $this->with = array(
             'Property_City'       =>function($query) { $query->select('id','name'); },
             'Property_Suburb'     =>function($query) { $query->select('id','name'); },
@@ -55,10 +59,6 @@ class PropertiesController extends Controller {
             'sec',
             'lot',
             'unit',
-            'land_value',
-            'land_component',
-            'improvement_component',
-            'area',
             'owner'
         ];
     }
@@ -81,7 +81,7 @@ class PropertiesController extends Controller {
                 ->where('is_archive', '=', "0")
                 ->with($this->with)
                 ->select(
-                    'properties.id','code','description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner',
+                    'properties.id','code','description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner',
                     DB::raw('COUNT(valuations.id) AS valuations_count'), 
                     DB::raw('COUNT(sales.id) AS sales_count'))
                 ->leftJoin('valuations', 'valuations.property_id', '=', 'properties.id')
@@ -110,15 +110,26 @@ class PropertiesController extends Controller {
             $ret['properties.id'] = $ret['id'];
             unset($ret['id']);
         }
+        if(isset($ret['include_sales_zero'])) {
+            if($ret['include_sales_zero'] == 'true') {
+                $this->include_sales_zero = $ret['include_sales_zero'];
+            }
+            unset($ret['include_sales_zero']);
+        }
+        if(isset($ret['include_valuation_zero'])) {
+            if($ret['include_valuation_zero'] == 'true') {
+                $this->include_valuation_zero = $ret['include_valuation_zero'];
+            }
+            unset($ret['include_valuation_zero']);
+        }
         foreach($ret as $key=>$val) {
             if(isset($val))
                 $where[$key] = $val;
         };
-
         $properties = Property::orderBy('id', 'DESC')
             ->where($where)
             ->with( $this->with)
-            ->select('properties.id','code','description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner',
+            ->select('properties.id','code','description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner',
                     DB::raw('COUNT(valuations.id) AS valuations_count'), 
                     DB::raw('COUNT(sales.id) AS sales_count'))
             ->leftJoin('valuations', 'valuations.property_id', '=', 'properties.id')
@@ -138,8 +149,7 @@ class PropertiesController extends Controller {
                ! $request->property_class_id or
                ! $request->property_lease_type_id or
                ! $request->property_city_id or
-               ! $request->property_suburb_id or
-               ! $request->land_value ){
+               ! $request->property_suburb_id){
                 return Response::json([
                     'error' => [
                         'message' => 'Some mandatory fields are not filled up'
@@ -207,10 +217,6 @@ class PropertiesController extends Controller {
             if(isset($request->sec))                $property->sec = $request->sec;
             if(isset($request->lot))                $property->lot = $request->lot;
             if(isset($request->unit))               $property->unit = $request->unit;
-            if(isset($request->land_value))         $property->land_value = $request->land_value;
-            if(isset($request->land_component))     $property->land_component = $request->land_component;
-            if(isset($request->improvement_component)) $property->improvement_component = $request->improvement_component;
-            if(isset($request->area))               $property->area = $request->area;
             if(isset($request->is_archive))         $property->is_archive = $request->is_archive;
             if(isset($request->owner))              $property->owner = $request->owner;
 
@@ -254,13 +260,25 @@ class PropertiesController extends Controller {
         $data = array_map([$this, 'transform'], $propertiesArray['data']);
         $total = $propertiesArray['total'];
 
-        if($this->price_min !=-1 || $this->price_max !=-1) {
+        if($this->price_min != -1 && $this->price_max != -1) {
             foreach($data as $key=>$val) {
-                if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
+                if($val['valuations_count'] == 0 && !$this->include_valuation_zero) {
                     unset($data[$key]);
                     $total--;
                     continue;
                 }
+                if($val['sales_count'] == 0 && !$this->include_sales_zero) {
+                    unset($data[$key]);
+                    $total--;
+                    continue;
+                }
+                if($this->price_min > 0) {
+                    if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
+                        unset($data[$key]);
+                        $total--;
+                        continue;
+                    }
+                }                
             }
             $data = array_values($data);
         }
@@ -293,10 +311,6 @@ class PropertiesController extends Controller {
                 'sec'=> $property['sec'],
                 'lot'=> $property['lot'],
                 'unit'=> $property['unit'],
-                'land_value'=> $property['land_value'],
-                'land_component'=> $property['land_component'],
-                'improvement_component'=> $property['improvement_component'],
-                'area'=> $property['area'],
                 'owner'=> $property['owner'],
                 'valuation'=> $property['valuation'],
                 'current_value'=>floatval($property['current__value']['value'])
@@ -467,7 +481,12 @@ class PropertiesController extends Controller {
 <table border="1" cellpadding="10" cellspacing="0">
     <tr>
         <th>Date</th>
-        <th>Value</th>
+        <th>Total Value</th>
+        <th>Land Value</th>
+        <th>Land Component</th>
+        <th>Insurance Value</th>
+        <th>Improvement Component</th>
+        <th>Area</th>
         <th>Remarks</th>
     </tr>
     <?php
@@ -475,7 +494,12 @@ class PropertiesController extends Controller {
         foreach($request->valuations as $key=>$valuation) { ?>
             <tr>
                 <td><?php echo $valuation['date'] ?></td>
-                <td><?php echo $valuation['value'] ?></td>
+                <td><?php echo $valuation['improvement_component'] + $valuation['land_value'] ?></td>
+                <td><?php echo $valuation['land_value'] ?></td>
+                <td><?php echo $valuation['land_component'] ?></td>
+                <td><?php echo $valuation['insurance_value'] ?></td>
+                <td><?php echo $valuation['improvement_component'] ?></td>
+                <td><?php echo $valuation['area'] ?></td>
                 <td><?php echo $valuation['remarks'] ?></td>
             </tr>
         <?php }

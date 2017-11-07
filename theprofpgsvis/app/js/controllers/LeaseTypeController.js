@@ -1,5 +1,5 @@
 /* Setup blank page controller */
-angular.module('MetronicApp').controller('LeaseTypeController', function($rootScope, $scope, settings, $http, $rootScope) {
+angular.module('MetronicApp').controller('LeaseTypeController', function($rootScope, $scope, settings, $http, $rootScope, FUNC) {
     $scope.$on('$viewContentLoaded', function() {   
         // initialize core components
         App.initAjax();
@@ -56,9 +56,9 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
         $http.get($rootScope.apiURL + 'v1/property_lease_type?token='+localStorage.getItem('satellizer_token')).success(function(property_lease_types) {
             $scope.property_lease_types = property_lease_types.data;
         }).error(function(error) {
-            $scope.error = error;
-            if(error.error == "token_expired")
-                $rootScope.logout();
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
+            }
         })
     };
     $scope.init();

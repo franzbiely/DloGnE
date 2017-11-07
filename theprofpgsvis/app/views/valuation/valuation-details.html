@@ -1,0 +1,122 @@
+<div class="row">
+
+    <div class="col-md-12">
+    	<div class="portlet light portlet-fit portlet-form bordered">
+            <div class="portlet-title">
+                <div class="caption"><i class="fa fa-gift"></i>{[{ page_title }]}</div>
+            </div>
+            <div class="portlet-body">
+
+                <!-- BEGIN FORM-->
+                <form class="form-horizontal" ng-submit="save()">
+                    <div class="form-body">
+                        <button class="btn btn-info" ui-sref="valuations.list({property_id : data.property_id})"><i class="fa fa-chevron-left"></i> Back</button>
+                        <h3 class="form-section">Valuation Details <button ng-disabled="isDisabled" type="submit" class="btn green"><i class="fa fa-check" ng-class="{'fa-spinner fa-spin' : isDisabled}"></i> Save</button></h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Date Valued <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-9">
+                                        <input required ng-model="data.date" class="form-control form-control-inline input-medium date-picker" size="16" type="text" placeholder="" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-5">Property #</label>
+                                    <div class="col-md-7">
+                                        <input disabled class="form-control form-control-inline input-medium" type="text" value="{[{ data.property_id }]}" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Land Value <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-9">
+                                        <input required ng-model="data.land_value" class="form-control form-control-inline input-medium" size="16" type="text" placeholder=""  format="number" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-5">Land Component <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-7">
+                                        <input required ng-model="data.land_component" class="form-control form-control-inline input-medium" type="text"  format="number" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Insurance Value <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-9">
+                                        <input required ng-model="data.insurance_value" class="form-control form-control-inline input-medium" size="16" type="text" placeholder=""  format="number" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-5">Improvement Component <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-7">
+                                        <input required ng-model="data.improvement_component" class="form-control form-control-inline input-medium" type="text"  format="number" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Remarks</label>
+                                    <div class="col-md-9">
+                                        <textarea rows="5" class="form-control" ng-model="data.remarks"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-5">Area <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-7">
+                                        <input required ng-model="data.area" class="form-control form-control-inline input-medium" type="text"  format="number" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="form-section">Attachment</h3>
+                        <div class="row">
+                            <!--/span-->
+                            <div class="col-md-6">
+                                <h4>PDF Gallery</h4>
+                                <div ng-hide="hasFile" class="dropzone" options="dzOptionsPDF" callbacks="dzCallbacksPDF" methods="dzMethodsPDF" ng-dropzone></div>
+                                <ul class="pdf-gallery clearfix">
+                                    <li ng-repeat="(key, value) in pdfs">
+                                        <strong><a ng-href="{[{value.file_path}]}" target="_self" download="{[{value.file_name}]}">{[{value.file_name}]}</a></strong>
+                                        <a ng-click="removePDF(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--/row-->
+                        
+                        <!-- CALL PROPERTY DETAIL -->
+                        <div ui-view="property-detail" class="fade-in-up"> </div>
+                        <br /><br /><br />
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+        </div>
+    </div>
+</div>

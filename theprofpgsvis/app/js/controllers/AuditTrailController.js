@@ -1,5 +1,5 @@
 /* Setup general page controller */
-angular.module('MetronicApp').controller('AuditTrailController', function($rootScope, $scope, settings, $http) {
+angular.module('MetronicApp').controller('AuditTrailController', function($rootScope, $scope, settings, $http, FUNC) {
     $scope.$on('$viewContentLoaded', function() {
         // initialize core components
         App.initAjax();
@@ -11,8 +11,9 @@ angular.module('MetronicApp').controller('AuditTrailController', function($rootS
         $http.get($rootScope.apiURL + 'v1/audit_trail?token=' + localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.audit_trails = ret.data;
         }).error(function(error) {
-            $scope.error = error;
-            $rootScope.logout();
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
+            }
         })
     };
     $scope.init();

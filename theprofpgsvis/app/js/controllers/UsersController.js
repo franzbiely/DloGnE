@@ -1,5 +1,5 @@
 /* Setup blank page controller */
-angular.module('MetronicApp').controller('UsersController', function($rootScope, $scope, settings, $http, $compile, $rootScope) {
+angular.module('MetronicApp').controller('UsersController', function($rootScope, $scope, settings, $http, $compile, $rootScope, FUNC) {
     $scope.$on('$viewContentLoaded', function() {   
         App.initAjax();
         $scope.users = [];
@@ -148,8 +148,9 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
             $scope.users = users.data;
             console.log(users.data);
         }).error(function(error) {
-            $scope.error = error;
-            $rootScope.logout();
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
+            }
         })
     };
     $scope.init();

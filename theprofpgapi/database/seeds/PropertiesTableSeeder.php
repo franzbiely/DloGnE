@@ -23,10 +23,6 @@ class PropertiesTableSeeder extends Seeder
 				'sec' => $faker->randomDigit,
 				'lot' => $faker->randomDigit,
 				'unit' => $faker->randomDigit,
-				'land_value' => $faker->numberBetween($min = 1, $max = 100),
-				'land_component' => $faker->text,
-				'improvement_component' => $faker->text,
-				'area' => $faker->randomDigit,
 				'owner' =>$faker->name
             ]);
         }

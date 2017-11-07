@@ -1,13 +1,16 @@
 angular.module('MetronicApp').controller('PropertiesController', 
-    function($rootScope, $scope, $http, settings, $state) {
+    function($rootScope, $scope, $http, settings, $state, FUNC) {
+        $scope.page_name = "properties";
         $scope.archives = [];
         $scope.properties = [];
         $scope.error;
         $scope.property;
         $scope.isDisabled = false;
+        $rootScope.pageSidebarClosed = false
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax();
         });
+        
         $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
 
         
@@ -20,8 +23,9 @@ angular.module('MetronicApp').controller('PropertiesController',
             $http.get(url).success(function(property) {
                 $scope.properties = property.data;
             }).error(function(error) {
-                console.log('Service error : ',error);
-                $rootScope.logout();
+                if(!FUNC.tryLogout(error)) {
+                    console.log(error);  
+                }
             })
         }
         $scope.init();
@@ -74,7 +78,7 @@ angular.module('MetronicApp').controller('PropertiesController',
             var param = {
                 is_archive : 0
             };
-            $http.patch($rootScope.apiURL + 'v1/property/' + id + '?token='+localStorage.getItem('satellizer_token'), param)
+            $http.put($rootScope.apiURL + 'v1/property/' + id + '?token='+localStorage.getItem('satellizer_token'), param)
                 .success(function() {
                     $scope.properties.splice(index, 1);
                     $scope.isDisabled = false;

@@ -1,21 +1,19 @@
 angular.module('MetronicApp').controller('ReportsController', 
-    function($rootScope, $scope, $http, $timeout, $window, $http, $state) {
+    function($rootScope, $scope, $http, $timeout, $window, $http, $state, FUNC) {
         $scope.multipleResultsShow = false;
         $scope.isReport = true;
         $scope.pdfs = [];  
-        $scope.photos = [];  
+        $scope.photos = [];
+        $rootScope.pageSidebarClosed = false;
+
         // Load Select options data
         $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_use_options = toOption(ret.data);
             $scope.property_use_options.splice(0, 0, { id : '', label : '[Choose Use]' });
             $scope.data_temp.property_use_selected = $scope.property_use_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_use', error);  
-            if(typeof error !== 'null') {
-
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $http.get($rootScope.apiURL + 'v1/property_class?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -23,11 +21,8 @@ angular.module('MetronicApp').controller('ReportsController',
             $scope.property_class_options.splice(0, 0, { id : '', label : '[Choose Class]' });
             $scope.data_temp.property_class_selected = $scope.property_class_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_class');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $http.get($rootScope.apiURL + 'v1/property_lease_type?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -35,11 +30,8 @@ angular.module('MetronicApp').controller('ReportsController',
             $scope.property_lease_type_options.splice(0, 0, { id : '', label : '[Choose Lease Type]' });
             $scope.data_temp.property_lease_type_selected = $scope.property_lease_type_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_lease_type');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $http.get($rootScope.apiURL + 'v1/property_city?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -47,11 +39,8 @@ angular.module('MetronicApp').controller('ReportsController',
             $scope.property_city_options.splice(0, 0, { id : '', label : '[Choose City]' });
             $scope.data_temp.property_city_selected = $scope.property_city_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_city');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $http.get($rootScope.apiURL + 'v1/property_suburb?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -59,11 +48,8 @@ angular.module('MetronicApp').controller('ReportsController',
             $scope.property_suburb_options.splice(0, 0, { id : '', label : '[Choose Suburb]' });
             $scope.data_temp.property_suburb_selected = $scope.property_suburb_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_suburb', error);  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
 
@@ -155,11 +141,21 @@ angular.module('MetronicApp').controller('ReportsController',
             $scope.multi_property_results = false;
             $scope.resultReady = false;
         }
+        $scope.showSearch = function() {
+            $scope.hideForm = false;
+        }
+        $scope.hideSearch = function() {
+            $scope.hideForm = true;
+        }
         $scope.showResult = function(property_id) {
             var str;
+            $scope.hideForm = true;
             $scope.multi_property_results = false;
             $scope.resultReady = false;
+            $scope.isSearchFormCollapsed = true;
             
+            $scope.searchdata.include_sales_zero = true;
+            $scope.searchdata.include_valuation_zero = true;
             $scope.searchdata.property_city_id = 
             $scope.searchdata.property_suburb_id =
             $scope.searchdata.property_class_id =
@@ -205,6 +201,7 @@ angular.module('MetronicApp').controller('ReportsController',
                 }
                 else {
                     $scope.multipleResultsShow = false;
+
                     for (var i = 0; i < response.data.length; i++) {
                         $scope.property_id = response.data[i].id;
                         $scope.data.id = response.data[i].id;
@@ -246,7 +243,8 @@ angular.module('MetronicApp').controller('ReportsController',
 
                     // Get property media
                     var param = "source_id=" + $scope.property_id + "&source_table=properties";
-                    $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token')).success(function(mpres) {
+                    $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token'))
+                    .success(function(mpres) {
                         var photo_counter = 0, pdf_counter = 0;
 
                         for(var x=0; x < mpres.data.length; x++) {
@@ -273,15 +271,16 @@ angular.module('MetronicApp').controller('ReportsController',
                     });
 
                     // Get Valuation data
-                    $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+                    $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token'))
+                    .success(function(res) {
                         $scope.valuations = res.data;
                     }).error(function(error) {
                         console.log('Service error : ',error);
                     })
 
-
                     // Get Sales data
-                    $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+                    $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token'))
+                    .success(function(res) {
                         $scope.sales = res.data;
                     }).error(function(error) {
                         console.log('Service error : ',error);
@@ -296,13 +295,10 @@ angular.module('MetronicApp').controller('ReportsController',
                     // show details below
                     $scope.resultReady = true;
                 }
-                
-                
 
             }).error(function(error) {
-                console.log('Error loading '+ $rootScope.apiURL + 'v1/property/param/', error);  
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
+                if(!FUNC.tryLogout(error)) {
+                    console.log(error);  
                 }
             });
 

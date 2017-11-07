@@ -12,7 +12,12 @@ class Valuation extends Model
 		'value',
 		'remarks',
 		'property_id',
-		'property_city_id'
+		'property_city_id',
+		'land_value',
+		'land_component',
+		'insurance_value',
+		'improvement_component',
+		'area'
 	];
 	protected $hidden = ['created_at', 'updated_at'];
 	

@@ -23,7 +23,7 @@ MetronicApp.run(['$rootScope', 'settings', '$state', '$templateCache', '$templat
     
     $rootScope.pageSidebarClosed = false;
 
-    // $rootScope.currentUser = JSON.parse(localStorage.getItem('user'));
+    $rootScope.currentUser = JSON.parse(localStorage.getItem('user'));
     
     // Define anonymous role
     
@@ -79,6 +79,21 @@ MetronicApp.config(['$controllerProvider', function($controllerProvider) {
   // in new ones!
   $controllerProvider.allowGlobals();
 }]);
+
+MetronicApp.animation('.slide-toggle-js', function(){
+  return {
+    enter: function(element, done) {
+      $(element).hide().slideDown(function(){
+          done();
+        });
+    },
+    leave: function(element, done) {
+      $(element).slideUp(function(){
+          done();
+        });      
+    }
+  };  
+});
 /********************************************
  END: BREAKING CHANGE in AngularJS v1.3.x:
 *********************************************/
@@ -277,6 +292,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                         name: 'MetronicApp',  
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
                             'js/controllers/SalesController.js',
                             'js/controllers/PropertiesController.js'
                         ]                    
@@ -292,7 +309,35 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             }
         })
-
+        .state("sales.list", {
+            url: "/:property_id",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/property-sales.html",
+                    controller: "SalesController"
+                }
+            },
+            data: {
+                pageTitle: 'Property Sales List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
+                            'js/controllers/SalesController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
         .state("sales.details", {
             url: "/details/:sales_id/:property_id",
             views: {
@@ -348,35 +393,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             }
         })
 
-        .state("property.valuations", {
-            url: "/valuations/:property_id",
-            views: {
-                'app-body-inner': {
-                    templateUrl: "views/property/property-valuations.html",
-                    controller: "ValuationsController"
-                }
-            },
-            data: {
-                pageTitle: 'Property Valuation List',
-                permissions: {
-                    except: ['anonymous'],
-                    redirectTo: 'login'
-                }
-            },
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'MetronicApp',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            './assets/vendor/css/bootstrap-datepicker3.min.css',
-                            './assets/vendor/js/bootstrap-datepicker.min.js',
-                            'js/controllers/ValuationsController.js'
-                        ] 
-                    });
-                }]
-            }
-        })
+        
 
         .state("property.sales", {
             url: "/sales/:property_id",
@@ -461,6 +478,12 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 },
                 'property-detail@property.edit': {
                     templateUrl : "views/property/property-details.html"
+                },
+                'valuation-details@property.edit' : {
+                    templateUrl : "views/property/property-valuations.html"
+                },
+                'sales-details@property.edit' : {
+                    templateUrl : "views/property/property-sales.html"
                 }
             },
             data: {
@@ -709,13 +732,13 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
 
         // Valuation
         .state("valuations", {
-            url: "/find-valuation",
+            url: "/valuations",
             views: {
                 'app-body': {
-                    templateUrl: "views/dashboard.html",controller : "ValuationsController"         
+                    templateUrl: "views/dashboard.html"
                 },
                 'app-body-inner@valuations': {
-                    templateUrl: "views/valuations.html"
+                    templateUrl: "views/valuations.html", controller : "ValuationsController"
                 },
                 'valuation-details@valuations' : {
                     templateUrl : "views/property/property-valuations.html"
@@ -733,6 +756,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                         name: 'MetronicApp',  
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
                             'js/controllers/ValuationsController.js'
                         ]                    
                     });
@@ -740,6 +765,139 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             },
             data: {
                 pageTitle: 'Find Valuations',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
+        })
+        .state("valuations.list", {
+            url: "/:property_id",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/property-valuations.html",controller : "ValuationsController"         
+                }
+            },
+            data: {
+                pageTitle: 'Property Valuation List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
+                            'js/controllers/ValuationsController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+        .state("property.valuations", {
+            url: "/valuations/:property_id",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/property/property-valuations.html",
+                    controller: "ValuationsController"
+                }
+            },
+            data: {
+                pageTitle: 'Property Valuation List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
+                            'js/controllers/ValuationsController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+        .state("valuations.details", {
+            url: "/details/:valuation_id",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/valuation/valuation-details.html",
+                    controller: "ValuationDetailsController"
+                },
+                'property-detail@valuation.details': {
+                    templateUrl : "views/property/property-details.html",
+                    controller: "PropertyNewController"
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
+                            './assets/vendor/js/angular-file-upload.min.js',
+                            './assets/vendor/css/bootstrap-fileinput.css',
+                            './assets/vendor/js/bootstrap-fileinput.js',
+                            './assets/vendor/js/jquery.inputmask.bundle.min.js',
+                            'js/controllers/PropertyNewController.js',
+                            'js/controllers/ValuationDetailsController.js'
+                        ]                    
+                    });
+                }]
+            },
+            data: {
+                pageTitle: 'Valuation Details',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
+        })
+        .state("valuations.new", {
+            url: "/new/:property_id",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/valuation/valuation-details.html",
+                    controller: "ValuationDetailsController"
+                },
+                'property-detail@valuation.details': {
+                    templateUrl : "views/property/property-details.html",
+                    controller: "PropertyNewController"
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
+                            './assets/vendor/js/angular-file-upload.min.js',
+                            './assets/vendor/css/bootstrap-fileinput.css',
+                            './assets/vendor/js/bootstrap-fileinput.js',
+                            './assets/vendor/js/jquery.inputmask.bundle.min.js',
+                            'js/controllers/PropertyNewController.js',
+                            'js/controllers/ValuationDetailsController.js'
+                        ]                    
+                    });
+                }]
+            },
+            data: {
+                pageTitle: 'New Valuation',
                 permissions: {
                     except: ['anonymous'],
                     redirectTo: 'login'

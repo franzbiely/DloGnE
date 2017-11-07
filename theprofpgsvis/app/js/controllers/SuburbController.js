@@ -1,5 +1,5 @@
 /* Setup blank page controller */
-angular.module('MetronicApp').controller('SuburbController', function($rootScope, $scope, settings, $http, $compile, $rootScope) {
+angular.module('MetronicApp').controller('SuburbController', function($rootScope, $scope, settings, $http, $compile, $rootScope, FUNC) {
     $scope.$on('$viewContentLoaded', function() {   
         App.initAjax();
     });
@@ -99,9 +99,9 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
         $http.get($rootScope.apiURL + 'v1/property_suburb?token='+localStorage.getItem('satellizer_token')).success(function(property_suburbs) {
             $scope.property_suburbs = property_suburbs.data;
         }).error(function(error) {
-            $scope.error = error;
-            if(error.error == "token_expired")
-                $rootScope.logout();
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
+            }
         })
     };
     $scope.init();

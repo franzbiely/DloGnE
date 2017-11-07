@@ -1,5 +1,5 @@
 /* Setup blank page controller */
-angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope', 'settings', '$http', '$compile', function($rootScope, $scope, settings, $http, $compile) {
+angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope', 'settings', '$http', '$compile', function($rootScope, $scope, settings, $http, $compile, FUNC) {
     $scope.$on('$viewContentLoaded', function() {
         // initialize core components
         App.initAjax();
@@ -64,9 +64,9 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
         $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(property_uses) {
             $scope.property_uses = property_uses.data;
         }).error(function(error) {
-            $scope.error = error;
-            if(error.error == "token_expired")
-                $rootScope.logout();
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
+            }
         })
     };
     $scope.init();

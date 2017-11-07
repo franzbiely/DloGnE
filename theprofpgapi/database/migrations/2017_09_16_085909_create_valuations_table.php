@@ -16,9 +16,13 @@ class CreateValuationsTable extends Migration
         Schema::create($this->table_name, function (Blueprint $table) {
             $table->increments('id');
             $table->date('date');
-            $table->text('value');
             $table->text('remarks');
             $table->integer('property_id');
+            $table->text('land_value');
+            $table->text('land_component');
+            $table->text('insurance_value');
+            $table->text('improvement_component');
+            $table->text('area');
             $table->timestamps();
         });
     }

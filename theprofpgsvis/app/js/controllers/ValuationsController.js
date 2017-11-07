@@ -1,9 +1,13 @@
 angular.module('MetronicApp').controller('ValuationsController',
-    function($rootScope, $scope, $http, settings, $stateParams, $uibModal, moment) {
+    function($rootScope, $scope, $http, settings, $stateParams, $uibModal, moment, FUNC, $state) {
 
         $scope.multipleResultsShow = false;
         $scope.page_name = "valuations";
-
+        $scope.canAddValuation = true;
+        $rootScope.pageSidebarClosed = false;
+        $scope.data = [];  
+        $scope.data.pdf_ids = [];
+        
         // Load Select options data
         $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_use_options = toOption(ret.data);
@@ -11,11 +15,8 @@ angular.module('MetronicApp').controller('ValuationsController',
             $scope.data_temp.property_use_selected = $scope.property_use_options[0];
             // console.log($scope.searchdata);
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_use');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $http.get($rootScope.apiURL + 'v1/property_class?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -23,11 +24,8 @@ angular.module('MetronicApp').controller('ValuationsController',
             $scope.property_class_options.splice(0, 0, { id : '', label : '[Choose Class]' });
             $scope.data_temp.property_class_selected = $scope.property_class_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_class');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $http.get($rootScope.apiURL + 'v1/property_lease_type?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -35,11 +33,8 @@ angular.module('MetronicApp').controller('ValuationsController',
             $scope.property_lease_type_options.splice(0, 0, { id : '', label : '[Choose Lease Type]' });
             $scope.data_temp.property_lease_type_selected = $scope.property_lease_type_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_lease_type');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $http.get($rootScope.apiURL + 'v1/property_city?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -47,11 +42,8 @@ angular.module('MetronicApp').controller('ValuationsController',
             $scope.property_city_options.splice(0, 0, { id : '', label : '[Choose City]' });
             $scope.data_temp.property_city_selected = $scope.property_city_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_city');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $http.get($rootScope.apiURL + 'v1/property_suburb?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -59,11 +51,8 @@ angular.module('MetronicApp').controller('ValuationsController',
             $scope.property_suburb_options.splice(0, 0, { id : '', label : '[Choose Suburb]' });
             $scope.data_temp.property_suburb_selected = $scope.property_suburb_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_suburb');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $scope.$watchGroup( ["property_use_options", "property_class_options","property_lease_type_options","property_city_options","property_suburb_options"] , function(n,o){  
@@ -76,7 +65,9 @@ angular.module('MetronicApp').controller('ValuationsController',
             }
         },true);
     
-
+        $scope.attachPreBaseURL = function(string) {
+            return $rootScope.apiPublicURL + string;
+        }
         function toOption(data, label) {
             if (!label) label = 'name';
             var options = [ data.length ];
@@ -152,31 +143,37 @@ angular.module('MetronicApp').controller('ValuationsController',
             $scope.multipleResultsShow = false;
             $scope.multi_property_results = false;
             $scope.resultReady = false;
+            $scope.include_zero = false;
         }
         $scope.valuation = [];
         $scope.property_id = $stateParams.property_id;
-        $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
+        // $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
+        $scope.hasActions = true;
 
         // Display
-        $scope.init = function() {
-            $http.get($rootScope.apiURL + 'v1/valuation/prop/' + $scope.property_id + '?token=' + localStorage.getItem('satellizer_token')).success(function(res) {
+        $scope.loadValuationLists = function() {
+            $http.get($rootScope.apiURL + 'v1/valuation/prop/' + $state.params.property_id + '?token=' + localStorage.getItem('satellizer_token')).success(function(res) {
                 $scope.valuations = res.data;
             }).error(function(error) {
-                console.log('Service error : ', error);
-                if(typeof error !== 'null') {
-                    if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                        $rootScope.logout();    
-                    }
+                if(!FUNC.tryLogout(error)) {
+                    console.log(error);  
                 }
             })
         };
-        $scope.init();
+        if($state.current.name == 'valuations.list') {
+            $rootScope.pageSidebarClosed = true;     
+            $scope.loadValuationLists();
+        }
         $scope.show_valuation = function(prop_id) {
+            $scope.property_id = prop_id;
             // Get Valuation data
             $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ prop_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
                 $scope.valuations = res.data;
+                $rootScope.pageSidebarClosed = true;
             }).error(function(error) {
-                console.log('Service error : ',error);
+                if(!FUNC.tryLogout(error)) {
+                    console.log(error);  
+                }
             })
             const user = JSON.parse(localStorage.getItem('user'));
             $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
@@ -187,18 +184,34 @@ angular.module('MetronicApp').controller('ValuationsController',
             $scope.multipleResultsShow = false;
             $scope.resultReady = true;
         }
+        $scope.showSearch = function(showMultiResult) {
+            if(!showMultiResult) showMultiResult = false;
+            $scope.hideForm = false;
+            if(showMultiResult == 'yes') {
+                $scope.multipleResultsReady = true;
+            }
+            else {
+                $scope.multipleResultsReady = false;      
+            }
+        }
+        $scope.hideSearch = function() {
+            $scope.hideForm = true;
+        }
         // From Reports
         $scope.showResult = function(property_id, from_id_link) {
+            $scope.hideForm = true;
             if (!from_id_link) from_id_link = false;
-            $scope.hasActions = false;
+            // $scope.hasActions = false;
             // $scope.multi_property_results = false;
             $scope.resultReady = false;
-            var str;
-            
+
+            $scope.searchdata.include_sales_zero = true;
+            $scope.searchdata.include_valuation_zero =
             $scope.searchdata.property_city_id = 
             $scope.searchdata.property_suburb_id =
             $scope.searchdata.property_class_id =
             $scope.searchdata.property_lease_type_id = '';
+
 
             if(typeof $scope.data_temp.property_city_selected !== 'undefined' && $scope.data_temp.property_city_selected.id !== '') {
                 $scope.searchdata.property_city_id = $scope.data_temp.property_city_selected.id;
@@ -212,6 +225,9 @@ angular.module('MetronicApp').controller('ValuationsController',
             if(typeof $scope.data_temp.property_lease_type_selected !== 'undefined' && $scope.data_temp.property_lease_type_selected.id !== '') {
                 $scope.searchdata.property_lease_type_id = $scope.data_temp.property_lease_type_selected.id;
             }
+            if(typeof $scope.data_temp.include_zero !== 'undefined' && $scope.data_temp.include_zero.id !== '') {
+                $scope.searchdata.include_valuation_zero = $scope.data_temp.include_zero;
+            }
             if(property_id != null) {
                 str = 'id='+ property_id;
                 
@@ -224,13 +240,14 @@ angular.module('MetronicApp').controller('ValuationsController',
                     }
                 }).join('&');    
             }
-            
             $http.get($rootScope.apiURL + 'v1/property/param/'+ str +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
+                $scope.hideForm = false;
                 if(response.data.length == '0') {
                     alert('No result');
                 }
                 else if(response.data.length > 1) {
                     $scope.multi_property_results = response.data;
+                    $scope.hideForm = true;
                     $scope.multipleResultsReady = true;
                     const user = JSON.parse(localStorage.getItem('user'));
                     $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
@@ -244,28 +261,28 @@ angular.module('MetronicApp').controller('ValuationsController',
                         $scope.multipleResultsShow = true;
                         $scope.multipleResultsReady = true;
                     }
+                    $state.go('valuations.list', {property_id : response.data[0].id});
                     // console.log(response.data);
-                    var property_details = 
-                        '<table class="table table-bordered">\
-                        <caption>Property Details</caption>';
-                    var prop_detail = [
-                            'id','city','suburb','lease_type','class','use','description','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner'
-                        ];
-                    for(var key in prop_detail) {
-                        property_details += '<tr>\
-                            <td class="col-md-4">'+ dataToReadable(prop_detail[key]) +'</td>\
-                            <td>'+ response.data[0][prop_detail[key]] +'</td>\
-                        </tr>';
-                    }
-                        property_details += '</table>';
+                    // var property_details = 
+                    //     '<table class="table table-bordered">\
+                    //     <caption>Property Details</caption>';
+                    // var prop_detail = [
+                    //         'id','city','suburb','lease_type','class','use','description','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner'
+                    //     ];
+                    // for(var key in prop_detail) {
+                    //     property_details += '<tr>\
+                    //         <td class="col-md-4">'+ dataToReadable(prop_detail[key]) +'</td>\
+                    //         <td>'+ response.data[0][prop_detail[key]] +'</td>\
+                    //     </tr>';
+                    // }
+                    //     property_details += '</table>';
                         
-                    bootbox.alert(property_details);
+                    // bootbox.alert(property_details);
                 }
                 
             }).error(function(error) {
-                console.log('Error loading ' + $rootScope.apiURL + 'v1/property/param/');
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
+                if(!FUNC.tryLogout(error)) {
+                    console.log(error);  
                 }
             });
 
@@ -290,14 +307,62 @@ angular.module('MetronicApp').controller('ValuationsController',
             form += '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Value <span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Land Value <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
             if (key > -1) {
-                form += '<input required type="text" value="' + $scope.valuations[key].value + '" class="form-control" name="value" id="value"> </div>';
+                form += '<input required type="text" value="' + $scope.valuations[key].land_value + '" class="form-control" name="land_value" id="land_value"> </div>';
             } else {
-                form += '<input required type="text" class="form-control" name="value" id="value"> </div>';
+                form += '<input required type="text" class="form-control" name="land_value" id="land_value"> </div>';
+            }
+            form += '</div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Land Component <span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+            if (key > -1) {
+                form += '<input required type="text" value="' + $scope.valuations[key].land_component + '" class="form-control" name="land_component" id="land_component"> </div>';
+            } else {
+                form += '<input required type="text" class="form-control" name="land_component" id="land_component"> </div>';
+            }
+            form += '</div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Insurance Value <span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+            if (key > -1) {
+                form += '<input required type="text" value="' + $scope.valuations[key].insurance_value + '" class="form-control" name="insurance_value" id="insurance_value"> </div>';
+            } else {
+                form += '<input required type="text" class="form-control" name="insurance_value" id="insurance_value"> </div>';
+            }
+            form += '</div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Improvement Component <span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+            if (key > -1) {
+                form += '<input required type="text" value="' + $scope.valuations[key].improvement_component + '" class="form-control" name="improvement_component" id="improvement_component"> </div>';
+            } else {
+                form += '<input required type="text" class="form-control" name="improvement_component" id="improvement_component"> </div>';
+            }
+            form += '</div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Area <span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+            if (key > -1) {
+                form += '<input required type="text" value="' + $scope.valuations[key].area + '" class="form-control" name="area" id="area"> </div>';
+            } else {
+                form += '<input required type="text" class="form-control" name="area" id="area"> </div>';
             }
             form += '</div>\
                                 </div>\
@@ -361,16 +426,18 @@ angular.module('MetronicApp').controller('ValuationsController',
 
         // Delete
         $scope.delete = function(index, id) {
-
-            $http.delete($rootScope.apiURL + 'v1/valuation/' + id + '?token=' + localStorage.getItem('satellizer_token'))
-                .success(function() {
-                    const user = JSON.parse(localStorage.getItem('user'));
-                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
-                        user_id : user.id,
-                        log : 'deleted valuation #'+id
-                    }).success(function(response) {alert('Deleted valuation #'+id)});
-                    $scope.valuations.splice(index, 1);
-                });;
+            var _confirmed = confirm("Are you sure to delete this data?");
+            if(_confirmed) {
+                $http.delete($rootScope.apiURL + 'v1/valuation/' + id + '?token=' + localStorage.getItem('satellizer_token'))
+                    .success(function() {
+                        const user = JSON.parse(localStorage.getItem('user'));
+                        $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                            user_id : user.id,
+                            log : 'deleted valuation #'+id
+                        }).success(function(response) {alert('Deleted valuation #'+id)});
+                        $scope.valuations.splice(index, 1);
+                    });
+            }
         }
 
         // Add
@@ -390,9 +457,9 @@ angular.module('MetronicApp').controller('ValuationsController',
                 $scope.valuation = '';
 
             }).error(function() {
-                console.log("error");
-                if (error.error == "token_expired")
-                    $rootScope.logout();
+                if(!FUNC.tryLogout(error)) {
+                    console.log(error);  
+                }
             });
         };
 
@@ -410,9 +477,9 @@ angular.module('MetronicApp').controller('ValuationsController',
                 }).success(function(response) {});
                 alert("Updated Successfully");
             }).error(function() {
-                console.log("error");
-                if (error.error == "token_expired")
-                    $rootScope.logout();
+                if(!FUNC.tryLogout(error)) {
+                    console.log(error);  
+                }
             });
         }
 

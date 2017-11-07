@@ -9,9 +9,10 @@ use App\Http\Controllers\Controller;
 use App\Valuation;
 use App\Property;
 
-
+use App\Http\Controllers\MediaController;
 use Response;
 use Input;
+use DB;
 
 class ValuationsController extends Controller
 {
@@ -47,9 +48,13 @@ class ValuationsController extends Controller
                 )
             )->select('id', 
                 'date',
-                'value',
                 'remarks',
-                'property_id'
+                'property_id',
+                'land_value',
+                'land_component',
+                'insurance_value',
+                'improvement_component',
+                'area'
             )->paginate($limit); 
 
             $valuations->appends(array(            
@@ -62,18 +67,34 @@ class ValuationsController extends Controller
     public function getByProperty(Request $request, $property_id) {
         $search_term = $request->input('search');
         $limit = $request->input('limit', 100);
-        $valuations = Valuation::where('property_id',$property_id)->orderBy('id', 'DESC')->with(
-            array(
-                'Property'=>function($query){
-                    $query->select('id','code');
-                }
-            )
-        )->select('id', 
-            'date',
-            'value',
-            'remarks',
-            'property_id'
-        )->paginate($limit); 
+        $valuations = Valuation::where(array('property_id'=>$property_id))
+            ->orderBy('id', 'DESC')
+            ->with(
+                array(
+                    'Property'=>function($query){
+                        $query->select('id','code');
+                    }
+                )
+            )->select('valuations.id', 
+                'date',
+                'remarks',
+                'property_id',
+                'land_value',
+                'land_component',
+                'insurance_value',
+                'improvement_component',
+                'area',
+                DB::raw('COUNT(media.id) AS pdfs_count'),
+                DB::raw('media.file_path as file_path'),
+                DB::raw('media.file_name as file_name')
+            )->leftJoin('media', function($join) {
+                $join->on('media.source_id', '=', 'valuations.id');
+                $join->where('media.source_table', '=', 'valuations');
+                $join->where('media.media_type', '=', 'attached');
+            })
+            ->groupBy('valuations.id')
+            ->paginate($limit); 
+
         $valuations->appends(array(            
             'limit' => $limit
         ));
@@ -82,7 +103,27 @@ class ValuationsController extends Controller
 
 
     public function store(Request $request) {
-        $valuation = Valuation::create($request->all());
+        $media_controller = new MediaController();
+        try {
+            $valuation = Valuation::create($request->all());
+        }
+        catch(\Exception $e){
+            return 'Error on inserting valuation details ' . $e->getMessage();
+        }
+        if(isset($request->photo_ids)) {
+            try {
+                foreach($request->photo_ids as $photo_id) {
+                    $media_controller->update_source_id($photo_id, $valuation->id);
+                }
+                foreach($request->pdf_ids as $pdf_id) {
+                    $media_controller->update_source_id($pdf_id, $valuation->id);
+                }
+            }
+            catch(\Exception $e){
+                return 'Error on updating image source ' . $e->getMessage();
+            }
+        }
+        
 
         return Response::json([
                 'message' => 'Data created succesfully',
@@ -124,17 +165,52 @@ class ValuationsController extends Controller
 
     public function update(Request $request, $id)
     {    
-        $valuation = Valuation::find($id);
-        if(isset($request->date)) $valuation->date = $request->date;
-        if(isset($request->value)) $valuation->value = $request->value;
-        if(isset($request->remarks)) $valuation->remarks = $request->remarks;
-        if(isset($request->property_id)) $valuation->property_id = $request->property_id;
-        
-        $valuation->save(); 
+        try {
+            $valuation = Valuation::find($id);
+            if(isset($request->date)) $valuation->date = $request->date;
+            if(isset($request->remarks)) $valuation->remarks = $request->remarks;
+            if(isset($request->property_id)) $valuation->property_id = $request->property_id;
+            if(isset($request->land_value))         $valuation->land_value = $request->land_value;
+            if(isset($request->land_component))     $valuation->land_component = $request->land_component;
+            if(isset($request->insurance_value))         $valuation->insurance_value = $request->insurance_value;
+            if(isset($request->improvement_component)) $valuation->improvement_component = $request->improvement_component;
+            if(isset($request->area))               $valuation->area = $request->area;
+            
+            $valuation->save(); 
+        }
+        catch(\Exception $e){
+            return 'Error on updating valuation details  ' . $e->getMessage();
+        }
+        // return Response::json([
+        //         'message' => 'Data Updated Succesfully',
+        //         'a'=>$request->pdf_ids
+        // ]);
+        if(isset($request->pdf_ids)) {
 
-        return Response::json([
-                'message' => 'Data Updated Succesfully'
-        ]);
+            try {
+
+                // remove not in array anymore
+                $media_controller = new MediaController();
+                
+                $media_controller->remove_pdf_by_valuationID($id, $request->pdf_ids);
+                // update and insert new photo_ids
+                
+                foreach($request->pdf_ids as $pdf_id) {
+                    $media_controller->update_source_id($pdf_id, $id);
+                }
+                return Response::json([$id, $request->pdf_ids]);
+            }
+            catch(\Exception $e){
+                return 'Error on updating image source ' . $e->getMessage();
+            }
+        }
+
+
+
+
+        // return Response::json([
+        //         'message' => 'Data Updated Succesfully'
+        // ]);
     }
 
     public function destroy($id)
@@ -163,9 +239,16 @@ class ValuationsController extends Controller
         return [
                 'id' => $valuation['id'],
                 'date' => $valuation['date'],
-                'value' => $valuation['value'],
                 'remarks'=>$valuation['remarks'],
-                'property_id'=>$valuation['property']['code']
+                'land_value'=>$valuation['land_value'],
+                'land_component'=>$valuation['land_component'],
+                'insurance_value'=>$valuation['insurance_value'],
+                'improvement_component'=>$valuation['improvement_component'],
+                'area'=>$valuation['area'],
+                'property_id'=>$valuation['property']['code'],
+                'pdfs_count'=>$valuation['pdfs_count'],
+                'pdf_file_path' =>$valuation['file_path'],
+                'pdf_file_name' =>$valuation['file_name']
         ];
     }
 }

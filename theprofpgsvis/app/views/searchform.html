@@ -5,8 +5,17 @@
             <i class="icon-settings font-dark"></i>
             <span class="caption-subject bold uppercase"> Search Property Code</span>
         </div>
+        <div class="tools">
+            <a ng-click="hideSearch()" ng-show="!hideForm">
+                <img src="./assets/vendor/img/portlet-collapse-icon.png" />
+            </a>
+            <a ng-click="showSearch('yes')" ng-show="hideForm">
+                <img src="./assets/vendor/img/portlet-expand-icon.png" />
+            </a>
+                
+        </div>
     </div>
-    <div class="portlet-body">
+    <div class="portlet-body" ng-hide="hideForm">
         <form class="form-horizontal" ng-submit="showResult()">
             <div class="form-body">
                 <div class="row">
@@ -106,12 +115,30 @@
                             <label class="control-label col-md-3">Price Range</label>
                             <div class="col-md-9">
                                 <div class="pull-left">
-                                    From : <br /><input type="text" ng-model="searchdata.price_min" />
+                                    From : <br /><input type="text" ng-model="searchdata.price_min" format="number" />
                                 </div>
                                 <div class="pull-right">
-                                    To : <br /><input type="text" ng-model="searchdata.price_max" />
+                                    To : <br /><input type="text" ng-model="searchdata.price_max" format="number" />
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <!--/span-->
+                    <div class="col-md-6 col-offset-md-3" ng-show="page_name == 'valuations' || page_name == 'sales'">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">&nbsp;</label>
+                            <div class="col-md-9">
+                                <input type="checkbox" name="include_zero" id="include_zero" ng-model="data_temp.include_zero" value="true" />
+                                <label for="include_zero" >Include properties with zero {[{page_name}]}</label>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-offset-md-3 price-range-div">
+                        <div class="form-group">
+                            &nbsp;
                         </div>
                     </div>
                     <!--/span-->
@@ -133,12 +160,11 @@
                 </div>
             </div>
         </form>
-        <div class="row" ng-show="multipleResultsReady || resultReady">
-            <!-- <div class="col-md-1"> -->
-                <div ui-view="extract-buttons" class="fade-in-up"></div>
-            <!-- </div> -->
-        </div>
-        <div ng-show="multipleResultsReady && multipleResultsShow && multi_property_results" class="reports-container" ui-view="multi-properties-result"></div>
-        
     </div>
+    <div class="row" ng-show="multipleResultsReady || resultReady" ng-show="hideForm">
+        <!-- <div class="col-md-1"> -->
+            <div ui-view="extract-buttons" class="fade-in-up"></div>
+        <!-- </div> -->
+    </div>
+    <div ng-show="multipleResultsReady && multipleResultsShow && multi_property_results" class="reports-container" ui-view="multi-properties-result"></div>
 </div>

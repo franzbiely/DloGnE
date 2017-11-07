@@ -1,6 +1,6 @@
 angular.module('MetronicApp')
     .controller('PropertyNewController', 
-    function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http, FileUploader, $timeout) {
+    function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http, FileUploader, $timeout, FUNC) {
         $scope.data = [];  
         $scope.pdfs = [];  
         $scope.photos = [];  
@@ -10,7 +10,8 @@ angular.module('MetronicApp')
         $scope.data.sec = '';
         $scope.data.port ='';
         $scope.page_title = '';
-
+        $rootScope.pageSidebarClosed = true;
+    
         // Creating Select Options
 
         $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -18,11 +19,8 @@ angular.module('MetronicApp')
             $scope.property_use_options.splice(0, 0, { id : '', label : '[Choose Use]' });
             $scope.data.property_use_selected = $scope.property_use_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_use');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $http.get($rootScope.apiURL + 'v1/property_class?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -30,11 +28,8 @@ angular.module('MetronicApp')
             $scope.property_class_options.splice(0, 0, { id : '', label : '[Choose Class]' });
             $scope.data.property_class_selected = $scope.property_class_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_class');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $http.get($rootScope.apiURL + 'v1/property_lease_type?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -42,11 +37,8 @@ angular.module('MetronicApp')
             $scope.property_lease_type_options.splice(0, 0, { id : '', label : '[Choose Lease Type]' });
             $scope.data.property_lease_type_selected = $scope.property_lease_type_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_lease_type');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $http.get($rootScope.apiURL + 'v1/property_city?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -54,11 +46,8 @@ angular.module('MetronicApp')
             $scope.property_city_options.splice(0, 0, { id : '', label : '[Choose City]' });
             $scope.data.property_city_selected = $scope.property_city_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_city');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
         $http.get($rootScope.apiURL + 'v1/property_suburb?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -66,11 +55,8 @@ angular.module('MetronicApp')
             $scope.property_suburb_options.splice(0, 0, { id : '', label : '[Choose Suburb]' });
             $scope.data.property_suburb_selected = $scope.property_suburb_options[0];
         }).error(function(error) {
-            console.log('Error loading '+ $rootScope.apiURL + 'v1/property_suburb');  
-            if(typeof error !== 'null') {
-                if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided') {
-                    $rootScope.logout();    
-                }
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
             }
         })
 
@@ -236,10 +222,25 @@ angular.module('MetronicApp')
                     $scope.address_option = "port";
                 }
             }).error(function(){
-
-                console.log("error");
-                $rootScope.logout();
+                if(!FUNC.tryLogout(error)) {
+                    console.log(error);  
+                }
             });
+
+            // Get Valuation data
+            $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+                $scope.valuations = res.data;
+            }).error(function(error) {
+                console.log('Service error : ',error);
+            })
+
+            // Get Sales data
+            $http.get($rootScope.apiURL + 'v1/sale/prop/'+ id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+                $scope.sales = res.data;
+            }).error(function(error) {
+                console.log('Service error : ',error);
+            })
+
             var param = "source_id=" + id + "&source_table=properties";
             $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
                 var photo_counter = 0, pdf_counter = 0;
@@ -274,6 +275,7 @@ angular.module('MetronicApp')
         $scope.$on('$viewContentLoaded', function() {
             App.initAjax();
             Dropzone.autoDiscover = false;
+            
         });
 
         
@@ -313,9 +315,9 @@ angular.module('MetronicApp')
                         $state.go('property.list');
                     });
                 }).error(function(error){
-                    console.log("error");
-                    if(error.error == "token_expired")
-                        $rootScope.logout();
+                    if(!FUNC.tryLogout(error)) {
+                        console.log(error);  
+                    }
                 });
             }
             else {
@@ -329,9 +331,9 @@ angular.module('MetronicApp')
                         $state.go('property.list');
                     });
                 }).error(function(){
-                    console.log("error");
-                    if(error.error == "token_expired")
-                        $rootScope.logout();
+                    if(!FUNC.tryLogout(error)) {
+                        console.log(error);  
+                    }
                 });
             }   
         }

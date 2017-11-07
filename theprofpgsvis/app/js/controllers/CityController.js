@@ -1,5 +1,5 @@
 /* Setup blank page controller */
-angular.module('MetronicApp').controller('CityController', function($rootScope, $scope, settings, $http, $rootScope) {
+angular.module('MetronicApp').controller('CityController', function($rootScope, $scope, settings, $http, $rootScope, FUNC) {
     $scope.$on('$viewContentLoaded', function() {
         // initialize core components
         App.initAjax();
@@ -54,9 +54,9 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
         $http.get($rootScope.apiURL + 'v1/property_city?token=' + localStorage.getItem('satellizer_token')).success(function(property_cities) {
             $scope.property_cities = property_cities.data;
         }).error(function(error) {
-            $scope.error = error;
-            if (error.error == "token_expired")
-                $rootScope.logout();
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
+            }
         })
     };
     $scope.init();

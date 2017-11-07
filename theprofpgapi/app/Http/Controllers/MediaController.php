@@ -181,6 +181,31 @@ class MediaController extends Controller
                     ->where('file_mime','LIKE','%pdf%')
                     ->whereNotIn('id', $excemption)->delete();
     }
+
+    public function remove_image_by_valuationID($valuation_id, $excemption) {
+        $file_path = public_path() . '/';
+        $file_path .= Media::where('source_id','=',$valuation_id)
+                    ->where('source_table','=','valuations')
+                    ->where('file_mime','LIKE','%image%')
+                    ->whereNotIn('id', $excemption)->pluck('file_path');
+        File::delete($file_path);
+        $media = Media::where('source_id','=',$valuation_id)
+                    ->where('source_table','=','valuations')
+                    ->where('file_mime','LIKE','%image%')
+                    ->whereNotIn('id', $excemption)->delete();
+    }
+    public function remove_pdf_by_valuationID($valuation_id, $excemption) {
+        $file_path = public_path() . '/';
+        $file_path .= Media::where('source_id','=',$valuation_id)
+                    ->where('source_table','=','valuations')
+                    ->where('file_mime','LIKE','%pdf%')
+                    ->whereNotIn('id', $excemption)->pluck('file_path');
+        File::delete($file_path);
+        $media = Media::where('source_id','=',$valuation_id)
+                    ->where('source_table','=','valuations')
+                    ->where('file_mime','LIKE','%pdf%')
+                    ->whereNotIn('id', $excemption)->delete();
+    }
     /**
      * Display the specified resource.
      *

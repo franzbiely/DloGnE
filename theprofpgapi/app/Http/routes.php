@@ -22,7 +22,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api'], function()
     Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
-
+    Route::get('auth/refresh-token', ['middleware' => 'jwt.refresh', function() {}]);
     Route::get('pass_generator/{string}', function(Request $request, $params) {
     	print_r(bcrypt($params)); exit();
     });

@@ -1,5 +1,5 @@
 angular.module('MetronicApp').controller('SalesDetailsController', 
-    function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http) {
+    function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http, FUNC) {
         $scope.type="sales";
         $scope.data = [];   
         $scope.pdfs = [];  
@@ -19,8 +19,9 @@ angular.module('MetronicApp').controller('SalesDetailsController',
                 $scope.data.value = response.data.value;
                 $scope.data.remarks = response.data.remarks;
             }).error(function(error){
-                console.log("error");
-                $rootScope.logout();
+                if(!FUNC.tryLogout(error)) {
+                    console.log(error);  
+                }
             });
             var param = "source_id=" + id + "&source_table=sales";
             $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {

@@ -38,9 +38,8 @@ angular.module('MetronicApp').controller('LoginController',
                         document.cookie = "username="+response.user.name+"; expires="+date.toGMTString();
                         $state.go('dashboard');    
                     }).error(function() {
-                        $rootScope.logout();
                         alert('Error on database. Please contact the webmaster.');
-
+                        $rootScope.logout();
                     });
 
                 })
@@ -50,9 +49,14 @@ angular.module('MetronicApp').controller('LoginController',
                     console.log(vm.loginErrorText);
                 })
         }, function(e) {
-            alert('Incorrect credentials');
-            $scope.email = '';
-            $scope.password = '';
+            if(e.status == 500) {
+                alert('Error on database. Please contact the webmaster.');
+            }
+            else {
+                alert('Incorrect credentials');   
+                $scope.email = '';
+                $scope.password = '';
+            }
             $scope.isDisabled = false;
         });
     }
