@@ -288,7 +288,7 @@ angular.module('MetronicApp').controller('SalesController',
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
                 if(key > -1) {
-                    form +=                     '<input required type="text" value="'+$scope[plural][key].date+'" class="form-control date-picker" name="date" id="date"> </div>';
+                    form +=                     '<input required type="text" value="'+moment($scope[plural][key].date, 'YYYY-MM-DD').format('DD-MM-YYYY')+'" class="form-control date-picker" name="date" id="date"> </div>';
                 }
                 else {
                     form +=                     '<input required type="text" class="form-control date-picker" name="date" id="date" placeholder=""> </div>';    

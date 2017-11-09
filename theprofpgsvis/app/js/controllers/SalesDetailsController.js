@@ -14,7 +14,7 @@ angular.module('MetronicApp').controller('SalesDetailsController',
         function loadData(id) {
             $http.get($rootScope.apiURL + 'v1/sale/'+ id +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
                 $scope.data.id = response.id;
-                $scope.data.date = response.data.date;
+                $scope.data.date = moment(response.data.date, 'YYYY-MM-DD').format('DD-MM-YYYY');
                 $scope.data.buyer = response.data.buyer;
                 $scope.data.value = response.data.value;
                 $scope.data.remarks = response.data.remarks;

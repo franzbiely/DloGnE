@@ -80,6 +80,7 @@ angular.module('MetronicApp')
 
         // Load Data for Edit
         $scope.params = $stateParams; 
+        $scope.property_id = $scope.params.property_id;
         $scope.isReadOnly = $scope.$parent.type === "sales" ? true : false;
         //======= dropzone for photos===========
         $scope.dzOptions = {

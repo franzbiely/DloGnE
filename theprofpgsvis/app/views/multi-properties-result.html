@@ -33,9 +33,9 @@
                             <td>{[{value.suburb}]}</td>
                             <td ng-show="page_name == 'valuations' || page_name == 'sales'">
                                 <a ng-show="page_name == 'valuations'" type="button" 
-                                    ui-sref="valuations.list({property_id : value.id})" class="btn btn-link">Valuation History</a>
+                                    ui-sref="valuations.list({property_id : value.id})" class="btn btn-link">Valuation History ({[{value.valuations_count}]})</a> 
                                 <a ng-show="page_name == 'sales'" type="button" 
-                                    ui-sref="sales.list({property_id : value.id})" class="btn btn-link">Sale History</a>
+                                    ui-sref="sales.list({property_id : value.id})" class="btn btn-link">Sale History ({[{value.sales_count}]})</a> 
                             </td>
                         </tr>
                     </tbody>

@@ -31,7 +31,7 @@ angular.module('MetronicApp').controller('ValuationDetailsController',
         function loadData(id) {
             $http.get($rootScope.apiURL + 'v1/valuation/'+ id +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
                 $scope.data.id = response.data.id;
-                $scope.data.date = response.data.date;
+                $scope.data.date = moment(response.data.date, 'YYYY-MM-DD').format('DD-MM-YYYY');
                 $scope.data.remarks = response.data.remarks;
                 $scope.data.property_id = response.data.property_id;
                 $scope.data.land_value = response.data.land_value;
