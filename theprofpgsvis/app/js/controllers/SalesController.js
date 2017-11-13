@@ -296,7 +296,7 @@ angular.module('MetronicApp').controller('SalesController',
                 form +=             '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Value <span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Price <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
@@ -304,7 +304,7 @@ angular.module('MetronicApp').controller('SalesController',
                     form +=                     '<input required type="text" value="'+$scope[plural][key].value+'" class="form-control format-number" name="value" id="value"> </div>';
                 }
                 else {
-                    form +=                     '<input required type="text" class="form-control format-number" name="value" id="value"> </div>';    
+                    form +=                     '<input required type="text" class="form-control format-number" name="value" id="value" value="0"></div>';    
                 }
                 form +=             '</div>\
                                 </div>\
