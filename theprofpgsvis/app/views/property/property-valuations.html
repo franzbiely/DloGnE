@@ -29,10 +29,8 @@
                             <th>ID</th>
                             <th>Date</th>
                             <th>Total Value</th>
-                            <th>Land Value</th>
                             <th>Land Component</th>
                             <th>Insurance Value</th>
-                            <th>Improvement Component</th>
                             <th>Area</th>
                             <th class="col-md-3">Remarks</th>
                             <th class="col-md-2" ng-show="hasActions">Actions</th>
@@ -43,10 +41,8 @@
                             <td>{[{ value.id }]}</td>
                             <td>{[{value.date | amDateFormat:'DD-MM-YYYY' }]}</td>
                             <td>{[{ (value.land_value*1 + value.improvement_component*1) | number}]}</td>
-                            <td>{[{value.land_value | number}]}</td>
                             <td>{[{value.land_component | number}]}</td>
                             <td>{[{value.insurance_value | number}]}</td>
-                            <td>{[{value.improvement_component | number}]}</td>
                             <td>{[{value.area | number}]}</td>
                             <td>{[{value.remarks}]}</td>
                             <td ng-show="hasActions">
