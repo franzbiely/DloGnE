@@ -15,9 +15,10 @@ angular.module('MetronicApp').controller('SalesDetailsController',
             $http.get($rootScope.apiURL + 'v1/sale/'+ id +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
                 $scope.data.id = response.id;
                 $scope.data.date = moment(response.data.date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-                $scope.data.buyer = response.data.buyer;
+                $scope.data.purchaser = response.data.purchaser;
+                $scope.data.vendor = response.data.vendor;
                 $scope.data.value = response.data.value;
-                $scope.data.remarks = response.data.remarks;
+                $scope.data.description = response.data.description;
             }).error(function(error){
                 if(!FUNC.tryLogout(error)) {
                     console.log(error);  
@@ -134,9 +135,10 @@ angular.module('MetronicApp').controller('SalesDetailsController',
             $scope.isDisabled = true;
             var param = {
                 date : $scope.data.date,
-                buyer : $scope.data.buyer,
+                purchaser : $scope.data.purchaser,
+                vendor : $scope.data.vendor,
                 value : $scope.data.value,
-                remarks : $scope.data.remarks,
+                description : $scope.data.description,
                 photo_ids : $scope.data.photo_ids,
                 pdf_ids : $scope.data.pdf_ids
             };

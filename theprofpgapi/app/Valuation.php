@@ -10,14 +10,16 @@ class Valuation extends Model
     protected $fillable = [
 		'date',
 		'value',
-		'remarks',
+		'description',
 		'property_id',
 		'property_city_id',
-		'land_value',
+		'property_value',
 		'land_component',
 		'insurance_value',
 		'improvement_component',
-		'area'
+		'area',
+		'forced_sale_value',
+		'land_value_rate'
 	];
 	protected $hidden = ['created_at', 'updated_at'];
 	

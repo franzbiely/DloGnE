@@ -44,7 +44,8 @@ class PropertiesController extends Controller {
             'Property_Class'      =>function($query) { $query->select('id','name'); },
             'Property_Use'        =>function($query) { $query->select('id','name'); },
             'Current_Value',
-            'Valuation'
+            'Valuation',
+            'Sale'
         );
         $this->default_select = [
             'properties.id',
@@ -62,7 +63,7 @@ class PropertiesController extends Controller {
             'owner'
         ];
     }
-    public function index(Request $request) {        
+    public function index(Request $request) {    
         $search_term = $request->input('search');
         $limit       = $request->input('limit', 100);
         if ($search_term) {
@@ -81,16 +82,12 @@ class PropertiesController extends Controller {
                 ->where('is_archive', '=', "0")
                 ->with($this->with)
                 ->select(
-                    'properties.id','code','description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner',
-                    DB::raw('COUNT(valuations.id) AS valuations_count'), 
-                    DB::raw('COUNT(sales.id) AS sales_count'))
-                ->leftJoin('valuations', 'valuations.property_id', '=', 'properties.id')
-                ->leftJoin('sales',      'sales.property_id',      '=', 'properties.id')
+                    'properties.id','code','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner')
                 ->groupBy('properties.id')
                 ->paginate($limit); 
             $properties->appends(array(            
                 'limit' => $limit
-            ));   
+            ));
         }
         return Response::json($this->transformCollection($properties), 200);
     }
@@ -126,19 +123,17 @@ class PropertiesController extends Controller {
             if(isset($val))
                 $where[$key] = $val;
         };
+        
         $properties = Property::orderBy('id', 'DESC')
             ->where($where)
             ->with( $this->with)
-            ->select('properties.id','code','description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner',
-                    DB::raw('COUNT(valuations.id) AS valuations_count'), 
-                    DB::raw('COUNT(sales.id) AS sales_count'))
-            ->leftJoin('valuations', 'valuations.property_id', '=', 'properties.id')
-            ->leftJoin('sales',      'sales.property_id',      '=', 'properties.id')
+            ->select('properties.id','code','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner')
             ->groupBy('properties.id')
             ->paginate($limit); 
         $properties->appends(array(            
             'limit' => $limit
         )); 
+
         return Response::json($this->transformCollection($properties), 200);
     }
 
@@ -313,6 +308,9 @@ class PropertiesController extends Controller {
                 'unit'=> $property['unit'],
                 'owner'=> $property['owner'],
                 'valuation'=> $property['valuation'],
+                'sale'=> $property['sale'],
+                'valuations_count' => count($property['valuation']),
+                'sales_count' => count($property['sale']),
                 'current_value'=>floatval($property['current__value']['value'])
         ];
         if(isset($property['valuations_count']))
@@ -378,26 +376,6 @@ class PropertiesController extends Controller {
                     $sheet->setCellValue('B'.$ROW, $property['unit']);
                 }
                     
-                if(isset($property['land_value'])) {
-                    $sheet->setCellValue('A'.$ROW+=1, 'Land Value / sq.m (K)');
-                    $sheet->setCellValue('B'.$ROW, $property['land_value']);
-                }
-                    
-                if(isset($property['land_component'])) {
-                    $sheet->setCellValue('A'.$ROW+=1, 'Land Component (K)');
-                    $sheet->setCellValue('B'.$ROW, $property['land_component']);
-                }
-                    
-                if(isset($property['improvement_component'])) {
-                    $sheet->setCellValue('A'.$ROW+=1, 'Improvement Component (K)');
-                    $sheet->setCellValue('B'.$ROW, $property['improvement_component']);
-                }
-                    
-                if(isset($property['area'])) {
-                    $sheet->setCellValue('A'.$ROW+=1, 'Area (sq.m)');
-                    $sheet->setCellValue('B'.$ROW, $property['area']);
-                }
-                    
                 if(isset($property['owner'])) {
                     $sheet->setCellValue('A'.$ROW+=1, 'Seller');
                     $sheet->setCellValue('B'.$ROW, $property['owner']);
@@ -405,16 +383,28 @@ class PropertiesController extends Controller {
                     
 
                 $sheet ->mergeCells('A' . ($ROW+=2) . ':D'.$ROW);
-                $sheet->setCellValue('A'.$ROW, 'VALUATION HISTORY OF PROPERTY #');
-                $sheet->setCellValue('A'.$ROW+=1, 'Date');
-                $sheet->setCellValue('B'.$ROW, 'Value');
-                $sheet->setCellValue('C'.$ROW, 'Remarks');
+                $sheet->setCellValue('A'.$ROW, 'VALUATION HISTORY OF PROPERTY #' . $property['id']);
+                $sheet->setCellValue('A'.$ROW+=1, 'Date Valued');
+                $sheet->setCellValue('B'.$ROW, 'Property Value');
+                $sheet->setCellValue('C'.$ROW, 'Land Component');
+                $sheet->setCellValue('D'.$ROW, 'Insurance Value');
+                $sheet->setCellValue('E'.$ROW, 'Forced Sale Value');
+                $sheet->setCellValue('F'.$ROW, 'Improvement Component');
+                $sheet->setCellValue('G'.$ROW, 'Area (sqm)');
+                $sheet->setCellValue('H'.$ROW, 'Land Value Rate (per sqm)');
+                $sheet->setCellValue('I'.$ROW, 'Description');
 
                 if(count($request->valuations) > 0 ) {
                     foreach($request->valuations as $key=>$valuation) {
                         $sheet->setCellValue('A'.$ROW+=1, $valuation['date']);
-                        $sheet->setCellValue('B'.$ROW, $valuation['value']);
-                        $sheet->setCellValue('C'.$ROW, $valuation['remarks']);
+                        $sheet->setCellValue('B'.$ROW, number_format($valuation['property_value']));
+                        $sheet->setCellValue('C'.$ROW, number_format($valuation['land_component']));
+                        $sheet->setCellValue('D'.$ROW, number_format($valuation['insurance_value']));
+                        $sheet->setCellValue('E'.$ROW, number_format($valuation['forced_sale_value']));
+                        $sheet->setCellValue('F'.$ROW, number_format($valuation['improvement_component']));
+                        $sheet->setCellValue('G'.$ROW, number_format($valuation['area']));
+                        $sheet->setCellValue('H'.$ROW, number_format($valuation['land_value_rate']));
+                        $sheet->setCellValue('I'.$ROW, $valuation['description']);
                     }
                 }
                 else {
@@ -423,26 +413,35 @@ class PropertiesController extends Controller {
                 }
 
                 $sheet ->mergeCells('A' . ($ROW+=2) .':D'.$ROW);
-                $sheet->setCellValue('A'.$ROW, 'SALES HISTORY OF PROPERTY #');
+                $sheet->setCellValue('A'.$ROW, 'SALES HISTORY OF PROPERTY #' . $property['id']);
                 $sheet->setCellValue('A'.$ROW+=1, 'Date');
-                $sheet->setCellValue('B'.$ROW, 'Value');
-                $sheet->setCellValue('C'.$ROW, 'Buyer');
-                $sheet->setCellValue('D'.$ROW, 'Remarks');
+                $sheet->setCellValue('B'.$ROW, 'Price');
+                $sheet->setCellValue('C'.$ROW, 'Purchaser');
+                $sheet->setCellValue('D'.$ROW, 'Vendor');
+                $sheet->setCellValue('E'.$ROW, 'Est Land Value');
+                $sheet->setCellValue('F'.$ROW, 'Est Improvement Value');
+                $sheet->setCellValue('G'.$ROW, 'Area (sqm)');
+                $sheet->setCellValue('H'.$ROW, 'Est Land Rate (per sqm)');
+                $sheet->setCellValue('I'.$ROW, 'Description');
 
                 if(count($request->sales) > 0 ) {
                     foreach($request->sales as $sale) {
                         $sheet->setCellValue('A'.$ROW+=1, $sale['date']);
-                        $sheet->setCellValue('B'.$ROW, $sale['value']);
-                        $sheet->setCellValue('C'.$ROW, $sale['buyer']);
-                        $sheet->setCellValue('D'.$ROW, $sale['remarks']);                    
+                        $sheet->setCellValue('B'.$ROW, number_format($sale['price']));
+                        $sheet->setCellValue('C'.$ROW, $sale['purchaser']);
+                        $sheet->setCellValue('D'.$ROW, $sale['vendor']);
+                        $sheet->setCellValue('E'.$ROW, number_format($sale['est_land_value']));
+                        $sheet->setCellValue('F'.$ROW, number_format($sale['est_improvement_value']));
+                        $sheet->setCellValue('G'.$ROW, number_format($sale['area']));
+                        $sheet->setCellValue('H'.$ROW, number_format($sale['est_land_rate']));
+                        $sheet->setCellValue('I'.$ROW, $sale['description']);                    
                     }
                 }
                 else {
-                    $sheet ->mergeCells('A' . ($ROW+=1) .':D'.$ROW);
+                    $sheet->mergeCells('A' . ($ROW+=1) .':D'.$ROW);
                     $sheet->setCellValue('A'.$ROW, 'No data');
                 }
             });
-
         })->download($filetype);
     }
     public function export_report_csv(Request $request, $_property) {
@@ -459,6 +458,12 @@ class PropertiesController extends Controller {
         ob_start();
         header("Content-Type: text/html; charset=utf-8");
         ?>
+        <style>
+        * {
+            font-size: 12px;
+            font-family: sans-serif;
+        }
+        </style>
 <center><h2>(SVIS) SALES AND VALUATION INFORMATION SYSTEM <br /><sub><i>The Professionals</i></sub> </h2></center>
 <br /><br />
 <h3>Property Details of - #<?php echo $property['id'] ?></h3>
@@ -471,10 +476,6 @@ class PropertiesController extends Controller {
 <?php if(isset($property['sec'])) { ?>Sec             <strong><?php echo $property['sec'] ?></strong><br /><?php } ?>
 <?php if(isset($property['lot'])) { ?>Lot             <strong><?php echo $property['lot'] ?></strong><br /><?php } ?>
 <?php if(isset($property['unit'])) { ?>Unit #          <strong><?php echo $property['unit'] ?></strong><br /><?php } ?>
-<?php if(isset($property['land_value'])) { ?>Land Value / sq.m (K)       <strong><?php echo $property['land_value'] ?></strong><br /><?php } ?>
-<?php if(isset($property['land_component'])) { ?>Land Component (K)          <strong><?php echo $property['land_component'] ?></strong><br /><?php } ?>
-<?php if(isset($property['improvement_component'])) { ?>Improvement Component (K)   <strong><?php echo $property['improvement_component'] ?></strong><br /><?php } ?>
-<?php if(isset($property['area'])) { ?>Area (sq.m)     <strong><?php echo $property['area'] ?></strong><br /><?php } ?>
 <?php if(isset($property['owner'])) { ?>Seller <strong><?php echo $property['owner'] ?></strong><br /><?php } ?>
 <hr />
 <h3>VALUATION HISTORY OF PROPERTY #<?php echo $property['id'] ?></h3>
@@ -482,25 +483,29 @@ class PropertiesController extends Controller {
     <tr>
         <th>Date</th>
         <th>Total Value</th>
-        <th>Land Value</th>
+        <th>Property Value</th>
         <th>Land Component</th>
         <th>Insurance Value</th>
+        <th>Forced Sale Value</th>
         <th>Improvement Component</th>
-        <th>Area</th>
-        <th>Remarks</th>
+        <th>Area (sqm)</th>
+        <th>Land Value Rate (per sqm)</th>
+        <th>Description</th>
     </tr>
     <?php
     if(count($request->valuations) > 0 ) {
         foreach($request->valuations as $key=>$valuation) { ?>
             <tr>
                 <td><?php echo $valuation['date'] ?></td>
-                <td><?php echo $valuation['improvement_component'] + $valuation['land_value'] ?></td>
-                <td><?php echo $valuation['land_value'] ?></td>
-                <td><?php echo $valuation['land_component'] ?></td>
-                <td><?php echo $valuation['insurance_value'] ?></td>
-                <td><?php echo $valuation['improvement_component'] ?></td>
-                <td><?php echo $valuation['area'] ?></td>
-                <td><?php echo $valuation['remarks'] ?></td>
+                <td><?php echo ($valuation['improvement_component'] !== '' && $valuation['property_value'] !== '' ) ?number_format($valuation['improvement_component'] + $valuation['property_value']) : '' ?></td>
+                <td><?php echo ($valuation['property_value'] !== '') ?number_format($valuation['property_value']) : '' ?></td>
+                <td><?php echo ($valuation['land_component'] !== '') ?number_format($valuation['land_component']) : '' ?></td>
+                <td><?php echo ($valuation['insurance_value'] !== '') ?number_format($valuation['insurance_value']) : '' ?></td>
+                <td><?php echo ($valuation['forced_sale_value'] !== '') ? number_format($valuation['forced_sale_value']) : '' ?></td>
+                <td><?php echo ($valuation['improvement_component'] !== '') ?number_format($valuation['improvement_component']) : '' ?></td>
+                <td><?php echo ($valuation['area'] !== '') ?number_format($valuation['area']) : '' ?></td>
+                <td><?php echo ($valuation['land_value_rate'] !== '') ?number_format($valuation['land_value_rate']) : '' ?></td>
+                <td><?php echo $valuation['description'] ?></td>
             </tr>
         <?php }
     }
@@ -513,18 +518,29 @@ class PropertiesController extends Controller {
 <table border="1" cellpadding="10" cellspacing="0">
     <tr>
         <th>Date</th>
-        <th>Value</th>
-        <th>Buyer</th>
-        <th>Remarks</th>
+        <th>Price</th>
+        <th>Purchaser</th>
+        <th>Vendor</th>
+        <th>Est Land Value</th>
+        <th>Est Improvement Value</th>
+        <th>Area (sqm)</th>
+        <th>Est Land Rate (per sqm)</th>
+        <th>Description</th>
+
     </tr>
     <?php
     if(count($request->sales) > 0 ) {
         foreach($request->sales as $key=>$sale) { ?>
             <tr>
                 <td><?php echo $sale['date'] ?></td>
-                <td><?php echo $sale['value'] ?></td>
-                <td><?php echo $sale['buyer'] ?></td>
-                <td><?php echo $sale['remarks'] ?></td>
+                <td><?php echo ($sale['price'] !== '') ? number_format($sale['price']) : '' ?></td>
+                <td><?php echo $sale['purchaser'] ?></td>
+                <td><?php echo $sale['vendor'] ?></td>
+                <td><?php echo ($sale['est_land_value'] !== '') ? number_format($sale['est_land_value']) : '' ?></td>
+                <td><?php echo ($sale['est_improvement_value'] !== '') ? number_format($sale['est_improvement_value']) : '' ?></td>
+                <td><?php echo ($sale['area'] !== '') ? number_format($sale['area']) : '' ?></td>
+                <td><?php echo ($sale['est_land_rate'] !== '') ? number_format($sale['est_land_rate']) : '' ?></td>
+                <td><?php echo $sale['description'] ?></td>
             </tr>
         <?php }
     }
@@ -537,7 +553,7 @@ class PropertiesController extends Controller {
         <?php
         $html = ob_get_contents();
         ob_end_clean();
-        $pdf = PDF::loadHTML($html);
+        $pdf = PDF::loadHTML($html)->setPaper('a4', 'landscape');
         return $pdf->download($filename.'.pdf');
     }
 
@@ -595,7 +611,7 @@ class PropertiesController extends Controller {
                     $sheet->setCellValue('G'.$ROW, $property['sec']);                    
                     $sheet->setCellValue('H'.$ROW, $property['lot']);                    
                     $sheet->setCellValue('I'.$ROW, $property['unit']);                    
-                    $sheet->setCellValue('J'.$ROW, $property['current_value']);                    
+                    $sheet->setCellValue('J'.$ROW, number_format($property['current_value']));                    
                     $sheet->setCellValue('K'.$ROW, $property['owner']);                    
                 }
 

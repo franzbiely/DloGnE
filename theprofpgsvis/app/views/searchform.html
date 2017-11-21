@@ -21,6 +21,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label class="control-label col-md-3">Property ID</label>
+                            <div class="col-md-9">
+                                <input ng-model="searchdata.id" type="text" class="form-control" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label class="control-label col-md-3">Port</label>
                             <div class="col-md-9">
                                 <input ng-model="searchdata.port" type="text" class="form-control" placeholder="">
@@ -28,14 +36,6 @@
                         </div>
                     </div>
                     <!--/span-->
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Sec</label>
-                            <div class="col-md-9">
-                                <input ng-model="searchdata.sec" type="text" class="form-control" placeholder="">
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="row">
                     <!--/span-->
@@ -47,12 +47,11 @@
                             </div>
                         </div>
                     </div>
-                    <!--/span-->
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label col-md-3">Unit #</label>
+                            <label class="control-label col-md-3">Sec</label>
                             <div class="col-md-9">
-                                <input ng-model="searchdata.unit" type="text" class="form-control" placeholder="">
+                                <input ng-model="searchdata.sec" type="text" class="form-control" placeholder="">
                             </div>
                         </div>
                     </div>
@@ -69,14 +68,11 @@
                             </div>
                         </div>
                     </div>
-                    <!--/span-->
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label col-md-3">Suburb</label>
+                            <label class="control-label col-md-3">Unit #</label>
                             <div class="col-md-9">
-                                <select ng-model="data_temp.property_suburb_selected" 
-                                        ng-options="item as item.label for item in property_suburb_options track by item.id" class="form-control" data-placeholder="" tabindex="1">
-                                </select>
+                                <input ng-model="searchdata.unit" type="text" class="form-control" placeholder="">
                             </div>
                         </div>
                     </div>
@@ -97,12 +93,11 @@
                     <!--/span-->
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="control-label col-md-3">Lease Type</label>
+                            <label class="control-label col-md-3">Suburb</label>
                             <div class="col-md-9">
-                                <select ng-model="data_temp.property_lease_type_selected" 
-                                        ng-options="item as item.label for item in property_lease_type_options track by item.id" class="form-control">
+                                <select ng-model="data_temp.property_suburb_selected" 
+                                        ng-options="item as item.label for item in property_suburb_options track by item.id" class="form-control" data-placeholder="" tabindex="1">
                                 </select>
-                                <span class="help-block"> </span>
                             </div>
                         </div>
                     </div>
@@ -120,6 +115,17 @@
                                 <div class="pull-right">
                                     To : <br /><input type="text" ng-model="searchdata.price_max" format="number" />
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Lease Type</label>
+                            <div class="col-md-9">
+                                <select ng-model="data_temp.property_lease_type_selected" 
+                                        ng-options="item as item.label for item in property_lease_type_options track by item.id" class="form-control">
+                                </select>
+                                <span class="help-block"> </span>
                             </div>
                         </div>
                     </div>

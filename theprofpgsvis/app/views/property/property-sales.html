@@ -25,21 +25,29 @@
                 <table class="table table-striped table-bordered table-hover order-column" id="sample_1">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th> Date </th>
                             <th> Price </th>
-                            <th> Buyer </th>
-                            <th> Remarks </th>
+                            <th> Purchaser </th>
+                            <th>Vendor</th>
+                            <th>Est Land Value</th>
+                            <th>Est Improvement Value</th>
+                            <th>Area (sqm)</th>
+                            <th>Est Land Rate (per sqm)</th>
+                            <th>Description</th>
                             <th ng-show="hasActions">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="(key, value) in sales" class="odd gradeX">
-                            <td>{[{ value.id }]}</td>
                             <td>{[{value.date | amDateFormat:'DD-MM-YYYY' }]}</td>
-                            <td>{[{value.value | number}]}</td>
-                            <td>{[{value.buyer}]}</td>
-                            <td>{[{value.remarks}]}</td>
+                            <td>{[{value.price | number}]}</td>
+                            <td>{[{value.purchaser}]}</td>
+                            <td>{[{value.vendor}]}</td>
+                            <td>{[{value.est_land_value | number}]}</td>
+                            <td>{[{value.est_improvement_value | number}]}</td>
+                            <td>{[{value.area | number}]}</td>
+                            <td>{[{value.est_land_rate | number}]}</td>
+                            <td>{[{value.description}]}</td>
                             <td ng-show="hasActions">
                                 <!-- <button type="button" class="btn btn-default" 
                                     ui-sref="sales.details({sales_id : value.id, property_id : value.property_id})">View Details</button> -->
@@ -48,7 +56,7 @@
                             </td>
                         </tr>
                         <tr ng-show="!sales.length">
-                            <td colspan="5">No record</td>
+                            <td colspan="10">No record</td>
                         </tr>
                     </tbody>
                 </table>

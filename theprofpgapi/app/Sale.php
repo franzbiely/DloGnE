@@ -9,9 +9,14 @@ class Sale extends Model
 {
     protected $fillable = [
 		'date',
-		'value',
-		'buyer',
-		'remarks',
+		'price',
+		'purchaser',
+		'vendor',
+		'est_land_value',
+		'est_improvement_value',
+		'area',
+		'est_land_rate',
+		'description',
 		'property_id',
 		'property_city_id'
 	];

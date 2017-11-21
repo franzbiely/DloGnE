@@ -13,13 +13,15 @@ class ValuationsTableSeeder extends Seeder
         {
             Valuation::create([                
                 'date' => $faker->date($format = 'Y-m-d', $max = 'now'),
-				'remarks' => $faker->text,
+				'description' => $faker->text,
 				'property_id' => $faker->numberBetween($min = 1, $max = 10),
-                'land_value' => $faker->numberBetween($min = 1, $max = 100),
+                'property_value' => $faker->numberBetween($min = 1, $max = 100),
                 'land_component' => $faker->numberBetween($min = 1, $max = 100),
                 'insurance_value' => $faker->numberBetween($min = 1, $max = 100),
                 'improvement_component' => $faker->numberBetween($min = 1, $max = 100),
-                'area' => $faker->randomDigit
+                'area' => $faker->randomDigit,
+                'forced_sale_value' => $faker->numberBetween($min = 1, $max = 100),
+                'land_value_rate' => $faker->numberBetween($min = 1, $max = 100),
             ]);
         }
     }

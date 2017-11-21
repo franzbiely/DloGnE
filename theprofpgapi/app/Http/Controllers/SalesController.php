@@ -47,9 +47,14 @@ class SalesController extends Controller
                 )
             )->select('id', 
                 'date',
-                'value',
-                'buyer',
-                'remarks',
+                'price',
+                'purchaser',
+                'vendor',
+                'est_land_value',
+                'est_improvement_value',
+                'area',
+                'est_land_rate',
+                'description',
                 'property_id'
             )->paginate($limit); 
 
@@ -71,9 +76,14 @@ class SalesController extends Controller
             )
         )->select('id', 
             'date',
-            'value',
-            'buyer',
-            'remarks',
+            'price',
+            'purchaser',
+            'vendor',
+            'est_land_value',
+            'est_improvement_value',
+            'area',
+            'est_land_rate',
+            'description',
             'property_id'
         )->paginate($limit); 
         $sales->appends(array(            
@@ -146,9 +156,14 @@ class SalesController extends Controller
         try {
             $sale = Sale::find($id);
             if(isset($request->date)) $sale->date = $request->date;
-            if(isset($request->value)) $sale->value = $request->value;
-            if(isset($request->buyer)) $sale->buyer = $request->buyer;
-            if(isset($request->remarks)) $sale->remarks = $request->remarks;
+            if(isset($request->price)) $sale->price = $request->price;
+            if(isset($request->purchaser)) $sale->purchaser = $request->purchaser;
+            if(isset($request->vendor)) $sale->vendor = $request->vendor;
+            if(isset($request->est_land_value)) $sale->est_land_value = $request->est_land_value;
+            if(isset($request->est_improvement_value)) $sale->est_improvement_value = $request->est_improvement_value;
+            if(isset($request->area)) $sale->area = $request->area;
+            if(isset($request->est_land_rate)) $sale->est_land_rate = $request->est_land_rate;
+            if(isset($request->description)) $sale->description = $request->description;
             if(isset($request->property_id)) $sale->property_id = $request->property_id;
             
             $sale->save(); 
@@ -208,9 +223,14 @@ class SalesController extends Controller
         return [
                 'id' => $sale['id'],
                 'date' => $sale['date'],
-                'value' => $sale['value'],
-                'buyer'=>$sale['buyer'],
-                'remarks'=>$sale['remarks'],
+                'price' => $sale['price'],
+                'purchaser'=>$sale['purchaser'],
+                'vendor'=>$sale['vendor'],
+                'est_land_value'=>$sale['est_land_value'],
+                'est_improvement_value'=>$sale['est_improvement_value'],
+                'area'=>$sale['area'],
+                'est_land_rate'=>$sale['est_land_rate'],
+                'description'=>$sale['description'],
                 'property_id'=>$sale['property_id'],
                 'property'=>$sale['property']['code']
         ];

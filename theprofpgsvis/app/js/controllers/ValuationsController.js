@@ -307,14 +307,14 @@ angular.module('MetronicApp').controller('ValuationsController',
             form += '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Land Value <span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Property Value <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
             if (key > -1) {
-                form += '<input required type="text" value="' + $scope.valuations[key].land_value + '" class="form-control" name="land_value" id="land_value"> </div>';
+                form += '<input required type="text" value="' + $scope.valuations[key].property_value + '" class="form-control" name="property_value" id="property_value"> </div>';
             } else {
-                form += '<input required type="text" class="form-control" name="land_value" id="land_value"> </div>';
+                form += '<input required type="text" class="form-control" name="property_value" id="property_value"> </div>';
             }
             form += '</div>\
                                 </div>\
@@ -343,6 +343,18 @@ angular.module('MetronicApp').controller('ValuationsController',
             form += '</div>\
                                 </div>\
                                 <div class="form-group">\
+                                    <label class="col-md-4 control-label">Forced Sale Value <span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+            if (key > -1) {
+                form += '<input required type="text" value="' + $scope.valuations[key].forced_sale_value + '" class="form-control" name="forced_sale_value" id="forced_sale_value"> </div>';
+            } else {
+                form += '<input required type="text" class="form-control" name="forced_sale_value" id="forced_sale_value"> </div>';
+            }
+            form += '</div>\
+                                </div>\
+                                <div class="form-group">\
                                     <label class="col-md-4 control-label">Improvement Component <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
@@ -367,14 +379,26 @@ angular.module('MetronicApp').controller('ValuationsController',
             form += '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Remarks <span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Land Value Rate (per sqm) <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
             if (key > -1) {
-                form += '<input required type="text" value="' + $scope.valuations[key].remarks + '" class="form-control" name="remarks" id="remarks"> </div>';
+                form += '<input required type="text" value="' + $scope.valuations[key].land_value_rate + '" class="form-control" name="land_value_rate" id="land_value_rate"> </div>';
             } else {
-                form += '<input required type="text" class="form-control" name="remarks" id="remarks"> </div>';
+                form += '<input required type="text" class="form-control" name="land_value_rate" id="land_value_rate"> </div>';
+            }
+            form += '</div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Description <span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+            if (key > -1) {
+                form += '<input required type="text" value="' + $scope.valuations[key].description + '" class="form-control" name="description" id="description"> </div>';
+            } else {
+                form += '<input required type="text" class="form-control" name="description" id="description"> </div>';
             }
             form += '</div>\
                                 </div>\
@@ -395,19 +419,17 @@ angular.module('MetronicApp').controller('ValuationsController',
                         if(
                             $('#frmValuation')[0]['elements'].date.value !== '' &&
                             $('#frmValuation')[0]['elements'].value.value !== '' &&
-                            $('#frmValuation')[0]['elements'].remarks.value !== ''
+                            $('#frmValuation')[0]['elements'].description.value !== ''
                             ) {
-
-
                             $scope.valuation.date = moment($('#frmValuation')[0]['elements'].date.value, 'DD-MM-YYYY').format('YYYY-MM-DD');
                             $scope.valuation.value = $('#frmValuation')[0]['elements'].value.value;
-                            $scope.valuation.remarks = $('#frmValuation')[0]['elements'].remarks.value;
+                            $scope.valuation.description = $('#frmValuation')[0]['elements'].description.value;
                             $scope.$apply();
                             if (key > -1) {
                                 // Edit
                                 $scope.valuations[key].date = $scope.valuation.date;
                                 $scope.valuations[key].value = $scope.valuation.value;
-                                $scope.valuations[key].remarks = $scope.valuation.remarks;
+                                $scope.valuations[key].description = $scope.valuation.description;
                                 $scope.$apply();
                                 $scope.updateValuation($scope.valuations[key].id);
                             } else {
@@ -445,7 +467,7 @@ angular.module('MetronicApp').controller('ValuationsController',
             $http.post($rootScope.apiURL + 'v1/valuation?token=' + localStorage.getItem('satellizer_token'), {
                 date: $scope.valuation.date,
                 value: $scope.valuation.value,
-                remarks: $scope.valuation.remarks,
+                description: $scope.valuation.description,
                 property_id: $scope.property_id
             }).success(function(response) {
                 const user = JSON.parse(localStorage.getItem('user'));
@@ -468,7 +490,7 @@ angular.module('MetronicApp').controller('ValuationsController',
             $http.put($rootScope.apiURL + 'v1/valuation/' + id + '?token=' + localStorage.getItem('satellizer_token'), {
                 date: $scope.valuation.date,
                 value: $scope.valuation.value,
-                remarks: $scope.valuation.remarks,
+                description: $scope.valuation.description,
             }).success(function(response) {
                 const user = JSON.parse(localStorage.getItem('user'));
                 $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {

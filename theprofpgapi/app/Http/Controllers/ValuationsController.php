@@ -48,13 +48,15 @@ class ValuationsController extends Controller
                 )
             )->select('id', 
                 'date',
-                'remarks',
+                'description',
                 'property_id',
-                'land_value',
+                'property_value',
                 'land_component',
                 'insurance_value',
+                'forced_sale_value',
                 'improvement_component',
-                'area'
+                'area',
+                'land_value_rate'
             )->paginate($limit); 
 
             $valuations->appends(array(            
@@ -77,13 +79,15 @@ class ValuationsController extends Controller
                 )
             )->select('valuations.id', 
                 'date',
-                'remarks',
+                'description',
                 'property_id',
-                'land_value',
+                'property_value',
                 'land_component',
                 'insurance_value',
+                'forced_sale_value',
                 'improvement_component',
                 'area',
+                'land_value_rate',
                 DB::raw('COUNT(media.id) AS pdfs_count'),
                 DB::raw('media.file_path as file_path'),
                 DB::raw('media.file_name as file_name')
@@ -168,13 +172,15 @@ class ValuationsController extends Controller
         try {
             $valuation = Valuation::find($id);
             if(isset($request->date)) $valuation->date = $request->date;
-            if(isset($request->remarks)) $valuation->remarks = $request->remarks;
+            if(isset($request->description)) $valuation->description = $request->description;
             if(isset($request->property_id)) $valuation->property_id = $request->property_id;
-            if(isset($request->land_value))         $valuation->land_value = $request->land_value;
+            if(isset($request->property_value))         $valuation->property_value = $request->property_value;
             if(isset($request->land_component))     $valuation->land_component = $request->land_component;
             if(isset($request->insurance_value))         $valuation->insurance_value = $request->insurance_value;
+            if(isset($request->forced_sale_value))         $valuation->forced_sale_value = $request->forced_sale_value;
             if(isset($request->improvement_component)) $valuation->improvement_component = $request->improvement_component;
             if(isset($request->area))               $valuation->area = $request->area;
+            if(isset($request->land_value_rate))               $valuation->land_value_rate = $request->land_value_rate;
             
             $valuation->save(); 
         }
@@ -239,12 +245,14 @@ class ValuationsController extends Controller
         return [
                 'id' => $valuation['id'],
                 'date' => $valuation['date'],
-                'remarks'=>$valuation['remarks'],
-                'land_value'=>$valuation['land_value'],
+                'description'=>$valuation['description'],
+                'property_value'=>$valuation['property_value'],
                 'land_component'=>$valuation['land_component'],
                 'insurance_value'=>$valuation['insurance_value'],
+                'forced_sale_value'=>$valuation['forced_sale_value'],
                 'improvement_component'=>$valuation['improvement_component'],
                 'area'=>$valuation['area'],
+                'land_value_rate'=>$valuation['land_value_rate'],
                 'property_id'=>$valuation['property']['code'],
                 'pdfs_count'=>$valuation['pdfs_count'],
                 'pdf_file_path' =>$valuation['file_path'],

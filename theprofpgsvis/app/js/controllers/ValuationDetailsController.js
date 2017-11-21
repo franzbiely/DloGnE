@@ -32,13 +32,15 @@ angular.module('MetronicApp').controller('ValuationDetailsController',
             $http.get($rootScope.apiURL + 'v1/valuation/'+ id +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
                 $scope.data.id = response.data.id;
                 $scope.data.date = moment(response.data.date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-                $scope.data.remarks = response.data.remarks;
+                $scope.data.description = response.data.description;
                 $scope.data.property_id = response.data.property_id;
-                $scope.data.land_value = response.data.land_value;
+                $scope.data.property_value = response.data.property_value;
                 $scope.data.land_component = response.data.land_component;
                 $scope.data.insurance_value = response.data.insurance_value;
+                $scope.data.forced_sale_value = response.data.forced_sale_value;
                 $scope.data.improvement_component = response.data.improvement_component;
                 $scope.data.area = response.data.area;
+                $scope.data.land_value_rate = response.data.land_value_rate;
             }).error(function(error){
                 if(!FUNC.tryLogout(error)) {
                     console.log(error);  
@@ -87,14 +89,20 @@ angular.module('MetronicApp').controller('ValuationDetailsController',
         // Add
         $scope.save = function() {
             $scope.isDisabled = true;
+            
+            var sing_property_value = $scope.data.property_value;
+            $scope.data.property_value = sing_property_value.replace (/,/g, "");
+
             var param = {
                 date : moment($scope.data.date, 'DD-MM-YYYY').format('YYYY-MM-DD'),
-                remarks : $scope.data.remarks,
-                land_value : $scope.data.land_value,
-                land_component : $scope.data.land_component,
-                insurance_value : $scope.data.insurance_value,
-                improvement_component : $scope.data.improvement_component,
-                area : $scope.data.area,
+                description : $scope.data.description,
+                property_value : $scope.data.property_value.replace (/,/g, ""),
+                land_component : $scope.data.land_component.replace (/,/g, ""),
+                insurance_value : $scope.data.insurance_value.replace (/,/g, ""),
+                forced_sale_value : $scope.data.forced_sale_value.replace (/,/g, ""),
+                improvement_component : $scope.data.improvement_component.replace (/,/g, ""),
+                area : $scope.data.area.replace (/,/g, ""),
+                land_value_rate : $scope.data.land_value_rate.replace (/,/g, ""),
                 pdf_ids : $scope.data.pdf_ids,
                 property_id : $scope.data.property_id
             };

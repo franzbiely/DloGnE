@@ -26,25 +26,27 @@
                 <table class="table table-striped table-bordered table-hover order-column" id="sample_1">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Date</th>
                             <th>Total Value</th>
                             <th>Land Component</th>
                             <th>Insurance Value</th>
-                            <th>Area</th>
-                            <th class="col-md-3">Remarks</th>
+                            <th>Forced Sale Value</th>
+                            <th>Area (sqm)</th>
+                            <th>Land Value Rate (per sqm)</th>
+                            <th class="col-md-3">Description</th>
                             <th class="col-md-2" ng-show="hasActions">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="(key, value) in valuations" class="odd gradeX">
-                            <td>{[{ value.id }]}</td>
                             <td>{[{value.date | amDateFormat:'DD-MM-YYYY' }]}</td>
-                            <td>{[{ (value.land_value*1 + value.improvement_component*1) | number}]}</td>
+                            <td>{[{ (value.property_value*1 + value.improvement_component*1) | number}]}</td>
                             <td>{[{value.land_component | number}]}</td>
                             <td>{[{value.insurance_value | number}]}</td>
+                            <td>{[{value.forced_sale_value | number}]}</td>
                             <td>{[{value.area | number}]}</td>
-                            <td>{[{value.remarks}]}</td>
+                            <td>{[{value.land_value_rate | number}]}</td>
+                            <td>{[{value.description}]}</td>
                             <td ng-show="hasActions">
                                 <a type="button" class="btn btn-default" 
                                     ui-sref="valuations.details({valuation_id : value.id, property_id : property_id})">Edit</a>

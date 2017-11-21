@@ -132,10 +132,25 @@ angular.module('MetronicApp').controller('SalesController',
             $scope.multi_property_results = false;
             $scope.resultReady = false;
         }
+        // Display List
+        $scope.loadSaleLists = function() {
+            $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $state.params.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+                $scope.sales = res.data;
+                $rootScope.pageSidebarClosed = true;
+            }).error(function(error) {
+                if(!FUNC.tryLogout(error)) {
+                    console.log(error);  
+                }
+            })
+        };
+        if($state.current.name == 'sales.list') {
+            $scope.loadSaleLists();
+        }
         $scope.show_sales = function(prop_id) {
             // Get Sales data
             $http.get($rootScope.apiURL + 'v1/sale/prop/'+ prop_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
                 $scope.sales = res.data;
+                $rootScope.pageSidebarClosed = true;
             }).error(function(error) {
                 console.log('Service error : ',error);
             })
@@ -164,18 +179,6 @@ angular.module('MetronicApp').controller('SalesController',
         $scope.data = [];
         var singular = 'sale', plural = 'sales';
 
-
-        // Display List
-        $scope.init = function() {
-            $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
-                $scope.sales = res.data;
-            }).error(function(error) {
-                if(!FUNC.tryLogout(error)) {
-                    console.log(error);  
-                }
-            })
-        };
-        $scope.init();
         $scope.showSearch = function(showMultiResult) {
             if(!showMultiResult) showMultiResult = false;
             $scope.hideForm = false;
@@ -279,6 +282,9 @@ angular.module('MetronicApp').controller('SalesController',
 
         // Modal
         $scope.showModal = function(key) {
+
+            
+
             if (key == null) key = -1;
             var form = '<form id="frmSale" name="frmSale" role="form" class="form-horizontal">\
                             <div class="form-body">\
@@ -301,36 +307,101 @@ angular.module('MetronicApp').controller('SalesController',
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
                 if(key > -1) {
-                    form +=                     '<input required type="text" value="'+$scope[plural][key].value+'" class="form-control format-number" name="value" id="value"> </div>';
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].price+'" class="form-control format-number" name="price" id="price"> </div>';
                 }
                 else {
-                    form +=                     '<input required type="text" class="form-control format-number" name="value" id="value" value="0"></div>';    
+                    form +=                     '<input required type="text" class="form-control format-number" name="price" id="price"></div>';    
                 }
                 form +=             '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Buyer <span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Purchaser <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
                 if(key > -1) {
-                    form +=                     '<input required type="text" value="'+$scope[plural][key].buyer+'" class="form-control" name="buyer" id="buyer"> </div>';
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].purchaser+'" class="form-control" name="purchaser" id="purchaser"> </div>';
                 }
                 else {
-                    form +=                     '<input required type="text" class="form-control" name="buyer" id="buyer"> </div>';    
+                    form +=                     '<input required type="text" class="form-control" name="purchaser" id="purchaser"> </div>';    
                 }
                 form +=             '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Remarks <span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Vendor <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
                 if(key > -1) {
-                    form +=                     '<input required type="text" value="'+$scope[plural][key].remarks+'" class="form-control" name="remarks" id="remarks"> </div>';
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].vendor+'" class="form-control" name="vendor" id="vendor"> </div>';
                 }
                 else {
-                    form +=                     '<input required type="text" class="form-control" name="remarks" id="remarks"> </div>';    
+                    form +=                     '<input required type="text" class="form-control" name="vendor" id="vendor"> </div>';    
+                }
+                form +=             '</div>\
+                                </div>\
+                                                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Est Land Value<span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                if(key > -1) {
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].est_land_value+'" class="form-control format-number" name="est_land_value" id="est_land_value"> </div>';
+                }
+                else {
+                    form +=                     '<input required type="text" class="form-control format-number" name="est_land_value" id="est_land_value"> </div>';    
+                }
+                form +=             '</div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Est Improvement Value<span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                if(key > -1) {
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].est_improvement_value+'" class="form-control format-number" name="est_improvement_value" id="est_improvement_value"> </div>';
+                }
+                else {
+                    form +=                     '<input required type="text" class="form-control format-number" name="est_improvement_value" id="est_improvement_value"> </div>';    
+                }
+                form +=             '</div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Area (sqm)<span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                if(key > -1) {
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].area+'" class="form-control format-number" name="area" id="area"> </div>';
+                }
+                else {
+                    form +=                     '<input required type="text" class="form-control format-number" name="area" id="area"> </div>';    
+                }
+                form +=             '</div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Est Land Rate (per sqm)<span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                if(key > -1) {
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].est_land_rate+'" class="form-control format-number" name="est_land_rate" id="est_land_rate"> </div>';
+                }
+                else {
+                    form +=                     '<input required type="text" class="form-control format-number" name="est_land_rate" id="est_land_rate"> </div>';    
+                }
+                form +=             '</div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Description<span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                if(key > -1) {
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].description+'" class="form-control" name="description" id="description"> </div>';
+                }
+                else {
+                    form +=                     '<input required type="text" class="form-control" name="description" id="description"> </div>';    
                 }
                 form +=             '</div>\
                                 </div>\
@@ -350,7 +421,12 @@ angular.module('MetronicApp').controller('SalesController',
                 })
                 function formatNumber(value) {
                     var n = parseFloat(value.replace(/\,/g,''),10);
-                    return n.toLocaleString();
+                    if(n.toLocaleString() !== 'NaN') {
+                        return n.toLocaleString();    
+                    }
+                    else {
+                        return;
+                    }
                 }
                 form.find('.format-number').val( (formatNumber(form.find('.format-number').val()) ) );
             bootbox.confirm({
@@ -360,22 +436,41 @@ angular.module('MetronicApp').controller('SalesController',
                     if (res){
                         if(
                             $('#frmSale')[0]['elements'].date.value !== '' &&
-                            $('#frmSale')[0]['elements'].value.value !== '' &&
-                            $('#frmSale')[0]['elements'].buyer.value !== '' &&
-                            $('#frmSale')[0]['elements'].remarks.value !== ''
+                            $('#frmSale')[0]['elements'].price.value !== '' &&
+                            $('#frmSale')[0]['elements'].purchaser.value !== '' &&
+                            $('#frmSale')[0]['elements'].vendor.value !== '' &&
+                            $('#frmSale')[0]['elements'].est_land_value.value !== '' &&
+                            $('#frmSale')[0]['elements'].est_improvement_value.value !== '' &&
+                            $('#frmSale')[0]['elements'].area.value !== '' &&
+                            $('#frmSale')[0]['elements'].est_land_rate.value !== '' &&
+                            $('#frmSale')[0]['elements'].description.value !== ''
                             ) {
                             $scope[singular].date = moment($('#frmSale')[0]['elements'].date.value, 'DD-MM-YYYY').format('YYYY-MM-DD');
-                            var sing_value = $('#frmSale')[0]['elements'].value.value;
-                            $scope[singular].value = sing_value.replace (/,/g, "");
-                            $scope[singular].buyer = $('#frmSale')[0]['elements'].buyer.value;
-                            $scope[singular].remarks = $('#frmSale')[0]['elements'].remarks.value;
+                            var sing_price = $('#frmSale')[0]['elements'].price.value;
+                            $scope[singular].price = sing_price.replace (/,/g, "");
+                            $scope[singular].purchaser = $('#frmSale')[0]['elements'].purchaser.value;
+                            $scope[singular].vendor = $('#frmSale')[0]['elements'].vendor.value;
+                            var sing_est_land_value = $('#frmSale')[0]['elements'].est_land_value.value;
+                            $scope[singular].est_land_value = sing_est_land_value.replace (/,/g, "");
+                            var sing_est_improvement_value = $('#frmSale')[0]['elements'].est_improvement_value.value;
+                            $scope[singular].est_improvement_value = sing_est_improvement_value.replace (/,/g, "");
+                            var sing_area = $('#frmSale')[0]['elements'].area.value;
+                            $scope[singular].area = sing_area.replace (/,/g, "");
+                            var sing_est_land_rate = $('#frmSale')[0]['elements'].est_land_rate.value;
+                            $scope[singular].est_land_rate = sing_est_land_rate.replace (/,/g, "");
+                            $scope[singular].description = $('#frmSale')[0]['elements'].description.value;
                             $scope.$apply();
                             if(key > -1) {
                                 // Edit
                                 $scope[plural][key].date = $scope[singular].date;
-                                $scope[plural][key].value = $scope[singular].value;
-                                $scope[plural][key].buyer = $scope[singular].buyer;
-                                $scope[plural][key].remarks = $scope[singular].remarks;
+                                $scope[plural][key].price = $scope[singular].price;
+                                $scope[plural][key].purchaser = $scope[singular].purchaser;
+                                $scope[plural][key].vendor = $scope[singular].vendor;
+                                $scope[plural][key].est_land_value = $scope[singular].est_land_value;
+                                $scope[plural][key].est_improvement_value = $scope[singular].est_improvement_value;
+                                $scope[plural][key].area = $scope[singular].area;
+                                $scope[plural][key].est_land_rate = $scope[singular].est_land_rate;
+                                $scope[plural][key].description = $scope[singular].description;
                                 $scope.$apply();
                                 $scope.update($scope[plural][key].id);
                             }
@@ -412,9 +507,14 @@ angular.module('MetronicApp').controller('SalesController',
         $scope.add = function() {
             $http.post($rootScope.apiURL + 'v1/'+singular+'?token='+localStorage.getItem('satellizer_token'), {
                 date : $scope[singular].date,
-                value : $scope[singular].value,
-                buyer : $scope[singular].buyer,
-                remarks : $scope[singular].remarks,
+                price : $scope[singular].price,
+                purchaser : $scope[singular].purchaser,
+                vendor : $scope[singular].vendor,
+                est_land_value : $scope[singular].est_land_value,
+                est_improvement_value : $scope[singular].est_improvement_value,
+                area : $scope[singular].area,
+                est_land_rate : $scope[singular].est_land_rate,
+                description : $scope[singular].description,
                 property_id : $state.params.property_id 
             }).success(function(response) {
                 const user = JSON.parse(localStorage.getItem('user'));
@@ -434,8 +534,14 @@ angular.module('MetronicApp').controller('SalesController',
         $scope.update = function(id){
           $http.put($rootScope.apiURL + 'v1/'+singular+'/' + id + '?token='+localStorage.getItem('satellizer_token'), {
                 date : $scope[singular].date,
-                value : $scope[singular].value,
-                remarks : $scope[singular].remarks,
+                price : $scope[singular].price,
+                purchaser : $scope[singular].purchaser,
+                vendor : $scope[singular].vendor,
+                est_land_value : $scope[singular].est_land_value,
+                est_improvement_value : $scope[singular].est_improvement_value,
+                area : $scope[singular].area,
+                est_land_rate : $scope[singular].est_land_rate,
+                description : $scope[singular].description,
           }).success(function(response) {
                 const user = JSON.parse(localStorage.getItem('user'));
                 $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
