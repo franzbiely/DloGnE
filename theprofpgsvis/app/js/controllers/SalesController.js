@@ -283,7 +283,6 @@ angular.module('MetronicApp').controller('SalesController',
         // Modal
         $scope.showModal = function(key) {
 
-            
 
             if (key == null) key = -1;
             var form = '<form id="frmSale" name="frmSale" role="form" class="form-horizontal">\
@@ -428,7 +427,9 @@ angular.module('MetronicApp').controller('SalesController',
                         return;
                     }
                 }
-                form.find('.format-number').val( (formatNumber(form.find('.format-number').val()) ) );
+                form.find('.format-number').map(function(x) {
+                    this.value = formatNumber( this.value );
+                })
             bootbox.confirm({
                 title: "Sales Details",
                 message: form,
