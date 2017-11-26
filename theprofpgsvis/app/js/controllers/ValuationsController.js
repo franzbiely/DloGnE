@@ -234,6 +234,9 @@ angular.module('MetronicApp').controller('ValuationsController',
             }
             else {
                 $scope.multipleResultsShow = true;
+                if($scope.searchdata.id != null) {
+                    $scope.searchdata.include_valuation_zero = true;
+                }
                 str = Object.keys($scope.searchdata).map(function(key){ 
                     if(encodeURIComponent($scope.searchdata[key]) !== 'undefined' && encodeURIComponent($scope.searchdata[key]) !== ''){
                         return encodeURIComponent(key) + '=' + encodeURIComponent($scope.searchdata[key]); 
