@@ -385,11 +385,11 @@ class PropertiesController extends Controller {
                 $sheet ->mergeCells('A' . ($ROW+=2) . ':D'.$ROW);
                 $sheet->setCellValue('A'.$ROW, 'VALUATION HISTORY OF PROPERTY #' . $property['id']);
                 $sheet->setCellValue('A'.$ROW+=1, 'Date Valued');
-                $sheet->setCellValue('B'.$ROW, 'Property Value');
-                $sheet->setCellValue('C'.$ROW, 'Land Component');
-                $sheet->setCellValue('D'.$ROW, 'Insurance Value');
-                $sheet->setCellValue('E'.$ROW, 'Forced Sale Value');
-                $sheet->setCellValue('F'.$ROW, 'Improvement Component');
+                $sheet->setCellValue('B'.$ROW, 'Property Value (K)');
+                $sheet->setCellValue('C'.$ROW, 'Land Component (K)');
+                $sheet->setCellValue('D'.$ROW, 'Insurance Value (K)');
+                $sheet->setCellValue('E'.$ROW, 'Forced Sale Value (K)');
+                $sheet->setCellValue('F'.$ROW, 'Improvement Component (K)');
                 $sheet->setCellValue('G'.$ROW, 'Area (sqm)');
                 $sheet->setCellValue('H'.$ROW, 'Land Value Rate (per sqm)');
                 $sheet->setCellValue('I'.$ROW, 'Description');
@@ -415,11 +415,11 @@ class PropertiesController extends Controller {
                 $sheet ->mergeCells('A' . ($ROW+=2) .':D'.$ROW);
                 $sheet->setCellValue('A'.$ROW, 'SALES HISTORY OF PROPERTY #' . $property['id']);
                 $sheet->setCellValue('A'.$ROW+=1, 'Date');
-                $sheet->setCellValue('B'.$ROW, 'Price');
+                $sheet->setCellValue('B'.$ROW, 'Price (K)');
                 $sheet->setCellValue('C'.$ROW, 'Purchaser');
                 $sheet->setCellValue('D'.$ROW, 'Vendor');
-                $sheet->setCellValue('E'.$ROW, 'Est Land Value');
-                $sheet->setCellValue('F'.$ROW, 'Est Improvement Value');
+                $sheet->setCellValue('E'.$ROW, 'Est Land Value (K)');
+                $sheet->setCellValue('F'.$ROW, 'Est Improvement Value (K)');
                 $sheet->setCellValue('G'.$ROW, 'Area (sqm)');
                 $sheet->setCellValue('H'.$ROW, 'Est Land Rate (per sqm)');
                 $sheet->setCellValue('I'.$ROW, 'Description');
@@ -482,12 +482,12 @@ class PropertiesController extends Controller {
 <table border="1" cellpadding="10" cellspacing="0">
     <tr>
         <th>Date</th>
-        <th>Total Value</th>
-        <th>Property Value</th>
-        <th>Land Component</th>
-        <th>Insurance Value</th>
-        <th>Forced Sale Value</th>
-        <th>Improvement Component</th>
+        <th>Total Value (K)</th>
+        <th>Property Value (K)</th>
+        <th>Land Component (K)</th>
+        <th>Insurance Value (K)</th>
+        <th>Forced Sale Value (K)</th>
+        <th>Improvement Component (K)</th>
         <th>Area (sqm)</th>
         <th>Land Value Rate (per sqm)</th>
         <th>Description</th>
@@ -518,11 +518,11 @@ class PropertiesController extends Controller {
 <table border="1" cellpadding="10" cellspacing="0">
     <tr>
         <th>Date</th>
-        <th>Price</th>
+        <th>Price (K)</th>
         <th>Purchaser</th>
         <th>Vendor</th>
-        <th>Est Land Value</th>
-        <th>Est Improvement Value</th>
+        <th>Est Land Value (K)</th>
+        <th>Est Improvement Value (K)</th>
         <th>Area (sqm)</th>
         <th>Est Land Rate (per sqm)</th>
         <th>Description</th>
