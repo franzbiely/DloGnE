@@ -334,7 +334,9 @@ angular.module('MetronicApp').controller('ReportsController',
                         return true;
                     }
                 }).map(function(key) {
-                    return encodeURIComponent(key) + '=' + encodeURIComponent($scope.data[key]); 
+                    var strval = $scope.data[key];
+                    strval = ("" + strval).replace('/','|');
+                    return encodeURIComponent(key) + '=' + encodeURIComponent(strval); 
                 }).join('&');
                 var file_path = $rootScope.apiURL + 'v1/property/export/report/' + filetype + '/' + details +'?token='+localStorage.getItem('satellizer_token');
                 form = createFormFields($scope.valuations, "valuations", form);
