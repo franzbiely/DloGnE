@@ -16,11 +16,13 @@
                 <table class="table table-striped table-bordered table-hover order-column" id="sample_1">
                     <thead>
                         <tr>
-                            <th> ID </th>
-                            <th> City </th>
-                            <th> Lease Type </th>
-                            <th> Port/Sec/Lot </th>
-                            <th> Suburb</th>
+                            <th>ID</th>
+                            <th>City</th>
+                            <th>Lease Type</th>
+                            <th>Price (K)</th>
+                            <th>Port/Sec/Lot</th>
+                            <th>Suburb</th>
+                            <th>Area (sqm)</th>
                             <th ng-show="page_name == 'valuations' || page_name == 'sales'">History</th>
                         </tr>
                     </thead>
@@ -29,6 +31,7 @@
                             <td><a ng-click="showResult(value.id, true)">{[{value.id}]}</a></td>
                             <td>{[{value.city}]}</td>
                             <td>{[{value.lease_type}]}</td>
+                            <td>{[{value.current_value | number}]}</td>
                             <td>{[{value.port}]} / {[{value.sec}]} / {[{value.lot}]}</td>
                             <td>{[{value.suburb}]}</td>
                             <td ng-show="page_name == 'valuations' || page_name == 'sales'">
@@ -37,6 +40,7 @@
                                 <a ng-show="page_name == 'sales'" type="button" 
                                     ui-sref="sales.list({property_id : value.id})" class="btn btn-link">Sale History ({[{value.sales_count}]})</a> 
                             </td>
+                            <td>{[{value.area | number}]}</td>
                         </tr>
                     </tbody>
                 </table>

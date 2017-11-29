@@ -26,8 +26,9 @@
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Price (K)</th>
+                            <th>Source</th>
                             <th>Purchaser</th>
+                            <th>Price (K)</th>
                             <th>Vendor</th>
                             <th>Est Land Value (K)</th>
                             <th>Est Improvement Value (K)</th>
@@ -40,6 +41,7 @@
                     <tbody>
                         <tr ng-repeat="(key, value) in sales" class="odd gradeX">
                             <td>{[{value.date | amDateFormat:'DD-MM-YYYY' }]}</td>
+                            <td>{[{value.source}]}</td>
                             <td>{[{value.price | number}]}</td>
                             <td>{[{value.purchaser}]}</td>
                             <td>{[{value.vendor}]}</td>
@@ -56,7 +58,7 @@
                             </td>
                         </tr>
                         <tr ng-show="!sales.length">
-                            <td colspan="10">No record</td>
+                            <td colspan="90">No record</td>
                         </tr>
                     </tbody>
                 </table>

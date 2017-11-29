@@ -47,6 +47,7 @@ class SalesController extends Controller
                 )
             )->select('id', 
                 'date',
+                'source',
                 'price',
                 'purchaser',
                 'vendor',
@@ -76,6 +77,7 @@ class SalesController extends Controller
             )
         )->select('id', 
             'date',
+            'source',
             'price',
             'purchaser',
             'vendor',
@@ -156,6 +158,7 @@ class SalesController extends Controller
         try {
             $sale = Sale::find($id);
             if(isset($request->date)) $sale->date = $request->date;
+            if(isset($request->source)) $sale->source = $request->source;
             if(isset($request->price)) $sale->price = $request->price;
             if(isset($request->purchaser)) $sale->purchaser = $request->purchaser;
             if(isset($request->vendor)) $sale->vendor = $request->vendor;
@@ -223,6 +226,7 @@ class SalesController extends Controller
         return [
                 'id' => $sale['id'],
                 'date' => $sale['date'],
+                'source'=>$sale['source'],
                 'price' => $sale['price'],
                 'purchaser'=>$sale['purchaser'],
                 'vendor'=>$sale['vendor'],

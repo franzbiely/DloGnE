@@ -45,7 +45,8 @@ class PropertiesController extends Controller {
             'Property_Use'        =>function($query) { $query->select('id','name'); },
             'Current_Value',
             'Valuation',
-            'Sale'
+            'Sale',
+            'Area'
         );
         $this->default_select = [
             'properties.id',
@@ -311,7 +312,8 @@ class PropertiesController extends Controller {
                 'sale'=> $property['sale'],
                 'valuations_count' => count($property['valuation']),
                 'sales_count' => count($property['sale']),
-                'current_value'=>floatval($property['current__value']['value'])
+                'current_value'=>floatval($property['current__value']['value']),
+                'area'=>floatval($property['area']['area'])
         ];
         if(isset($property['valuations_count']))
             $ret['valuations_count'] = $property['valuations_count'];
@@ -444,17 +446,8 @@ class PropertiesController extends Controller {
             });
         })->download($filetype);
     }
-    public function export_report_csv(Request $request, $_property) {
-        $this->export_report($request, $_property, 'csv');
-    }
-    public function export_report_excel(Request $request, $_property) {
-        $this->export_report($request, $_property, 'xls');
-    }
-    public function export_report_pdf(Request $request, $_property) {
-        // $this->export_report($request, $_property, 'pdf');
-
-        parse_str($_property, $property);
-        $filename = "SVIS-Property-".$property['id'];
+    private function pdf_content($request, $property, $params) {
+        $filename = $params->filename;
         ob_start();
         header("Content-Type: text/html; charset=utf-8");
         ?>
@@ -478,83 +471,115 @@ class PropertiesController extends Controller {
 <?php if(isset($property['unit'])) { ?>Unit #          <strong><?php echo $property['unit'] ?></strong><br /><?php } ?>
 <?php if(isset($property['owner'])) { ?>Seller <strong><?php echo $property['owner'] ?></strong><br /><?php } ?>
 <hr />
-<h3>VALUATION HISTORY OF PROPERTY #<?php echo $property['id'] ?></h3>
-<table border="1" cellpadding="10" cellspacing="0">
-    <tr>
-        <th>Date</th>
-        <th>Total Value (K)</th>
-        <th>Property Value (K)</th>
-        <th>Land Component (K)</th>
-        <th>Insurance Value (K)</th>
-        <th>Forced Sale Value (K)</th>
-        <th>Improvement Component (K)</th>
-        <th>Area (sqm)</th>
-        <th>Land Value Rate (per sqm)</th>
-        <th>Description</th>
-    </tr>
-    <?php
-    if(count($request->valuations) > 0 ) {
-        foreach($request->valuations as $key=>$valuation) { ?>
-            <tr>
-                <td><?php echo $valuation['date'] ?></td>
-                <td><?php echo ($valuation['improvement_component'] !== '' && $valuation['property_value'] !== '' ) ?number_format($valuation['improvement_component'] + $valuation['property_value']) : '' ?></td>
-                <td><?php echo ($valuation['property_value'] !== '') ?number_format($valuation['property_value']) : '' ?></td>
-                <td><?php echo ($valuation['land_component'] !== '') ?number_format($valuation['land_component']) : '' ?></td>
-                <td><?php echo ($valuation['insurance_value'] !== '') ?number_format($valuation['insurance_value']) : '' ?></td>
-                <td><?php echo ($valuation['forced_sale_value'] !== '') ? number_format($valuation['forced_sale_value']) : '' ?></td>
-                <td><?php echo ($valuation['improvement_component'] !== '') ?number_format($valuation['improvement_component']) : '' ?></td>
-                <td><?php echo ($valuation['area'] !== '') ?number_format($valuation['area']) : '' ?></td>
-                <td><?php echo ($valuation['land_value_rate'] !== '') ?number_format($valuation['land_value_rate']) : '' ?></td>
-                <td><?php echo $valuation['description'] ?></td>
-            </tr>
-        <?php }
-    }
-    else {
-        ?><tr><td colspan="3">No data</td></tr><?php
-    } ?>
-</table>
-<br /><br />
-<h3>SALES HISTORY OF PROPERTY #<?php echo $property['id'] ?></h3>
-<table border="1" cellpadding="10" cellspacing="0">
-    <tr>
-        <th>Date</th>
-        <th>Price (K)</th>
-        <th>Purchaser</th>
-        <th>Vendor</th>
-        <th>Est Land Value (K)</th>
-        <th>Est Improvement Value (K)</th>
-        <th>Area (sqm)</th>
-        <th>Est Land Rate (per sqm)</th>
-        <th>Description</th>
 
-    </tr>
-    <?php
-    if(count($request->sales) > 0 ) {
-        foreach($request->sales as $key=>$sale) { ?>
-            <tr>
-                <td><?php echo $sale['date'] ?></td>
-                <td><?php echo ($sale['price'] !== '') ? number_format($sale['price']) : '' ?></td>
-                <td><?php echo $sale['purchaser'] ?></td>
-                <td><?php echo $sale['vendor'] ?></td>
-                <td><?php echo ($sale['est_land_value'] !== '') ? number_format($sale['est_land_value']) : '' ?></td>
-                <td><?php echo ($sale['est_improvement_value'] !== '') ? number_format($sale['est_improvement_value']) : '' ?></td>
-                <td><?php echo ($sale['area'] !== '') ? number_format($sale['area']) : '' ?></td>
-                <td><?php echo ($sale['est_land_rate'] !== '') ? number_format($sale['est_land_rate']) : '' ?></td>
-                <td><?php echo $sale['description'] ?></td>
-            </tr>
-        <?php }
-    }
-    else {
-        ?><tr><td colspan="4">No data</td></tr><?php
-    } ?>
-</table>
-<br /><br /><br />
+
+<?php if(!isset($params->hide_valuation) || !$params->hide_valuation) : ?>
+
+    <h3>VALUATION HISTORY OF PROPERTY #<?php echo $property['id'] ?></h3>
+    <table border="1" cellpadding="10" cellspacing="0">
+        <tr>
+            <th>Date</th>
+            <th>Total Value (K)</th>
+            <th>Property Value (K)</th>
+            <th>Land Component (K)</th>
+            <th>Insurance Value (K)</th>
+            <th>Forced Sale Value (K)</th>
+            <th>Improvement Component (K)</th>
+            <th>Area (sqm)</th>
+            <th>Land Value Rate (per sqm)</th>
+            <th>Description</th>
+        </tr>
+        <?php
+        if(count($request->valuations) > 0 ) {
+            foreach($request->valuations as $key=>$valuation) { ?>
+                <tr>
+                    <td><?php echo $valuation['date'] ?></td>
+                    <td><?php echo ($valuation['improvement_component'] !== '' && $valuation['property_value'] !== '' ) ?number_format($valuation['improvement_component'] + $valuation['property_value']) : '' ?></td>
+                    <td><?php echo ($valuation['property_value'] !== '') ?number_format($valuation['property_value']) : '' ?></td>
+                    <td><?php echo ($valuation['land_component'] !== '') ?number_format($valuation['land_component']) : '' ?></td>
+                    <td><?php echo ($valuation['insurance_value'] !== '') ?number_format($valuation['insurance_value']) : '' ?></td>
+                    <td><?php echo ($valuation['forced_sale_value'] !== '') ? number_format($valuation['forced_sale_value']) : '' ?></td>
+                    <td><?php echo ($valuation['improvement_component'] !== '') ?number_format($valuation['improvement_component']) : '' ?></td>
+                    <td><?php echo ($valuation['area'] !== '') ?number_format($valuation['area']) : '' ?></td>
+                    <td><?php echo ($valuation['land_value_rate'] !== '') ?number_format($valuation['land_value_rate']) : '' ?></td>
+                    <td><?php echo $valuation['description'] ?></td>
+                </tr>
+            <?php }
+        }
+        else {
+            ?><tr><td colspan="10">No data</td></tr><?php
+        } ?>
+    </table>
+    <br /><br />
+
+<?php endif; ?>
+
+<?php if(!isset($params->hide_sales) || !$params->hide_sales) : ?>
+    <h3>SALES HISTORY OF PROPERTY #<?php echo $property['id'] ?></h3>
+    <table border="1" cellpadding="10" cellspacing="0">
+        <tr>
+            <?php if(!isset($params->hide_sales_column) || !in_array('date', $params->hide_sales_column)) { ?>                  <th>Date</th> <?php } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('source', $params->hide_sales_column)) { ?>                <th>Source</th> <?php } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('price', $params->hide_sales_column)) { ?>                 <th>Price (K)</th><?php } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('purchaser', $params->hide_sales_column)) { ?>             <th>Purchaser</th><?php } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('vendor', $params->hide_sales_column)) { ?>                <th>Vendor</th><?php } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('est_land_value', $params->hide_sales_column)) { ?>        <th>Est Land Value (K)</th><?php } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('est_improvement_value', $params->hide_sales_column)) { ?> <th>Est Improvement Value (K)</th><?php } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('area', $params->hide_sales_column)) { ?>                  <th>Area (sqm)</th><?php } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('est_land_rate', $params->hide_sales_column)) { ?>         <th>Est Land Rate (per sqm)</th><?php } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('description', $params->hide_sales_column)) { ?>           <th>Description</th><?php } ?>
+
+        </tr>
+        <?php
+        if(count($request->sales) > 0 ) {
+            foreach($request->sales as $key=>$sale) { ?>
+                <tr>
+                    <?php if(!isset($params->hide_sales_column) || !in_array('date', $params->hide_sales_column)) { ?> <td><?php echo $sale['date'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_sales_column) || !in_array('source', $params->hide_sales_column)) { ?> <td><?php echo $sale['source'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_sales_column) || !in_array('price', $params->hide_sales_column)) { ?> <td><?php echo ($sale['price'] !== '') ? number_format($sale['price']) : '' ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_sales_column) || !in_array('purchaser', $params->hide_sales_column)) { ?>  <td><?php echo $sale['purchaser'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_sales_column) || !in_array('vendor', $params->hide_sales_column)) { ?> <td><?php echo $sale['vendor'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_sales_column) || !in_array('est_land_value', $params->hide_sales_column)) { ?> <td><?php echo ($sale['est_land_value'] !== '') ? number_format($sale['est_land_value']) : '' ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_sales_column) || !in_array('est_improvement_value', $params->hide_sales_column)) { ?> <td><?php echo ($sale['est_improvement_value'] !== '') ? number_format($sale['est_improvement_value']) : '' ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_sales_column) || !in_array('area', $params->hide_sales_column)) { ?> <td><?php echo ($sale['area'] !== '') ? number_format($sale['area']) : '' ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_sales_column) || !in_array('est_land_rate', $params->hide_sales_column)) { ?>  <td><?php echo ($sale['est_land_rate'] !== '') ? number_format($sale['est_land_rate']) : '' ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_sales_column) || !in_array('description', $params->hide_sales_column)) { ?>   <td><?php echo $sale['description'] ?></td> <?php } ?>
+                </tr>
+            <?php }
+        }
+        else {
+            ?><tr><td colspan="10">No data</td></tr><?php
+        } ?>
+    </table>
+    <br /><br /><br />
+
+<?php endif; ?>
+
 <p align="center">2017 &copy; The Professionals | SVIS v1.0</p>
         <?php
         $html = ob_get_contents();
         ob_end_clean();
-        $pdf = PDF::loadHTML($html)->setPaper('a4', 'landscape');
+        $pdf = PDF::loadHTML($html)->setPaper('a4', $params->paper);
         return $pdf->download($filename.'.pdf');
+    }
+    public function export_report_csv(Request $request, $_property) {
+        $this->export_report($request, $_property, 'csv');
+    }
+    public function export_report_excel(Request $request, $_property) {
+        $this->export_report($request, $_property, 'xls');
+    }
+    public function export_report_pdf(Request $request, $_property) {
+        parse_str($_property, $property);
+        $params = (object) ['paper' => 'landscape', 'filename' => "SVIS-Property-".$property['id']];
+        return $this->pdf_content($request, $property, $params);
+    }
+    public function export_report_snapshot_pdf(Request $request, $_property) {
+        parse_str($_property, $property);
+        $params = (object) ['paper' => 'portrait', 
+                            'hide_valuation' => true, 
+                            'hide_sales_column' => ['purchaser','vendor','description'],
+                            'filename' => "SVIS-Property-Snapshot-".$property['id'] ];
+        return $this->pdf_content($request, $property, $params);
     }
 
 
@@ -563,7 +588,6 @@ class PropertiesController extends Controller {
     private function export_report_list($request, $type) {
         $filename = "SVIS-Properties";
         $filetype = $type;
-        
         Excel::create($filename, function($excel) use($request){
             $excel->sheet('Excel sheet', function($sheet) use($request) {
                 $ROW = 4;
@@ -575,18 +599,20 @@ class PropertiesController extends Controller {
 
                 
                 foreach($request->searchquery as $key=>$val) {
-                    switch($key) {
-                        case 'property_class_id' : 
-                            $key = 'Class'; $val = $request->properties[0]['class']; break;
-                        case 'property_city_id' : 
-                            $key = 'City'; $val = $request->properties[0]['city']; break;
-                        case 'property_suburb_id' : 
-                            $key = 'Suburb'; $val = $request->properties[0]['suburb']; break;
-                        case 'property_lease_type_id' :
-                            $key = 'Lease Type'; $val = $request->properties[0]['lease_type']; break;
+                    if($val != '') {
+                        switch($key) {
+                            case 'property_class_id' : 
+                                $key = 'Class'; $val = $request->properties[0]['class']; break;
+                            case 'property_city_id' : 
+                                $key = 'City'; $val = $request->properties[0]['city']; break;
+                            case 'property_suburb_id' : 
+                                $key = 'Suburb'; $val = $request->properties[0]['suburb']; break;
+                            case 'property_lease_type_id' :
+                                $key = 'Lease Type'; $val = $request->properties[0]['lease_type']; break;
+                        }
+                        $sheet->setCellValue('A'.$ROW+=1, $key);
+                        $sheet->setCellValue('B'.$ROW, $val);    
                     }
-                    $sheet->setCellValue('A'.$ROW+=1, $key);
-                    $sheet->setCellValue('B'.$ROW, $val);    
                 }
 
                 $sheet->setCellValue('A'.$ROW+=2, 'ID');

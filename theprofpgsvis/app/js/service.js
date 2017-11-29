@@ -32,6 +32,21 @@ MetronicApp.service('FUNC', function($http, $rootScope, $auth, $state) {
                 $rootScope.currentUser = null;
                 $state.go('login',{}, {reload: true});
         });
+    };
+    this.resetform = function() {
+        return {
+            data : [],
+            searchdata : [],
+            data_temp : [],
+            valuations : [],
+            searchdata : {
+                price_min : 0,
+                price_max : 5000
+            },
+            multipleResultsShow : false,
+            multi_property_results : false,
+            resultReady : false
+        }
     }
 
 });

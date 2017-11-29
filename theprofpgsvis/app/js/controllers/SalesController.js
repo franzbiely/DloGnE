@@ -122,16 +122,12 @@ angular.module('MetronicApp').controller('SalesController',
             $scope.resultReady = false;
         }
         $scope.resetform = function() {
-            $scope.data = [];
-            $scope.searchdata = []; 
-            $scope.data_temp = [];
-            $scope.valuations = [];
-            $scope.searchdata.price_min = 0;
-            $scope.searchdata.price_max = 1000000;
-            $scope.multipleResultsShow = false;
-            $scope.multi_property_results = false;
-            $scope.resultReady = false;
+            let form_data = FUNC.resetform();
+            for( let _data in form_data) {
+                $scope[_data] = form_data[_data];
+            }
         }
+        $scope.resetform();
         // Display List
         $scope.loadSaleLists = function() {
             $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $state.params.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
@@ -168,8 +164,6 @@ angular.module('MetronicApp').controller('SalesController',
 
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax(); // initialize core components  
-            $scope.resetform();
-            
         });
         $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
         $scope.property_id = $stateParams.property_id;
@@ -285,8 +279,6 @@ angular.module('MetronicApp').controller('SalesController',
 
         // Modal
         $scope.showModal = function(key) {
-
-
             if (key == null) key = -1;
             var form = '<form id="frmSale" name="frmSale" role="form" class="form-horizontal">\
                             <div class="form-body">\
@@ -304,15 +296,15 @@ angular.module('MetronicApp').controller('SalesController',
                 form +=             '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Price <span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Source <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
                 if(key > -1) {
-                    form +=                     '<input required type="text" value="'+$scope[plural][key].price+'" class="form-control format-number" name="price" id="price"> </div>';
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].source+'" class="form-control" name="source" id="source"> </div>';
                 }
                 else {
-                    form +=                     '<input required type="text" class="form-control format-number" name="price" id="price"></div>';    
+                    form +=                     '<input required type="text" class="form-control" name="source" id="source"></div>';    
                 }
                 form +=             '</div>\
                                 </div>\
@@ -326,6 +318,19 @@ angular.module('MetronicApp').controller('SalesController',
                 }
                 else {
                     form +=                     '<input required type="text" class="form-control" name="purchaser" id="purchaser"> </div>';    
+                }
+                form +=             '</div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Price <span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                if(key > -1) {
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].price+'" class="form-control format-number" name="price" id="price"> </div>';
+                }
+                else {
+                    form +=                     '<input required type="text" class="form-control format-number" name="price" id="price"></div>';    
                 }
                 form +=             '</div>\
                                 </div>\
@@ -421,6 +426,12 @@ angular.module('MetronicApp').controller('SalesController',
                         $(this).val( formatNumber($(this).val()) );
                     }
                 })
+                if(key > -1) {
+                    form.find('.format-number').map(function(x) {
+                        this.value = formatNumber( this.value );
+                    })
+                }
+                
                 function formatNumber(value) {
                     var n = parseFloat(value.replace(/\,/g,''),10);
                     if(n.toLocaleString() !== 'NaN') {
@@ -430,9 +441,7 @@ angular.module('MetronicApp').controller('SalesController',
                         return;
                     }
                 }
-                form.find('.format-number').map(function(x) {
-                    this.value = formatNumber( this.value );
-                })
+                
             bootbox.confirm({
                 title: "Sales Details",
                 message: form,
@@ -440,6 +449,7 @@ angular.module('MetronicApp').controller('SalesController',
                     if (res){
                         if(
                             $('#frmSale')[0]['elements'].date.value !== '' &&
+                            $('#frmSale')[0]['elements'].source.value !== '' &&
                             $('#frmSale')[0]['elements'].price.value !== '' &&
                             $('#frmSale')[0]['elements'].purchaser.value !== '' &&
                             $('#frmSale')[0]['elements'].vendor.value !== '' &&
@@ -450,6 +460,7 @@ angular.module('MetronicApp').controller('SalesController',
                             $('#frmSale')[0]['elements'].description.value !== ''
                             ) {
                             $scope[singular].date = moment($('#frmSale')[0]['elements'].date.value, 'DD-MM-YYYY').format('YYYY-MM-DD');
+                            $scope[singular].source = $('#frmSale')[0]['elements'].source.value;
                             var sing_price = $('#frmSale')[0]['elements'].price.value;
                             $scope[singular].price = sing_price.replace (/,/g, "");
                             $scope[singular].purchaser = $('#frmSale')[0]['elements'].purchaser.value;
@@ -467,6 +478,7 @@ angular.module('MetronicApp').controller('SalesController',
                             if(key > -1) {
                                 // Edit
                                 $scope[plural][key].date = $scope[singular].date;
+                                $scope[plural][key].source = $scope[singular].source;
                                 $scope[plural][key].price = $scope[singular].price;
                                 $scope[plural][key].purchaser = $scope[singular].purchaser;
                                 $scope[plural][key].vendor = $scope[singular].vendor;
@@ -511,6 +523,7 @@ angular.module('MetronicApp').controller('SalesController',
         $scope.add = function() {
             $http.post($rootScope.apiURL + 'v1/'+singular+'?token='+localStorage.getItem('satellizer_token'), {
                 date : $scope[singular].date,
+                source : $scope[singular].source,
                 price : $scope[singular].price,
                 purchaser : $scope[singular].purchaser,
                 vendor : $scope[singular].vendor,
@@ -538,6 +551,7 @@ angular.module('MetronicApp').controller('SalesController',
         $scope.update = function(id){
           $http.put($rootScope.apiURL + 'v1/'+singular+'/' + id + '?token='+localStorage.getItem('satellizer_token'), {
                 date : $scope[singular].date,
+                source : $scope[singular].source,
                 price : $scope[singular].price,
                 purchaser : $scope[singular].purchaser,
                 vendor : $scope[singular].vendor,

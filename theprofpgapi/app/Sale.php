@@ -9,6 +9,7 @@ class Sale extends Model
 {
     protected $fillable = [
 		'date',
+		'source',
 		'price',
 		'purchaser',
 		'vendor',

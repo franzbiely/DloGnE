@@ -134,16 +134,10 @@ angular.module('MetronicApp').controller('ValuationsController',
             $scope.resetform();
         });
         $scope.resetform = function() {
-            $scope.data = [];
-            $scope.searchdata = []; 
-            $scope.data_temp = [];
-            $scope.valuations = [];
-            $scope.searchdata.price_min = 0;
-            $scope.searchdata.price_max = 1000000;
-            $scope.multipleResultsShow = false;
-            $scope.multi_property_results = false;
-            $scope.resultReady = false;
-            $scope.include_zero = false;
+            let form_data = FUNC.resetform();
+            for( let _data in form_data) {
+                $scope[_data] = form_data[_data];
+            }
         }
         $scope.valuation = [];
         $scope.property_id = $stateParams.property_id;

@@ -60,7 +60,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::post('property/export/report/csv/{property}', 'PropertiesController@export_report_csv');
 	Route::post('property/export/report/excel/{property}', 'PropertiesController@export_report_excel');
 	Route::post('property/export/report/pdf/{property}', 'PropertiesController@export_report_pdf');
-
+	Route::post('property/export/report/pdf-snapshot/{property}', 'PropertiesController@export_report_snapshot_pdf');
+	
 	// Multiple
 	Route::post('properties/export/report/csv', 'PropertiesController@export_report_csv_list');
 	Route::post('properties/export/report/excel', 'PropertiesController@export_report_excel_list');
