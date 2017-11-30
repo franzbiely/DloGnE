@@ -90,8 +90,16 @@ angular.module('MetronicApp').controller('ReportsController',
             return str.join("&");
         }
         function createFormFields(obj, prefix, form) {
+
+            let subject = [];
             for(var i in obj) {
-                if(Object.keys(obj[i]).length < 1) {
+                if(typeof obj[i] === 'object') {
+                    subject = Object.keys(obj[i]);
+                }
+                else {
+                    subject = [];   
+                }
+                if(subject.length < 1) {
                     var hiddenField = document.createElement("input");
                     hiddenField.setAttribute("name", prefix + "["+i+"]");
                     hiddenField.setAttribute("value", obj[i] );
