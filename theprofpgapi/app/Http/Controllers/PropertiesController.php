@@ -268,7 +268,7 @@ class PropertiesController extends Controller {
                     $total--;
                     continue;
                 }
-                if($this->price_min > 0) {
+                if($this->price_min >= 0) {
                     if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
                         unset($data[$key]);
                         $total--;

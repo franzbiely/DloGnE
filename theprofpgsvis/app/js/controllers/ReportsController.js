@@ -164,6 +164,13 @@ angular.module('MetronicApp').controller('ReportsController',
             $scope.searchdata.property_class_id =
             $scope.searchdata.property_lease_type_id = '';
 
+            if(typeof $scope.searchdata.price_max === "string") {
+                $scope.searchdata.price_max = $scope.searchdata.price_max.replace (/,/g, "");
+            }
+            if(typeof $scope.searchdata.price_min === "string") {
+                $scope.searchdata.price_min = $scope.searchdata.price_min.replace (/,/g, "");
+            }
+
             if(typeof $scope.data_temp.property_city_selected !== 'undefined' && $scope.data_temp.property_city_selected.id !== '') {
                 $scope.searchdata.property_city_id = $scope.data_temp.property_city_selected.id;
             }
@@ -176,6 +183,7 @@ angular.module('MetronicApp').controller('ReportsController',
             if(typeof $scope.data_temp.property_lease_type_selected !== 'undefined' && $scope.data_temp.property_lease_type_selected.id !== '') {
                 $scope.searchdata.property_lease_type_id = $scope.data_temp.property_lease_type_selected.id;
             }
+
             if(property_id != null) {
                 $scope.multipleResultsShow = false;
                 str = 'id='+ property_id;
