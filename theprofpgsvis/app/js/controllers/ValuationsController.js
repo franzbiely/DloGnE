@@ -206,6 +206,13 @@ angular.module('MetronicApp').controller('ValuationsController',
             $scope.searchdata.property_class_id =
             $scope.searchdata.property_lease_type_id = '';
 
+            if(typeof $scope.searchdata.price_max === "string") {
+                $scope.searchdata.price_max = $scope.searchdata.price_max.replace (/,/g, "");
+            }
+            if(typeof $scope.searchdata.price_min === "string") {
+                $scope.searchdata.price_min = $scope.searchdata.price_min.replace (/,/g, "");
+            }
+
 
             if(typeof $scope.data_temp.property_city_selected !== 'undefined' && $scope.data_temp.property_city_selected.id !== '') {
                 $scope.searchdata.property_city_id = $scope.data_temp.property_city_selected.id;
