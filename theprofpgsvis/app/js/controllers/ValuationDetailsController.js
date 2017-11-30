@@ -141,7 +141,7 @@ angular.module('MetronicApp').controller('ValuationDetailsController',
                 media_type : 'attached',
                 source_id : 0
             },
-            maxFilesize : '10',
+            maxFilesize : '5',
             maxFiles: 1,
             acceptedFiles : 'application/pdf',
             addRemoveLinks : true

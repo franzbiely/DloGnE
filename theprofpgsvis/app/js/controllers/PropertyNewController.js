@@ -91,7 +91,7 @@ angular.module('MetronicApp')
                 media_type : 'image',
                 source_id : 0
             },
-            maxFilesize : '10',
+            maxFilesize : '0.25',
             acceptedFiles : 'image/jpeg, images/jpg, image/png',
             addRemoveLinks : true
         };
@@ -131,7 +131,7 @@ angular.module('MetronicApp')
                 media_type : 'attached',
                 source_id : 0
             },
-            maxFilesize : '10',
+            maxFilesize : '5',
             acceptedFiles : 'application/pdf',
             addRemoveLinks : true
         };
