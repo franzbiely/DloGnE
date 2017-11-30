@@ -124,7 +124,7 @@
             <div class="col-md-8">
                 <ul class="pdf-gallery clearfix">
                     <li ng-repeat="(key, value) in pdfs">
-                        <strong><a ng-href="{[{value.file_path}]}" target="_self" download="{[{value.file_name}]}">{[{value.file_name}]}</a></strong>
+                        <strong><a ng-href="{[{value.file_path}]}" target="_self" download="{[{value.file_name}]}">{[{value.file_name | pretty_filename}]}</a></strong>
                         <a ng-click="removePDF(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
                     </li>
                     <li ng-show="!pdfs.length"><em>No pdf attached</em></li>

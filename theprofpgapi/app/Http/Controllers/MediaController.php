@@ -95,7 +95,7 @@ class MediaController extends Controller
             $file = $request->file('files');
             $dest = 'uploads/file/';
         }
-        $filename = uniqid() . $file->getClientOriginalName();
+        $filename = uniqid() . '___' . $file->getClientOriginalName();
         $file->move($dest, $filename);
         
         $media = Media::create([
