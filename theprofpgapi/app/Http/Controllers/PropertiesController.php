@@ -429,7 +429,7 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('E'.$ROW, 'Est Land Value (K)');
                 $sheet->setCellValue('F'.$ROW, 'Est Improvement Value (K)');
                 $sheet->setCellValue('G'.$ROW, 'Area (sqm)');
-                $sheet->setCellValue('H'.$ROW, 'Est Land Rate (per sqm)');
+                $sheet->setCellValue('H'.$ROW, 'Est Land Rate (K/sq.m)');
                 $sheet->setCellValue('I'.$ROW, 'Description');
 
                 if(count($request->sales) > 0 ) {
@@ -532,7 +532,7 @@ class PropertiesController extends Controller {
             <?php if(!isset($params->hide_sales_column) || !in_array('est_land_value', $params->hide_sales_column)) { ?>        <th>Est Land Value (K)</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('est_improvement_value', $params->hide_sales_column)) { ?> <th>Est Improvement Value (K)</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('area', $params->hide_sales_column)) { ?>                  <th>Area (sqm)</th><?php } else { $colspan--; } ?>
-            <?php if(!isset($params->hide_sales_column) || !in_array('est_land_rate', $params->hide_sales_column)) { ?>         <th>Est Land Rate (per sqm)</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('est_land_rate', $params->hide_sales_column)) { ?>         <th>Est Land Rate (K/sq.m)</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('description', $params->hide_sales_column)) { ?>           <th>Description</th><?php } else { $colspan--; } ?>
 
         </tr>

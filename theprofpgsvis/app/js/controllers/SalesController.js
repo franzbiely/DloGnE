@@ -394,7 +394,7 @@ angular.module('MetronicApp').controller('SalesController',
                 form +=             '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Est Land Rate (per sqm)<span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Est Land Rate (K/sq.m)<span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';
