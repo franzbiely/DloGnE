@@ -125,6 +125,7 @@ class PropertiesController extends Controller {
             }
             unset($ret['include_valuation_zero']);
         }
+        $where['is_archive'] = 0;
         foreach($ret as $key=>$val) {
             if(isset($val))
                 $where[$key] = $val;
