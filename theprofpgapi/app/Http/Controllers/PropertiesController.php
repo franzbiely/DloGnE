@@ -30,6 +30,7 @@ class PropertiesController extends Controller {
     private $include_sales_zero;
     private $with;
     private $default_select;
+    private $area;
 
     public function __construct() {
         $this->middleware('jwt.auth');
@@ -103,6 +104,10 @@ class PropertiesController extends Controller {
             $this->price_max = $ret['price_max'];
             unset($ret['price_min']);
             unset($ret['price_max']);
+        }
+        if(isset($ret['area'])) {
+            $this->area = $ret['area'];
+            unset($ret['area']);
         }
         if(isset($ret['id'])) {
             $ret['properties.id'] = $ret['id'];
@@ -274,7 +279,8 @@ class PropertiesController extends Controller {
                         $total--;
                         continue;
                     }
-                }                
+                }       
+                if($this->area == $val['area']) {}
             }
             $data = array_values($data);
         }
@@ -514,30 +520,31 @@ class PropertiesController extends Controller {
 
 <?php endif; ?>
 
-<?php if(!isset($params->hide_sales) || !$params->hide_sales) : ?>
+<?php if(!isset($params->hide_sales) || !$params->hide_sales) : $colspan = 10; ?>
     <h3>SALES HISTORY OF PROPERTY #<?php echo $property['id'] ?></h3>
     <table border="1" cellpadding="10" cellspacing="0">
         <tr>
-            <?php if(!isset($params->hide_sales_column) || !in_array('date', $params->hide_sales_column)) { ?>                  <th>Date</th> <?php } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('date', $params->hide_sales_column)) { ?>                  <th>Date</th> <?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('source', $params->hide_sales_column)) { ?>                <th>Source</th> <?php } ?>
-            <?php if(!isset($params->hide_sales_column) || !in_array('price', $params->hide_sales_column)) { ?>                 <th>Price (K)</th><?php } ?>
-            <?php if(!isset($params->hide_sales_column) || !in_array('purchaser', $params->hide_sales_column)) { ?>             <th>Purchaser</th><?php } ?>
-            <?php if(!isset($params->hide_sales_column) || !in_array('vendor', $params->hide_sales_column)) { ?>                <th>Vendor</th><?php } ?>
-            <?php if(!isset($params->hide_sales_column) || !in_array('est_land_value', $params->hide_sales_column)) { ?>        <th>Est Land Value (K)</th><?php } ?>
-            <?php if(!isset($params->hide_sales_column) || !in_array('est_improvement_value', $params->hide_sales_column)) { ?> <th>Est Improvement Value (K)</th><?php } ?>
-            <?php if(!isset($params->hide_sales_column) || !in_array('area', $params->hide_sales_column)) { ?>                  <th>Area (sqm)</th><?php } ?>
-            <?php if(!isset($params->hide_sales_column) || !in_array('est_land_rate', $params->hide_sales_column)) { ?>         <th>Est Land Rate (per sqm)</th><?php } ?>
-            <?php if(!isset($params->hide_sales_column) || !in_array('description', $params->hide_sales_column)) { ?>           <th>Description</th><?php } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('purchaser', $params->hide_sales_column)) { ?>             <th>Purchaser</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('price', $params->hide_sales_column)) { ?>                 <th>Price (K)</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('vendor', $params->hide_sales_column)) { ?>                <th>Vendor</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('est_land_value', $params->hide_sales_column)) { ?>        <th>Est Land Value (K)</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('est_improvement_value', $params->hide_sales_column)) { ?> <th>Est Improvement Value (K)</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('area', $params->hide_sales_column)) { ?>                  <th>Area (sqm)</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('est_land_rate', $params->hide_sales_column)) { ?>         <th>Est Land Rate (per sqm)</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_sales_column) || !in_array('description', $params->hide_sales_column)) { ?>           <th>Description</th><?php } else { $colspan--; } ?>
 
         </tr>
         <?php
         if(count($request->sales) > 0 ) {
+           
             foreach($request->sales as $key=>$sale) { ?>
                 <tr>
                     <?php if(!isset($params->hide_sales_column) || !in_array('date', $params->hide_sales_column)) { ?> <td><?php echo $sale['date'] ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('source', $params->hide_sales_column)) { ?> <td><?php echo $sale['source'] ?></td> <?php } ?>
-                    <?php if(!isset($params->hide_sales_column) || !in_array('price', $params->hide_sales_column)) { ?> <td><?php echo ($sale['price'] !== '') ? number_format($sale['price']) : '' ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('purchaser', $params->hide_sales_column)) { ?>  <td><?php echo $sale['purchaser'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_sales_column) || !in_array('price', $params->hide_sales_column)) { ?> <td><?php echo ($sale['price'] !== '') ? number_format($sale['price']) : '' ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('vendor', $params->hide_sales_column)) { ?> <td><?php echo $sale['vendor'] ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('est_land_value', $params->hide_sales_column)) { ?> <td><?php echo ($sale['est_land_value'] !== '') ? number_format($sale['est_land_value']) : '' ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('est_improvement_value', $params->hide_sales_column)) { ?> <td><?php echo ($sale['est_improvement_value'] !== '') ? number_format($sale['est_improvement_value']) : '' ?></td> <?php } ?>
@@ -548,7 +555,7 @@ class PropertiesController extends Controller {
             <?php }
         }
         else {
-            ?><tr><td colspan="10">No data</td></tr><?php
+            ?><tr><td colspan="<?php echo $colspan ?>">No data</td></tr><?php
         } ?>
     </table>
     <br /><br /><br />
