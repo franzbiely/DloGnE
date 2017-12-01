@@ -99,6 +99,18 @@ class PropertiesController extends Controller {
         $where = [];
         parse_str($params, $ret);
         
+        // if id is present, neglect price range and other fields
+        if(isset($ret['id'])) {
+            $ret['properties.id'] = $ret['id'];
+            unset($ret['id']);
+            unset($ret['price_min']);
+            unset($ret['price_max']);
+            unset($ret['area']);
+            unset($ret['include_sales_zero']);
+            unset($ret['include_valuation_zero']);
+        }
+
+
         if(isset($ret['price_min']) || isset($ret['price_max'])) {
             $this->price_min = $ret['price_min'];
             $this->price_max = $ret['price_max'];
@@ -109,10 +121,7 @@ class PropertiesController extends Controller {
             $this->area = $ret['area'];
             unset($ret['area']);
         }
-        if(isset($ret['id'])) {
-            $ret['properties.id'] = $ret['id'];
-            unset($ret['id']);
-        }
+        
         if(isset($ret['include_sales_zero'])) {
             if($ret['include_sales_zero'] == 'true') {
                 $this->include_sales_zero = $ret['include_sales_zero'];
@@ -125,7 +134,11 @@ class PropertiesController extends Controller {
             }
             unset($ret['include_valuation_zero']);
         }
+        
+        // don't allow archived data for searches
         $where['is_archive'] = 0;
+
+        // run the while script
         foreach($ret as $key=>$val) {
             if(isset($val))
                 $where[$key] = $val;
