@@ -58,7 +58,7 @@ class Property extends Model
             ->orderBy('id','DESC')->latest();
     }
     public function area(){
-        return $this->hasOne('App\Sale')
+        return $this->hasOne('App\Valuation')
             ->select(DB::raw('property_id, area'))
             ->orderBy('id','DESC')->latest();
     }
