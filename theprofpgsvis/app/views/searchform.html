@@ -136,7 +136,12 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Area (sqm)</label>
                             <div class="col-md-9">
-                                <input ng-model="searchdata.area" type="text" class="form-control" placeholder="" format="number">
+                                <div class="pull-left">
+                                    From : <br /><input type="text" ng-model="searchdata.area_min" format="number" />
+                                </div>
+                                <div class="pull-right">
+                                    To : <br /><input type="text" ng-model="searchdata.area_max" format="number" />
+                                </div>
                             </div>
                         </div>
                     </div>

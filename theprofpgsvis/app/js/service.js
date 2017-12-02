@@ -41,7 +41,9 @@ MetronicApp.service('FUNC', function($http, $rootScope, $auth, $state) {
             valuations : [],
             searchdata : {
                 price_min : 0,
-                price_max : 5000
+                price_max : 5000,
+                area_min : 0,
+                area_max : 5000,
             },
             multipleResultsShow : false,
             multi_property_results : false,
