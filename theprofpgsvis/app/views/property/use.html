@@ -46,7 +46,7 @@
                             <td> {[{value.name}]}</td>
                             <td>
                                 <button type="button" class="btn btn-primary" ng-click="useModal(key, value)">Edit</button>
-                                <button ng-click="deleteUse($index, property_uses.id)" type="button" class="btn btn-danger">Delete</button>
+                                <button ng-click="deleteUse($index, value.id)" type="button" class="btn btn-danger">Delete</button>
                             </td>
                         </tr>
                         <tr ng-show="!property_uses.length">
