@@ -12,10 +12,7 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
     $scope.property_suburb_city_selected;
 
     $scope.suburbModal = function(key) {
-        if (!key) key = -1;
-        
-        
-        
+        if (typeof key === 'undefined') key = -1;
             // For <option> purposes data for city
             $scope.property_city_options = [ $scope.property_cities.length ];
             for(i = 0; i < $scope.property_cities.length; i++){

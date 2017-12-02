@@ -12,7 +12,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
     
     
     $scope.useModal = function(key) {
-        if (!key) key = -1;
+        if (typeof key === 'undefined') key = -1;
 
         var form = '<form ng-submit="foo()" id="frmUse" name="frmUse" role="form" class="form-horizontal">\
                         <div class="form-body">\
