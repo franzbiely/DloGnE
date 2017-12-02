@@ -80,6 +80,7 @@ angular.module('MetronicApp')
 
         // Load Data for Edit
         $scope.params = $stateParams; 
+
         $scope.property_id = $scope.params.property_id;
         $scope.isReadOnly = $scope.$parent.type === "sales" ? true : false;
         //======= dropzone for photos===========
@@ -215,6 +216,8 @@ angular.module('MetronicApp')
                 $scope.data.improvement_component = response.data.improvement_component;
                 $scope.data.area = response.data.area;
                 $scope.data.owner = response.data.owner;
+                $scope.data.created_by = response.data.created__by.name;
+                $scope.data.last_edited_by = response.data.last__edited__by.name;
 
                 if(response.data.port === '' && (response.data.sec !== '' || $scope.data.lot !== '' )) {
                     $scope.address_option = "seclot";
@@ -284,6 +287,7 @@ angular.module('MetronicApp')
 
         // Add
         $scope.saveProperty = function() {
+            const user = JSON.parse(localStorage.getItem('user'));
             var param = {
                 code : $scope.data.code,
                 description : $scope.data.description,
@@ -302,12 +306,12 @@ angular.module('MetronicApp')
                 area : $scope.data.area,
                 owner : $scope.data.owner,
                 photo_ids : $scope.data.photo_ids,
-                pdf_ids : $scope.data.pdf_ids
+                pdf_ids : $scope.data.pdf_ids,
+                last_edited_by_id : user.id
             };
             if(isEdit) {
                 // if edit
                 $http.put($rootScope.apiURL + 'v1/property/' + $scope.params.property_id + '?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
-                    const user = JSON.parse(localStorage.getItem('user'));
                     $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
                         user_id : user.id,
                         log : 'modified property #' + $scope.params.property_id
@@ -323,8 +327,10 @@ angular.module('MetronicApp')
             }
             else {
                 // if add
+
+                param.created_by_id = user.id; // set created_by column by user_id of logged in user.
+
                 $http.post($rootScope.apiURL + 'v1/property?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
-                    const user = JSON.parse(localStorage.getItem('user'));
                     $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
                         user_id : user.id,
                         log : 'added new property'

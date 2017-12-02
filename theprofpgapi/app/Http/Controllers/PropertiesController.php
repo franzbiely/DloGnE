@@ -44,6 +44,8 @@ class PropertiesController extends Controller {
             'Property_Lease_Type' =>function($query) { $query->select('id','name'); },
             'Property_Class'      =>function($query) { $query->select('id','name'); },
             'Property_Use'        =>function($query) { $query->select('id','name'); },
+            'Created_By'        =>function($query) { $query->select('id','name'); },
+            'Last_Edited_By'        =>function($query) { $query->select('id','name'); },
             'Current_Value',
             'Valuation',
             'Sale',
@@ -58,6 +60,8 @@ class PropertiesController extends Controller {
             'property_lease_type_id',
             'property_city_id',
             'property_suburb_id',
+            'created_by_id',
+            'last_edited_by_id',
             'port',
             'sec',
             'lot',
@@ -84,7 +88,7 @@ class PropertiesController extends Controller {
                 ->where('is_archive', '=', "0")
                 ->with($this->with)
                 ->select(
-                    'properties.id','code','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner')
+                    'properties.id','code','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner', 'created_by_id','last_edited_by_id')
                 ->groupBy('properties.id')
                 ->paginate($limit); 
             $properties->appends(array(            
@@ -147,7 +151,7 @@ class PropertiesController extends Controller {
         $properties = Property::orderBy('id', 'DESC')
             ->where($where)
             ->with( $this->with)
-            ->select('properties.id','code','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner')
+            ->select('properties.id','code','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner','created_by_id','last_edited_by_id')
             ->groupBy('properties.id')
             ->paginate($limit); 
         $properties->appends(array(            
@@ -234,6 +238,7 @@ class PropertiesController extends Controller {
             if(isset($request->unit))               $property->unit = $request->unit;
             if(isset($request->is_archive))         $property->is_archive = $request->is_archive;
             if(isset($request->owner))              $property->owner = $request->owner;
+            if(isset($request->last_edited_by_id))              $property->last_edited_by_id = $request->last_edited_by_id;
 
             $property->save(); 
         }
@@ -328,6 +333,8 @@ class PropertiesController extends Controller {
                 'lot'=> $property['lot'],
                 'unit'=> $property['unit'],
                 'owner'=> $property['owner'],
+                'created_by'=> $property['created__by'],
+                'last_edited_by'=> $property['last__edited__by'],
                 'valuation'=> $property['valuation'],
                 'sale'=> $property['sale'],
                 'valuations_count' => count($property['valuation']),
@@ -401,6 +408,16 @@ class PropertiesController extends Controller {
                 if(isset($property['owner'])) {
                     $sheet->setCellValue('A'.$ROW+=1, 'Seller');
                     $sheet->setCellValue('B'.$ROW, $property['owner']);
+                }
+
+                if(isset($property['created_by'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Created By');
+                    $sheet->setCellValue('B'.$ROW, $property['created_by']);
+                }
+
+                if(isset($property['last_edited_by'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Last Edited By');
+                    $sheet->setCellValue('B'.$ROW, $property['last_edited_by']);
                 }
                     
 

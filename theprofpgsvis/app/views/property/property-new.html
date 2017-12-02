@@ -10,7 +10,8 @@
                 <!-- BEGIN FORM-->
                 <form class="form-horizontal" ng-submit="saveProperty()">
                     <div class="form-body">
-                        <h4 ng-show="page_title == 'Edit Property'">Property # {[{params.property_id}]}</h4>
+                        <h4 ng-show="page_title == 'Edit Property'">Property # {[{params.property_id}]} | 
+                            <sub>Created by : {[{data.created_by}]} | Last Edited by : {[{data.last_edited_by}]}</sub></h4>
                     	<h3 class="form-section">Property Brief</h3>
                         <div class="form-group">
                             <label class="control-label col-md-3">

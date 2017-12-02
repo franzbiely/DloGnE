@@ -10,6 +10,7 @@ use App\PropertyCity;
 use App\PropertySuburb;
 use App\Valuation;
 use App\Sale;
+use App\User;
 use DB;
 
 class Property extends Model
@@ -26,7 +27,9 @@ class Property extends Model
 		'sec',
 		'lot',
 		'unit',
-        'owner'
+        'owner',
+        'created_by_id',
+        'last_edited_by_id'
 	];
 
     protected $hidden = ['created_at', 'updated_at'];
@@ -61,5 +64,11 @@ class Property extends Model
         return $this->hasOne('App\Valuation')
             ->select(DB::raw('property_id, area'))
             ->orderBy('id','DESC')->latest();
+    }
+    public function created_by() {
+        return $this->belongsTo('App\User');
+    }
+    public function last_edited_by() {
+        return $this->belongsTo('App\User');
     }
 }
