@@ -13,7 +13,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
         var form = '<form ng-submit="foo()" id="frmCity" name="frmCity" role="form" class="form-horizontal">\
                         <div class="form-body">\
                             <div class="form-group">\
-                                <label class="col-md-4 control-label">Class Name</label>\
+                                <label class="col-md-4 control-label">City Name</label>\
                                 <div class="col-md-8">\
                                     <div class="input-icon right">\
                                         <i class="fa fa-info-circle tooltips" data-container="body"></i>';
@@ -28,7 +28,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
                     </form>';
         form = $(form);
         bootbox.confirm({
-            title: "Add New Class",
+            title: "City Detail",
             message: form,
             callback: function(res) {
                 if (res) {

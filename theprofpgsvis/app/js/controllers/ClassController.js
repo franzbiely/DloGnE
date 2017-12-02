@@ -29,7 +29,7 @@ angular.module('MetronicApp').controller('ClassController', function($rootScope,
                     </form>';
             form = $(form);
         bootbox.confirm({
-            title: "Add New Class",
+            title: "Class Detail",
             message: form,
             callback: function(res) {
                 if (res){

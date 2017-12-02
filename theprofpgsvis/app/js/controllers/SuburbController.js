@@ -68,7 +68,7 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
                     </form>';
         var form = $compile(templateString)($scope);
         bootbox.confirm({
-            title : "Add New Suburb",
+            title : "Suburb Details",
             message : form,
             callback : function(res) {
                 if (res){

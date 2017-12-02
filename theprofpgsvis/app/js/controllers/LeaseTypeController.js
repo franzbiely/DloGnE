@@ -29,7 +29,7 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
                     </form>';
             form = $(form);
         bootbox.confirm({
-            title: "Add New Lease Type",
+            title: "Lease Type Detail",
             message: form,
             callback: function(res) {
                 if (res){

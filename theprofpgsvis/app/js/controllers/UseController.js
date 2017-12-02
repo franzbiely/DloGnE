@@ -33,7 +33,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
                     </form>';
             form = $(form);
         bootbox.confirm({
-            title: "Add New Use",
+            title: "Use Details",
             message: form,
             callback: function(res) {
                 if (res){
