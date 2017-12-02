@@ -8,12 +8,12 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
     $scope.error;
     $scope.property_lease_type;
 
-    $scope.classModal = function(key) {
+    $scope.leaseTypeModal = function(key) {
         if (!key) key = -1;
         var form = '<form ng-submit="foo()" id="frmLeaseType" name="frmLeaseType" role="form" class="form-horizontal">\
                         <div class="form-body">\
                             <div class="form-group">\
-                                <label class="col-md-4 control-label">Class Name</label>\
+                                <label class="col-md-4 control-label">Lease Type</label>\
                                 <div class="col-md-8">\
                                     <div class="input-icon right">\
                                         <i class="fa fa-info-circle tooltips" data-container="body"></i>';
@@ -29,7 +29,7 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
                     </form>';
             form = $(form);
         bootbox.confirm({
-            title: "Add New Class",
+            title: "Add New Lease Type",
             message: form,
             callback: function(res) {
                 if (res){
