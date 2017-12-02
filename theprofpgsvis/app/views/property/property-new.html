@@ -37,8 +37,10 @@
                         <h3 class="form-section">Attachments</h3>
                         <div class="row">
                         	<div class="col-md-6">
-                                <h4>Photo Gallery</h4>
+                                <h4>Photo Gallery <sub><i>Max file size : 250kb</i></sub></h4>
+                                
                                 <div class="dropzone" options="dzOptions" callbacks="dzCallbacks" methods="dzMethods" ng-dropzone></div> <br />
+
                                 <ul class="photo-gallery clearfix">
                                     <li ng-repeat="(key, value) in photos">
                                         <img ng-src="{[{value.file_path}]}" alt="{[{value.file_name}]}" />
