@@ -131,10 +131,3 @@
     width: 45%;
 }
 .dz-max-files-reached {background-color: red};
-
-.page-header.navbar .top-menu .navbar-nav>li.dropdown-user>.dropdown-toggle>.username {
-    color:#337ab7;
-}
-.page-header.navbar .top-menu .navbar-nav>li.dropdown-user:hover >.dropdown-toggle>.username {
-    color: #eee;
-}
