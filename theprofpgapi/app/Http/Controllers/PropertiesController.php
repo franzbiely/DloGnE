@@ -74,7 +74,7 @@ class PropertiesController extends Controller {
             'owner'
         ];
     }
-    public function index(Request $request) {    
+    public function index(Request $request) {   
         $search_term = $request->input('search');
         $limit       = $request->input('limit', 100);
         if ($search_term) {
@@ -100,13 +100,14 @@ class PropertiesController extends Controller {
                 'limit' => $limit
             ));
         }
-        return Response::json($this->transformCollection($properties), 200);
+        return Response::json($this->transformCollection($properties, 'index'), 200);
     }
 
     public function getByParam(Request $request, $params) {
         $limit = $request->input('limit', 100);
         $where = [];
         parse_str($params, $ret);
+        $transformCollection_type = "byparam";
         
         // if id is present, neglect price range and other fields
         if(isset($ret['id'])) {
@@ -150,7 +151,10 @@ class PropertiesController extends Controller {
         
         // don't allow archived data for searches
         $where['is_archive'] = 0;
-
+        if($ret['is_archive'] == 1) {
+            $where['is_archive'] = 1;
+            $transformCollection_type = "index"; // because it has the same behaviour as index except that only archive.
+        }
         // run the while script
         foreach($ret as $key=>$val) {
             if(isset($val))
@@ -167,7 +171,7 @@ class PropertiesController extends Controller {
             'limit' => $limit
         )); 
 
-        return Response::json($this->transformCollection($properties), 200);
+        return Response::json($this->transformCollection($properties, $transformCollection_type), 200);
     }
 
     public function store(Request $request) {
@@ -283,35 +287,37 @@ class PropertiesController extends Controller {
         ]);
     }
 
-    private function transformCollection($properties){
+    private function transformCollection($properties, $type){
         $propertiesArray = $properties->toArray();
 
         $data = array_map([$this, 'transform'], $propertiesArray['data']);
         $total = $propertiesArray['total'];
-
-        foreach($data as $key=>$val) {
-            if($val['valuations_count'] == 0 && !$this->include_valuation_zero) {
-                unset($data[$key]);
-                $total--;
-                continue;
-            }
-            if($val['sales_count'] == 0 && !$this->include_sales_zero) {
-                unset($data[$key]);
-                $total--;
-                continue;
-            }
-            if($this->price_min >= 0) {
-                if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
+        
+        if($type == "byparam") {
+            foreach($data as $key=>$val) {
+                if($val['valuations_count'] == 0 && !$this->include_valuation_zero) {
                     unset($data[$key]);
                     $total--;
                     continue;
                 }
-            }
-            if($this->area_min >= 0) {
-                if($val['current_area'] < $this->area_min || $val['current_area'] > $this->area_max) {
+                if($val['sales_count'] == 0 && !$this->include_sales_zero) {
                     unset($data[$key]);
                     $total--;
                     continue;
+                }
+                if($this->price_min >= 0) {
+                    if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
+                        unset($data[$key]);
+                        $total--;
+                        continue;
+                    }
+                }
+                if($this->area_min >= 0) {
+                    if($val['current_area'] < $this->area_min || $val['current_area'] > $this->area_max) {
+                        unset($data[$key]);
+                        $total--;
+                        continue;
+                    }
                 }
             }
         }
