@@ -97,11 +97,18 @@ angular.module('MetronicApp')
             addRemoveLinks : true
         };
         $scope.dzCallbacks = {
-            'addedfile' : function(file){
+            'addedfile' : function(file) {
                 $scope.newFile = file;
             },
             'success' : function(file, xhr){
                 $scope.data.photo_ids.push(xhr.data.id);
+            },
+            'removedfile' : function(file) {
+                var res = JSON.parse(file.xhr.response);
+                var id = res.data.id;
+                const index = $scope.data.photo_ids.indexOf(id);
+                $scope.data.photo_ids.splice(index,1);
+                $http.delete($rootScope.apiURL + 'v1/media/' + res.data.id + '?token=' + localStorage.getItem('satellizer_token'));
             }
         };
         $scope.fill_sample_data = function() {

@@ -248,6 +248,13 @@ class MediaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $file_path = public_path() . '/';
+        $file_path .= Media::where('id','=',$id)->pluck('file_path');
+        File::delete($file_path);
+
+        Media::destroy($id);
+        return Response::json([
+                'message' => '#'. $id .' Deleted Succesfully'
+        ]);
     }
 }

@@ -66,7 +66,7 @@ angular.module('MetronicApp').controller('CityController', function($rootScope, 
         $http.delete($rootScope.apiURL + 'v1/property_city/' + id + '?token=' + localStorage.getItem('satellizer_token'))
             .success(function() {
                 $scope.property_cities.splice(index, 1);
-            });;
+            });
     }
 
     // Add
