@@ -151,7 +151,7 @@ class PropertiesController extends Controller {
         
         // don't allow archived data for searches
         $where['is_archive'] = 0;
-        if($ret['is_archive'] == 1) {
+        if(isset($ret['is_archive']) && $ret['is_archive'] == 1) {
             $where['is_archive'] = 1;
             $transformCollection_type = "index"; // because it has the same behaviour as index except that only archive.
         }
