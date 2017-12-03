@@ -109,10 +109,11 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Price Range (K)</label>
                             <div class="col-md-9">
-                                <div class="pull-left">
+                                <a ng-hide="temp.enable_price_range" ng-click="temp.enable_price_range = !temp.enable_price_range">Include search on price range filter</a>
+                                <div class="pull-left" ng-show="temp.enable_price_range">
                                     From : <br /><input type="text" ng-model="searchdata.price_min" format="number" />
                                 </div>
-                                <div class="pull-right">
+                                <div class="pull-right" ng-show="temp.enable_price_range">
                                     To : <br /><input type="text" ng-model="searchdata.price_max" format="number" />
                                 </div>
                             </div>
@@ -136,17 +137,18 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Area (sqm)</label>
                             <div class="col-md-9">
-                                <div class="pull-left">
+                                <a ng-hide="temp.enable_area_range" ng-click="temp.enable_area_range = !temp.enable_area_range">Include search on area range filter</a>
+                                <div class="pull-left" ng-show="temp.enable_area_range">
                                     From : <br /><input type="text" ng-model="searchdata.area_min" format="number" />
                                 </div>
-                                <div class="pull-right">
+                                <div class="pull-right" ng-show="temp.enable_area_range">
                                     To : <br /><input type="text" ng-model="searchdata.area_max" format="number" />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!--/span-->
-                    <div class="col-md-6 col-offset-md-3" ng-show="page_name == 'valuations' || page_name == 'sales'">
+                    <div class="col-md-6 col-offset-md-8" ng-show="page_name == 'valuations' || page_name == 'sales'">
                         <div class="form-group">
                             <label class="control-label col-md-3">&nbsp;</label>
                             <div class="col-md-9">
@@ -156,7 +158,9 @@
                             
                         </div>
                     </div>
-                    <div class="col-md-6 col-offset-md-3">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-6">
                         <div class="form-group">
                             <label class="control-label col-md-3">&nbsp;</label>
                             <div class="col-md-9">

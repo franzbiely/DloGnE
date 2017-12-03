@@ -245,6 +245,20 @@ angular.module('MetronicApp').controller('ValuationsController',
                     $scope.searchdata.include_valuation_zero = true;
                 }
                 str = Object.keys($scope.searchdata).map(function(key){ 
+                    if(key == 'price_min' || key == 'price_max') {
+                        if(typeof $scope.temp.enable_price_range !== 'undefined') {
+                            if($scope.temp.enable_price_range != true) {
+                                return;
+                            }
+                        }
+                    }
+                    if(key == 'area_min' || key == 'area_max') {
+                        if(typeof $scope.temp.enable_area_range !== 'undefined') {
+                            if($scope.temp.enable_area_range != true) {
+                                return;
+                            }
+                        }
+                    }
                     if(encodeURIComponent($scope.searchdata[key]) !== 'undefined' && encodeURIComponent($scope.searchdata[key]) !== ''){
                         return encodeURIComponent(key) + '=' + encodeURIComponent($scope.searchdata[key]); 
                     }

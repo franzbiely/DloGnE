@@ -38,10 +38,14 @@ MetronicApp.service('FUNC', function($http, $rootScope, $auth, $state) {
             data : [],
             searchdata : [],
             data_temp : [],
+            temp : {
+                enable_price_range : false,
+                enable_area_range : false
+            },
             valuations : [],
             searchdata : {
                 price_min : 0,
-                price_max : 5000,
+                price_max : 1000000,
                 area_min : 0,
                 area_max : 5000,
             },

@@ -289,35 +289,33 @@ class PropertiesController extends Controller {
         $data = array_map([$this, 'transform'], $propertiesArray['data']);
         $total = $propertiesArray['total'];
 
-        if($this->price_min != -1 && $this->price_max != -1) {
-            foreach($data as $key=>$val) {
-                if($val['valuations_count'] == 0 && !$this->include_valuation_zero) {
+        foreach($data as $key=>$val) {
+            if($val['valuations_count'] == 0 && !$this->include_valuation_zero) {
+                unset($data[$key]);
+                $total--;
+                continue;
+            }
+            if($val['sales_count'] == 0 && !$this->include_sales_zero) {
+                unset($data[$key]);
+                $total--;
+                continue;
+            }
+            if($this->price_min >= 0) {
+                if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
                     unset($data[$key]);
                     $total--;
                     continue;
-                }
-                if($val['sales_count'] == 0 && !$this->include_sales_zero) {
-                    unset($data[$key]);
-                    $total--;
-                    continue;
-                }
-                if($this->price_min >= 0) {
-                    if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
-                        unset($data[$key]);
-                        $total--;
-                        continue;
-                    }
-                }
-                if($this->area_min >= 0) {
-                    if($val['current_area'] < $this->area_min || $val['current_area'] > $this->area_max) {
-                        unset($data[$key]);
-                        $total--;
-                        continue;
-                    }
                 }
             }
-            $data = array_values($data);
+            if($this->area_min >= 0) {
+                if($val['current_area'] < $this->area_min || $val['current_area'] > $this->area_max) {
+                    unset($data[$key]);
+                    $total--;
+                    continue;
+                }
+            }
         }
+        $data = array_values($data);
         
 
         return [
