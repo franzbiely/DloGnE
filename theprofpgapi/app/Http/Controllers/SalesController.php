@@ -56,7 +56,8 @@ class SalesController extends Controller
                 'area',
                 'est_land_rate',
                 'description',
-                'property_id'
+                'property_id',
+                'remarks'
             )->paginate($limit); 
 
             $sales->appends(array(            
@@ -86,7 +87,8 @@ class SalesController extends Controller
             'area',
             'est_land_rate',
             'description',
-            'property_id'
+            'property_id',
+            'remarks'
         )->paginate($limit); 
         $sales->appends(array(            
             'limit' => $limit
@@ -168,7 +170,7 @@ class SalesController extends Controller
             if(isset($request->est_land_rate)) $sale->est_land_rate = $request->est_land_rate;
             if(isset($request->description)) $sale->description = $request->description;
             if(isset($request->property_id)) $sale->property_id = $request->property_id;
-            
+            if(isset($request->remarks)) $sale->remarks = $request->remarks;
             $sale->save(); 
         }
         catch(\Exception $e){
@@ -236,7 +238,8 @@ class SalesController extends Controller
                 'est_land_rate'=>$sale['est_land_rate'],
                 'description'=>$sale['description'],
                 'property_id'=>$sale['property_id'],
-                'property'=>$sale['property']['code']
+                'property'=>$sale['property']['code'],
+                'remarks'=>$sale['remarks'],
         ];
     }
 }

@@ -35,6 +35,7 @@
                             <th>Area (sqm)</th>
                             <th>Est Land Rate (K/sq.m)</th>
                             <th>Description</th>
+                            <th>Remarks</th>
                             <th ng-show="hasActions">Actions</th>
                         </tr>
                     </thead>
@@ -50,6 +51,7 @@
                             <td>{[{value.area | number}]}</td>
                             <td>{[{value.est_land_rate | number}]}</td>
                             <td>{[{value.description}]}</td>
+                            <td>{[{value.remarks}]}</td>
                             <td ng-show="hasActions">
                                 <!-- <button type="button" class="btn btn-default" 
                                     ui-sref="sales.details({sales_id : value.id, property_id : value.property_id})">View Details</button> -->

@@ -19,7 +19,8 @@ class Sale extends Model
 		'est_land_rate',
 		'description',
 		'property_id',
-		'property_city_id'
+		'property_city_id',
+		'remarks'
 	];
 	protected $hidden = ['created_at', 'updated_at'];
 	

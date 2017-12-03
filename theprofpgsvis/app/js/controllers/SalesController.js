@@ -439,6 +439,19 @@ angular.module('MetronicApp').controller('SalesController',
                 }
                 form +=             '</div>\
                                 </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Remarks<span class="required" aria-required="true"> * </span></label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                if(key > -1) {
+                    form +=                     '<input required type="text" value="'+$scope[plural][key].remarks+'" class="form-control" name="remarks" id="remarks"> </div>';
+                }
+                else {
+                    form +=                     '<input required type="text" class="form-control" name="remarks" id="remarks"> </div>';    
+                }
+                form +=             '</div>\
+                                </div>\
                             </div>\
                         </form>';
                 form = $(form);
@@ -484,7 +497,8 @@ angular.module('MetronicApp').controller('SalesController',
                             $('#frmSale')[0]['elements'].est_improvement_value.value !== '' &&
                             $('#frmSale')[0]['elements'].area.value !== '' &&
                             $('#frmSale')[0]['elements'].est_land_rate.value !== '' &&
-                            $('#frmSale')[0]['elements'].description.value !== ''
+                            $('#frmSale')[0]['elements'].description.value !== '',
+                            $('#frmSale')[0]['elements'].remarks.value !== ''
                             ) {
                             $scope[singular].date = moment($('#frmSale')[0]['elements'].date.value, 'DD-MM-YYYY').format('YYYY-MM-DD');
                             $scope[singular].source = $('#frmSale')[0]['elements'].source.value;
@@ -501,6 +515,7 @@ angular.module('MetronicApp').controller('SalesController',
                             var sing_est_land_rate = $('#frmSale')[0]['elements'].est_land_rate.value;
                             $scope[singular].est_land_rate = sing_est_land_rate.replace (/,/g, "");
                             $scope[singular].description = $('#frmSale')[0]['elements'].description.value;
+                            $scope[singular].remarks = $('#frmSale')[0]['elements'].remarks.value;
                             $scope.$apply();
                             if(key > -1) {
                                 // Edit
@@ -514,6 +529,7 @@ angular.module('MetronicApp').controller('SalesController',
                                 $scope[plural][key].area = $scope[singular].area;
                                 $scope[plural][key].est_land_rate = $scope[singular].est_land_rate;
                                 $scope[plural][key].description = $scope[singular].description;
+                                $scope[plural][key].remarks = $scope[singular].remarks;
                                 $scope.$apply();
                                 $scope.update($scope[plural][key].id);
                             }
@@ -559,7 +575,8 @@ angular.module('MetronicApp').controller('SalesController',
                 area : $scope[singular].area,
                 est_land_rate : $scope[singular].est_land_rate,
                 description : $scope[singular].description,
-                property_id : $state.params.property_id 
+                property_id : $state.params.property_id,
+                remarks : $scope[singular].remarks,
             }).success(function(response) {
                 const user = JSON.parse(localStorage.getItem('user'));
                 $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
@@ -587,6 +604,7 @@ angular.module('MetronicApp').controller('SalesController',
                 area : $scope[singular].area,
                 est_land_rate : $scope[singular].est_land_rate,
                 description : $scope[singular].description,
+                remarks : $scope[singular].remarks
           }).success(function(response) {
                 const user = JSON.parse(localStorage.getItem('user'));
                 $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
