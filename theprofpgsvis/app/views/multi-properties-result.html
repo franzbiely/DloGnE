@@ -34,7 +34,7 @@
                             <td>{[{value.current_value | number}]}</td>
                             <td>{[{value.port}]} / {[{value.sec}]} / {[{value.lot}]}</td>
                             <td>{[{value.suburb}]}</td>
-                            <td>{[{value.area | number}]}</td>
+                            <td>{[{value.current_area | number}]}</td>
                             <td ng-show="page_name == 'valuations' || page_name == 'sales'">
                                 <a ng-show="page_name == 'valuations'" type="button" 
                                     ui-sref="valuations.list({property_id : value.id})" class="btn btn-link">Valuation History ({[{value.valuations_count}]})</a> 
