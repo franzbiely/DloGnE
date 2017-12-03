@@ -119,6 +119,7 @@ class PropertiesController extends Controller {
             unset($ret['area_max']);
             unset($ret['include_sales_zero']);
             unset($ret['include_valuation_zero']);
+            $transformCollection_type = "index"; // because it has the same behaviour as show except that only archive.
         }
 
 
