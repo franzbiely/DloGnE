@@ -50,7 +50,7 @@ class ValuationsController extends Controller
                 'date',
                 'description',
                 'property_id',
-                'property_value',
+                'land_value',
                 'land_component',
                 'insurance_value',
                 'forced_sale_value',
@@ -81,7 +81,7 @@ class ValuationsController extends Controller
                 'date',
                 'description',
                 'property_id',
-                'property_value',
+                'land_value',
                 'land_component',
                 'insurance_value',
                 'forced_sale_value',
@@ -174,7 +174,7 @@ class ValuationsController extends Controller
             if(isset($request->date)) $valuation->date = $request->date;
             if(isset($request->description)) $valuation->description = $request->description;
             if(isset($request->property_id)) $valuation->property_id = $request->property_id;
-            if(isset($request->property_value))         $valuation->property_value = $request->property_value;
+            if(isset($request->land_value))         $valuation->land_value = $request->land_value;
             if(isset($request->land_component))     $valuation->land_component = $request->land_component;
             if(isset($request->insurance_value))         $valuation->insurance_value = $request->insurance_value;
             if(isset($request->forced_sale_value))         $valuation->forced_sale_value = $request->forced_sale_value;
@@ -246,7 +246,7 @@ class ValuationsController extends Controller
                 'id' => $valuation['id'],
                 'date' => $valuation['date'],
                 'description'=>$valuation['description'],
-                'property_value'=>$valuation['property_value'],
+                'land_value'=>$valuation['land_value'],
                 'land_component'=>$valuation['land_component'],
                 'insurance_value'=>$valuation['insurance_value'],
                 'forced_sale_value'=>$valuation['forced_sale_value'],

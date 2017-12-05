@@ -27,7 +27,7 @@
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Total Value (K)</th>
+                            <th>Total Property Value (K)</th>
                             <th>Land Component (K)</th>
                             <th>Insurance Value (K)</th>
                             <th>Forced Sale Value (K)</th>
@@ -40,7 +40,7 @@
                     <tbody>
                         <tr ng-repeat="(key, value) in valuations" class="odd gradeX">
                             <td>{[{value.date | amDateFormat:'DD-MM-YYYY' }]}</td>
-                            <td>{[{ (value.property_value*1 + value.improvement_component*1) | number}]}</td>
+                            <td>{[{ (value.land_value*1 + value.improvement_component*1) | number}]}</td>
                             <td>{[{value.land_component | number}]}</td>
                             <td>{[{value.insurance_value | number}]}</td>
                             <td>{[{value.forced_sale_value | number}]}</td>

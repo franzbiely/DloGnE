@@ -13,7 +13,7 @@ class Valuation extends Model
 		'description',
 		'property_id',
 		'property_city_id',
-		'property_value',
+		'land_value',
 		'land_component',
 		'insurance_value',
 		'improvement_component',

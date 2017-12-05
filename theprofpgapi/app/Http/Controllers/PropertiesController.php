@@ -444,7 +444,7 @@ class PropertiesController extends Controller {
                 $sheet ->mergeCells('A' . ($ROW+=2) . ':D'.$ROW);
                 $sheet->setCellValue('A'.$ROW, 'VALUATION HISTORY OF PROPERTY #' . $property['id']);
                 $sheet->setCellValue('A'.$ROW+=1, 'Date Valued');
-                $sheet->setCellValue('B'.$ROW, 'Property Value (K)');
+                $sheet->setCellValue('B'.$ROW, 'Land Value (K)');
                 $sheet->setCellValue('C'.$ROW, 'Land Component (K)');
                 $sheet->setCellValue('D'.$ROW, 'Insurance Value (K)');
                 $sheet->setCellValue('E'.$ROW, 'Forced Sale Value (K)');
@@ -456,7 +456,7 @@ class PropertiesController extends Controller {
                 if(count($request->valuations) > 0 ) {
                     foreach($request->valuations as $key=>$valuation) {
                         $sheet->setCellValue('A'.$ROW+=1, $valuation['date']);
-                        $sheet->setCellValue('B'.$ROW, number_format($valuation['property_value']));
+                        $sheet->setCellValue('B'.$ROW, number_format($valuation['land_value']));
                         $sheet->setCellValue('C'.$ROW, number_format($valuation['land_component']));
                         $sheet->setCellValue('D'.$ROW, number_format($valuation['insurance_value']));
                         $sheet->setCellValue('E'.$ROW, number_format($valuation['forced_sale_value']));
@@ -538,8 +538,8 @@ class PropertiesController extends Controller {
     <table border="1" cellpadding="10" cellspacing="0">
         <tr>
             <th>Date</th>
-            <th>Total Value (K)</th>
-            <th>Property Value (K)</th>
+            <th>Total Property Value (K)</th>
+            <th>Land Value (K)</th>
             <th>Land Component (K)</th>
             <th>Insurance Value (K)</th>
             <th>Forced Sale Value (K)</th>
@@ -553,8 +553,8 @@ class PropertiesController extends Controller {
             foreach($request->valuations as $key=>$valuation) { ?>
                 <tr>
                     <td><?php echo $valuation['date'] ?></td>
-                    <td><?php echo ($valuation['improvement_component'] !== '' && $valuation['property_value'] !== '' ) ?number_format($valuation['improvement_component'] + $valuation['property_value']) : '' ?></td>
-                    <td><?php echo ($valuation['property_value'] !== '') ?number_format($valuation['property_value']) : '' ?></td>
+                    <td><?php echo ($valuation['improvement_component'] !== '' && $valuation['land_value'] !== '' ) ?number_format($valuation['improvement_component'] + $valuation['land_value']) : '' ?></td>
+                    <td><?php echo ($valuation['land_value'] !== '') ?number_format($valuation['land_value']) : '' ?></td>
                     <td><?php echo ($valuation['land_component'] !== '') ?number_format($valuation['land_component']) : '' ?></td>
                     <td><?php echo ($valuation['insurance_value'] !== '') ?number_format($valuation['insurance_value']) : '' ?></td>
                     <td><?php echo ($valuation['forced_sale_value'] !== '') ? number_format($valuation['forced_sale_value']) : '' ?></td>
