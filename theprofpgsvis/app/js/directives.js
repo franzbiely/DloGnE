@@ -70,6 +70,7 @@ MetronicApp.directive('format', ['$filter', function ($filter) {
     return {
         require: '?ngModel',
         link: function (scope, elem, attrs, ctrl) {
+                
             if (!ctrl) return;
 
             ctrl.$formatters.unshift(function (a) {
@@ -79,6 +80,11 @@ MetronicApp.directive('format', ['$filter', function ($filter) {
             elem.bind('blur', function(event) {
                 var plainNumber = elem.val().replace(/[^\d|\-+|\.+]/g, '');
                 elem.val($filter(attrs.format)(plainNumber));
+
+                var res = elem[0].attributes[1].value.split('.');
+                res = res[res.length-1];
+                scope.data[res] = elem.val().replace(/[^\d|\-+|\.+]/g, '');
+               
             });
         }
     };
