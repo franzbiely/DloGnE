@@ -32,7 +32,7 @@
                             <th>Insurance Value (K)</th>
                             <th>Forced Sale Value (K)</th>
                             <th>Area (sqm)</th>
-                            <th>Land Value Rate (per sqm)</th>
+                            <th>Land Value Rate (K per sqm)</th>
                             <th class="col-md-3">Description</th>
                             <th class="col-md-2" ng-show="hasActions">Actions</th>
                         </tr>
@@ -40,7 +40,7 @@
                     <tbody>
                         <tr ng-repeat="(key, value) in valuations" class="odd gradeX">
                             <td>{[{value.date | amDateFormat:'DD-MM-YYYY' }]}</td>
-                            <td>{[{ (value.land_value*1 + value.improvement_component*1) | number}]}</td>
+                            <td>{[{ +value.land_component + +value.improvement_component | number}]}</td>
                             <td>{[{value.land_component | number}]}</td>
                             <td>{[{value.insurance_value | number}]}</td>
                             <td>{[{value.forced_sale_value | number}]}</td>

@@ -403,7 +403,7 @@ angular.module('MetronicApp').controller('ValuationsController',
             form += '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Land Value Rate (per sqm) <span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Land Value Rate (K per sqm) <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <i class="fa fa-info-circle tooltips" data-container="body"></i>';

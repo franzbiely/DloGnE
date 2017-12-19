@@ -36,9 +36,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-4">Land Value (K)<span class="required" aria-required="true"> * </span></label>
+                                    <label class="control-label col-md-4">Total Property Value (K)<span class="required" aria-required="true"> * </span></label>
                                     <div class="col-md-8">
-                                        <input required ng-model="data.land_value" class="form-control form-control-inline input-medium" size="16" type="text" placeholder=""  format="number" />
+                                        <input class="form-control form-control-inline input-medium" type="text" value="{[{ +data.land_component + +data.improvement_component | number }]}" />
                                         <span class="help-block"> </span>
                                     </div>
                                 </div>
@@ -106,7 +106,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-5">Land Value Rate (per sqm) <span class="required" aria-required="true"> * </span></label>
+                                    <label class="control-label col-md-5">Land Value Rate (K per sqm) <span class="required" aria-required="true"> * </span></label>
                                     <div class="col-md-7">
                                         <input required ng-model="data.land_value_rate" class="form-control form-control-inline input-medium" type="text"  format="number" />
                                         <span class="help-block"> </span>
