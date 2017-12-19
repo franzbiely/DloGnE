@@ -19,8 +19,7 @@ angular.module('MetronicApp').controller('UseController', ['$rootScope', '$scope
                             <div class="form-group">\
                                 <label class="col-md-4 control-label">Use Name</label>\
                                 <div class="col-md-8">\
-                                    <div class="input-icon right">\
-                                        <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                    <div class="input-icon right">';
             if(key > -1) {
                 form +=                     '<input type="text" value="'+$scope.property_uses[key].name+'" class="form-control" name="use" id="use"> </div>';
             }

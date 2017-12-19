@@ -31,8 +31,7 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
                             <div class="form-group">\
                                 <label class="col-md-4 control-label">Suburb Name</label>\
                                 <div class="col-md-8">\
-                                    <div class="input-icon right">\
-                                        <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                    <div class="input-icon right">';
             if(key > -1) {
                 templateString +=       '<input type="text" value="'+$scope.property_suburbs[key].suburb+'" class="form-control" name="suburb"> </div>';
             }
@@ -45,8 +44,7 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
                             <div class="form-group">\
                                 <label class="col-md-4 control-label">City</label>\
                                 <div class="col-md-8">\
-                                    <div class="input-icon right">\
-                                        <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                    <div class="input-icon right">';
             // if(key > -1) {
                 templateString +=                 '<select name="city" ng-model="property_suburb_city_selected" ng-options="item as item.label for item in property_city_options track by item.id" class="form-control">\
                                                     </select>';

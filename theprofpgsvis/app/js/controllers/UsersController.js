@@ -39,8 +39,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
                             <div class="form-group">\
                                 <label class="col-md-4 control-label">Email/Username <span class="required" aria-required="true"> * </span></label>\
                                 <div class="col-md-8">\
-                                    <div class="input-icon right">\
-                                        <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                    <div class="input-icon right">';
             if(key > -1) {
                 form +=                     '<input required type="email" value="'+$scope.users[key].email+'" class="form-control" name="email" id="email"> </div>';
             }
@@ -52,8 +51,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
                             <div class="form-group">\
                                 <label class="col-md-4 control-label">Password <span class="required" aria-required="true"> * </span></label>\
                                 <div class="col-md-8">\
-                                    <div class="input-icon right">\
-                                        <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                    <div class="input-icon right">';
             if(key > -1) {
                 form +=                     '<a ng-hide="replace_password" ng-click="replace_password = true">Set password</a>\
                                         <input ng-disabled="!replace_password" ng-show="replace_password" required type="password" class="form-control" name="password" id="password" /></div>\
@@ -67,8 +65,7 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
                             <div class="form-group">\
                                 <label class="col-md-4 control-label">Full Name <span class="required" aria-required="true"> * </span></label>\
                                 <div class="col-md-8">\
-                                    <div class="input-icon right">\
-                                        <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                    <div class="input-icon right">';
             if(key > -1) {
                 form +=                     '<input type="text" value="'+$scope.users[key].name+'" class="form-control" name="name" id="name"> </div>';
             }
@@ -81,7 +78,6 @@ angular.module('MetronicApp').controller('UsersController', function($rootScope,
                                 <label class="col-md-4 control-label">Role <span class="required" aria-required="true"> * </span></label>\
                                 <div class="col-md-8">\
                                     <div class="input-icon right">\
-                                        <i class="fa fa-info-circle tooltips" data-container="body"></i>\
                                         <select required id="role"';
                                         if(typeof $scope.users[key] !== 'undefined' && $scope.users[key].id == '1') {
                                             form += " disabled='disabled' ";

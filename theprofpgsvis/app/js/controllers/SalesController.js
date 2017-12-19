@@ -312,8 +312,7 @@ angular.module('MetronicApp').controller('SalesController',
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Date <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">\
-                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                        <div class="input-icon right">';
                 if(key > -1) {
                     form +=                     '<input required type="text" value="'+moment($scope[plural][key].date, 'YYYY-MM-DD').format('DD-MM-YYYY')+'" class="form-control date-picker" name="date" id="date"> </div>';
                 }
@@ -325,8 +324,7 @@ angular.module('MetronicApp').controller('SalesController',
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Source <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">\
-                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                        <div class="input-icon right">';
                 if(key > -1) {
                     form +=                     '<input required type="text" value="'+$scope[plural][key].source+'" class="form-control" name="source" id="source"> </div>';
                 }
@@ -338,8 +336,7 @@ angular.module('MetronicApp').controller('SalesController',
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Purchaser <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">\
-                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                        <div class="input-icon right">';
                 if(key > -1) {
                     form +=                     '<input required type="text" value="'+$scope[plural][key].purchaser+'" class="form-control" name="purchaser" id="purchaser"> </div>';
                 }
@@ -351,8 +348,7 @@ angular.module('MetronicApp').controller('SalesController',
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Price <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">\
-                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                        <div class="input-icon right">';
                 if(key > -1) {
                     form +=                     '<input required type="text" value="'+$scope[plural][key].price+'" class="form-control format-number" name="price" id="price"> </div>';
                 }
@@ -364,8 +360,7 @@ angular.module('MetronicApp').controller('SalesController',
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Vendor <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">\
-                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                        <div class="input-icon right">';
                 if(key > -1) {
                     form +=                     '<input required type="text" value="'+$scope[plural][key].vendor+'" class="form-control" name="vendor" id="vendor"> </div>';
                 }
@@ -377,8 +372,7 @@ angular.module('MetronicApp').controller('SalesController',
                                                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Est Land Value (K) <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">\
-                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                        <div class="input-icon right">';
                 if(key > -1) {
                     form +=                     '<input required type="text" value="'+$scope[plural][key].est_land_value+'" class="form-control format-number" name="est_land_value" id="est_land_value"> </div>';
                 }
@@ -390,8 +384,7 @@ angular.module('MetronicApp').controller('SalesController',
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Est Improvement Value (K) <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">\
-                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                        <div class="input-icon right">';
                 if(key > -1) {
                     form +=                     '<input required type="text" value="'+$scope[plural][key].est_improvement_value+'" class="form-control format-number" name="est_improvement_value" id="est_improvement_value"> </div>';
                 }
@@ -403,8 +396,7 @@ angular.module('MetronicApp').controller('SalesController',
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Area (sqm)<span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">\
-                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                        <div class="input-icon right">';
                 if(key > -1) {
                     form +=                     '<input required type="text" value="'+$scope[plural][key].area+'" class="form-control format-number" name="area" id="area"> </div>';
                 }
@@ -416,8 +408,7 @@ angular.module('MetronicApp').controller('SalesController',
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Est Land Rate (K/sq.m)<span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">\
-                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                        <div class="input-icon right">';
                 if(key > -1) {
                     form +=                     '<input required type="text" value="'+$scope[plural][key].est_land_rate+'" class="form-control format-number" name="est_land_rate" id="est_land_rate"> </div>';
                 }
@@ -429,8 +420,7 @@ angular.module('MetronicApp').controller('SalesController',
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Description<span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">\
-                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                        <div class="input-icon right">';
                 if(key > -1) {
                     form +=                     '<input required type="text" value="'+$scope[plural][key].description+'" class="form-control" name="description" id="description"> </div>';
                 }
@@ -442,8 +432,7 @@ angular.module('MetronicApp').controller('SalesController',
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Remarks<span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">\
-                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                        <div class="input-icon right">';
                 if(key > -1) {
                     form +=                     '<input required type="text" value="'+$scope[plural][key].remarks+'" class="form-control" name="remarks" id="remarks"> </div>';
                 }

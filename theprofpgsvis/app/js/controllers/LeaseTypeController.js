@@ -15,8 +15,7 @@ angular.module('MetronicApp').controller('LeaseTypeController', function($rootSc
                             <div class="form-group">\
                                 <label class="col-md-4 control-label">Lease Type</label>\
                                 <div class="col-md-8">\
-                                    <div class="input-icon right">\
-                                        <i class="fa fa-info-circle tooltips" data-container="body"></i>';
+                                    <div class="input-icon right">';
             if(key > -1) {
                 form +=                     '<input type="text" value="'+$scope.property_lease_types[key].name+'" class="form-control" name="class" id="class"> </div>';
             }
