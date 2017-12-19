@@ -34,7 +34,6 @@ angular.module('MetronicApp').controller('ValuationDetailsController',
                 $scope.data.date = moment(response.data.date, 'YYYY-MM-DD').format('DD-MM-YYYY');
                 $scope.data.description = response.data.description;
                 $scope.data.property_id = response.data.property_id;
-                $scope.data.land_value = response.data.land_value;
                 $scope.data.land_component = response.data.land_component;
                 $scope.data.insurance_value = response.data.insurance_value;
                 $scope.data.forced_sale_value = response.data.forced_sale_value;
@@ -90,13 +89,9 @@ angular.module('MetronicApp').controller('ValuationDetailsController',
         $scope.save = function() {
             $scope.isDisabled = true;
             
-            var sing_land_value = $scope.data.land_value;
-            $scope.data.land_value = sing_land_value.replace (/,/g, "");
-
             var param = {
                 date : moment($scope.data.date, 'DD-MM-YYYY').format('YYYY-MM-DD'),
                 description : $scope.data.description,
-                land_value : $scope.data.land_value.replace (/,/g, ""),
                 land_component : $scope.data.land_component.replace (/,/g, ""),
                 insurance_value : $scope.data.insurance_value.replace (/,/g, ""),
                 forced_sale_value : $scope.data.forced_sale_value.replace (/,/g, ""),

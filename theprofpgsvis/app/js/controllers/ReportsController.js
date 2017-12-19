@@ -267,8 +267,6 @@ angular.module('MetronicApp').controller('ReportsController',
                         $scope.data.property_suburb_selected = response.data[i].property__suburb;
                         // ======
 
-                        
-                        $scope.data.land_value = response.data[i].land_value;
                         $scope.data.land_component = response.data[i].land_component;
                         $scope.data.improvement_component = response.data[i].improvement_component;
                         $scope.data.area = response.data[i].area;

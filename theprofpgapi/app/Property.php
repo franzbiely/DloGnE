@@ -57,7 +57,7 @@ class Property extends Model
     }
     public function current_value(){
         return $this->hasOne('App\Valuation')
-            ->select(DB::raw('property_id, (improvement_component + land_value) AS value'))
+            ->select(DB::raw('property_id, (improvement_component + land_component) AS value'))
             ->orderBy('id','DESC')->latest();
     }
     public function current_sales_value(){

@@ -123,7 +123,6 @@ angular.module('MetronicApp')
             $scope.data.sec = 2;
             $scope.data.lot = '';
             $scope.data.unit = 3;
-            $scope.data.land_value = 4;
             $scope.data.land_component = 5;
             $scope.data.improvement_component = 6;
             $scope.data.area = 7;
@@ -218,7 +217,6 @@ angular.module('MetronicApp')
                 $scope.data.sec = response.data.sec;
                 $scope.data.lot = response.data.lot;
                 $scope.data.unit = response.data.unit;
-                $scope.data.land_value = response.data.land_value;
                 $scope.data.land_component = response.data.land_component;
                 $scope.data.improvement_component = response.data.improvement_component;
                 $scope.data.area = response.data.area;
@@ -307,7 +305,6 @@ angular.module('MetronicApp')
                 sec : $scope.data.sec,
                 lot : $scope.data.lot,
                 unit : $scope.data.unit,
-                land_value : $scope.data.land_value,
                 land_component : $scope.data.land_component,
                 improvement_component : $scope.data.improvement_component,
                 area : $scope.data.area,

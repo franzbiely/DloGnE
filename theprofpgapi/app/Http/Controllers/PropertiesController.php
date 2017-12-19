@@ -559,7 +559,6 @@ class PropertiesController extends Controller {
         <tr>
             <th>Date</th>
             <th>Total Property Value (K)</th>
-            <th>Total Property Value (K)</th>
             <th>Land Component (K)</th>
             <th>Insurance Value (K)</th>
             <th>Forced Sale Value (K)</th>
@@ -573,8 +572,7 @@ class PropertiesController extends Controller {
             foreach($request->valuations as $key=>$valuation) { ?>
                 <tr>
                     <td><?php echo $valuation['date'] ?></td>
-                    <td><?php echo ($valuation['improvement_component'] !== '' && $valuation['land_value'] !== '' ) ?number_format($valuation['improvement_component'] + $valuation['land_value']) : '' ?></td>
-                    <td><?php echo ($valuation['land_value'] !== '') ?number_format($valuation['land_component'] + $valuation['improvement_component']) : '' ?></td>
+                    <td><?php echo ($valuation['improvement_component'] !== '' && $valuation['land_component'] !== '' ) ?number_format($valuation['improvement_component'] + $valuation['land_component']) : '' ?></td>
                     <td><?php echo ($valuation['land_component'] !== '') ?number_format($valuation['land_component']) : '' ?></td>
                     <td><?php echo ($valuation['insurance_value'] !== '') ?number_format($valuation['insurance_value']) : '' ?></td>
                     <td><?php echo ($valuation['forced_sale_value'] !== '') ? number_format($valuation['forced_sale_value']) : '' ?></td>

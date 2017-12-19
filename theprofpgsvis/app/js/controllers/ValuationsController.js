@@ -331,18 +331,6 @@ angular.module('MetronicApp').controller('ValuationsController',
             form += '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Property Value (K)<span class="required" aria-required="true"> * </span></label>\
-                                    <div class="col-md-8">\
-                                        <div class="input-icon right">\
-                                            <i class="fa fa-info-circle tooltips" data-container="body"></i>';
-            if (key > -1) {
-                form += '<input required type="text" value="' + $scope.valuations[key].land_value + '" class="form-control" name="land_value" id="land_value"> </div>';
-            } else {
-                form += '<input required type="text" class="form-control" name="land_value" id="land_value"> </div>';
-            }
-            form += '</div>\
-                                </div>\
-                                <div class="form-group">\
                                     <label class="col-md-4 control-label">Land Component (K) <span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
