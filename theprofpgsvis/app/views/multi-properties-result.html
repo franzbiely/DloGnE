@@ -31,7 +31,12 @@
                             <td><a ng-click="showResult(value.id, true)">{[{value.id}]}</a></td>
                             <td>{[{value.city}]}</td>
                             <td>{[{value.lease_type}]}</td>
-                            <td>{[{value.current_value | number}]}</td>
+                            
+                            <!-- valuation -->
+                            <td ng-show="page_name == 'valuations' || page_name == 'reports'">{[{value.current_value | number}]}</td>
+                            <!-- sales -->
+                            <td ng-show="page_name == 'sales'">{[{value.current_sales_value | number}]}</td>
+                            
                             <td>{[{value.port}]} / {[{value.sec}]} / {[{value.lot}]}</td>
                             <td>{[{value.suburb}]}</td>
                             <td>{[{value.current_area | number}]}</td>

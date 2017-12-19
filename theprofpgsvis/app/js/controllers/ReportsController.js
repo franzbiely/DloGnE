@@ -1,6 +1,7 @@
 angular.module('MetronicApp').controller('ReportsController', 
     function($rootScope, $scope, $http, $timeout, $window, $http, $state, FUNC) {
         $scope.multipleResultsShow = false;
+        $scope.page_name = 'reports';
         $scope.isReport = true;
         $scope.pdfs = [];  
         $scope.photos = [];

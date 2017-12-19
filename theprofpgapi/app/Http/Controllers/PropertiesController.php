@@ -26,6 +26,8 @@ class PropertiesController extends Controller {
 
     private $price_min;
     private $price_max;
+    private $sales_price_min;
+    private $sales_price_max;
     private $area_min;
     private $area_max;
 
@@ -38,6 +40,8 @@ class PropertiesController extends Controller {
         $this->middleware('jwt.auth');
         $this->price_min = -1;
         $this->price_max = -1;
+        $this->sales_price_min = -1;
+        $this->sales_price_max = -1;
         $this->area_min = -1;
         $this->area_max = -1;
 
@@ -52,6 +56,7 @@ class PropertiesController extends Controller {
             'Created_By'        =>function($query) { $query->select('id','name'); },
             'Last_Edited_By'        =>function($query) { $query->select('id','name'); },
             'Current_Value',
+            'Current_Sales_Value',
             'Current_Area',
             'Valuation',
             'Sale',
@@ -113,8 +118,8 @@ class PropertiesController extends Controller {
         if(isset($ret['id'])) {
             $ret['properties.id'] = $ret['id'];
             unset($ret['id']);
-            unset($ret['price_min']);
-            unset($ret['price_max']);
+            unset($ret['price_min']);unset($ret['sales_price_min']);
+            unset($ret['price_max']);unset($ret['sales_price_max']);
             unset($ret['area_min']);
             unset($ret['area_max']);
             unset($ret['include_sales_zero']);
@@ -128,6 +133,13 @@ class PropertiesController extends Controller {
             $this->price_max = $ret['price_max'];
             unset($ret['price_min']);
             unset($ret['price_max']);
+        }
+
+        if(isset($ret['sales_price_min']) || isset($ret['sales_price_max'])) {
+            $this->sales_price_min = $ret['sales_price_min'];
+            $this->sales_price_max = $ret['sales_price_max'];
+            unset($ret['sales_price_min']);
+            unset($ret['sales_price_max']);
         }
 
         if(isset($ret['area_min']) || isset($ret['area_max'])) {
@@ -313,6 +325,13 @@ class PropertiesController extends Controller {
                         continue;
                     }
                 }
+                if($this->sales_price_min >= 0) {
+                    if($val['current_sales_value'] < $this->sales_price_min || $val['current_sales_value'] > $this->sales_price_max) {
+                        unset($data[$key]);
+                        $total--;
+                        continue;
+                    }
+                }
                 if($this->area_min >= 0) {
                     if($val['current_area'] < $this->area_min || $val['current_area'] > $this->area_max) {
                         unset($data[$key]);
@@ -360,6 +379,7 @@ class PropertiesController extends Controller {
                 'valuations_count' => count($property['valuation']),
                 'sales_count' => count($property['sale']),
                 'current_value'=>floatval($property['current__value']['value']),
+                'current_sales_value'=>floatval($property['current__sales__value']['value']),
                 'current_area'=>floatval($property['current__area']['area'])
         ];
         if(isset($property['valuations_count']))
@@ -700,7 +720,7 @@ class PropertiesController extends Controller {
                     $sheet->setCellValue('H'.$ROW, $property['lot']);                    
                     $sheet->setCellValue('I'.$ROW, $property['unit']);                    
                     $sheet->setCellValue('J'.$ROW, number_format($property['current_value']));                    
-                    $sheet->setCellValue('K'.$ROW, $property['owner']);                    
+                    $sheet->setCellValue('L'.$ROW, $property['owner']);                    
                 }
 
             });

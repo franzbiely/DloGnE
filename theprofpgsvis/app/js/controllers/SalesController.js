@@ -201,11 +201,11 @@ angular.module('MetronicApp').controller('SalesController',
             $scope.searchdata.property_class_id =
             $scope.searchdata.property_lease_type_id = '';
             
-            if(typeof $scope.searchdata.price_max === "string") {
-                $scope.searchdata.price_max = $scope.searchdata.price_max.replace (/,/g, "");
+            if(typeof $scope.searchdata.sales_price_max === "string") {
+                $scope.searchdata.sales_price_max = $scope.searchdata.sales_price_max.replace (/,/g, "");
             }
-            if(typeof $scope.searchdata.price_min === "string") {
-                $scope.searchdata.price_min = $scope.searchdata.price_min.replace (/,/g, "");
+            if(typeof $scope.searchdata.sales_price_min === "string") {
+                $scope.searchdata.sales_price_min = $scope.searchdata.sales_price_min.replace (/,/g, "");
             }
             if(typeof $scope.searchdata.area_max === "string") {
                 $scope.searchdata.area_max = $scope.searchdata.area_max.replace (/,/g, "");
@@ -240,9 +240,9 @@ angular.module('MetronicApp').controller('SalesController',
                     $scope.searchdata.include_sales_zero = true;
                 }
                 str = Object.keys($scope.searchdata).map(function(key){ 
-                    if(key == 'price_min' || key == 'price_max') {
-                        if(typeof $scope.temp.enable_price_range !== 'undefined') {
-                            if($scope.temp.enable_price_range != true) {
+                    if(key == 'sales_price_min' || key == 'sales_price_max') {
+                        if(typeof $scope.temp.enable_price_range_sales !== 'undefined') {
+                            if($scope.temp.enable_price_range_sales != true) {
                                 return;
                             }
                         }

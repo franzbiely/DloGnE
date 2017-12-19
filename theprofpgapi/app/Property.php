@@ -60,6 +60,11 @@ class Property extends Model
             ->select(DB::raw('property_id, (improvement_component + land_value) AS value'))
             ->orderBy('id','DESC')->latest();
     }
+    public function current_sales_value(){
+        return $this->hasOne('App\Sale')
+            ->select(DB::raw('property_id, price AS value'))
+            ->orderBy('id','DESC')->latest();
+    }
     public function current_area(){
         return $this->hasOne('App\Sale')
             ->select(DB::raw('property_id, area'))

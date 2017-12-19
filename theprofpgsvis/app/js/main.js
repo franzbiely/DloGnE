@@ -118,8 +118,8 @@ MetronicApp.factory('settings', ['$rootScope', function($rootScope) {
         $rootScope.apiPublicURL = 'https://svisapi.theprofessionals.com.pg/public/';
     }
     else {
-        $rootScope.apiURL = 'https://theprofessionals.dev/api/';
-        $rootScope.apiPublicURL = 'https://theprofessionals.dev/';
+        $rootScope.apiURL = 'https://theprofessionals.local/api/';
+        $rootScope.apiPublicURL = 'https://theprofessionals.local/';
     }
 
     $rootScope.settings = settings;
@@ -241,7 +241,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
         $authProvider.loginUrl = 'https://svisapi.theprofessionals.com.pg/public/api/authenticate';    
     }
     else {
-        $authProvider.loginUrl = 'https://theprofessionals.dev/api/authenticate';
+        $authProvider.loginUrl = 'https://theprofessionals.local/api/authenticate';
     }
     
 
