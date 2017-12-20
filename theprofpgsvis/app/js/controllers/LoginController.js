@@ -10,8 +10,8 @@ angular.module('MetronicApp').controller('LoginController',
     vm.loginErrorText;
 
 	// Temporary only ======================
-	$scope.email = 'adoko@theprofessionals.com.pg';
-	$scope.password = 'secret_pass';
+	$scope.email = '';
+	$scope.password = '';
 	// =====================================
 
     $scope.login = function() {
