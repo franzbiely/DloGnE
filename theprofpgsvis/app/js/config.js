@@ -1,3 +1,3 @@
 var app_config = {
-	env : 'testsite' //prod
+	env : 'testsite' //prod, stage
 }
