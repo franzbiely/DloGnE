@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateValuationsTable extends Migration
+class UpdateSalesTable3 extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,9 @@ class UpdateValuationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('valuations', function(Blueprint $table)
+        Schema::table('sales', function(Blueprint $table)
         {
-            $table->dropColumn('land_value');
+            $table->text('remarks');
         });
     }
 
@@ -25,9 +25,9 @@ class UpdateValuationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('valuations', function(Blueprint $table)
+        Schema::table('sales', function(Blueprint $table)
         {
-            $table->text('land_value');
+            $table->dropColumn(['remarks']);
         });
     }
 }
