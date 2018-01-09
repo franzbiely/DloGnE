@@ -207,13 +207,10 @@ class ValuationsController extends Controller
                 return 'Error on updating image source ' . $e->getMessage();
             }
         }
-
-
-
-
-        // return Response::json([
-        //         'message' => 'Data Updated Succesfully'
-        // ]);
+        
+        return Response::json([
+                'message' => 'Data Updated Succesfully'
+        ]);
     }
 
     public function destroy($id)
