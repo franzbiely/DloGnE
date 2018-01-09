@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Property;
 
-class Rent extends Model
+class Rental extends Model
 {
     protected $fillable = [
 		'property_id',

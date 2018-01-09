@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Rent;
+use App\Rental;
 use App\Property;
 
 use Response;
 use Input;
 use DB;
 
-class RentsController extends Controller
+class RentalsController extends Controller
 {
     public function __construct(){
         $this->middleware('jwt.auth');
@@ -34,7 +34,7 @@ class RentsController extends Controller
         }
         else
         {
-            $rent = Rent::orderBy('id', 'DESC')->with(
+            $rental = Rental::orderBy('id', 'DESC')->with(
                 array(
                     'Property'=>function($query){
                         $query->select('id','code');
@@ -47,11 +47,11 @@ class RentsController extends Controller
                 'remarks'
             )->paginate($limit); 
 
-            $rents->appends(array(            
+            $rental->appends(array(            
                 'limit' => $limit
             ));   
         }
-        return Response::json($this->transformCollection($rent), 200);
+        return Response::json($this->transformCollection($rental), 200);
     }
 
     /**
@@ -73,7 +73,7 @@ class RentsController extends Controller
     public function store(Request $request)
     {
         try {
-            $rent = Rent::create($request->all());
+            $rental = Rental::create($request->all());
         }
         catch(\Exception $e){
             return 'Error on inserting Rent details ' . $e->getMessage();
@@ -81,7 +81,7 @@ class RentsController extends Controller
         
         return Response::json([
                 'message' => 'Data created succesfully',
-                'data' => $this->transform($rent)
+                'data' => $this->transform($rental)
         ]);
     }
 
@@ -93,12 +93,12 @@ class RentsController extends Controller
      */
     public function show($id)
     {
-        $rent = Rent::with(
+        $rental = Rental::with(
             array('Property'=>function($query){
                 $query->select('id','code');
             })
             )->find($id);
-        if(!$rent){
+        if(!$rental){
             return Response::json([
                 'error' => [
                     'message' => 'Data does not exist'
@@ -107,17 +107,17 @@ class RentsController extends Controller
         }
 
          // get previous Rent id
-        $previous = Rent::where('id', '<', $rent->id)->max('id');
+        $previous = Rental::where('id', '<', $rental->id)->max('id');
 
         // get next Rent id
-        $next = Rent::where('id', '>', $rent->id)->min('id');
+        $next = Rental::where('id', '>', $rental->id)->min('id');
 
         
 
         return Response::json([
             'previous_Rent_id'=> $previous,
             'next_Rent_id'=> $next,
-            'data' => $rent
+            'data' => $rental
         ], 200);
     }
 
@@ -131,15 +131,18 @@ class RentsController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $rent = Rent::find($id);
-            if(isset($request->analysed_rent)) $rent->analysed_rent = $request->analysed_rent;
-            if(isset($request->analysed_date)) $rent->analysed_date = $request->analysed_date;
-            if(isset($request->remarks)) $rent->remarks = $request->remarks;
-            $rent->save(); 
+            $rental = Rental::find($id);
+            if(isset($request->analysed_rent)) $rental->analysed_rent = $request->analysed_rent;
+            if(isset($request->analysed_date)) $rental->analysed_date = $request->analysed_date;
+            if(isset($request->remarks)) $rental->remarks = $request->remarks;
+            $rental->save(); 
         }
         catch(\Exception $e){
             return 'Error on updating Rent details  ' . $e->getMessage();
         }
+        return Response::json([
+                'message' => 'Data Updated Succesfully'
+        ]);
     }
 
     /**
@@ -150,33 +153,33 @@ class RentsController extends Controller
      */
     public function destroy($id)
     {
-        Rent::destroy($id);
+        Rental::destroy($id);
         return Response::json([
                 'message' => '#'. $id .' Deleted Succesfully'
         ]);
     }
 
-    private function transformCollection($rent){
-        $rentArray = $rent->toArray();
+    private function transformCollection($rental){
+        $rentalArray = $rental->toArray();
         return [
-            'per_page' => intval($rentArray['per_page']),
-            'current_page' => $rentArray['current_page'],
-            'last_page' => $rentArray['last_page'],
-            'next_page_url' => $rentArray['next_page_url'],
-            'prev_page_url' => $rentArray['prev_page_url'],
-            'from' => $rentArray['from'],
-            'to' =>$rentArray['to'],
-            'data' => array_map([$this, 'transform'], $rentArray['data'])
+            'per_page' => intval($rentalArray['per_page']),
+            'current_page' => $rentalArray['current_page'],
+            'last_page' => $rentalArray['last_page'],
+            'next_page_url' => $rentalArray['next_page_url'],
+            'prev_page_url' => $rentalArray['prev_page_url'],
+            'from' => $rentalArray['from'],
+            'to' =>$rentalArray['to'],
+            'data' => array_map([$this, 'transform'], $rentalArray['data'])
         ];
     }
 
-    private function transform($rent){
+    private function transform($rental){
         return [
-            'id' => $rent['id'],
-            'property_id' => $rent['property_id'],
-            'analysed_rent' => $rent['analysed_rent'],
-            'analysed_date' => $rent['analysed_date'],
-            'remarks' => $rent['remarks']
+            'id' => $rental['id'],
+            'property_id' => $rental['property_id'],
+            'analysed_rent' => $rental['analysed_rent'],
+            'analysed_date' => $rental['analysed_date'],
+            'remarks' => $rental['remarks']
         ];
     }
 }
