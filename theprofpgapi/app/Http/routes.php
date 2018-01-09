@@ -81,5 +81,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 
 	Route::post('audit_trail/empty', 'AuditTrailsController@emptylogs');
 	Route::resource('audit_trail', 'AuditTrailsController');
+
+	Route::resource('rents', 'RentsController');
 });
 
