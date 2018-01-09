@@ -122,17 +122,6 @@ class RentsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -141,7 +130,16 @@ class RentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $rent = Rent::find($id);
+            if(isset($request->analysed_rent)) $rent->analysed_rent = $request->analysed_rent;
+            if(isset($request->analysed_date)) $rent->analysed_date = $request->analysed_date;
+            if(isset($request->remarks)) $rent->remarks = $request->remarks;
+            $rent->save(); 
+        }
+        catch(\Exception $e){
+            return 'Error on updating Rent details  ' . $e->getMessage();
+        }
     }
 
     /**
