@@ -135,6 +135,21 @@
                             </div>
                         </div>
                     </div>
+                    <!-- SALES -->
+                    <div class="col-md-6 col-offset-md-3 price-range-div" ng-show="page_name == 'rentals'">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Price Range (K)</label>
+                            <div class="col-md-9">
+                                <a ng-hide="temp.enable_price_range_rentals" ng-click="temp.enable_price_range_rentals = !temp.enable_price_range_rentals">Include search on price range filter</a>
+                                <div class="pull-left" ng-show="temp.enable_price_range_rentals">
+                                    From : <br /><input type="text" ng-model="searchdata.rentals_price_min" format="number" />
+                                </div>
+                                <div class="pull-right" ng-show="temp.enable_price_range_rentals">
+                                    To : <br /><input type="text" ng-model="searchdata.rentals_price_max" format="number" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label col-md-3">Lease Type</label>
@@ -164,7 +179,7 @@
                         </div>
                     </div>
                     <!--/span-->
-                    <div class="col-md-6 col-offset-md-8" ng-show="page_name == 'valuations' || page_name == 'sales'">
+                    <div class="col-md-6 col-offset-md-8" ng-show="page_name == 'valuations' || page_name == 'sales' || page_name == 'rentals'">
                         <div class="form-group">
                             <label class="control-label col-md-3">&nbsp;</label>
                             <div class="col-md-9">
