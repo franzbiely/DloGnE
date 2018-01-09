@@ -72,7 +72,17 @@ class RentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $rent = Rent::create($request->all());
+        }
+        catch(\Exception $e){
+            return 'Error on inserting Rent details ' . $e->getMessage();
+        }
+        
+        return Response::json([
+                'message' => 'Data created succesfully',
+                'data' => $this->transform($rent)
+        ]);
     }
 
     /**
