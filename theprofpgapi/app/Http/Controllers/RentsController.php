@@ -142,6 +142,33 @@ class RentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Rent::destroy($id);
+        return Response::json([
+                'message' => '#'. $id .' Deleted Succesfully'
+        ]);
+    }
+
+    private function transformCollection($rent){
+        $rentArray = $rent->toArray();
+        return [
+            'per_page' => intval($rentArray['per_page']),
+            'current_page' => $rentArray['current_page'],
+            'last_page' => $rentArray['last_page'],
+            'next_page_url' => $rentArray['next_page_url'],
+            'prev_page_url' => $rentArray['prev_page_url'],
+            'from' => $rentArray['from'],
+            'to' =>$rentArray['to'],
+            'data' => array_map([$this, 'transform'], $rentArray['data'])
+        ];
+    }
+
+    private function transform($rent){
+        return [
+            'id' => $rent['id'],
+            'property_id' => $rent['property_id'],
+            'analysed_rent' => $rent['analysed_rent'],
+            'analysed_date' => $rent['analysed_date'],
+            'remarks' => $rent['remarks']
+        ];
     }
 }
