@@ -118,8 +118,8 @@ class PropertiesController extends Controller {
         if(isset($ret['id'])) {
             $ret['properties.id'] = $ret['id'];
             unset($ret['id']);
-            unset($ret['price_min']);unset($ret['sales_price_min']);
-            unset($ret['price_max']);unset($ret['sales_price_max']);
+            unset($ret['price_min']);unset($ret['sales_price_min']);unset($ret['rentals_price_min']);
+            unset($ret['price_max']);unset($ret['sales_price_max']);unset($ret['rentals_price_max']);
             unset($ret['area_min']);
             unset($ret['area_max']);
             unset($ret['include_sales_zero']);
@@ -135,6 +135,13 @@ class PropertiesController extends Controller {
             unset($ret['price_max']);
         }
 
+        if(isset($ret['rentals_price_min']) || isset($ret['rentals_price_max'])) {
+            $this->rentals_price_min = $ret['rentals_price_min'];
+            $this->rentals_price_max = $ret['rentals_price_max'];
+            unset($ret['rentals_price_min']);
+            unset($ret['rentals_price_max']);
+        }
+        
         if(isset($ret['sales_price_min']) || isset($ret['sales_price_max'])) {
             $this->sales_price_min = $ret['sales_price_min'];
             $this->sales_price_max = $ret['sales_price_max'];
@@ -160,6 +167,12 @@ class PropertiesController extends Controller {
                 $this->include_valuation_zero = $ret['include_valuation_zero'];
             }
             unset($ret['include_valuation_zero']);
+        }
+        if(isset($ret['include_rentals_zero'])) {
+            if($ret['include_rentals_zero'] == 'true') {
+                $this->include_rentals_zero = $ret['include_rentals_zero'];
+            }
+            unset($ret['include_rentals_zero']);
         }
         
         // don't allow archived data for searches
@@ -332,6 +345,13 @@ class PropertiesController extends Controller {
                         continue;
                     }
                 }
+                if($this->rentals_price_min >= 0) {
+                    if($val['current_rentals_value'] < $this->rentals_price_min || $val['current_rentals_value'] > $this->rentals_price_max) {
+                        unset($data[$key]);
+                        $total--;
+                        continue;
+                    }
+                }
                 if($this->area_min >= 0) {
                     if($val['current_area'] < $this->area_min || $val['current_area'] > $this->area_max) {
                         unset($data[$key]);
@@ -378,14 +398,18 @@ class PropertiesController extends Controller {
                 'sale'=> $property['sale'],
                 'valuations_count' => count($property['valuation']),
                 'sales_count' => count($property['sale']),
+                'rentals_count' => count($property['rental']),
                 'current_value'=>floatval($property['current__value']['value']),
                 'current_sales_value'=>floatval($property['current__sales__value']['value']),
+                'current_rentals_value'=>floatval($property['current__rentals__value']['value']),
                 'current_area'=>floatval($property['current__area']['area'])
         ];
         if(isset($property['valuations_count']))
             $ret['valuations_count'] = $property['valuations_count'];
         if(isset($property['sales_count']))
             $ret['sales_count'] = $property['sales_count'];
+        if(isset($property['rentals_count']))
+            $ret['rentals_count'] = $property['rentals_count'];
         return $ret;
     }
     private function export_report($request, $_property, $type) {
@@ -522,6 +546,25 @@ class PropertiesController extends Controller {
                     $sheet->mergeCells('A' . ($ROW+=1) .':D'.$ROW);
                     $sheet->setCellValue('A'.$ROW, 'No data');
                 }
+                
+                $sheet ->mergeCells('A' . ($ROW+=2) .':D'.$ROW);
+                $sheet->setCellValue('A'.$ROW, 'RENTALS HISTORY OF PROPERTY #' . $property['id']);
+                $sheet->setCellValue('A'.$ROW+=1, 'Analysed Date');
+                $sheet->setCellValue('B'.$ROW, 'Analysed Rent (K)');
+                $sheet->setCellValue('C'.$ROW, 'Remarks');
+
+                if(count($request->rentals) > 0 ) {
+                    foreach($request->rentals as $rental) {
+                        $sheet->setCellValue('A'.$ROW+=1, $rental['analysed_date']);
+                        $sheet->setCellValue('B'.$ROW, number_format($rental['analysed_rent']));   
+                        $sheet->setCellValue('C'.$ROW, $rental['remarks']);                    
+                    }
+                }
+                else {
+                    $sheet->mergeCells('A' . ($ROW+=1) .':D'.$ROW);
+                    $sheet->setCellValue('A'.$ROW, 'No data');
+                }
+
             });
         })->download($filetype);
     }
@@ -624,6 +667,34 @@ class PropertiesController extends Controller {
                     <?php if(!isset($params->hide_sales_column) || !in_array('est_land_rate', $params->hide_sales_column)) { ?>  <td><?php echo ($sale['est_land_rate'] !== '') ? number_format($sale['est_land_rate']) : '' ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('description', $params->hide_sales_column)) { ?>   <td><?php echo $sale['description'] ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('remarks', $params->hide_sales_column)) { ?>   <td><?php echo $sale['remarks'] ?></td> <?php } ?>
+                </tr>
+            <?php }
+        }
+        else {
+            ?><tr><td colspan="<?php echo $colspan ?>">No data</td></tr><?php
+        } ?>
+    </table>
+    <br /><br /><br />
+
+<?php endif; ?>
+
+<?php if(!isset($params->hide_rentals) || !$params->hide_rentals) : $colspan = 10; ?>
+    <h3>RENTALS HISTORY OF PROPERTY #<?php echo $property['id'] ?></h3>
+    <table border="1" cellpadding="10" cellspacing="0">
+        <tr>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_date', $params->hide_rentals_column)) { ?>                  <th>Analysed Date</th> <?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_rent', $params->hide_rentals_column)) { ?>                <th>Analysed Rent (K)</th> <?php } ?>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('remarks', $params->hide_rentals_column)) { ?>             <th>Remarks</th><?php } else { $colspan--; } ?>
+
+        </tr>
+        <?php
+        if(count($request->rentals) > 0 ) {
+           
+            foreach($request->rentals as $key=>$rental) { ?>
+                <tr>
+                    <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_date', $params->hide_rentals_column)) { ?> <td><?php echo $rental['analysed_date'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_rent', $params->hide_rentals_column)) { ?> <td><?php echo $rental['analysed_rent'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_rentals_column) || !in_array('remarks', $params->hide_rentals_column)) { ?>  <td><?php echo $rental['remarks'] ?></td> <?php } ?>
                 </tr>
             <?php }
         }
