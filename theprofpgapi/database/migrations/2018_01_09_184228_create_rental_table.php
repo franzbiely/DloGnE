@@ -10,9 +10,17 @@ class CreateRentalTable extends Migration
      *
      * @return void
      */
+    private $table_name = 'rentals';
     public function up()
     {
-        //
+        Schema::create($this->table_name, function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('property_id');
+            $table->text('analysed_rent');
+            $table->date('analysed_date');
+            $table->text('remarks');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -22,6 +30,6 @@ class CreateRentalTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop($this->table_name);
     }
 }
