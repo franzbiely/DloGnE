@@ -506,8 +506,7 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('G'.$ROW, 'Area (sqm)');
                 $sheet->setCellValue('H'.$ROW, 'Land Value Rate (K per sqm)');
                 $sheet->setCellValue('I'.$ROW, 'Description');
-
-                if(count($request->valuations) > 0 ) {
+                if(!empty($request->valuations)) {
                     foreach($request->valuations as $key=>$valuation) {
                         $sheet->setCellValue('A'.$ROW+=1, $valuation['date']);
                         $sheet->setCellValue('B'.$ROW, number_format($valuation['land_component'] + $valuation['improvement_component']));
@@ -538,7 +537,7 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('I'.$ROW, 'Description');
                 $sheet->setCellValue('J'.$ROW, 'Remarks');
 
-                if(count($request->sales) > 0 ) {
+                if(!empty($request->sales)) {
                     foreach($request->sales as $sale) {
                         $sheet->setCellValue('A'.$ROW+=1, $sale['date']);
                         $sheet->setCellValue('B'.$ROW, number_format($sale['price']));
@@ -563,7 +562,7 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('B'.$ROW, 'Analysed Rent (K)');
                 $sheet->setCellValue('C'.$ROW, 'Remarks');
 
-                if(count($request->rentals) > 0 ) {
+                if(!empty($request->rentals)) {
                     foreach($request->rentals as $rental) {
                         $sheet->setCellValue('A'.$ROW+=1, $rental['analysed_date']);
                         $sheet->setCellValue('B'.$ROW, number_format($rental['analysed_rent']));   
@@ -621,7 +620,7 @@ class PropertiesController extends Controller {
             <th>Description</th>
         </tr>
         <?php
-        if(count($request->valuations) > 0 ) {
+        if(!empty($request->valuations)) {
             foreach($request->valuations as $key=>$valuation) { ?>
                 <tr>
                     <td><?php echo $valuation['date'] ?></td>
@@ -662,7 +661,7 @@ class PropertiesController extends Controller {
 
         </tr>
         <?php
-        if(count($request->sales) > 0 ) {
+        if(!empty($request->sales)) {
            
             foreach($request->sales as $key=>$sale) { ?>
                 <tr>
@@ -698,12 +697,12 @@ class PropertiesController extends Controller {
 
         </tr>
         <?php
-        if(count($request->rentals) > 0 ) {
+        if(!empty($request->rentals)) {
            
             foreach($request->rentals as $key=>$rental) { ?>
                 <tr>
                     <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_date', $params->hide_rentals_column)) { ?> <td><?php echo $rental['analysed_date'] ?></td> <?php } ?>
-                    <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_rent', $params->hide_rentals_column)) { ?> <td><?php echo $rental['analysed_rent'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_rent', $params->hide_rentals_column)) { ?> <td><?php echo number_format($rental['analysed_rent']) ?></td> <?php } ?>
                     <?php if(!isset($params->hide_rentals_column) || !in_array('remarks', $params->hide_rentals_column)) { ?>  <td><?php echo $rental['remarks'] ?></td> <?php } ?>
                 </tr>
             <?php }
@@ -716,7 +715,7 @@ class PropertiesController extends Controller {
 
 <?php endif; ?>
 
-<p align="center">2017 &copy; The Professionals | SVIS v1.0</p>
+<p align="center">2018 &copy; The Professionals | SVIS v1.0</p>
         <?php
         $html = ob_get_contents();
         ob_end_clean();
