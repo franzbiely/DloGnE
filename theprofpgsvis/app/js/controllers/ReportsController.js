@@ -160,6 +160,7 @@ angular.module('MetronicApp').controller('ReportsController',
             
             $scope.searchdata.include_sales_zero = true;
             $scope.searchdata.include_valuation_zero = true;
+            $scope.searchdata.include_rentals_zero = true;
             $scope.searchdata.property_city_id = 
             $scope.searchdata.property_suburb_id =
             $scope.searchdata.property_class_id =
@@ -317,6 +318,14 @@ angular.module('MetronicApp').controller('ReportsController',
                         console.log('Service error : ',error);
                     })
 
+                    // Get Rentals data
+                    $http.get($rootScope.apiURL + 'v1/rental/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token'))
+                    .success(function(res) {
+                        $scope.rentals = res.data;
+                    }).error(function(error) {
+                        console.log('Service error : ',error);
+                    })
+
                     const user = JSON.parse(localStorage.getItem('user'));
                     $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
                         user_id : user.id,
@@ -372,6 +381,7 @@ angular.module('MetronicApp').controller('ReportsController',
                 var file_path = $rootScope.apiURL + 'v1/property/export/report/' + filetype + '/' + details +'?token='+localStorage.getItem('satellizer_token');
                 form = createFormFields($scope.valuations, "valuations", form);
                 form = createFormFields($scope.sales, "sales", form);
+                form = createFormFields($scope.rentals, "rentals", form);
 
                 const user = JSON.parse(localStorage.getItem('user'));
                 $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
