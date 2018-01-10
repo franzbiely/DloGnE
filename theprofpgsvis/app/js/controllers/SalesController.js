@@ -195,6 +195,7 @@ angular.module('MetronicApp').controller('SalesController',
             var str;
 
             $scope.searchdata.include_valuation_zero = true;
+            $scope.searchdata.include_rentals_zero = true;
             $scope.searchdata.include_sales_zero =
             $scope.searchdata.property_city_id = 
             $scope.searchdata.property_suburb_id =

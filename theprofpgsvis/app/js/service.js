@@ -50,6 +50,8 @@ MetronicApp.service('FUNC', function($http, $rootScope, $auth, $state) {
                 area_max : 5000,
                 sales_price_min : 0,
                 sales_price_max : 1000000,
+                rentals_price_min : 0,
+                rentals_price_max : 1000000
             },
             multipleResultsShow : false,
             multi_property_results : false,

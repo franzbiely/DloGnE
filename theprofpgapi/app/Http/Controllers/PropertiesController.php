@@ -33,6 +33,7 @@ class PropertiesController extends Controller {
 
     private $include_valuation_zero;
     private $include_sales_zero;
+    private $include_rentals_zero;
     private $with;
     private $default_select;
 
@@ -47,6 +48,7 @@ class PropertiesController extends Controller {
 
         $this->include_valuation_zero = false;
         $this->include_sales_zero = false;
+        $this->include_rentals_zero = false;
         $this->with = array(
             'Property_City'       =>function($query) { $query->select('id','name'); },
             'Property_Suburb'     =>function($query) { $query->select('id','name'); },
@@ -57,9 +59,11 @@ class PropertiesController extends Controller {
             'Last_Edited_By'        =>function($query) { $query->select('id','name'); },
             'Current_Value',
             'Current_Sales_Value',
+            'Current_Rentals_Value',
             'Current_Area',
             'Valuation',
             'Sale',
+            'Rental'
         );
         $this->default_select = [
             'properties.id',
@@ -124,6 +128,7 @@ class PropertiesController extends Controller {
             unset($ret['area_max']);
             unset($ret['include_sales_zero']);
             unset($ret['include_valuation_zero']);
+            unset($ret['include_rentals_zero']);
             $transformCollection_type = "index"; // because it has the same behaviour as show except that only archive.
         }
 
@@ -318,15 +323,20 @@ class PropertiesController extends Controller {
 
         $data = array_map([$this, 'transform'], $propertiesArray['data']);
         $total = $propertiesArray['total'];
-        
         if($type == "byparam") {
             foreach($data as $key=>$val) {
-                if($val['valuations_count'] == 0 && !$this->include_valuation_zero) {
+                //echo $val['rentals_count']. (intval($val['valuations_count']) == 0);
+                if(intval($val['valuations_count']) == 0 && !$this->include_valuation_zero) {
                     unset($data[$key]);
                     $total--;
                     continue;
                 }
-                if($val['sales_count'] == 0 && !$this->include_sales_zero) {
+                if(intval($val['sales_count']) == 0 && !$this->include_sales_zero) {
+                    unset($data[$key]);
+                    $total--;
+                    continue;
+                }
+                if(intval($val['rentals_count']) == 0 && !$this->include_rentals_zero) {
                     unset($data[$key]);
                     $total--;
                     continue;

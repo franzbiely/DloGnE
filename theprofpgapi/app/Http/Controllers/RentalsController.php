@@ -54,6 +54,27 @@ class RentalsController extends Controller
         return Response::json($this->transformCollection($rental), 200);
     }
 
+    public function getByProperty(Request $request, $property_id) {
+        $search_term = $request->input('search');
+        $limit = $request->input('limit', 100);
+        $sales = Rental::where('property_id',$property_id)->orderBy('id', 'DESC')->with(
+            array(
+                'Property'=>function($query){
+                    $query->select('id','code');
+                }
+            )
+        )->select('id', 
+            'analysed_rent',
+            'analysed_date',
+            'remarks',
+            'property_id'
+        )->paginate($limit); 
+        $sales->appends(array(            
+            'limit' => $limit
+        ));
+        return Response::json($this->transformCollection($sales), 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

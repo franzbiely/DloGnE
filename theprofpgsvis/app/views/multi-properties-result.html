@@ -23,7 +23,7 @@
                             <th>Port/Sec/Lot</th>
                             <th>Suburb</th>
                             <th>Area (sqm)</th>
-                            <th ng-show="page_name == 'valuations' || page_name == 'sales'">History</th>
+                            <th ng-show="page_name == 'valuations' || page_name == 'sales' || page_name == 'rentals'">History</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,15 +36,19 @@
                             <td ng-show="page_name == 'valuations' || page_name == 'reports'">{[{value.current_value | number}]}</td>
                             <!-- sales -->
                             <td ng-show="page_name == 'sales'">{[{value.current_sales_value | number}]}</td>
+                            <!-- rentals -->
+                            <td ng-show="page_name == 'rentals'">{[{value.current_rentals_value | number}]}</td>
                             
                             <td>{[{value.port}]} / {[{value.sec}]} / {[{value.lot}]}</td>
                             <td>{[{value.suburb}]}</td>
                             <td>{[{value.current_area | number}]}</td>
-                            <td ng-show="page_name == 'valuations' || page_name == 'sales'">
+                            <td ng-show="page_name == 'valuations' || page_name == 'sales' || page_name == 'rentals'">
                                 <a ng-show="page_name == 'valuations'" type="button" 
                                     ui-sref="valuations.list({property_id : value.id})" class="btn btn-link">Valuation History ({[{value.valuations_count}]})</a> 
                                 <a ng-show="page_name == 'sales'" type="button" 
                                     ui-sref="sales.list({property_id : value.id})" class="btn btn-link">Sale History ({[{value.sales_count}]})</a> 
+                                <a ng-show="page_name == 'rentals'" type="button" 
+                                    ui-sref="rentals.list({property_id : value.id})" class="btn btn-link">Rentals History ({[{value.rentals_count}]})</a> 
                             </td>
                         </tr>
                     </tbody>

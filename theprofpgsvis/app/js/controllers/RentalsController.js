@@ -188,19 +188,19 @@ angular.module('MetronicApp').controller('RentalsController',
         }
         // From Reports
         $scope.showResult = function(property_id, from_id_link) {
-
+            console.log($scope.data_temp);
             $scope.hideForm = true;
             if (!from_id_link) from_id_link = false;
             $scope.resultReady = false;
             var str;
 
             $scope.searchdata.include_valuation_zero = true;
+            $scope.searchdata.include_sales_zero = true;
             $scope.searchdata.include_rentals_zero =
             $scope.searchdata.property_city_id = 
             $scope.searchdata.property_suburb_id =
             $scope.searchdata.property_class_id =
             $scope.searchdata.property_lease_type_id = '';
-            
             if(typeof $scope.searchdata.rentals_price_max === "string") {
                 $scope.searchdata.rentals_price_max = $scope.searchdata.rentals_price_max.replace (/,/g, "");
             }
@@ -306,7 +306,7 @@ angular.module('MetronicApp').controller('RentalsController',
                 form +=             '</div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Analysed Rent <span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Analysed Rent (K)<span class="required" aria-required="true"> * </span></label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">';
                 if(key > -1) {

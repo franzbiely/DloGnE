@@ -10,6 +10,7 @@ use App\PropertyCity;
 use App\PropertySuburb;
 use App\Valuation;
 use App\Sale;
+use App\Rental;
 use App\User;
 use DB;
 
@@ -55,6 +56,9 @@ class Property extends Model
     public function sale(){
         return $this->hasMany('App\Sale');
     }
+    public function rental(){
+        return $this->hasMany('App\Rental');
+    }
     public function current_value(){
         return $this->hasOne('App\Valuation')
             ->select(DB::raw('property_id, (improvement_component + land_component) AS value'))
@@ -63,6 +67,11 @@ class Property extends Model
     public function current_sales_value(){
         return $this->hasOne('App\Sale')
             ->select(DB::raw('property_id, price AS value'))
+            ->orderBy('id','DESC')->latest();
+    }
+    public function current_rentals_value(){
+        return $this->hasOne('App\Rental')
+            ->select(DB::raw('property_id, analysed_rent AS value'))
             ->orderBy('id','DESC')->latest();
     }
     public function current_area(){
