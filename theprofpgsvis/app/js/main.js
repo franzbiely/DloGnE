@@ -587,6 +587,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 },
                 'sales-details@property.edit' : {
                     templateUrl : "views/property/property-sales.html"
+                },
+                'rental-details@property.edit' : {
+                    templateUrl : "views/property/property-rentals.html"
                 }
             },
             data: {

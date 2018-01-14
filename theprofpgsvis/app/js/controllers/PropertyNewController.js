@@ -250,6 +250,13 @@ angular.module('MetronicApp')
                 console.log('Service error : ',error);
             })
 
+            // Get Rentals data
+            $http.get($rootScope.apiURL + 'v1/rental/prop/'+ id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+                $scope.rentals = res.data;
+            }).error(function(error) {
+                console.log('Service error : ',error);
+            })
+
             var param = "source_id=" + id + "&source_table=properties";
             $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
                 var photo_counter = 0, pdf_counter = 0;
