@@ -636,14 +636,14 @@ class PropertiesController extends Controller {
             <?php }
         }
         else {
-            ?><tr><td colspan="10">No data</td></tr><?php
+            ?><tr><td colspan="9">No data</td></tr><?php
         } ?>
     </table>
     <br /><br />
 
 <?php endif; ?>
 
-<?php if(!isset($params->hide_sales) || !$params->hide_sales) : $colspan = 10; ?>
+<?php if(!isset($params->hide_sales) || !$params->hide_sales) : $colspan = 11; ?>
     <h3>SALES HISTORY OF PROPERTY #<?php echo $property['id'] ?></h3>
     <table border="1" cellpadding="10" cellspacing="0">
         <tr>
@@ -687,7 +687,7 @@ class PropertiesController extends Controller {
 
 <?php endif; ?>
 
-<?php if(!isset($params->hide_rentals) || !$params->hide_rentals) : $colspan = 10; ?>
+<?php if(!isset($params->hide_rentals) || !$params->hide_rentals) : $colspan = 3; ?>
     <h3>RENTALS HISTORY OF PROPERTY #<?php echo $property['id'] ?></h3>
     <table border="1" cellpadding="10" cellspacing="0">
         <tr>
@@ -719,7 +719,7 @@ class PropertiesController extends Controller {
         <?php
         $html = ob_get_contents();
         ob_end_clean();
-        $pdf = PDF::loadHTML($html)->setPaper('a4', $params->paper);
+        $pdf = PDF::loadHTML($html)->setPaper('letter', $params->paper);
         return $pdf->download($filename.'.pdf');
     }
     public function export_report_csv(Request $request, $_property) {
