@@ -244,6 +244,9 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
     if(app_config.env == 'stage') {
         $authProvider.loginUrl = 'https://svisapi.theprofessionals.com.pg/public/api/authenticate';    
     }
+    else if( app_config.env == 'testsite') {
+        $authProvider.loginUrl = 'https://testsvisapi.theprofessionals.com.pg/public/api/authenticate';    
+    }
     else {
         $authProvider.loginUrl = 'https://theprofessionals.local/api/authenticate';
     }
