@@ -188,7 +188,6 @@ angular.module('MetronicApp').controller('RentalsController',
         }
         // From Reports
         $scope.showResult = function(property_id, from_id_link) {
-            console.log($scope.data_temp);
             $scope.hideForm = true;
             if (!from_id_link) from_id_link = false;
             $scope.resultReady = false;
@@ -424,9 +423,8 @@ angular.module('MetronicApp').controller('RentalsController',
                     user_id : user.id,
                     log : 'added rentals for property #' + $scope.property_id
                 }).success(function(response) {alert('Added rentals successfully!')});
-                $scope[plural].push(response.data);
-                $scope[singular] = '';
-
+                $scope[plural].unshift(response.data);
+                $scope[singular] = [];
             }).error(function(){
                 console.log("error");
             });
