@@ -573,8 +573,8 @@ angular.module('MetronicApp').controller('SalesController',
                     user_id : user.id,
                     log : 'added sales for property #' + $scope.property_id
                 }).success(function(response) {alert('Added sales successfully!')});
-                $scope[plural].push(response.data);
-                $scope[singular] = '';
+                $scope[plural].unshift(response.data);
+                $scope[singular] = [];
 
             }).error(function(){
                 console.log("error");
