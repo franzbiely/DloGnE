@@ -37,7 +37,9 @@
                             <td>{[{value.analysed_rent | number}]}</td>
                             <td>{[{value.remarks}]}</td>
                             <td ng-show="hasActions">
-                                <button ng-click="showModal(key, value)" type="button" class="btn btn-primary">Edit</button>
+                                <a type="button" class="btn btn-default" 
+                                    ui-sref="rentals.details({rental_id : value.id, property_id : property_id})">Edit</a>
+                                <!-- <button ng-click="showModal(key, value)" type="button" class="btn btn-primary">Edit</button> -->
                                 <button ng-click="delete($index, value.id)" ng-disabled="isDisabled" type="button" class="btn btn-danger">Delete</button>
                             </td>
                         </tr>

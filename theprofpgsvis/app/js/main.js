@@ -274,7 +274,79 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             }
         })
-
+        .state("rentals.details", {
+            url: "/details/:rental_id",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/rentals/rental-details.html",
+                    controller: "RentalDetailsController"
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        cache : false,
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
+                            './assets/vendor/js/angular-file-upload.min.js',
+                            './assets/vendor/css/bootstrap-fileinput.css',
+                            './assets/vendor/js/bootstrap-fileinput.js',
+                            './assets/vendor/js/jquery.inputmask.bundle.min.js',
+                            'js/controllers/RentalDetailsController.js'
+                        ]                    
+                    });
+                }]
+            },
+            data: {
+                pageTitle: 'Rental Details',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
+        })
+        .state("rentals.new", {
+            url: "/new/:property_id",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/rentals/rental-details.html",
+                    controller: "RentalDetailsController"
+                },
+                'property-detail@rental.details': {
+                    templateUrl : "views/property/property-details.html",
+                    controller: "PropertyNewController"
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        cache : false,
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
+                            './assets/vendor/js/angular-file-upload.min.js',
+                            './assets/vendor/css/bootstrap-fileinput.css',
+                            './assets/vendor/js/bootstrap-fileinput.js',
+                            './assets/vendor/js/jquery.inputmask.bundle.min.js',
+                            'js/controllers/PropertyNewController.js',
+                            'js/controllers/RentalDetailsController.js'
+                        ]                    
+                    });
+                }]
+            },
+            data: {
+                pageTitle: 'New Rental',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
+        })
         // Rentals Find
         .state("rentals.find", {
             url: "/find",
@@ -347,6 +419,7 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }]
             }
         })
+        
 
         // Sales
         .state("sales", {
