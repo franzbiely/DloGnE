@@ -15,7 +15,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-4">Date Valued <span class="required" aria-required="true"> * </span></label>
+                                    <label class="control-label col-md-4">Analysed Date <span class="required" aria-required="true"> * </span></label>
                                     <div class="col-md-8">
                                         <input required ng-model="data.date" class="form-control form-control-inline input-medium date-picker" size="16" type="text" placeholder="" />
                                         <span class="help-block"> </span>
@@ -36,7 +36,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-4">Total Property Value (K)<span class="required" aria-required="true"> * </span></label>
+                                    <label class="control-label col-md-4">Analysed Rent (K)<span class="required" aria-required="true"> * </span></label>
                                     <div class="col-md-8">
                                         <input disabled class="form-control form-control-inline input-medium" type="text" value="{[{ +data.land_component + +data.improvement_component | number }]}" />
                                         <span class="help-block"> </span>
@@ -46,31 +46,29 @@
                             <!--/span-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-5">Land Component (K)<span class="required" aria-required="true"> * </span></label>
-                                    <div class="col-md-7">
-                                        <input required ng-model="data.land_component" class="form-control form-control-inline input-medium" type="text"  format="number" />
-                                        <span class="help-block"> </span>
+                                    <label class="control-label col-md-4">Remarks</label>
+                                    <div class="col-md-8">
+                                        <textarea rows="5" class="form-control" ng-model="data.description"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <hr />
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-4">Insurance Value (K) <span class="required" aria-required="true"> * </span></label>
-                                    <div class="col-md-8">
-                                        <input required ng-model="data.insurance_value" class="form-control form-control-inline input-medium" size="16" type="text" placeholder=""  format="number" />
-                                        <span class="help-block"> </span>
+                                    <label class="control-label col-md-5">Qualify Analysed Rent by Area: <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-7">
+                                        <select class="form-control form-control-inline input-medium"><option>[Choose]</option></select>
                                     </div>
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-5">Improvement Component (K)<span class="required" aria-required="true"> * </span></label>
+                                    <label class="control-label col-md-5">Qualify Analysed Rent by Period: <span class="required" aria-required="true"> * </span></label>
                                     <div class="col-md-7">
-                                        <input required ng-model="data.improvement_component" class="form-control form-control-inline input-medium" type="text"  format="number" />
-                                        <span class="help-block"> </span>
+                                        <select class="form-control form-control-inline input-medium"><option>[Choose]</option></select>
                                     </div>
                                 </div>
                             </div>
@@ -78,10 +76,10 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-4">Forced Sale Value (K) <span class="required" aria-required="true"> * </span></label>
-                                    <div class="col-md-8">
-                                        <input required ng-model="data.forced_sale_value" class="form-control form-control-inline input-medium" type="text"  format="number" />
-                                        <span class="help-block"> </span>
+                                    <label class="control-label col-md-5">Qualify Rent Review Method: <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-7">
+                                        <select class="form-control form-control-inline input-medium"><option>[Choose]</option></select>
+                                        <input required ng-model="data.area" class="form-control form-control-inline input-small" type="text" />
                                     </div>
                                 </div>
                             </div>
@@ -98,7 +96,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-4">Description</label>
+                                    <label class="control-label col-md-4">Remarks</label>
                                     <div class="col-md-8">
                                         <textarea rows="5" class="form-control" ng-model="data.description"></textarea>
                                     </div>

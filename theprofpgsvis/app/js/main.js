@@ -262,8 +262,19 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/rentals",
             views: {
                 'app-body': {
-                    templateUrl: "views/dashboard.html",
-                    controller : "RentalsController"
+                    templateUrl: "views/dashboard.html"
+                },
+                'app-body-inner@rentals': {
+                    templateUrl: "views/rentals.html", controller : "RentalsController"
+                },
+                'valuation-details@rentals' : {
+                    templateUrl : "views/property/property-rentals.html"
+                },
+                'searchform@rentals': {
+                    templateUrl : "views/searchform.html"
+                },
+                'multi-properties-result@rentals' : {
+                    templateUrl : "views/multi-properties-result.html"
                 }
             },
             data: {
