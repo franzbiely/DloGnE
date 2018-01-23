@@ -27,6 +27,8 @@
                         <tr>
                             <th>Analysed Date</th>
                             <th>Analysed Rent (K)</th>
+                            <th>Analysed Rent <br />By Area</th>
+                            <th>Analysed Rent <br />By Period</th>
                             <th>Remarks</th>
                             <th ng-show="hasActions">Actions</th>
                         </tr>
@@ -35,6 +37,8 @@
                         <tr ng-repeat="(key, value) in rentals" class="odd gradeX">
                             <td>{[{value.analysed_date | amDateFormat:'DD-MM-YYYY' }]}</td>
                             <td>{[{value.analysed_rent | number}]}</td>
+                            <td></td>
+                            <td></td>
                             <td>{[{value.remarks}]}</td>
                             <td ng-show="hasActions">
                                 <a type="button" class="btn btn-default" 
