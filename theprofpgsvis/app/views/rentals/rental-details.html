@@ -57,7 +57,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-5">Qualify Analysed Rent by Area: <span class="required" aria-required="true"> * </span></label>
+                                    <label class="control-label col-md-5">Qualify Analysed Rent by Area: </label>
                                     <div class="col-md-7">
                                         <select class="form-control form-control-inline input-medium"><option>[Choose]</option></select>
                                     </div>
@@ -66,7 +66,7 @@
                             <!--/span-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-5">Qualify Analysed Rent by Period: <span class="required" aria-required="true"> * </span></label>
+                                    <label class="control-label col-md-5">Qualify Analysed Rent by Period: </label>
                                     <div class="col-md-7">
                                         <select class="form-control form-control-inline input-medium"><option>[Choose]</option></select>
                                     </div>
@@ -74,44 +74,90 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-10">
                                 <div class="form-group">
-                                    <label class="control-label col-md-5">Qualify Rent Review Method: <span class="required" aria-required="true"> * </span></label>
-                                    <div class="col-md-7">
-                                        <select class="form-control form-control-inline input-medium"><option>[Choose]</option></select>
-                                        <input required ng-model="data.area" class="form-control form-control-inline input-small" type="text" />
+                                    <label class="control-label col-md-3">Qualify Rent Review Method: </label>
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <select class="col-md-10 form-control form-control-inline"><option>[Choose]</option></select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input required ng-model="data.area" class="col-md-2 form-control form-control-inline input-small" type="text" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-1">
                                 <div class="form-group">
-                                    <label class="control-label col-md-5">Area (sqm)<span class="required" aria-required="true"> * </span></label>
-                                    <div class="col-md-7">
-                                        <input required ng-model="data.area" class="form-control form-control-inline input-medium" type="text"  format="number" />
-                                        <span class="help-block"> </span>
-                                    </div>
+                                    <input class="control-label" type="checkbox" /> <label>Check if sole tenant is qualify</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label col-md-4">Remarks</label>
-                                    <div class="col-md-8">
-                                        <textarea rows="5" class="form-control" ng-model="data.description"></textarea>
+                            <div class="col-md-offset-1">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Total Lease Period (Years)</label><br />
+                                        <input class="form-control form-control-inline input-medium" type="text" />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label col-md-5">Land Value Rate (K per sqm) <span class="required" aria-required="true"> * </span></label>
-                                    <div class="col-md-7">
-                                        <input required ng-model="data.land_value_rate" class="form-control form-control-inline input-medium" type="text"  format="number" />
-                                        <span class="help-block"> </span>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Date Lease commenced</label><br />
+                                        <input class="form-control form-control-inline input-medium" type="text" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">Name of Tenant</label><br />
+                                        <input class="form-control form-control-inline input-medium" type="text" />
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <div class="form-group">
+                                    <h4>Inclusions in Rent</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-offset-3">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <input class="control-label" type="checkbox" /> <label class="control-label">Electricity</label><br />
+                                        <input class="control-label" type="checkbox" /> <label class="control-label">Janitorial</label><br />
+                                        <input class="control-label" type="checkbox" /> <label class="control-label">Internal Maintenance</label><br />
+                                        <input class="control-label" type="checkbox" /> <label class="control-label">Garbage Removal</label><br />
+                                        <input class="control-label" type="checkbox" /> <label class="control-label">Internet</label><br />
+                                        <input class="control-label" type="checkbox" /> <label class="control-label">Security Guards</label><br />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input class="control-label" type="checkbox" /> <label class="control-label">CCTV</label><br />
+                                        <input class="control-label" type="checkbox" /> <label class="control-label">Gardens & Lawns</label><br />
+                                        <input class="control-label" type="checkbox" /> <label class="control-label">Pool</label><br />
+                                        <input class="control-label" type="checkbox" /> <label class="control-label">Parking</label><br />
+                                        <input class="control-label" type="checkbox" /> <label class="control-label">Gym</label><br />
+                                        <input class="control-label" type="checkbox" /> <label class="control-label">Other (Detail)</label>
+                                        <input required ng-model="data.area" class="form-control form-control-inline input-small" type="text" style="float:right;" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+
+
+
+
                         <h3 class="form-section">Attachment</h3>
                         <div class="row">
                             <!--/span-->
