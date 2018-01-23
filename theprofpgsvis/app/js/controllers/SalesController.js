@@ -201,6 +201,19 @@ angular.module('MetronicApp').controller('SalesController',
             $scope.searchdata.property_suburb_id =
             $scope.searchdata.property_class_id =
             $scope.searchdata.property_lease_type_id = '';
+
+            if(typeof $scope.temp.enable_price_range === 'undefined' || $scope.temp.enable_price_range == false) {
+                delete $scope.searchdata.price_min;
+                delete $scope.searchdata.price_max;
+            }
+            if(typeof $scope.temp.enable_area_range === 'undefined' || $scope.temp.enable_area_range == false) {
+                delete $scope.searchdata.area_min;
+                delete $scope.searchdata.area_max;
+            }
+            if(typeof $scope.temp.enable_price_range_sales === 'undefined' || $scope.temp.enable_price_range_sales == false) {
+                delete $scope.searchdata.sales_price_min;
+                delete $scope.searchdata.sales_price_max;
+            }
             
             if(typeof $scope.searchdata.sales_price_max === "string") {
                 $scope.searchdata.sales_price_max = $scope.searchdata.sales_price_max.replace (/,/g, "");

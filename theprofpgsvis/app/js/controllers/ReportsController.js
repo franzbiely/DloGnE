@@ -166,9 +166,22 @@ angular.module('MetronicApp').controller('ReportsController',
             $scope.searchdata.property_class_id =
             $scope.searchdata.property_lease_type_id = '';
 
+            if(typeof $scope.temp.enable_price_range === 'undefined' || $scope.temp.enable_price_range == false) {
+                delete $scope.searchdata.price_min;
+                delete $scope.searchdata.price_max;
+            }
+            if(typeof $scope.temp.enable_area_range === 'undefined' || $scope.temp.enable_area_range == false) {
+                delete $scope.searchdata.area_min;
+                delete $scope.searchdata.area_max;
+            }
+            if(typeof $scope.temp.enable_price_range_sales === 'undefined' || $scope.temp.enable_price_range_sales == false) {
+                delete $scope.searchdata.sales_price_min;
+                delete $scope.searchdata.sales_price_max;
+            }
+
             if(typeof $scope.searchdata.price_max === "string") {
                 $scope.searchdata.price_max = $scope.searchdata.price_max.replace (/,/g, "");
-            }
+            }    
             if(typeof $scope.searchdata.price_min === "string") {
                 $scope.searchdata.price_min = $scope.searchdata.price_min.replace (/,/g, "");
             }
@@ -191,7 +204,6 @@ angular.module('MetronicApp').controller('ReportsController',
             if(typeof $scope.data_temp.property_lease_type_selected !== 'undefined' && $scope.data_temp.property_lease_type_selected.id !== '') {
                 $scope.searchdata.property_lease_type_id = $scope.data_temp.property_lease_type_selected.id;
             }
-
             if(property_id != null) {
                 $scope.multipleResultsShow = false;
                 str = 'id='+ property_id;
