@@ -28,7 +28,7 @@ class UpdatePropertiesTable extends Migration
     {
         Schema::table('properties', function(Blueprint $table)
         {
-            $table->dropColumn(['created_by', 'last_edited_by']);
+            $table->dropColumn(['created_by_id', 'last_edited_by_id']);
         });
     }
 }

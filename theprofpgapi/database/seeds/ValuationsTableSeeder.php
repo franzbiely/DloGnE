@@ -15,7 +15,6 @@ class ValuationsTableSeeder extends Seeder
                 'date' => $faker->date($format = 'Y-m-d', $max = 'now'),
 				'description' => $faker->text,
 				'property_id' => $faker->numberBetween($min = 1, $max = 10),
-                'property_value' => $faker->numberBetween($min = 1, $max = 100),
                 'land_component' => $faker->numberBetween($min = 1, $max = 100),
                 'insurance_value' => $faker->numberBetween($min = 1, $max = 100),
                 'improvement_component' => $faker->numberBetween($min = 1, $max = 100),

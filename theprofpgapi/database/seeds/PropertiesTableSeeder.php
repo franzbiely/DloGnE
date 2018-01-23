@@ -23,7 +23,9 @@ class PropertiesTableSeeder extends Seeder
 				'sec' => $faker->randomDigit,
 				'lot' => $faker->randomDigit,
 				'unit' => $faker->randomDigit,
-				'owner' =>$faker->name
+				'owner' =>$faker->name,
+				'created_by_id' => $faker->numberBetween($min = 1, $max = 5),
+				'last_edited_by_id' => $faker->numberBetween($min = 1, $max = 5)
             ]);
         }
     }
