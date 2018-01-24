@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RentalPeriodsTableSeeder::class);
         $this->call(RentalInclusionsTableSeeder::class);
         $this->call(RentalMaintenancesTableSeeder::class);
+        $this->call(RentalReviewMethodsTableSeeder::class);
         Model::reguard();
     }
 }
