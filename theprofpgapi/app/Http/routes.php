@@ -85,6 +85,6 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::get('rental/prop/{property_id}', 'RentalsController@getByProperty');
 	Route::resource('rental', 'RentalsController');
 
-	Route::resource('rental_analyzed_by_area', 'RentalsAnalyzedByAreaController');
+	Route::resource('rental_area', 'RentalAreasController');
 });
 

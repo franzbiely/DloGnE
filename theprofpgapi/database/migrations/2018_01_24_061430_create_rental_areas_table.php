@@ -3,14 +3,14 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRentalAnalyzedByAreaTable extends Migration
+class CreateRentalAreasTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    private $table_name = 'rental_analyzed_by_areas';
+    private $table_name = 'rental_areas';
     public function up()
     {
         Schema::create($this->table_name, function (Blueprint $table) {

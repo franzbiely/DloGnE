@@ -14,17 +14,17 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call(UsersTableSeeder::class);
-        // $this->call(PropertyUsesTableSeeder::class);
-        // $this->call(PropertyClassesTableSeeder::class);
-        // $this->call(PropertyLeaseTypesTableSeeder::class);
-        // $this->call(PropertyCitiesTableSeeder::class);
-        // $this->call(PropertySuburbsTableSeeder::class);
-        // $this->call(PropertiesTableSeeder::class);
-        // $this->call(ValuationsTableSeeder::class);
-        // $this->call(SalesTableSeeder::class);
-        // $this->call(AuditTrailsTableSeeder::class);
-        $this->call(RentalsAnalyzedByAreasTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(PropertyUsesTableSeeder::class);
+        $this->call(PropertyClassesTableSeeder::class);
+        $this->call(PropertyLeaseTypesTableSeeder::class);
+        $this->call(PropertyCitiesTableSeeder::class);
+        $this->call(PropertySuburbsTableSeeder::class);
+        $this->call(PropertiesTableSeeder::class);
+        $this->call(ValuationsTableSeeder::class);
+        $this->call(SalesTableSeeder::class);
+        $this->call(AuditTrailsTableSeeder::class);
+        $this->call(RentalAreasTableSeeder::class);
         Model::reguard();
     }
 }

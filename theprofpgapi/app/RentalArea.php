@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Rental;
 
-class RentalAnalyzedByArea extends Model
+class RentalArea extends Model
 {
     protected $fillable = ['title'];
     

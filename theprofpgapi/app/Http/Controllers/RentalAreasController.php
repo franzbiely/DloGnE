@@ -6,15 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Response;
-use App\RentalAnalyzedByArea;
+use App\RentalArea;
 
-class RentalsAnalyzedByAreaController extends Controller
+class RentalAreasController extends Controller
 {
 
     // public function __construct(){
     //     $this->middleware('jwt.auth');
     // }
-    
+    private $title = "Rental Area";
     private function transformCollection($data){
         return array_map([$this, 'transform'], $data->toArray());
     }
@@ -25,18 +25,18 @@ class RentalsAnalyzedByAreaController extends Controller
             ];
     }
     public function index() {
-        $data = RentalAnalyzedByArea::orderBy('title')->get();
+        $data = RentalArea::orderBy('title')->get();
         return Response::json([
             'data' => $this->transformCollection($data)
         ], 200);
     }
     public function show($id) {
-        $data = RentalAnalyzedByArea::find($id);
+        $data = RentalArea::find($id);
  
         if(!$data){
             return Response::json([
                 'error' => [
-                    'message' => 'Rental Analyzed By Area does not exist'
+                    'message' => $this->title . ' does not exist'
                 ]
             ], 404);
         }
@@ -55,22 +55,17 @@ class RentalsAnalyzedByAreaController extends Controller
                 ]
             ], 422);
         }
-
-        $data = RentalAnalyzedByArea::create($request->all());
-
-        // AuditTrail::create();
-
+        $data = RentalArea::create($request->all());
         return Response::json([
-                'message' => '"Rental Analyzed By Area" Created Succesfully',
+                'message' => $this->title . ' Created Succesfully',
                 'data' => $this->transform($data)
         ]);
     }
     // ============== [ / Insert ] ================================
 
 
-
-
     // ============== [ Update ] ================================
+
     public function update(Request $request, $id) {
         if(! $request->title ){
             return Response::json([
@@ -80,21 +75,26 @@ class RentalsAnalyzedByAreaController extends Controller
             ], 422);
         }
         
-        $data = RentalAnalyzedByArea::find($id);
+        $data = RentalArea::find($id);
         $data->title = $request->title;
         $data->save(); 
  
         return Response::json([
-                'message' => 'Rental Analyzed By Area '. $id .' Updated Succesfully'
+                'message' => $this->title . ' '. $id .' Updated Succesfully'
         ]);
     }
+
     // ============== [ / Update ] ================================
 
+    // ============== [ Delete ] ================================
+
     public function destroy($id) {
-        RentalAnalyzedByArea::destroy($id);
+        RentalArea::destroy($id);
         return Response::json([
-            'message' => 'Rental Analyzed By Area '. $id .' Deleted Succesfully'
+            'message' => $this->title . ' '. $id .' Deleted Succesfully'
         ]);
     }
+
+    // ============== [ / Delete ] ================================
 
 }

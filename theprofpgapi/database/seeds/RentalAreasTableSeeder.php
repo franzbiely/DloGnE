@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\RentalAnalyzedByArea;
+use App\RentalArea;
 
-class RentalsAnalyzedByAreasTableSeeder extends Seeder
+class RentalAreasTableSeeder extends Seeder
 {
     public function run()
     {
@@ -18,7 +18,7 @@ class RentalsAnalyzedByAreasTableSeeder extends Seeder
  
         foreach($datas as $data)
         {
-            RentalAnalyzedByArea::create([                
+            RentalArea::create([                
                 'title' => $data
             ]);
         }
