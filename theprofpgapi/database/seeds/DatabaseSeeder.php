@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(AuditTrailsTableSeeder::class);
         $this->call(RentalAreasTableSeeder::class);
         $this->call(RentalInclusionsTableSeeder::class);
+        $this->call(RentalMaintenancesTableSeeder::class);
         Model::reguard();
     }
 }
