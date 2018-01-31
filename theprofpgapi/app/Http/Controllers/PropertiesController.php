@@ -85,7 +85,7 @@ class PropertiesController extends Controller {
     }
     public function index(Request $request) {   
         $search_term = $request->input('search');
-        $limit       = $request->input('limit', 100);
+        $limit       = $request->input('limit', 10);
         if ($search_term) {
             $properties = Property::orderBy('id', 'DESC')
                 ->where('name', 'LIKE', "%$search_term%")
