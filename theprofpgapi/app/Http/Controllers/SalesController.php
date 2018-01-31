@@ -21,21 +21,34 @@ class SalesController extends Controller
     
     public function index(Request $request) {        
         $search_term = $request->input('search');
-        $limit = $request->input('limit', 100);
+        $limit = $request->input('limit', 10);
 
         if ($search_term) {
-            // $sales = Sale::orderBy('id', 'DESC')->
-            //     where('code', 'LIKE', "%$search_term%")->
-            //     with(
-            //         array('City'=>function($query){
-            //             $query->select('id','name');
-            //         })
-            //     )->select('id', 'code', 'city_id')->paginate($limit); 
+            $sales = Sale::orderBy('id', 'DESC')->with(
+                array(
+                    'Property'=>function($query){
+                        $query->select('id','name');
+                    }
+                )
+            )->select('id', 
+                'date',
+                'source',
+                'price',
+                'purchaser',
+                'vendor',
+                'est_land_value',
+                'est_improvement_value',
+                'area',
+                'est_land_rate',
+                'description',
+                'property_id',
+                'remarks'
+            )->paginate($limit); 
 
-            // $sales->appends(array(
-            //     'search' => $search_term,
-            //     'limit' => $limit
-            // ));
+            $sales->appends(array(
+                'search' => $search_term,
+                'limit' => $limit
+            ));
         }
         else
         {
@@ -211,6 +224,7 @@ class SalesController extends Controller
 
     private function transformCollection($sales){
         $salesArray = $sales->toArray();
+        $total = $salesArray['total'];
         return [
             'total' => $salesArray['total'],
             'per_page' => intval($salesArray['per_page']),
@@ -219,7 +233,8 @@ class SalesController extends Controller
             'next_page_url' => $salesArray['next_page_url'],
             'prev_page_url' => $salesArray['prev_page_url'],
             'from' => $salesArray['from'],
-            'to' =>$salesArray['to'],
+            'to' =>$total,
+            'total' => $total,
             'data' => array_map([$this, 'transform'], $salesArray['data'])
         ];
     }
