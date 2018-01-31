@@ -17,7 +17,7 @@ use DB;
 class Property extends Model
 {
     protected $fillable = [
-		'code',
+		'name',
 		'description',
 		'property_use_id',
 		'property_class_id',

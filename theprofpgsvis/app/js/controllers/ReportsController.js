@@ -251,7 +251,7 @@ angular.module('MetronicApp').controller('ReportsController',
                     for (var i = 0; i < response.data.length; i++) {
                         $scope.property_id = response.data[i].id;
                         $scope.data.id = response.data[i].id;
-                        $scope.data.code = response.data[i].code;
+                        $scope.data.name = response.data[i].name;
                         $scope.data.description = response.data[i].description;
 
                         $scope.data.use = response.data[i].use;

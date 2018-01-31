@@ -37,7 +37,7 @@ class RentalsController extends Controller
             $rental = Rental::orderBy('id', 'DESC')->with(
                 array(
                     'Property'=>function($query){
-                        $query->select('id','code');
+                        $query->select('id','name');
                     }
                 )
             )->select('id', 
@@ -60,7 +60,7 @@ class RentalsController extends Controller
         $sales = Rental::where('property_id',$property_id)->orderBy('id', 'DESC')->with(
             array(
                 'Property'=>function($query){
-                    $query->select('id','code');
+                    $query->select('id','name');
                 }
             )
         )->select('id', 
@@ -116,7 +116,7 @@ class RentalsController extends Controller
     {
         $rental = Rental::with(
             array('Property'=>function($query){
-                $query->select('id','code');
+                $query->select('id','name');
             })
             )->find($id);
         if(!$rental){

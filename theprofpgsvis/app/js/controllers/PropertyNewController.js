@@ -112,7 +112,7 @@ angular.module('MetronicApp')
             }
         };
         $scope.fill_sample_data = function() {
-            $scope.data.code = 'CODE123';
+            $scope.data.name = 'CODE123';
             $scope.data.description = 'Lorem Ipsum';
             $scope.data.property_use_selected = $scope.property_use_options[1];
             $scope.data.property_class_selected = $scope.property_class_options[1];
@@ -206,7 +206,7 @@ angular.module('MetronicApp')
 
         function loadData(id) {
             $http.get($rootScope.apiURL + 'v1/property/'+ id +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                $scope.data.code = response.data.code;
+                $scope.data.name = response.data.name;
                 $scope.data.description = response.data.description;
                 $scope.data.property_use_selected = response.data.property__use;
                 $scope.data.property_class_selected = response.data.property__class;
@@ -301,7 +301,7 @@ angular.module('MetronicApp')
         $scope.saveProperty = function() {
             const user = JSON.parse(localStorage.getItem('user'));
             var param = {
-                code : $scope.data.code,
+                name : $scope.data.name,
                 description : $scope.data.description,
                 property_use_id : $scope.data.property_use_selected.id,
                 property_class_id : $scope.data.property_class_selected.id,

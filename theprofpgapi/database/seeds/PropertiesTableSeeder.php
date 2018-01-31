@@ -12,7 +12,7 @@ class PropertiesTableSeeder extends Seeder
         foreach(range(1,10) as $index)
         {
             Property::create([                
-                'code' => $faker->randomNumber,
+                'name' => $faker->randomNumber,
 				'description' => $faker->text,
 				'property_use_id' => $faker->numberBetween($min = 1, $max = 10),
 				'property_class_id' => $faker->numberBetween($min = 1, $max = 10),

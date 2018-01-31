@@ -42,7 +42,7 @@ class SalesController extends Controller
             $sales = Sale::orderBy('id', 'DESC')->with(
                 array(
                     'Property'=>function($query){
-                        $query->select('id','code');
+                        $query->select('id','name');
                     }
                 )
             )->select('id', 
@@ -73,7 +73,7 @@ class SalesController extends Controller
         $sales = Sale::where('property_id',$property_id)->orderBy('id', 'DESC')->with(
             array(
                 'Property'=>function($query){
-                    $query->select('id','code');
+                    $query->select('id','name');
                 }
             )
         )->select('id', 
@@ -129,7 +129,7 @@ class SalesController extends Controller
     {
         $sale = Sale::with(
             array('Property'=>function($query){
-                $query->select('id','code');
+                $query->select('id','name');
             })
             )->find($id);
         if(!$sale){
@@ -238,7 +238,7 @@ class SalesController extends Controller
                 'est_land_rate'=>$sale['est_land_rate'],
                 'description'=>$sale['description'],
                 'property_id'=>$sale['property_id'],
-                'property'=>$sale['property']['code'],
+                'property'=>$sale['property']['name'],
                 'remarks'=>$sale['remarks'],
         ];
     }

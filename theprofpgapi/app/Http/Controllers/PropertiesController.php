@@ -67,7 +67,7 @@ class PropertiesController extends Controller {
         );
         $this->default_select = [
             'properties.id',
-            'code',
+            'name',
             'description',
             'property_use_id',
             'property_class_id',
@@ -88,7 +88,7 @@ class PropertiesController extends Controller {
         $limit       = $request->input('limit', 100);
         if ($search_term) {
             $properties = Property::orderBy('id', 'DESC')
-                ->where('code', 'LIKE', "%$search_term%")
+                ->where('name', 'LIKE', "%$search_term%")
                 ->where('is_archive', '=', "0")
                 ->with( $this->with )
                 ->select( $this->default_select )
@@ -102,7 +102,7 @@ class PropertiesController extends Controller {
                 ->where('is_archive', '=', "0")
                 ->with($this->with)
                 ->select(
-                    'properties.id','code','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner', 'created_by_id','last_edited_by_id')
+                    'properties.id','name','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner', 'created_by_id','last_edited_by_id')
                 ->groupBy('properties.id')
                 ->paginate($limit); 
             $properties->appends(array(            
@@ -195,7 +195,7 @@ class PropertiesController extends Controller {
         $properties = Property::orderBy('id', 'DESC')
             ->where($where)
             ->with( $this->with)
-            ->select('properties.id','code','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner','created_by_id','last_edited_by_id')
+            ->select('properties.id','name','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner','created_by_id','last_edited_by_id')
             ->groupBy('properties.id')
             ->paginate($limit); 
         $properties->appends(array(            
@@ -269,7 +269,7 @@ class PropertiesController extends Controller {
     public function update(Request $request, $id) {    
         try {
             $property = Property::find($id);
-            if(isset($request->code))               $property->code = $request->code;
+            if(isset($request->name))               $property->name = $request->name;
             if(isset($request->description))        $property->description = $request->description;
             if(isset($request->property_use_id))    $property->property_use_id = $request->property_use_id;
             if(isset($request->property_class_id))  $property->property_class_id = $request->property_class_id;
@@ -395,7 +395,7 @@ class PropertiesController extends Controller {
                 'lease_type'=>$property['property__lease__type']['name'],
                 'class'=>$property['property__class']['name'],
                 'use'=>$property['property__use']['name'],
-                'code' => $property['code'],
+                'name' => $property['name'],
                 'description'=> $property['description'],
                 'port'=> $property['port'],
                 'sec'=> $property['sec'],
@@ -434,9 +434,9 @@ class PropertiesController extends Controller {
                 $sheet ->mergeCells('A1:D1');
                 $sheet->setCellValue('A1', 'Property Details of - #' . $property['id']);
 
-                if(isset($property['code'])) {
-                    $sheet->setCellValue('A'.$ROW, 'Property Code');
-                    $sheet->setCellValue('B'.$ROW, $property['code']);    
+                if(isset($property['name'])) {
+                    $sheet->setCellValue('A'.$ROW, 'Property Name');
+                    $sheet->setCellValue('B'.$ROW, $property['name']);    
                 }
 
                 if(isset($property['class'])) {
@@ -591,7 +591,7 @@ class PropertiesController extends Controller {
 <center><h2>(SVIS) SALES AND VALUATION INFORMATION SYSTEM <br /><sub><i>The Professionals</i></sub> </h2></center>
 <br /><br />
 <h3>Property Details of - #<?php echo $property['id'] ?></h3>
-<?php if(isset($property['code'])) { ?>Property Code   <strong><?php echo $property['code'] ?></strong><br /><?php } ?>
+<?php if(isset($property['name'])) { ?>Property Name   <strong><?php echo $property['name'] ?></strong><br /><?php } ?>
 <?php if(isset($property['class'])) { ?>Class           <strong><?php echo $property['class'] ?></strong><br /><?php } ?>
 <?php if(isset($property['city'])) { ?>City            <strong><?php echo $property['city'] ?></strong><br /><?php } ?>
 <?php if(isset($property['use'])) { ?>Use             <strong><?php echo $property['use'] ?></strong><br /><?php } ?>

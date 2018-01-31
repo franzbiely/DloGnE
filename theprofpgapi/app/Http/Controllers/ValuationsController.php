@@ -43,7 +43,7 @@ class ValuationsController extends Controller
             $valuations = Valuation::orderBy('id', 'DESC')->with(
                 array(
                     'Property'=>function($query){
-                        $query->select('id','code');
+                        $query->select('id','name');
                     }
                 )
             )->select('id', 
@@ -73,7 +73,7 @@ class ValuationsController extends Controller
             ->with(
                 array(
                     'Property'=>function($query){
-                        $query->select('id','code');
+                        $query->select('id','name');
                     }
                 )
             )->select('valuations.id', 
@@ -139,7 +139,7 @@ class ValuationsController extends Controller
     {
         $valuation = Valuation::with(
             array('Property'=>function($query){
-                $query->select('id','code');
+                $query->select('id','name');
             })
             )->find($id);
         if(!$valuation){
@@ -246,7 +246,7 @@ class ValuationsController extends Controller
                 'improvement_component'=>$valuation['improvement_component'],
                 'area'=>$valuation['area'],
                 'land_value_rate'=>$valuation['land_value_rate'],
-                'property_id'=>$valuation['property']['code'],
+                'property_id'=>$valuation['property']['name'],
                 'pdfs_count'=>$valuation['pdfs_count'],
                 'pdf_file_path' =>$valuation['file_path'],
                 'pdf_file_name' =>$valuation['file_name']
