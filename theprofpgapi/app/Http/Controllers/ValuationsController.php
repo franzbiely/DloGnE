@@ -22,21 +22,31 @@ class ValuationsController extends Controller
     
     public function index(Request $request) {        
         $search_term = $request->input('search');
-        $limit = $request->input('limit', 100);
+        $limit = $request->input('limit', 10);
 
         if ($search_term) {
-            // $valuations = Valuation::orderBy('id', 'DESC')->
-            //     where('code', 'LIKE', "%$search_term%")->
-            //     with(
-            //         array('City'=>function($query){
-            //             $query->select('id','name');
-            //         })
-            //     )->select('id', 'code', 'city_id')->paginate($limit); 
+            $valuations = Valuation::orderBy('id', 'DESC')->with(
+                array(
+                    'Property'=>function($query){
+                        $query->select('id','name');
+                    }
+                )
+            )->select('id', 
+                'date',
+                'description',
+                'property_id',
+                'land_component',
+                'insurance_value',
+                'forced_sale_value',
+                'improvement_component',
+                'area',
+                'land_value_rate'
+            )->paginate($limit); 
 
-            // $valuations->appends(array(
-            //     'search' => $search_term,
-            //     'limit' => $limit
-            // ));
+            $valuations->appends(array(
+                'search' => $search_term,
+                'limit' => $limit
+            ));
         }
         else
         {
@@ -223,6 +233,7 @@ class ValuationsController extends Controller
 
     private function transformCollection($valuations){
         $valuationsArray = $valuations->toArray();
+        $total = $valuationsArray['total'];
         return [
             'per_page' => intval($valuationsArray['per_page']),
             'current_page' => $valuationsArray['current_page'],
@@ -230,7 +241,8 @@ class ValuationsController extends Controller
             'next_page_url' => $valuationsArray['next_page_url'],
             'prev_page_url' => $valuationsArray['prev_page_url'],
             'from' => $valuationsArray['from'],
-            'to' =>$valuationsArray['to'],
+            'to' =>$total,
+            'total' => $total,
             'data' => array_map([$this, 'transform'], $valuationsArray['data'])
         ];
     }
