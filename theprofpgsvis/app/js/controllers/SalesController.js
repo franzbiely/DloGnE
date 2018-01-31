@@ -2,6 +2,10 @@ angular.module('MetronicApp').controller('SalesController',
     function($rootScope, $scope, $http, $timeout, $stateParams, moment, FUNC, $state) {
         $scope.multipleResultsShow = false;
         $scope.page_name = "sales";
+        $scope.current_page = 1;
+        $scope.total;
+        $scope.limit = 10;
+
         $rootScope.pageSidebarClosed = false;
         $scope.hasActions = true;
         // Load Select options data
@@ -128,19 +132,22 @@ angular.module('MetronicApp').controller('SalesController',
             }
         }
         $scope.resetform();
-        // Display List
-        $scope.loadSaleLists = function() {
-            $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $state.params.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+
+        // Fetch
+        $scope.fetch = function() {
+            $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $state.params.property_id + '?limit=' + $scope.limit + '&page=' + $scope.current_page + '&token='+localStorage.getItem('satellizer_token')).success(function(res) {
                 $scope.sales = res.data;
+                $scope.current_page = res.current_page;
+                $scope.total = res.total;
                 $rootScope.pageSidebarClosed = true;
             }).error(function(error) {
                 if(!FUNC.tryLogout(error)) {
                     console.log(error);  
                 }
             })
-        };
+        }
         if($state.current.name == 'sales.list') {
-            $scope.loadSaleLists();
+            $scope.fetch();
         }
         $scope.show_sales = function(prop_id) {
             // Get Sales data

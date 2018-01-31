@@ -1,6 +1,9 @@
 angular.module('MetronicApp').controller('PropertiesController', 
     function($rootScope, $scope, $http, settings, $state, FUNC) {
         $scope.page_name = "properties";
+        $scope.current_page = 1;
+        $scope.total;
+        $scope.limit = 10;
         $scope.archives = [];
         $scope.properties = [];
         $scope.error;
@@ -12,23 +15,25 @@ angular.module('MetronicApp').controller('PropertiesController',
         });
         
         $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
-
         
-
-        $scope.init = function() {
-            var url = $rootScope.apiURL + 'v1/property?token='+localStorage.getItem('satellizer_token');
+        // Fetch data
+        $scope.fetch = function() {
+            var url = $rootScope.apiURL + 'v1/property?is_archive=1?limit=' + $scope.limit + '&page=' + $scope.current_page + '&token='+localStorage.getItem('satellizer_token');
             if($state.current.name === "property.archives") {
-                url = $rootScope.apiURL + 'v1/property/param/is_archive=1?token='+localStorage.getItem('satellizer_token');
+                url = $rootScope.apiURL + 'v1/property/param/is_archive=1?limit=' + $scope.limit + '&page=' + $scope.current_page + '&token='+localStorage.getItem('satellizer_token');
             }
             $http.get(url).success(function(property) {
                 $scope.properties = property.data;
+                $scope.current_page = property.current_page;
+                $scope.total = property.total;
             }).error(function(error) {
                 if(!FUNC.tryLogout(error)) {
                     console.log(error);  
                 }
             })
         }
-        $scope.init();
+        $scope.fetch();
+
 
         // Delete
         $scope.deleteProperty = function(index, id) {

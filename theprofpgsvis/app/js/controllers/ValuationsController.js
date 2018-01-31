@@ -3,6 +3,9 @@ angular.module('MetronicApp').controller('ValuationsController',
 
         $scope.multipleResultsShow = false;
         $scope.page_name = "valuations";
+        $scope.current_page = 1;
+        $scope.total;
+        $scope.limit = 10;
         $scope.canAddValuation = true;
         $rootScope.pageSidebarClosed = false;
         $scope.data = [];  
@@ -144,19 +147,22 @@ angular.module('MetronicApp').controller('ValuationsController',
         // $scope.hasActions = $scope.$parent.type !== "reports" ? true : false;
         $scope.hasActions = true;
 
-        // Display
-        $scope.loadValuationLists = function() {
-            $http.get($rootScope.apiURL + 'v1/valuation/prop/' + $state.params.property_id + '?token=' + localStorage.getItem('satellizer_token')).success(function(res) {
+
+        // Fetch data
+        $scope.fetch = function() {
+            $http.get($rootScope.apiURL + 'v1/valuation/prop/' + $state.params.property_id + '?limit=' + $scope.limit + '&page=' + $scope.current_page + '&token=' + localStorage.getItem('satellizer_token')).success(function(res) {
                 $scope.valuations = res.data;
+                $scope.current_page = res.current_page;
+                $scope.total = res.total;
             }).error(function(error) {
                 if(!FUNC.tryLogout(error)) {
                     console.log(error);  
                 }
             })
-        };
+        }
         if($state.current.name == 'valuations.list') {
             $rootScope.pageSidebarClosed = true;     
-            $scope.loadValuationLists();
+            $scope.fetch();
         }
         $scope.show_valuation = function(prop_id) {
             $scope.property_id = prop_id;
