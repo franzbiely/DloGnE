@@ -285,6 +285,161 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             }
         })
+        .state("rentals.area", {
+            url: "/area",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/rentals/rental-area.html",
+                    controller: "RentalAreaController"
+                },
+                'extract-buttons@rentals.area' : {
+                    templateUrl: "views/extract-buttons.html",controller: "RentalAreaController"
+                }
+            },
+            data: {
+                pageTitle: 'Rental Area List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        cache : false,
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/RentalAreaController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+        .state("rentals.period", {
+            url: "/period",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/rentals/rental-period.html",
+                    controller: "RentalPeriodController"
+                },
+                'extract-buttons@rentals.period' : {
+                    templateUrl: "views/extract-buttons.html",controller: "RentalPeriodController"
+                }
+            },
+            data: {
+                pageTitle: 'Rental Period List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        cache : false,
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/RentalPeriodController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+        .state("rentals.inclusion", {
+            url: "/inclusion",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/rentals/rental-inclusion.html",
+                    controller: "RentalInclusionController"
+                },
+                'extract-buttons@rentals.inclusion' : {
+                    templateUrl: "views/extract-buttons.html",controller: "RentalPeriodController"
+                }
+            },
+            data: {
+                pageTitle: 'Rental Period List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        cache : false,
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/RentalInclusionController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+        .state("rentals.maintenance", {
+            url: "/maintenance",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/rentals/rental-maintenance.html",
+                    controller: "RentalMaintenanceController"
+                },
+                'extract-buttons@rentals.maintenance' : {
+                    templateUrl: "views/extract-buttons.html",controller: "RentalMaintenanceController"
+                }
+            },
+            data: {
+                pageTitle: 'Rental Maintenance List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        cache : false,
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/RentalMaintenanceController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
+        .state("rentals.reviewmethod", {
+            url: "/reviewmethod",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/rentals/rental-reviewmethod.html",
+                    controller: "RentalReviewMethodController"
+                },
+                'extract-buttons@rentals.reviewmethod' : {
+                    templateUrl: "views/extract-buttons.html",controller: "RentalReviewMethodController"
+                }
+            },
+            data: {
+                pageTitle: 'Rental ReviewMethod List',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',
+                        cache : false,
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                        files: [
+                            'js/controllers/RentalReviewMethodController.js'
+                        ] 
+                    });
+                }]
+            }
+        })
         .state("rentals.details", {
             url: "/details/:rental_id",
             views: {
