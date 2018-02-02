@@ -8,6 +8,9 @@ use App\Http\Controllers\Controller;
 
 use App\Rental;
 use App\Property;
+use App\RentalArea;
+use App\RentalPeriod;
+use App\RentalReviewMethod;
 
 use Response;
 use Input;
@@ -44,7 +47,15 @@ class RentalsController extends Controller
                 'property_id',
                 'analysed_rent',
                 'analysed_date',
-                'remarks'
+                'remarks',
+                'rental_area_id',
+                'rental_period_id',
+                'rental_review_method_id',
+                'rental_review_method',
+                'name_of_tenant',
+                'date_lease_commenced',
+                'total_lease_period',
+                'age_of_building'
             )->paginate($limit); 
 
             $rental->appends(array(            
@@ -61,13 +72,30 @@ class RentalsController extends Controller
             array(
                 'Property'=>function($query){
                     $query->select('id','name');
+                },
+                'RentalArea'=>function($query){
+                    $query->select('id','title');
+                },
+                'RentalPeriod'=>function($query){
+                    $query->select('id','title');
+                },
+                'RentalReviewMethod'=>function($query){
+                    $query->select('id','title');
                 }
             )
         )->select('id', 
             'analysed_rent',
             'analysed_date',
             'remarks',
-            'property_id'
+            'property_id',
+            'rental_area_id',
+            'rental_period_id',
+            'rental_review_method_id',
+            'rental_review_method',
+            'name_of_tenant',
+            'date_lease_commenced',
+            'total_lease_period',
+            'age_of_building'
         )->paginate($limit); 
         $sales->appends(array(            
             'limit' => $limit
@@ -200,7 +228,15 @@ class RentalsController extends Controller
             'property_id' => $rental['property_id'],
             'analysed_rent' => $rental['analysed_rent'],
             'analysed_date' => $rental['analysed_date'],
-            'remarks' => $rental['remarks']
+            'remarks' => $rental['remarks'],
+            'rental_area_id' => $rental['rental_area_id'],
+            'rental_period_id' => $rental['rental_period_id'],
+            'rental_review_method_id' => $rental['rental_review_method_id'],
+            'rental_review_method' => $rental['rental_review_method'],
+            'name_of_tenant' => $rental['name_of_tenant'],
+            'date_lease_commenced' => $rental['date_lease_commenced'],
+            'total_lease_period' => $rental['total_lease_period'],
+            'age_of_building' => $rental['age_of_building']
         ];
     }
 }
