@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-4">Analysed Rent (K)<span class="required" aria-required="true"> * </span></label>
                                     <div class="col-md-8">
-                                        <input disabled class="form-control form-control-inline input-medium" type="text" value="{[{ +data.land_component + +data.improvement_component | number }]}" />
+                                        <input class="form-control form-control-inline input-medium" type="text" value="{[{ data.analyzed_rent | number }]}" />
                                         <span class="help-block"> </span>
                                     </div>
                                 </div>
@@ -59,7 +59,9 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-5">Qualify Analysed Rent by Area: </label>
                                     <div class="col-md-7">
-                                        <select class="form-control form-control-inline input-medium"><option>[Choose]</option></select>
+                                        <select class="form-control form-control-inline input-medium" ng-model="data.rental_area">
+                                            <option ng-repeat="area in dynamicFields.areas">{[{area.title}]}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -68,7 +70,9 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-5">Qualify Analysed Rent by Period: </label>
                                     <div class="col-md-7">
-                                        <select class="form-control form-control-inline input-medium"><option>[Choose]</option></select>
+                                        <select class="form-control form-control-inline input-medium" ng-model="data.rental_period">
+                                            <option ng-repeat="period in dynamicFields.periods">{[{period.title}]}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -80,10 +84,12 @@
                                     <div class="col-md-9">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <select class="col-md-10 form-control form-control-inline"><option>[Choose]</option></select>
+                                                <select class="col-md-10 form-control form-control-inline" ng-model="data.rental_method" ng-change="changeRentalMethod()">
+                                                    <option ng-repeat="review_method in dynamicFields.review_methods">{[{review_method.title}]}</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-6">
-                                                <input required ng-model="data.area" class="col-md-2 form-control form-control-inline input-small" type="text" />
+                                                <input ng-show="isFixedMethod" required ng-model="data.area" class="col-md-2 form-control form-control-inline input-small" type="text" />
                                             </div>
                                         </div>
                                     </div>
@@ -92,13 +98,13 @@
                         </div>
                         <hr />
                         <div class="row">
-                            <div class="col-md-6 col-md-offset-1">
+                            <div class="col-md-6 col-md-offset-1" ng-init="isSoleTenant = false">
                                 <div class="form-group">
-                                    <input class="control-label" type="checkbox" /> <label>Check if sole tenant is qualify</label>
+                                    <input class="control-label" type="checkbox" ng-model="isSoleTenant" /> <label>Check if sole tenant is qualify</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" ng-show="isSoleTenant">
                             <div class="col-md-offset-1">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -132,51 +138,53 @@
                             <div class="col-md-offset-3">
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <input class="control-label" type="checkbox" /> <label class="control-label">Electricity</label><br />
-                                        <input class="control-label" type="checkbox" /> <label class="control-label">Janitorial</label><br />
-                                        <input class="control-label" type="checkbox" /> <label class="control-label">Internal Maintenance</label><br />
-                                        <input class="control-label" type="checkbox" /> <label class="control-label">Garbage Removal</label><br />
-                                        <input class="control-label" type="checkbox" /> <label class="control-label">Internet</label><br />
-                                        <input class="control-label" type="checkbox" /> <label class="control-label">Security Guards</label><br />
+                                        <div ng-repeat="inclusion in temp.inclusions_left">
+                                        <input class="control-label" type="checkbox" ng-model="inclusion.isChecked" ng-change="select_inclusion(inclusion)"/> <label class="control-label">{[{ inclusion.title }]}</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <input class="control-label" type="checkbox" /> <label class="control-label">CCTV</label><br />
-                                        <input class="control-label" type="checkbox" /> <label class="control-label">Gardens & Lawns</label><br />
-                                        <input class="control-label" type="checkbox" /> <label class="control-label">Pool</label><br />
-                                        <input class="control-label" type="checkbox" /> <label class="control-label">Parking</label><br />
-                                        <input class="control-label" type="checkbox" /> <label class="control-label">Gym</label><br />
-                                        <input class="control-label" type="checkbox" /> <label class="control-label">Other (Detail)</label>
-                                        <input required ng-model="data.area" class="form-control form-control-inline input-small" type="text" style="float:right;" />
+                                        <div ng-repeat="inclusion in temp.inclusions_right">
+                                            <input class="control-label" type="checkbox" ng-model="inclusion.isChecked"  ng-change="select_inclusion(inclusion)" /> <label class="control-label">{[{ inclusion.title }]}</label>
+                                        </div>
+                                        <input ng-show="showInclusionOther" required ng-model="data.area" class="form-control form-control-inline input-small" type="text" style="float:right;" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <hr />
-
-
-
-
-                        <h3 class="form-section">Attachment</h3>
                         <div class="row">
-                            <!--/span-->
                             <div class="col-md-6">
-                                <h4>PDF Gallery</h4>
-                                <div ng-hide="hasFile" class="dropzone" options="dzOptionsPDF" callbacks="dzCallbacksPDF" methods="dzMethodsPDF" ng-dropzone></div>
-                                <ul class="pdf-gallery clearfix">
-                                    <li ng-repeat="(key, value) in pdfs">
-                                        <strong><a ng-href="{[{value.file_path}]}" target="_self" download="{[{value.file_name}]}">{[{value.file_name}]}</a></strong>
-                                        <a ng-click="removePDF(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
-                                    </li>
-                                </ul>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Estimated age of Building (years)<span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-8">
+                                        <input class="form-control form-control-inline input-medium" type="number" value="{[{ }]}" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <!--/row-->
-                        
-                        <!-- CALL PROPERTY DETAIL -->
-                        <div ui-view="property-detail" class="fade-in-up"> </div>
-                        <br /><br /><br />
+                        <hr />
+                        <h3 class="form-section">Maintenance Rating</h3>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group" ng-repeat="maintenance in dynamicFields.maintenances">
+                                    <label class="control-label col-md-4">{[{ maintenance.title }]}</label>
+                                    <div class="col-md-8">
+                                        <select class="col-md-10 form-control form-control-inline">
+                                            <option></option>
+                                            <option>1 = New </option>
+                                            <option>2 = Very Good Condition </option>
+                                            <option>3 = Generally Good Condition</option>
+                                            <option>4 = Requires Minor Work </option>
+                                            <option>5 = Requires Major Work</option>
+                                            <option>6 = Beyond economic repair</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
                 <!-- END FORM-->

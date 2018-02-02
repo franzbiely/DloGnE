@@ -2,11 +2,12 @@ angular.module('MetronicApp').controller('RentalDetailsController',
     function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http, FUNC) {
         $scope.type="rental";
         $scope.data = [];   
-        $scope.pdfs = [];  
-        $scope.photos = [];  
-        $scope.data.photo_ids = [];
-        $scope.data.pdf_ids = []; 
-        $scope.hasFile = false;
+        $scope.dynamicFields = [];
+        $scope.temp = [];
+        $scope.showInclusionOther = false;
+
+             
+
         // Load Data for Edit
         $scope.params = $stateParams; 
         $scope.isDisabled = false;
@@ -17,16 +18,70 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                $(this).blur();
                $(this).datepicker('hide');
         });
+
         var isEdit = ($scope.params.rental_id !== "" && typeof $scope.params.rental_id !== 'undefined') ? true : false;
         if(isEdit) {
             $scope.page_title = "Edit Rental";
             loadData($scope.params.rental_id);
+            
         }    
         else {
             $scope.page_title = "New Rental";
             $scope.data.property_id = $state.params.property_id;
+
         }
-    
+        
+        // get analyzed by area
+        $http.get($rootScope.apiURL + 'v1/rental_area?token=' + localStorage.getItem('satellizer_token')).success(function(rental_areas) {
+            $scope.dynamicFields.areas = rental_areas.data;
+        }).error(function(error) {
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
+            }
+        })
+
+        // get analyzed by period
+        $http.get($rootScope.apiURL + 'v1/rental_period?token=' + localStorage.getItem('satellizer_token')).success(function(rental_periods) {
+            $scope.dynamicFields.periods = rental_periods.data;
+        }).error(function(error) {
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
+            }
+        })
+
+        // get analyzed by review method
+        $http.get($rootScope.apiURL + 'v1/rental_review_method?token=' + localStorage.getItem('satellizer_token')).success(function(rental_review_methods) {
+            $scope.dynamicFields.review_methods = rental_review_methods.data;
+        }).error(function(error) {
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
+            }
+        })
+
+        // get analyzed by inclusions
+        $http.get($rootScope.apiURL + 'v1/rental_inclusion?token=' + localStorage.getItem('satellizer_token')).success(function(rental_inclusions) {
+            
+            $scope.dynamicFields.inclusions = rental_inclusions.data;
+            var len = $scope.dynamicFields.inclusions.length,
+                mid = len / 2;
+            $scope.temp.inclusions_left  = $scope.dynamicFields.inclusions.slice(0, mid);  
+            $scope.temp.inclusions_right = $scope.dynamicFields.inclusions.slice(mid, len);
+        }).error(function(error) {
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
+            }
+        })
+
+        // get analyzed by maintenance
+        $http.get($rootScope.apiURL + 'v1/rental_maintenance?token=' + localStorage.getItem('satellizer_token')).success(function(rental_maintenances) {
+            $scope.dynamicFields.maintenances = rental_maintenances.data;
+        }).error(function(error) {
+            if(!FUNC.tryLogout(error)) {
+                console.log(error);  
+            }
+        })
+
+       
 
         function loadData(id) {
             $http.get($rootScope.apiURL + 'v1/rental/'+ id +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
@@ -40,39 +95,7 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                 $scope.data.improvement_component = response.data.improvement_component;
                 $scope.data.area = response.data.area;
                 $scope.data.land_value_rate = response.data.land_value_rate;
-            }).error(function(error){
-                if(!FUNC.tryLogout(error)) {
-                    console.log(error);  
-                }
-            });
-            var param = "source_id=" + id + "&source_table=rentals";
-            $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                var photo_counter = 0, pdf_counter = 0;
 
-                for(var x=0; x < response.data.length; x++) {
-                    if(response.data[x].media_type.indexOf('image') >= 0) {
-                        // true
-                        $scope.photos[photo_counter] = {
-                            file_path : $rootScope.apiPublicURL + response.data[x].file_path,
-                            file_name : response.data[x].file_name    
-                        }    
-                        $scope.data.photo_ids[photo_counter] = response.data[x].id;
-                        photo_counter++;
-                    }
-                    else {
-                        if(response.data[x].file_path !== '') {
-                            $scope.hasFile = true;
-                            $scope.pdfs[pdf_counter] = {
-                                file_path : $rootScope.apiPublicURL + response.data[x].file_path,
-                                file_name : response.data[x].file_name    
-                            }
-                            $scope.data.pdf_ids[pdf_counter] = response.data[x].id;
-                            pdf_counter++;
-                        }
-                        
-                        
-                    }
-                }
             }).error(function(error){
                 if(!FUNC.tryLogout(error)) {
                     console.log(error);  
@@ -127,44 +150,17 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                 });
             }   
         }
-        //======= dropzone for PDF===========
-        $scope.dzOptionsPDF = {
-            url : $rootScope.apiURL + 'v1/media' + '?token='+localStorage.getItem('satellizer_token'),
-            paramName : 'files',
-            params : {
-                source_table : 'rentals',
-                media_type : 'attached',
-                source_id : 0
-            },
-            maxFilesize : '5',
-            maxFiles: 1,
-            acceptedFiles : 'application/pdf',
-            addRemoveLinks : true
-        };
-        $scope.dzCallbacksPDF = {
-            'addedfile' : function(file){
-                $scope.newPDFFile = file;
-            },
-            'maxfilesexceeded' : function(file) {
-                alert("No more files please!");
-            },
-            'success' : function(file, xhr){
-                $scope.data.pdf_ids.push(xhr.data.id);
+
+        //select_inclusion
+        $scope.select_inclusion = function(data) {
+            if(data.title == "Other") {
+                $scope.showInclusionOther = data.isChecked;
             }
-        };
-        //========= /dropzone PDF ========
-        $scope.removePhoto = function(key) {
-            delete $scope.data.photo_ids[key];
-            delete $scope.photos[key];
-            $scope.photos.splice(key, 1);
-            $scope.data.photo_ids.splice(key,1);
         }
-        $scope.removePDF = function(key) {
-            delete $scope.data.pdf_ids[key];
-            delete $scope.pdfs[key];
-            $scope.pdfs.splice(key, 1);
-            $scope.data.pdf_ids.splice(key,1);
-            $scope.hasFile = false;
+
+        //changeRentalMethod
+        $scope.changeRentalMethod = function() {
+            $scope.isFixedMethod = ($scope.data.rental_method === "Fixed") ? true : false;
         }
     }
 );
