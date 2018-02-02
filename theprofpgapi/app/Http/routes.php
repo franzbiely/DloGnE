@@ -90,5 +90,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::resource('rental_inclusion', 'RentalInclusionsController');
 	Route::resource('rental_maintenance', 'RentalMaintenancesController');
 	Route::resource('rental_review_method', 'RentalReviewMethodsController');
+
+	Route::resource('rental_inclusion_tier', 'RentalInclusionTiersController');
+	Route::resource('rental_rating_tier', 'RentalRatingTiersController');
 });
 
