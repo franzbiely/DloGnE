@@ -1,5 +1,5 @@
 angular.module('MetronicApp').controller('RentalDetailsController', 
-    function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http, FUNC) {
+    function($rootScope, $scope, settings, $templateCache, $scope, $state, $stateParams, $http, FUNC, moment) {
         $scope.type="rental";
         $scope.data = [];   
         $scope.dynamicFields = [];
@@ -113,16 +113,21 @@ angular.module('MetronicApp').controller('RentalDetailsController',
             $scope.isDisabled = true;
             
             var param = {
-                date : moment($scope.data.date, 'DD-MM-YYYY').format('YYYY-MM-DD'),
-                description : $scope.data.description,
-                land_component : $scope.data.land_component.replace (/,/g, ""),
-                insurance_value : $scope.data.insurance_value.replace (/,/g, ""),
-                forced_sale_value : $scope.data.forced_sale_value.replace (/,/g, ""),
-                improvement_component : $scope.data.improvement_component.replace (/,/g, ""),
-                area : $scope.data.area.replace (/,/g, ""),
-                land_value_rate : $scope.data.land_value_rate.replace (/,/g, ""),
-                pdf_ids : $scope.data.pdf_ids,
-                property_id : $scope.data.property_id
+                'property_id' : $scope.data.property_id,
+                'analysed_rent' : $scope.data.analysed_rent.replace (/,/g, ""),
+                'analysed_date' : moment($scope.data.analysed_date, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+                'remarks' : $scope.data.remarks,
+                'rental_area_id' : $scope.data.rental_area_id,
+                'rental_period_id' : $scope.data.rental_period_id,
+                'rental_review_method_id' : $scope.data.rental_review_method_id,
+                'rental_review_method' : $scope.data.rental_review_method,
+                'name_of_tenant' : $scope.data.name_of_tenant,
+                'date_lease_commenced' : moment($scope.data.date_lease_commenced, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+                'total_lease_period' : $scope.data.total_lease_period,
+                'age_of_building' : $scope.data.age_of_building,
+                'inclusions_id_json' : $scope.dynamicFields.inclusions,
+                'inclusion_other' : $scope.data.inclusion_other,
+                'maintenance_rates' : $scope.data.maintenances
             };
 
             if($state.current.name === 'rentals.new') {
@@ -160,7 +165,8 @@ angular.module('MetronicApp').controller('RentalDetailsController',
 
         //changeRentalMethod
         $scope.changeRentalMethod = function() {
-            $scope.isFixedMethod = ($scope.data.rental_method === "Fixed") ? true : false;
+            console.log($scope.data.rental_method);
+            $scope.isFixedMethod = ($scope.data.rental_review_method_id === '2') ? true : false;
         }
     }
 );

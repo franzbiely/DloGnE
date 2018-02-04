@@ -10,7 +10,8 @@ use App\RentalInclusion;
 
 class RentalsInclusionTier extends Model
 {
-    protected $table = 'rental_inclusion_tier';
+    protected $table = 'rental_inclusions_tier';
+
     public function rental_id() {
     	return $this->hasMany('App\Rental');
     }

@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Response;
 use App\Rental;
 use App\RentalInclusion;
-use App\RentalInclusionTier;
+use App\RentalsInclusionTier;
 
 class RentalInclusionTiersController extends Controller
 {
@@ -27,13 +27,13 @@ class RentalInclusionTiersController extends Controller
             ];
     }
     public function index() {
-        $data = RentalInclusionTier::orderBy('id')->get();
+        $data = RentalsInclusionTier::orderBy('id')->get();
         return Response::json([
             'data' => $this->transformCollection($data)
         ], 200);
     }
     public function show($id) {
-        $data = RentalInclusionTier::find($id);
+        $data = RentalsInclusionTier::find($id);
  
         if(!$data){
             return Response::json([
@@ -48,17 +48,23 @@ class RentalInclusionTiersController extends Controller
 
     // ============== [ Insert ] ================================
     public function store(Request $request) {
-        if(! $request->title ){
-            return Response::json([
-                'error' => [
-                    'message' => 'Please provide title'
-                ]
-            ], 422);
-        }
-        $data = RentalInclusionTier::create($request->all());
+        
+        $data = RentalsInclusionTier::create($request->all());
         return Response::json([
                 'message' => $this->title . ' Created Succesfully',
                 'data' => $this->transform($data)
+        ]);
+    }
+    public function insert($rental_id, $rental_inclusion_id) {
+        $rentalInclusionTier = new RentalsInclusionTier;
+
+        $rentalInclusionTier->rental_id = $rental_id;
+        $rentalInclusionTier->rental_inclusion_id = $rental_inclusion_id;
+
+        $rentalInclusionTier->save();
+        return Response::json([
+            'message' => $this->title . ' Created Succesfully',
+            'data' => $this->transform($rentalInclusionTier)
         ]);
     }
     // ============== [ / Insert ] ================================
@@ -75,7 +81,7 @@ class RentalInclusionTiersController extends Controller
             ], 422);
         }
         
-        $data = RentalInclusionTier::find($id);
+        $data = RentalsInclusionTier::find($id);
         $data->title = $request->title;
         $data->save(); 
  
@@ -89,11 +95,13 @@ class RentalInclusionTiersController extends Controller
     // ============== [ Delete ] ================================
 
     public function destroy($id) {
-        RentalInclusionTier::destroy($id);
+        RentalsInclusionTier::destroy($id);
         return Response::json([
             'message' => $this->title . ' '. $id .' Deleted Succesfully'
         ]);
     }
 
     // ============== [ / Delete ] ================================
+
+    
 }

@@ -16,6 +16,7 @@ class Rental extends Model
         'analysed_date',
         'remarks',
         'rental_area_id',
+        'inclusion_other',
         'rental_period_id',
         'rental_review_method_id',
         'rental_review_method',

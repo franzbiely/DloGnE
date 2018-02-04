@@ -11,9 +11,10 @@ use App\RentalArea;
 class RentalAreasController extends Controller
 {
 
-    // public function __construct(){
-    //     $this->middleware('jwt.auth');
-    // }
+    public function __construct(){
+        $this->middleware('jwt.auth');
+    }
+    
     private $title = "Rental Area";
     private function transformCollection($data){
         return array_map([$this, 'transform'], $data->toArray());

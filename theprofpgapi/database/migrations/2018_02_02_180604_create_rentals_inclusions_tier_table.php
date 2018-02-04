@@ -12,6 +12,7 @@ class CreateRentalsInclusionsTierTable extends Migration
             $table->increments('id');
             $table->integer('rental_id');
             $table->integer('rental_inclusion_id');
+            $table->timestamps();
         });
     }
     public function down() {

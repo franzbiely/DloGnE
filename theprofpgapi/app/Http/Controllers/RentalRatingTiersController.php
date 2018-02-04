@@ -8,13 +8,13 @@ use App\Http\Controllers\Controller;
 use Response;
 use App\Rental;
 use App\RentalMaintenance;
-use App\RentalRatingsTier;
+use App\RentalsRatingTier;
 
 class RentalRatingTiersController extends Controller
 {
-    // public function __construct(){
-    //     $this->middleware('jwt.auth');
-    // }
+    public function __construct(){
+        $this->middleware('jwt.auth');
+    }
     private $title = "Rental Inclusion Tier";
     private function transformCollection($data){
         return array_map([$this, 'transform'], $data->toArray());
@@ -29,13 +29,13 @@ class RentalRatingTiersController extends Controller
             ];
     }
     public function index() {
-        $data = RentalRatingsTier::orderBy('id')->get();
+        $data = RentalsRatingTier::orderBy('id')->get();
         return Response::json([
             'data' => $this->transformCollection($data)
         ], 200);
     }
     public function show($id) {
-        $data = RentalRatingsTier::find($id);
+        $data = RentalsRatingTier::find($id);
  
         if(!$data){
             return Response::json([
@@ -57,10 +57,21 @@ class RentalRatingTiersController extends Controller
                 ]
             ], 422);
         }
-        $data = RentalRatingsTier::create($request->all());
+        $data = RentalsRatingTier::create($request->all());
         return Response::json([
                 'message' => $this->title . ' Created Succesfully',
                 'data' => $this->transform($data)
+        ]);
+    }
+    public function insert($rental_id, $rental_maintenance_id, $rate) {
+        $data = new RentalsRatingTier;
+        $data->rental_id = $rental_id;
+        $data->rental_maintenance_id = $rental_maintenance_id;
+        $data->rate = $rate;
+        $data->save();
+        return Response::json([
+            'message' => $this->title . ' Created Succesfully',
+            'data' => $this->transform($data)
         ]);
     }
     // ============== [ / Insert ] ================================
@@ -77,7 +88,7 @@ class RentalRatingTiersController extends Controller
             ], 422);
         }
         
-        $data = RentalRatingsTier::find($id);
+        $data = RentalsRatingTier::find($id);
         $data->title = $request->title;
         $data->save(); 
  
@@ -91,7 +102,7 @@ class RentalRatingTiersController extends Controller
     // ============== [ Delete ] ================================
 
     public function destroy($id) {
-        RentalRatingsTier::destroy($id);
+        RentalsRatingTier::destroy($id);
         return Response::json([
             'message' => $this->title . ' '. $id .' Deleted Succesfully'
         ]);

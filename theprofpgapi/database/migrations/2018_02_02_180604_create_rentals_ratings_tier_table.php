@@ -13,6 +13,7 @@ class CreateRentalsRatingsTierTable extends Migration
             $table->integer('rental_id');
             $table->integer('rental_maintenance_id');
             $table->integer('rate');
+            $table->timestamps();
         });
     }
     public function down() {

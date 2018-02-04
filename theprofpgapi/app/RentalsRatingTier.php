@@ -8,7 +8,7 @@ use App\RentalMaintenance;
 
 class RentalsRatingTier extends Model
 {
-    protected $table = 'rental_rating_tier';
+    protected $table = 'rental_ratings_tier';
     protected $fillable = ['rate'];
 
     public function rental_id() {

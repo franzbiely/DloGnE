@@ -24,7 +24,7 @@ class RentalInclusionsController extends Controller
             ];
     }
     public function index() {
-        $data = RentalInclusion::orderBy('title')->get();
+        $data = RentalInclusion::orderBy('id')->get();
         return Response::json([
             'data' => $this->transformCollection($data)
         ], 200);

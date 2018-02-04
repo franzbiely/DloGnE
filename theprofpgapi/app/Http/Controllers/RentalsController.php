@@ -12,6 +12,9 @@ use App\RentalArea;
 use App\RentalPeriod;
 use App\RentalReviewMethod;
 
+use App\Http\Controllers\RentalInclusionTiersController;
+use App\Http\Controllers\RentalRatingTiersController;
+
 use Response;
 use Input;
 use DB;
@@ -48,6 +51,7 @@ class RentalsController extends Controller
                 'analysed_rent',
                 'analysed_date',
                 'remarks',
+                'inclusion_other',
                 'rental_area_id',
                 'rental_period_id',
                 'rental_review_method_id',
@@ -73,13 +77,13 @@ class RentalsController extends Controller
                 'Property'=>function($query){
                     $query->select('id','name');
                 },
-                'RentalArea'=>function($query){
+                'Rental_Area'=>function($query){
                     $query->select('id','title');
                 },
-                'RentalPeriod'=>function($query){
+                'Rental_Period'=>function($query){
                     $query->select('id','title');
                 },
-                'RentalReviewMethod'=>function($query){
+                'Rental_Review_Method'=>function($query){
                     $query->select('id','title');
                 }
             )
@@ -95,7 +99,8 @@ class RentalsController extends Controller
             'name_of_tenant',
             'date_lease_commenced',
             'total_lease_period',
-            'age_of_building'
+            'age_of_building',
+            'inclusion_other'
         )->paginate($limit); 
         $sales->appends(array(            
             'limit' => $limit
@@ -121,11 +126,35 @@ class RentalsController extends Controller
      */
     public function store(Request $request)
     {
+        $inclusion_tiers_controller = new RentalInclusionTiersController();
+        $rating_tiers_controller = new RentalRatingTiersController();
         try {
             $rental = Rental::create($request->all());
         }
         catch(\Exception $e){
             return 'Error on inserting Rent details ' . $e->getMessage();
+        }
+        if(isset($request->inclusions_id_json)) {
+            try {
+                foreach($request->inclusions_id_json as $rental_inclusion) {
+                    if(isset($rental_inclusion['isChecked'])) {
+                        $inclusion_tiers_controller->insert($rental->id, $rental_inclusion['id']);    
+                    }
+                }
+            }
+            catch(\Exception $e){
+                return 'Error on inserting inclusions ' . $e->getMessage();
+            }
+        }
+        if(isset($request->maintenance_rates)) {
+            try {
+                foreach($request->maintenance_rates as $key=>$val) {
+                    $rating_tiers_controller->insert($rental->id, $key, $val);
+                }
+            }
+            catch(\Exception $e){
+                return 'Error on maintenance rates ' . $e->getMessage();
+            }
         }
         
         return Response::json([
@@ -223,20 +252,34 @@ class RentalsController extends Controller
     }
 
     private function transform($rental){
-        return [
+        
+        $ret = array(
             'id' => $rental['id'],
             'property_id' => $rental['property_id'],
             'analysed_rent' => $rental['analysed_rent'],
             'analysed_date' => $rental['analysed_date'],
             'remarks' => $rental['remarks'],
             'rental_area_id' => $rental['rental_area_id'],
+            'rental_area' => $rental['rental__area']['title'],
             'rental_period_id' => $rental['rental_period_id'],
+            'rental_period' => $rental['rental__period']['title'],
             'rental_review_method_id' => $rental['rental_review_method_id'],
-            'rental_review_method' => $rental['rental_review_method'],
+
+            
             'name_of_tenant' => $rental['name_of_tenant'],
             'date_lease_commenced' => $rental['date_lease_commenced'],
             'total_lease_period' => $rental['total_lease_period'],
-            'age_of_building' => $rental['age_of_building']
-        ];
+            'age_of_building' => $rental['age_of_building'],
+            'inclusion_other'=> $rental['inclusion_other']
+        );
+        
+        if($rental['rental_review_method_id'] == '2') {
+            $ret['rental_review_method'] = $rental['rental_review_method'];
+        }
+        else {
+            $ret['rental_review_method'] = $rental['rental__review__method']['title'];
+        }
+
+        return $ret;
     }
 }
