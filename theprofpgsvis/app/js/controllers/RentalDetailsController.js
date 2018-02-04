@@ -102,7 +102,23 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                 $scope.data.total_lease_period = response.data.total_lease_period;
                 $scope.data.date_lease_commenced = moment(response.data.date_lease_commenced, 'YYYY-MM-DD').format('DD-MM-YYYY');
 
+                for (var x = 0; x < response.data.inclusions.length; ++x) {
+                    for (var y = 0; y < $scope.temp.inclusions_left.length; ++y) {
+                        if( $scope.temp.inclusions_left[y].id == response.data.inclusions[x].id ) {
+                            $scope.temp.inclusions_left[y].isChecked = true;
+                        }
+                    }
+                    for (var y = 0; y < $scope.temp.inclusions_right.length; ++y) {
+                        if( $scope.temp.inclusions_right[y].id == response.data.inclusions[x].id ) {
+                            $scope.temp.inclusions_right[y].isChecked = true;
+                            if($scope.temp.inclusions_right[y].id == 13) {
+                                $scope.showInclusionOther = $scope.temp.inclusions_right[y].isChecked;
+                            }
+                        }
+                    }
+                }
 
+                console.log($scope.inclusions);
 
             }).error(function(error){
                 if(!FUNC.tryLogout(error)) {

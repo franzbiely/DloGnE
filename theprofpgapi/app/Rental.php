@@ -40,7 +40,7 @@ class Rental extends Model
     public function rental_review_method(){
         return $this->belongsTo('App\RentalReviewMethod');
     }
-    public function inclusions() {
-
+    public function inclusions(){
+        return $this->belongsToMany('App\RentalInclusion', 'rental_inclusions_tier', 'rental_id', 'rental_inclusion_id');
     }
 }

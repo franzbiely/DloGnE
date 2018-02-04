@@ -11,6 +11,7 @@ use App\Property;
 use App\RentalArea;
 use App\RentalPeriod;
 use App\RentalReviewMethod;
+use App\RentalInclusion;
 
 use App\Http\Controllers\RentalInclusionTiersController;
 use App\Http\Controllers\RentalRatingTiersController;
@@ -21,9 +22,9 @@ use DB;
 
 class RentalsController extends Controller
 {
-    public function __construct(){
-        $this->middleware('jwt.auth');
-    }
+    // public function __construct(){
+    //     $this->middleware('jwt.auth');
+    // }
 
     /**
      * Display a listing of the resource.
@@ -172,9 +173,14 @@ class RentalsController extends Controller
     public function show($id)
     {
         $rental = Rental::with(
-            array('Property'=>function($query){
-                $query->select('id','name');
-            })
+                array(
+                    'Property'=>function($query){
+                        $query->select('id','name');
+                    },
+                    'Inclusions'=>function($query){
+                        $query->select('rental_inclusions.id','title');
+                    }
+                )
             )->find($id);
         if(!$rental){
             return Response::json([
@@ -252,7 +258,6 @@ class RentalsController extends Controller
     }
 
     private function transform($rental){
-        
         $ret = array(
             'id' => $rental['id'],
             'property_id' => $rental['property_id'],
@@ -272,7 +277,6 @@ class RentalsController extends Controller
 
             'inclusion_other'=> $rental['inclusion_other']
         );
-        
         if($rental['rental_review_method_id'] == '2') {
             $ret['rental_review_method'] = $rental['rental_review_method'];
         }
