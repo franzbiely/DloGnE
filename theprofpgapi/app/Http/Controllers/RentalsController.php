@@ -265,11 +265,11 @@ class RentalsController extends Controller
             'rental_period' => $rental['rental__period']['title'],
             'rental_review_method_id' => $rental['rental_review_method_id'],
 
-            
             'name_of_tenant' => $rental['name_of_tenant'],
             'date_lease_commenced' => $rental['date_lease_commenced'],
             'total_lease_period' => $rental['total_lease_period'],
             'age_of_building' => $rental['age_of_building'],
+
             'inclusion_other'=> $rental['inclusion_other']
         );
         

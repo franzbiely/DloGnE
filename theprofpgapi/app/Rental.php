@@ -7,6 +7,7 @@ use App\Property;
 use App\RentalArea;
 use App\RentalPeriod;
 use App\RentalReviewMethod;
+use App\RentalInclusions;
 
 class Rental extends Model
 {
@@ -38,5 +39,8 @@ class Rental extends Model
     }
     public function rental_review_method(){
         return $this->belongsTo('App\RentalReviewMethod');
+    }
+    public function inclusions() {
+
     }
 }

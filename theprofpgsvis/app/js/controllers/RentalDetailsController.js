@@ -85,16 +85,24 @@ angular.module('MetronicApp').controller('RentalDetailsController',
 
         function loadData(id) {
             $http.get($rootScope.apiURL + 'v1/rental/'+ id +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                $scope.data.id = response.data.id;
-                $scope.data.date = moment(response.data.date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-                $scope.data.description = response.data.description;
                 $scope.data.property_id = response.data.property_id;
-                $scope.data.land_component = response.data.land_component;
-                $scope.data.insurance_value = response.data.insurance_value;
-                $scope.data.forced_sale_value = response.data.forced_sale_value;
-                $scope.data.improvement_component = response.data.improvement_component;
-                $scope.data.area = response.data.area;
-                $scope.data.land_value_rate = response.data.land_value_rate;
+                $scope.data.analysed_date = moment(response.data.analysed_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
+                $scope.data.analysed_rent = response.data.analysed_rent;
+                $scope.data.remarks = response.data.remarks;
+                $scope.data.rental_area_id = response.data.rental_area_id;
+                $scope.data.rental_period_id = response.data.rental_period_id;
+                $scope.data.rental_review_method_id = response.data.rental_review_method_id;
+                $scope.isFixedMethod = (response.data.rental_review_method_id == 2) ? true : false;
+                $scope.data.rental_review_method = response.data.rental_review_method;
+
+                if(response.data.name_of_tenant !== '') {
+                    $scope.isSoleTenant = true;
+                }
+                $scope.data.name_of_tenant = response.data.name_of_tenant;
+                $scope.data.total_lease_period = response.data.total_lease_period;
+                $scope.data.date_lease_commenced = moment(response.data.date_lease_commenced, 'YYYY-MM-DD').format('DD-MM-YYYY');
+
+
 
             }).error(function(error){
                 if(!FUNC.tryLogout(error)) {
@@ -166,7 +174,7 @@ angular.module('MetronicApp').controller('RentalDetailsController',
         //changeRentalMethod
         $scope.changeRentalMethod = function() {
             console.log($scope.data.rental_method);
-            $scope.isFixedMethod = ($scope.data.rental_review_method_id === '2') ? true : false;
+            $scope.isFixedMethod = ($scope.data.rental_review_method_id == 2) ? true : false;
         }
     }
 );

@@ -59,8 +59,9 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-5">Qualify Analysed Rent by Area: </label>
                                     <div class="col-md-7">
-                                        <select class="form-control form-control-inline input-medium" ng-model="data.rental_area_id">
-                                            <option ng-repeat="area in dynamicFields.areas" value="{[{ area.id }]}">{[{area.title}]}</option>
+                                        <select class="form-control form-control-inline input-medium" 
+                                                ng-model="data.rental_area_id"
+                                                ng-options="area.id as area.title for area in dynamicFields.areas">
                                         </select>
                                     </div>
                                 </div>
@@ -70,8 +71,9 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-5">Qualify Analysed Rent by Period: </label>
                                     <div class="col-md-7">
-                                        <select class="form-control form-control-inline input-medium" ng-model="data.rental_period_id">
-                                            <option ng-repeat="period in dynamicFields.periods" value="{[{ period.id }]}">{[{period.title}]}</option>
+                                        <select class="form-control form-control-inline input-medium" 
+                                                ng-model="data.rental_period_id"
+                                                ng-options="period.id as period.title for period in dynamicFields.periods">
                                         </select>
                                     </div>
                                 </div>
@@ -84,8 +86,10 @@
                                     <div class="col-md-9">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <select class="col-md-10 form-control form-control-inline" ng-model="data.rental_review_method_id" ng-change="changeRentalMethod()">
-                                                    <option ng-repeat="review_method in dynamicFields.review_methods" value="{[{ review_method.id }]}">{[{review_method.title}]}</option>
+                                                <select class="col-md-10 form-control form-control-inline" 
+                                                    ng-model="data.rental_review_method_id" 
+                                                    ng-change="changeRentalMethod()"
+                                                    ng-options="review_method.id as review_method.title for review_method in dynamicFields.review_methods">
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
