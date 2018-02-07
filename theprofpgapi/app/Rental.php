@@ -8,6 +8,7 @@ use App\RentalArea;
 use App\RentalPeriod;
 use App\RentalReviewMethod;
 use App\RentalInclusions;
+use App\RentalMaintenance;
 
 class Rental extends Model
 {
@@ -42,5 +43,8 @@ class Rental extends Model
     }
     public function inclusions(){
         return $this->belongsToMany('App\RentalInclusion', 'rental_inclusions_tier', 'rental_id', 'rental_inclusion_id');
+    }
+    public function maintenance_ratings(){
+        return $this->belongsToMany('App\RentalMaintenance', 'rental_ratings_tier', 'rental_id', 'rental_maintenance_id');
     }
 }

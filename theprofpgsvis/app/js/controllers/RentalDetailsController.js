@@ -18,18 +18,6 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                $(this).blur();
                $(this).datepicker('hide');
         });
-
-        var isEdit = ($scope.params.rental_id !== "" && typeof $scope.params.rental_id !== 'undefined') ? true : false;
-        if(isEdit) {
-            $scope.page_title = "Edit Rental";
-            loadData($scope.params.rental_id);
-            
-        }    
-        else {
-            $scope.page_title = "New Rental";
-            $scope.data.property_id = $state.params.property_id;
-
-        }
         
         // get analyzed by area
         $http.get($rootScope.apiURL + 'v1/rental_area?token=' + localStorage.getItem('satellizer_token')).success(function(rental_areas) {
@@ -81,7 +69,16 @@ angular.module('MetronicApp').controller('RentalDetailsController',
             }
         })
 
-       
+        var isEdit = ($scope.params.rental_id !== "" && typeof $scope.params.rental_id !== 'undefined') ? true : false;
+        if(isEdit) {
+            $scope.page_title = "Edit Rental";
+            loadData($scope.params.rental_id);
+            
+        }    
+        else {
+            $scope.page_title = "New Rental";
+            $scope.data.property_id = $state.params.property_id;
+        }
 
         function loadData(id) {
             $http.get($rootScope.apiURL + 'v1/rental/'+ id +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
@@ -101,7 +98,6 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                 $scope.data.name_of_tenant = response.data.name_of_tenant;
                 $scope.data.total_lease_period = response.data.total_lease_period;
                 $scope.data.date_lease_commenced = moment(response.data.date_lease_commenced, 'YYYY-MM-DD').format('DD-MM-YYYY');
-
                 for (var x = 0; x < response.data.inclusions.length; ++x) {
                     for (var y = 0; y < $scope.temp.inclusions_left.length; ++y) {
                         if( $scope.temp.inclusions_left[y].id == response.data.inclusions[x].id ) {
@@ -118,7 +114,18 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                     }
                 }
 
-                console.log($scope.inclusions);
+                $scope.data.age_of_building = response.data.age_of_building;
+
+                $scope.data.maintenances = [];
+                for (var x = 0; x < response.data.maintenance__ratings.length; ++x) {
+                    for (var y = 0; y < $scope.dynamicFields.maintenances.length; ++y) {
+                        if( $scope.dynamicFields.maintenances[y].id == response.data.maintenance__ratings[x].id ) {
+                            $scope.data.maintenances[ $scope.dynamicFields.maintenances[y].id ] = response.data.maintenance__ratings[x].rate.toString();
+                        }
+                    }
+                }
+
+                console.log($scope.data);
 
             }).error(function(error){
                 if(!FUNC.tryLogout(error)) {

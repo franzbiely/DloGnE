@@ -179,6 +179,9 @@ class RentalsController extends Controller
                     },
                     'Inclusions'=>function($query){
                         $query->select('rental_inclusions.id','title');
+                    },
+                    'Maintenance_Ratings'=>function($query){
+                        $query->select('rental_maintenances.id','title', 'rental_ratings_tier.rate');
                     }
                 )
             )->find($id);
@@ -277,12 +280,12 @@ class RentalsController extends Controller
 
             'inclusion_other'=> $rental['inclusion_other']
         );
-        if($rental['rental_review_method_id'] == '2') {
-            $ret['rental_review_method'] = $rental['rental_review_method'];
-        }
-        else {
-            $ret['rental_review_method'] = $rental['rental__review__method']['title'];
-        }
+        // if($rental['rental_review_method_id'] == '2') {
+        //     $ret['rental_review_method'] = $rental['rental_review_method'];
+        // }
+        // else {
+        //     $ret['rental_review_method'] = $rental['rental__review__method']['title'];
+        // }
 
         return $ret;
     }
