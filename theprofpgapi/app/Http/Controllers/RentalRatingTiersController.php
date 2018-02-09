@@ -107,6 +107,12 @@ class RentalRatingTiersController extends Controller
             'message' => $this->title . ' '. $id .' Deleted Succesfully'
         ]);
     }
+    public function deletebyRentalID($rid) {
+        RentalsRatingTier::where('rental_id', '=', $rid)->delete();
+        return Response::json([
+            'message' => 'Rental Id ' . $rid . ' in RentalsRatingTier on multiple record deleted succesfully.'
+        ]);
+    }
 
     // ============== [ / Delete ] ================================
 }

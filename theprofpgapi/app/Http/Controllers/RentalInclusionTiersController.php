@@ -57,7 +57,6 @@ class RentalInclusionTiersController extends Controller
     }
     public function insert($rental_id, $rental_inclusion_id) {
         $rentalInclusionTier = new RentalsInclusionTier;
-
         $rentalInclusionTier->rental_id = $rental_id;
         $rentalInclusionTier->rental_inclusion_id = $rental_inclusion_id;
 
@@ -102,9 +101,9 @@ class RentalInclusionTiersController extends Controller
     }
 
     public function deletebyRentalID($rid) {
-        RentalsInclusionTier::get()->where('rental_id', '=', $rid)->delete();
+        RentalsInclusionTier::where('rental_id', '=', $rid)->delete();
         return Response::json([
-            'message' => 'Rental Id ' . $rid . ' multiple record deleted succesfully.'
+            'message' => 'Rental Id ' . $rid . ' in RentalsInclusionTier multiple record deleted succesfully.'
         ]);
     }
 

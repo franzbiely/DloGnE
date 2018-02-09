@@ -246,12 +246,13 @@ class RentalsController extends Controller
         }
         if(isset($request->maintenance_rates)) {
             try {
+                $rating_tiers_controller->deletebyRentalID($rental->id);
                 foreach($request->maintenance_rates as $key=>$val) {
                     $rating_tiers_controller->insert($rental->id, $key, $val);
                 }
             }
             catch(\Exception $e){
-                return 'Error on maintenance rates ' . $e->getMessage();
+                return 'Error on inserting maintenance rates ' . $e->getMessage();
             }
         }
 
