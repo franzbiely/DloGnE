@@ -294,8 +294,12 @@ class RentalsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {   
+        $inclusion_tiers_controller = new RentalInclusionTiersController();
+        $rating_tiers_controller = new RentalRatingTiersController();
         Rental::destroy($id);
+        $inclusion_tiers_controller->deletebyRentalID($id);
+        $rating_tiers_controller->deletebyRentalID($id);
         return Response::json([
                 'message' => '#'. $id .' Deleted Succesfully'
         ]);
