@@ -293,104 +293,101 @@ angular.module('MetronicApp').controller('RentalsController',
             var form = '<form id="frmRental" name="frmRental" role="form" class="form-horizontal">\
                             <div class="form-body">\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Analysed Date <span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Property # : </label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">';
-                if(key > -1) {
-                    form +=                     '<input required type="text" value="'+moment($scope[plural][key].analysed_date, 'YYYY-MM-DD').format('DD-MM-YYYY')+'" class="form-control date-picker" name="analysed_date" id="analysed_date"> </div>';
-                }
-                else {
-                    form +=                     '<input required type="text" class="form-control date-picker" name="analysed_date" id="analysed_date" placeholder=""> </div>';    
-                }
-                form +=             '</div>\
+                                        <div class="input-icon right">\
+                                            <span class="form-control border border-white">' + $scope[plural][key].property_id + '</span>\
+                                        </div>\
+                                    </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Analysed Rent (K)<span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Analysed Date : </label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">';
-                if(key > -1) {
-                    form +=                     '<input required type="text" value="'+$scope[plural][key].analysed_rent+'" class="form-control format-number" name="analysed_rent" id="analysed_rent"> </div>';
-                }
-                else {
-                    form +=                     '<input required type="text" class="form-control format-number" name="analysed_rent" id="analysed_rent"></div>';    
-                }
-                form +=             '</div>\
+                                        <div class="input-icon right">\
+                                            <span class="form-control border border-white">' + moment($scope[plural][key].analysed_date, "YYYY-MM-DD").format("DD-MM-YYYY") + '</span>\
+                                        </div>\
+                                    </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Remarks<span class="required" aria-required="true"> * </span></label>\
+                                    <label class="col-md-4 control-label">Analysed Rent (K) : </label>\
                                     <div class="col-md-8">\
-                                        <div class="input-icon right">';
-                if(key > -1) {
-                    form +=                     '<input required type="text" value="'+$scope[plural][key].remarks+'" class="form-control" name="remarks" id="remarks"> </div>';
-                }
-                else {
-                    form +=                     '<input required type="text" class="form-control" name="remarks" id="remarks"> </div>';    
-                }
-                form +=             '</div>\
+                                        <div class="input-icon right">\
+                                            <span class="form-control border border-white">' + $scope[plural][key].analysed_rent + '</span>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Remarks : </label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <span class="form-control border border-white">' + $scope[plural][key].remarks + '</span>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Qualify Analysed Rent by Area : </label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <span class="form-control border border-white">' + $scope[plural][key].rental_area + '</span>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Qualify Analysed Rent by Period : </label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <span class="form-control border border-white">' + $scope[plural][key].rental_period + '</span>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Qualify Rent Review Method : </label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <span class="form-control border border-white">' + $scope[plural][key].rental_review_method + '</span>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <hr />\
+                                <span>If Sole Tenant Is Qualify</span>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Total Lease Period (years) : </label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <span class="form-control border border-white">' + $scope[plural][key].total_lease_period + '</span>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Date Lease commenced : </label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <span class="form-control border border-white">' + $scope[plural][key].date_lease_commenced + '</span>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Name of Tenant : </label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <span class="form-control border border-white">' + $scope[plural][key].name_of_tenant + '</span>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Inclusions : </label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <div class="form-control border border-white">' + $scope[plural][key].name_of_tenant + '</div>\
+                                        </div>\
+                                    </div>\
                                 </div>\
                             </div>\
                         </form>';
                 form = $(form);
-                form.find('.date-picker').datepicker({
-                    format: 'dd-mm-yyyy',
-                    autoclose: true}).on('changeDate', function (ev) {
-                       $(this).blur();
-                       $(this).datepicker('hide');
-                });
-                form.find('.format-number').on('keyup', function(evt) {
-                    if (evt.which != 110 ){//not a fullstop
-                        $(this).val( formatNumber($(this).val()) );
-                    }
-                })
-                if(key > -1) {
-                    form.find('.format-number').map(function(x) {
-                        this.value = formatNumber( this.value );
-                    })
-                }
-                
-                function formatNumber(value) {
-                    var n = parseFloat(value.replace(/\,/g,''),10);
-                    if(n.toLocaleString() !== 'NaN') {
-                        return n.toLocaleString();    
-                    }
-                    else {
-                        return;
-                    }
-                }
-                
-            bootbox.confirm({
+            bootbox.alert({
                 title: "Rentals Details",
-                message: form,
-                callback: function(res) {
-                    if (res){
-                        if(
-                            $('#frmRental')[0]['elements'].analysed_rent.value !== '' &&
-                            $('#frmRental')[0]['elements'].analysed_date.value !== '' &&
-                            $('#frmRental')[0]['elements'].remarks.value !== ''
-                            ) {
-                            $scope[singular].analysed_date = moment($('#frmRental')[0]['elements'].analysed_date.value, 'DD-MM-YYYY').format('YYYY-MM-DD');
-                            var sing_analysed_rent = $('#frmRental')[0]['elements'].analysed_rent.value;
-                            $scope[singular].analysed_rent = sing_analysed_rent.replace (/,/g, "");
-                            $scope[singular].remarks = $('#frmRental')[0]['elements'].remarks.value;
-                            $scope.$apply();
-                            if(key > -1) {
-                                // Edit
-                                $scope[plural][key].analysed_rent = $scope[singular].analysed_rent;
-                                $scope[plural][key].analysed_date = $scope[singular].analysed_date;
-                                $scope[plural][key].remarks = $scope[singular].remarks;
-                                $scope.$apply();
-                                $scope.update($scope[plural][key].id);
-                            }
-                            else {
-                                // New
-                                $scope.add();
-                            }
-                        }
-                        else {
-                            alert('Please fill up mandatory fields.'); return false;
-                        }
-                    }
-                }
+                message: form
             });
         }
 

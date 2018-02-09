@@ -21,7 +21,6 @@ class Rental extends Model
         'inclusion_other',
         'rental_period_id',
         'rental_review_method_id',
-        'rental_review_method',
         'name_of_tenant',
         'date_lease_commenced',
         'total_lease_period',

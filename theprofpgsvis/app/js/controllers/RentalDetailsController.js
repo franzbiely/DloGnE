@@ -199,7 +199,7 @@ angular.module('MetronicApp').controller('RentalDetailsController',
             if($state.current.name === 'rentals.new') {
                 // if add
                 $http.post($rootScope.apiURL + 'v1/rental?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
-                    // $state.go('rentals.list', {property_id : $scope.data.property_id});    
+                    $state.go('rentals.list', {property_id : $scope.data.property_id});    
 
                     alert('Added Successfully');
                 }).error(function(error){
@@ -213,7 +213,7 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                 // // if edit
                 $http.put($rootScope.apiURL + 'v1/rental/' + $scope.params.rental_id + '?token='+localStorage.getItem('satellizer_token'), param).success(function(response) {
                     alert('Update Successfully');
-                    // $state.go('rentals.list', {property_id : $scope.data.property_id});    
+                    $state.go('rentals.list', {property_id : $scope.data.property_id});    
                 }).error(function(error){
                     if(!FUNC.tryLogout(error)) {
                         console.log(error);  

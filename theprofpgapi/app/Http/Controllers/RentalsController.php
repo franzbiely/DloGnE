@@ -45,6 +45,15 @@ class RentalsController extends Controller
                 array(
                     'Property'=>function($query){
                         $query->select('id','name');
+                    },
+                    'Rental_Area'=>function($query){
+                        $query->select('id','title');
+                    },
+                    'Rental_Period'=>function($query){
+                        $query->select('id','title');
+                    },
+                    'Rental_Review_Method'=>function($query){
+                        $query->select('id','title');
                     }
                 )
             )->select('id', 
@@ -339,12 +348,12 @@ class RentalsController extends Controller
 
             'inclusion_other'=> $rental['inclusion_other']
         );
-        // if($rental['rental_review_method_id'] == '2') {
-        //     $ret['rental_review_method'] = $rental['rental_review_method'];
-        // }
-        // else {
-        //     $ret['rental_review_method'] = $rental['rental__review__method']['title'];
-        // }
+        if($rental['rental_review_method_id'] == '2') {
+            $ret['rental_review_method'] = $rental['rental_review_method'];
+        }
+        else {
+            $ret['rental_review_method'] = $rental['rental__review__method']['title'];
+        }
 
         return $ret;
     }

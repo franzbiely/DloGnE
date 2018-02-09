@@ -42,6 +42,8 @@
                             <td>{[{value.remarks}]}</td>
                             <td ng-show="hasActions">
                                 <a type="button" class="btn btn-default" 
+                                    ng-click="showModal(key)">View</a>
+                                <a type="button" class="btn btn-default" 
                                     ui-sref="rentals.details({rental_id : value.id, property_id : property_id})">Edit</a>
                                 <!-- <button ng-click="showModal(key, value)" type="button" class="btn btn-primary">Edit</button> -->
                                 <button ng-click="delete($index, value.id)" ng-disabled="isDisabled" type="button" class="btn btn-danger">Delete</button>
