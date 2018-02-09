@@ -4,6 +4,7 @@ angular.module('MetronicApp').controller('RentalDetailsController',
         $scope.data = [];   
         $scope.dynamicFields = [];
         $scope.temp = [];
+        $scope.temp.isSoleTenant = false;
         $scope.showInclusionOther = false;
 
              
@@ -72,8 +73,8 @@ angular.module('MetronicApp').controller('RentalDetailsController',
         if(isEdit) {
             $scope.page_title = "Edit Rental";
             var i = setInterval(function() {
-                if(typeof $scope.temp.inclusions_left === 'undefined' || 
-                   typeof $scope.dynamicFields.maintenances === 'undefined') {
+                if(typeof $scope.temp.inclusions_left !== 'undefined' && 
+                   typeof $scope.dynamicFields.maintenances !== 'undefined') {
                     loadData($scope.params.rental_id);        
                     clearInterval(i);
                     return;    
@@ -100,12 +101,16 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                 $scope.isFixedMethod = (response.data.rental_review_method_id == 2) ? true : false;
                 $scope.data.rental_review_method = response.data.rental_review_method;
 
-                if(response.data.name_of_tenant !== '') {
-                    $scope.isSoleTenant = true;
+
+                if(response.data.name_of_tenant !== '' ||
+                    (response.data.total_lease_period !== 0 &&  response.data.total_lease_period !== '') ||
+                    response.data.date_lease_commenced !== '0000-00-00') {
+                    $scope.temp.isSoleTenant = true;
+                    $scope.data.name_of_tenant = response.data.name_of_tenant;
+                    $scope.data.total_lease_period = response.data.total_lease_period;
+                    $scope.data.date_lease_commenced = moment(response.data.date_lease_commenced, 'YYYY-MM-DD').format('DD-MM-YYYY');
                 }
-                $scope.data.name_of_tenant = response.data.name_of_tenant;
-                $scope.data.total_lease_period = response.data.total_lease_period;
-                $scope.data.date_lease_commenced = moment(response.data.date_lease_commenced, 'YYYY-MM-DD').format('DD-MM-YYYY');
+                
                 for (var x = 0; x < response.data.inclusions.length; ++x) {
                     for (var y = 0; y < $scope.temp.inclusions_left.length; ++y) {
                         if( $scope.temp.inclusions_left[y].id == response.data.inclusions[x].id ) {
@@ -116,6 +121,7 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                         if( $scope.temp.inclusions_right[y].id == response.data.inclusions[x].id ) {
                             $scope.temp.inclusions_right[y].isChecked = true;
                             if($scope.temp.inclusions_right[y].id == 13) {
+                                $scope.data.inclusion_other = response.data.inclusion_other;
                                 $scope.showInclusionOther = $scope.temp.inclusions_right[y].isChecked;
                             }
                         }
@@ -158,14 +164,37 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                 'rental_period_id' : $scope.data.rental_period_id,
                 'rental_review_method_id' : $scope.data.rental_review_method_id,
                 'rental_review_method' : $scope.data.rental_review_method,
-                'name_of_tenant' : $scope.data.name_of_tenant,
-                'date_lease_commenced' : moment($scope.data.date_lease_commenced, 'DD-MM-YYYY').format('YYYY-MM-DD'),
-                'total_lease_period' : $scope.data.total_lease_period,
                 'age_of_building' : $scope.data.age_of_building,
                 'inclusions_id_json' : $scope.dynamicFields.inclusions,
                 'inclusion_other' : $scope.data.inclusion_other,
                 'maintenance_rates' : $scope.data.maintenances
             };
+            if($scope.temp.isSoleTenant) {
+                if($scope.data.name_of_tenant != '') {
+                    param.name_of_tenant = $scope.data.name_of_tenant;
+                }
+                else {
+                    param.name_of_tenant = '';
+                }
+                if($scope.data.date_lease_commenced != 'Invalid date' ) {
+                    param.date_lease_commenced = moment($scope.data.date_lease_commenced, 'DD-MM-YYYY').format('YYYY-MM-DD');
+                }
+                else {
+                    param.date_lease_commenced = '';
+                }
+                console.log($scope.data.total_lease_period);
+                if($scope.data.total_lease_period != null ) {
+                    param.total_lease_period = $scope.data.total_lease_period;    
+                }
+                else {
+                    param.total_lease_period = '';
+                }
+            }
+            else {
+                param.name_of_tenant = '';
+                param.date_lease_commenced = '';
+                param.total_lease_period = '';
+            }
 
             if($state.current.name === 'rentals.new') {
                 // if add

@@ -230,18 +230,20 @@ class RentalsController extends Controller
             if(isset($request->rental_area_id)) $rental->rental_area_id = $request->rental_area_id;
             if(isset($request->rental_period_id)) $rental->rental_period_id = $request->rental_period_id;
             if(isset($request->rental_review_method)) {
-                $rental->rental_review_method_id = $request->rental_review_method;
-                if($request->rental_review_method == 2) {
-                    $rental->rental_review_method = $request->rental_review_method;        
+                $rental->rental_review_method_id = $request->rental_review_method_id;
+                if($request->rental_review_method_id == 2) {
+                    $rental->rental_review_method = $request->rental_review_method;
                 }
                 else {
-                    $rental->rental_review_method = null;   
+                    $rental->rental_review_method = null;
                 }
             }
             if(isset($request->total_lease_period)) $rental->total_lease_period = $request->total_lease_period;
             if(isset($request->date_lease_commenced)) $rental->date_lease_commenced = $request->date_lease_commenced;
             if(isset($request->name_of_tenant)) $rental->name_of_tenant = $request->name_of_tenant;
             if(isset($request->total_lease_period)) $rental->total_lease_period = $request->total_lease_period;
+
+            if(isset($request->age_of_building)) $rental->age_of_building = $request->age_of_building;
 
             $rental->save(); 
         }
@@ -251,15 +253,15 @@ class RentalsController extends Controller
         if(isset($request->inclusions_id_json)) {
             try {
                 $inclusion_tiers_controller->deletebyRentalID($rental->id);
-                
                 foreach($request->inclusions_id_json as $rental_inclusion) {
-                    if(isset($rental_inclusion['isChecked'])) {
+                    if(isset($rental_inclusion['isChecked']) && $rental_inclusion['isChecked']!='') {
                         $inclusion_tiers_controller->insert($rental->id, $rental_inclusion['id']);    
                         if($rental_inclusion['id'] == 13) { // 13 = Other
-                            if(isset($request->inclusion_other)) $rental->inclusion_other = $request->inclusion_other;
+                            if(isset($request->inclusion_other)) {
+                                $rental->inclusion_other = $request->inclusion_other;
+                            }
                         }
                     }
-
                 }
             }
             catch(\Exception $e){

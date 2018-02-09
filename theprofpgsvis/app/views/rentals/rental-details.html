@@ -102,13 +102,13 @@
                         </div>
                         <hr />
                         <div class="row">
-                            <div class="col-md-6 col-md-offset-1" ng-init="isSoleTenant = false">
+                            <div class="col-md-6 col-md-offset-1">
                                 <div class="form-group">
-                                    <label><input class="control-label" type="checkbox" ng-model="isSoleTenant" /> Check if sole tenant is qualify</label>
+                                    <label><input class="control-label" type="checkbox" ng-model="temp.isSoleTenant" /> Check if sole tenant is qualify</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" ng-show="isSoleTenant">
+                        <div class="row" ng-show="temp.isSoleTenant">
                             <div class="col-md-offset-1">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -162,9 +162,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-4">Estimated age of Building (years)<span class="required" aria-required="true"> * </span></label>
+                                    <label class="control-label col-md-4">Estimated age of Building (years)</label>
                                     <div class="col-md-8">
-                                        <input required ng-model="data.age_of_building" class="form-control form-control-inline input-medium" type="number" />
+                                        <input ng-model="data.age_of_building" class="form-control form-control-inline input-medium" type="number" />
                                         <span class="help-block"> </span>
                                     </div>
                                 </div>
