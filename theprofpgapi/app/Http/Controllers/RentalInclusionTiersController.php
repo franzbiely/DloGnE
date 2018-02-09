@@ -101,6 +101,13 @@ class RentalInclusionTiersController extends Controller
         ]);
     }
 
+    public function deletebyRentalID($rid) {
+        RentalsInclusionTier::get()->where('rental_id', '=', $rid)->delete();
+        return Response::json([
+            'message' => 'Rental Id ' . $rid . ' multiple record deleted succesfully.'
+        ]);
+    }
+
     // ============== [ / Delete ] ================================
 
     

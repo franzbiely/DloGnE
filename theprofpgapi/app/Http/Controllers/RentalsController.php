@@ -217,6 +217,9 @@ class RentalsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $inclusion_tiers_controller = new RentalInclusionTiersController();
+        $rating_tiers_controller = new RentalRatingTiersController();
+        
         try {
             $rental = Rental::find($id);
             if(isset($request->analysed_rent)) $rental->analysed_rent = $request->analysed_rent;
@@ -227,6 +230,31 @@ class RentalsController extends Controller
         catch(\Exception $e){
             return 'Error on updating Rent details  ' . $e->getMessage();
         }
+        if(isset($request->inclusions_id_json)) {
+            try {
+                $inclusion_tiers_controller->deletebyRentalID($rental->id);
+                
+                foreach($request->inclusions_id_json as $rental_inclusion) {
+                    if(isset($rental_inclusion['isChecked'])) {
+                        $inclusion_tiers_controller->insert($rental->id, $rental_inclusion['id']);    
+                    }
+                }
+            }
+            catch(\Exception $e){
+                return 'Error on inserting inclusions ' . $e->getMessage();
+            }
+        }
+        if(isset($request->maintenance_rates)) {
+            try {
+                foreach($request->maintenance_rates as $key=>$val) {
+                    $rating_tiers_controller->insert($rental->id, $key, $val);
+                }
+            }
+            catch(\Exception $e){
+                return 'Error on maintenance rates ' . $e->getMessage();
+            }
+        }
+
         return Response::json([
                 'message' => 'Data Updated Succesfully'
         ]);

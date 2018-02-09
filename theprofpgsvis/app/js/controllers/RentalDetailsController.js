@@ -48,7 +48,6 @@ angular.module('MetronicApp').controller('RentalDetailsController',
 
         // get analyzed by inclusions
         $http.get($rootScope.apiURL + 'v1/rental_inclusion?token=' + localStorage.getItem('satellizer_token')).success(function(rental_inclusions) {
-            
             $scope.dynamicFields.inclusions = rental_inclusions.data;
             var len = $scope.dynamicFields.inclusions.length,
                 mid = len / 2;
@@ -72,7 +71,16 @@ angular.module('MetronicApp').controller('RentalDetailsController',
         var isEdit = ($scope.params.rental_id !== "" && typeof $scope.params.rental_id !== 'undefined') ? true : false;
         if(isEdit) {
             $scope.page_title = "Edit Rental";
-            loadData($scope.params.rental_id);
+            var i = setInterval(function() {
+                if(typeof $scope.temp.inclusions_left === 'undefined' || 
+                   typeof $scope.dynamicFields.maintenances === 'undefined') {
+                    loadData($scope.params.rental_id);        
+                    clearInterval(i);
+                    return;    
+                }
+                
+            }, 100);
+                
             
         }    
         else {
@@ -124,8 +132,6 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                         }
                     }
                 }
-
-                console.log($scope.data);
 
             }).error(function(error){
                 if(!FUNC.tryLogout(error)) {
