@@ -248,7 +248,9 @@ class RentalsController extends Controller
             try {
                 $rating_tiers_controller->deletebyRentalID($rental->id);
                 foreach($request->maintenance_rates as $key=>$val) {
-                    $rating_tiers_controller->insert($rental->id, $key, $val);
+                    if(!empty($val)) {
+                        $rating_tiers_controller->insert($rental->id, $key, $val);    
+                    }
                 }
             }
             catch(\Exception $e){
