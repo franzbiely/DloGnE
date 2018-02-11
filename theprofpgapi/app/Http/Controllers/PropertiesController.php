@@ -113,7 +113,7 @@ class PropertiesController extends Controller {
     }
 
     public function getByParam(Request $request, $params) {
-        $limit = $request->input('limit', 100);
+        $limit = $request->input('limit', 500);
         $where = [];
         parse_str($params, $ret);
         $transformCollection_type = "byparam";

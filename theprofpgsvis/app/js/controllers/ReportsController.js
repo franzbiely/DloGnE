@@ -6,6 +6,9 @@ angular.module('MetronicApp').controller('ReportsController',
         $scope.pdfs = [];  
         $scope.photos = [];
         $rootScope.pageSidebarClosed = false;
+        $scope.limit = 500;
+        $scope.mcurrent_page = 1;
+        $scope.mtotal;
 
         // Load Select options data
         $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -232,127 +235,132 @@ angular.module('MetronicApp').controller('ReportsController',
                 }).join('&');    
             }
             
-            $http.get($rootScope.apiURL + 'v1/property/param/'+ str +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                if(response.data.length == '0') {
-                    alert('No result');
-                }
-                else if(response.data.length > 1) {
-                    $scope.multi_property_results = response.data;
-                    $scope.multipleResultsReady = true;
-                    const user = JSON.parse(localStorage.getItem('user'));
-                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
-                        user_id : user.id,
-                        log : 'generated reports for property list with filter (' + str + ')'
-                    }).success(function(response) {});
-                }
-                else {
-                    $scope.multipleResultsShow = false;
-
-                    for (var i = 0; i < response.data.length; i++) {
-                        $scope.property_id = response.data[i].id;
-                        $scope.data.id = response.data[i].id;
-                        $scope.data.name = response.data[i].name;
-                        $scope.data.description = response.data[i].description;
-
-                        $scope.data.use = response.data[i].use;
-                        $scope.data.class = response.data[i].class;
-                        $scope.data.lease_type = response.data[i].lease_type;
-                        $scope.data.city = response.data[i].city;
-                        $scope.data.suburb = response.data[i].suburb;
-
-                        $scope.data.port = response.data[i].port;
-                        $scope.data.sec = response.data[i].sec;
-                        $scope.data.lot = response.data[i].lot;
-                        $scope.data.unit = response.data[i].unit;
-
-                        if($scope.data.port == '') {
-                            $scope.showPort = false;
-                        }
-                        else {
-                            $scope.showPort = true;   
-                        }
-
-                        // NOT SURE IF THE FOLLOWING IS IN USE
-                        $scope.data.property_use_selected = response.data[i].property__use;
-                        $scope.data.property_class_selected = response.data[i].property__class;
-                        $scope.data.property_lease_type_selected = response.data[i].property__lease__type;
-                        $scope.data.property_city_selected = response.data[i].property__city;
-                        $scope.data.property_suburb_selected = response.data[i].property__suburb;
-                        // ======
-
-                        $scope.data.land_component = response.data[i].land_component;
-                        $scope.data.improvement_component = response.data[i].improvement_component;
-                        $scope.data.area = response.data[i].area;
+            // $scope.mfetch = function(str) {
+                $http.get($rootScope.apiURL + 'v1/property/param/'+ str + '?limit=' + $scope.limit + '&page=' + $scope.current_page + '&token='+localStorage.getItem('satellizer_token')).success(function(response) {
+                    if(response.data.length == '0') {
+                        alert('No result');
                     }
+                    else if(response.data.length > 1) {
+                        $scope.multi_property_results = response.data;
+                        $scope.multipleResultsReady = true;
+                        $scope.mcurrent_page = response.current_page;
+                        $scope.mtotal = response.total;
+                        const user = JSON.parse(localStorage.getItem('user'));
+                        $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                            user_id : user.id,
+                            log : 'generated reports for property list with filter (' + str + ')'
+                        }).success(function(response) {});
+                    }
+                    else {
+                        $scope.multipleResultsShow = false;
 
-                    // Get property media
-                    var param = "source_id=" + $scope.property_id + "&source_table=properties";
-                    $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token'))
-                    .success(function(mpres) {
-                        var photo_counter = 0, pdf_counter = 0;
+                        for (var i = 0; i < response.data.length; i++) {
+                            $scope.property_id = response.data[i].id;
+                            $scope.data.id = response.data[i].id;
+                            $scope.data.name = response.data[i].name;
+                            $scope.data.description = response.data[i].description;
 
-                        for(var x=0; x < mpres.data.length; x++) {
-                            if(mpres.data[x].media_type.indexOf('image') >= 0) {
-                                // true
-                                $scope.photos[photo_counter] = {
-                                    file_path : $rootScope.apiPublicURL + mpres.data[x].file_path,
-                                    file_name : mpres.data[x].file_name,
-                                    created_at :  mpres.data[x].created_at  
-                                }    
-                                photo_counter++;
+                            $scope.data.use = response.data[i].use;
+                            $scope.data.class = response.data[i].class;
+                            $scope.data.lease_type = response.data[i].lease_type;
+                            $scope.data.city = response.data[i].city;
+                            $scope.data.suburb = response.data[i].suburb;
+
+                            $scope.data.port = response.data[i].port;
+                            $scope.data.sec = response.data[i].sec;
+                            $scope.data.lot = response.data[i].lot;
+                            $scope.data.unit = response.data[i].unit;
+
+                            if($scope.data.port == '') {
+                                $scope.showPort = false;
                             }
                             else {
-                                $scope.pdfs[pdf_counter] = {
-                                    file_path : $rootScope.apiPublicURL + mpres.data[x].file_path,
-                                    file_name : mpres.data[x].file_name,
-                                    created_at :  mpres.data[x].created_at    
-                                }
-                                pdf_counter++;
+                                $scope.showPort = true;   
                             }
+
+                            // NOT SURE IF THE FOLLOWING IS IN USE
+                            $scope.data.property_use_selected = response.data[i].property__use;
+                            $scope.data.property_class_selected = response.data[i].property__class;
+                            $scope.data.property_lease_type_selected = response.data[i].property__lease__type;
+                            $scope.data.property_city_selected = response.data[i].property__city;
+                            $scope.data.property_suburb_selected = response.data[i].property__suburb;
+                            // ======
+
+                            $scope.data.land_component = response.data[i].land_component;
+                            $scope.data.improvement_component = response.data[i].improvement_component;
+                            $scope.data.area = response.data[i].area;
                         }
-                    }).error(function(){
-                        console.log("error");
-                    });
 
-                    // Get Valuation data
-                    $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token'))
-                    .success(function(res) {
-                        $scope.valuations = res.data;
-                    }).error(function(error) {
-                        console.log('Service error : ',error);
-                    })
+                        // Get property media
+                        var param = "source_id=" + $scope.property_id + "&source_table=properties";
+                        $http.get($rootScope.apiURL + 'v1/media/param/'+ param +'?token='+localStorage.getItem('satellizer_token'))
+                        .success(function(mpres) {
+                            var photo_counter = 0, pdf_counter = 0;
 
-                    // Get Sales data
-                    $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token'))
-                    .success(function(res) {
-                        $scope.sales = res.data;
-                    }).error(function(error) {
-                        console.log('Service error : ',error);
-                    })
+                            for(var x=0; x < mpres.data.length; x++) {
+                                if(mpres.data[x].media_type.indexOf('image') >= 0) {
+                                    // true
+                                    $scope.photos[photo_counter] = {
+                                        file_path : $rootScope.apiPublicURL + mpres.data[x].file_path,
+                                        file_name : mpres.data[x].file_name,
+                                        created_at :  mpres.data[x].created_at  
+                                    }    
+                                    photo_counter++;
+                                }
+                                else {
+                                    $scope.pdfs[pdf_counter] = {
+                                        file_path : $rootScope.apiPublicURL + mpres.data[x].file_path,
+                                        file_name : mpres.data[x].file_name,
+                                        created_at :  mpres.data[x].created_at    
+                                    }
+                                    pdf_counter++;
+                                }
+                            }
+                        }).error(function(){
+                            console.log("error");
+                        });
 
-                    // Get Rentals data
-                    $http.get($rootScope.apiURL + 'v1/rental/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token'))
-                    .success(function(res) {
-                        $scope.rentals = res.data;
-                    }).error(function(error) {
-                        console.log('Service error : ',error);
-                    })
+                        // Get Valuation data
+                        $http.get($rootScope.apiURL + 'v1/valuation/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token'))
+                        .success(function(res) {
+                            $scope.valuations = res.data;
+                        }).error(function(error) {
+                            console.log('Service error : ',error);
+                        })
 
-                    const user = JSON.parse(localStorage.getItem('user'));
-                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
-                        user_id : user.id,
-                        log : 'generated report for property #' + $scope.property_id
-                    }).success(function(response) {});
+                        // Get Sales data
+                        $http.get($rootScope.apiURL + 'v1/sale/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token'))
+                        .success(function(res) {
+                            $scope.sales = res.data;
+                        }).error(function(error) {
+                            console.log('Service error : ',error);
+                        })
 
-                    // show details below
-                    $scope.resultReady = true;
-                }
+                        // Get Rentals data
+                        $http.get($rootScope.apiURL + 'v1/rental/prop/'+ $scope.property_id + '?token='+localStorage.getItem('satellizer_token'))
+                        .success(function(res) {
+                            $scope.rentals = res.data;
+                        }).error(function(error) {
+                            console.log('Service error : ',error);
+                        })
 
-            }).error(function(error) {
-                if(!FUNC.tryLogout(error)) {
-                    console.log(error);  
-                }
-            });
+                        const user = JSON.parse(localStorage.getItem('user'));
+                        $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                            user_id : user.id,
+                            log : 'generated report for property #' + $scope.property_id
+                        }).success(function(response) {});
+
+                        // show details below
+                        $scope.resultReady = true;
+                    }
+
+                }).error(function(error) {
+                    if(!FUNC.tryLogout(error)) {
+                        console.log(error);  
+                    }
+                });
+            // };
+            // $scope.mfetch(str);
 
             
         }
