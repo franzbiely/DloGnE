@@ -4,6 +4,9 @@ angular.module('MetronicApp').controller('RentalsController',
         $scope.page_name = "rentals";
         $rootScope.pageSidebarClosed = false;
         $scope.hasActions = true;
+        $scope.limit = 10;
+        $scope.current_page = 1;
+        $scope.total;
         // Load Select options data
         $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_use_options = toOption(ret.data);
@@ -129,9 +132,11 @@ angular.module('MetronicApp').controller('RentalsController',
         }
         $scope.resetform();
         // Display List
-        $scope.loadRentalLists = function() {
-            $http.get($rootScope.apiURL + 'v1/rental/prop/'+ $state.params.property_id + '?token='+localStorage.getItem('satellizer_token')).success(function(res) {
+        $scope.fetch = function() {
+            $http.get($rootScope.apiURL + 'v1/rental/prop/'+ $state.params.property_id + '?limit=' + $scope.limit + '&page=' + $scope.current_page + '&token='+localStorage.getItem('satellizer_token')).success(function(res) {
                 $scope.rentals = res.data;
+                $scope.current_page = res.current_page;
+                $scope.total = res.total;
                 $rootScope.pageSidebarClosed = true;
             }).error(function(error) {
                 if(!FUNC.tryLogout(error)) {
@@ -140,7 +145,7 @@ angular.module('MetronicApp').controller('RentalsController',
             })
         };
         if($state.current.name == 'rentals.list') {
-            $scope.loadRentalLists();
+            $scope.fetch();
         }
         $scope.show_rentals = function(prop_id) {
             // Get Rentals data

@@ -82,7 +82,7 @@ class SalesController extends Controller
 
     public function getByProperty(Request $request, $property_id) {
         $search_term = $request->input('search');
-        $limit = $request->input('limit', 100);
+        $limit = $request->input('limit', 10);
         $sales = Sale::where('property_id',$property_id)->orderBy('id', 'DESC')->with(
             array(
                 'Property'=>function($query){

@@ -34,7 +34,7 @@ class RentalsController extends Controller
     public function index(Request $request)
     {
         $search_term = $request->input('search');
-        $limit = $request->input('limit', 100);
+        $limit = $request->input('limit', 10);
 
         if ($search_term) {
             // something here in the future...
@@ -129,7 +129,7 @@ class RentalsController extends Controller
     }
     public function getByProperty(Request $request, $property_id) {
         $search_term = $request->input('search');
-        $limit = $request->input('limit', 100);
+        $limit = $request->input('limit', 10);
         $rental = Rental::where('property_id',$property_id)->orderBy('id', 'DESC')->with(
             array(
                 'Property'=>function($query){
@@ -324,7 +324,9 @@ class RentalsController extends Controller
 
     private function transformCollection($rental){
         $rentalArray = $rental->toArray();
+        $total = $rentalArray['total'];
         return [
+            'total' => $rentalArray['total'],
             'per_page' => intval($rentalArray['per_page']),
             'current_page' => $rentalArray['current_page'],
             'last_page' => $rentalArray['last_page'],

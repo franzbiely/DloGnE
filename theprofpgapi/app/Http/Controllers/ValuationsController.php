@@ -77,7 +77,7 @@ class ValuationsController extends Controller
 
     public function getByProperty(Request $request, $property_id) {
         $search_term = $request->input('search');
-        $limit = $request->input('limit', 100);
+        $limit = $request->input('limit', 10);
         $valuations = Valuation::where(array('property_id'=>$property_id))
             ->orderBy('id', 'DESC')
             ->with(
