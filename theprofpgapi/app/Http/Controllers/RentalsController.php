@@ -54,6 +54,12 @@ class RentalsController extends Controller
                     },
                     'Rental_Review_Method'=>function($query){
                         $query->select('id','title');
+                    },
+                    'Inclusions'=>function($query){
+                        $query->select('rental_inclusions.id','title');
+                    },
+                    'Maintenance_Ratings'=>function($query){
+                        $query->select('rental_maintenances.id','title', 'rental_ratings_tier.rate');
                     }
                 )
             )->select('id', 
@@ -78,11 +84,53 @@ class RentalsController extends Controller
         }
         return Response::json($this->transformCollection($rental), 200);
     }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $rental = Rental::with(
+                array(
+                    'Property'=>function($query){
+                        $query->select('id','name');
+                    },
+                    'Inclusions'=>function($query){
+                        $query->select('rental_inclusions.id','title');
+                    },
+                    'Maintenance_Ratings'=>function($query){
+                        $query->select('rental_maintenances.id','title', 'rental_ratings_tier.rate');
+                    }
+                )
+            )->find($id);
+        if(!$rental){
+            return Response::json([
+                'error' => [
+                    'message' => 'Data does not exist'
+                ]
+            ], 404);
+        }
 
+         // get previous Rent id
+        $previous = Rental::where('id', '<', $rental->id)->max('id');
+
+        // get next Rent id
+        $next = Rental::where('id', '>', $rental->id)->min('id');
+
+        
+
+        return Response::json([
+            'previous_Rent_id'=> $previous,
+            'next_Rent_id'=> $next,
+            'data' => $rental
+        ], 200);
+    }
     public function getByProperty(Request $request, $property_id) {
         $search_term = $request->input('search');
         $limit = $request->input('limit', 100);
-        $sales = Rental::where('property_id',$property_id)->orderBy('id', 'DESC')->with(
+        $rental = Rental::where('property_id',$property_id)->orderBy('id', 'DESC')->with(
             array(
                 'Property'=>function($query){
                     $query->select('id','name');
@@ -95,7 +143,11 @@ class RentalsController extends Controller
                 },
                 'Rental_Review_Method'=>function($query){
                     $query->select('id','title');
-                }
+                },
+                'Maintenance_Ratings'=>function($query){
+                    $query->select('rental_maintenances.id','title', 'rental_ratings_tier.rate');
+                },
+                'Inclusions'
             )
         )->select('id', 
             'analysed_rent',
@@ -112,10 +164,10 @@ class RentalsController extends Controller
             'age_of_building',
             'inclusion_other'
         )->paginate($limit); 
-        $sales->appends(array(            
+        $rental->appends(array(            
             'limit' => $limit
         ));
-        return Response::json($this->transformCollection($sales), 200);
+        return Response::json($this->transformCollection($rental), 200);
     }
 
     /**
@@ -171,50 +223,6 @@ class RentalsController extends Controller
                 'message' => 'Data created succesfully',
                 'data' => $this->transform($rental)
         ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $rental = Rental::with(
-                array(
-                    'Property'=>function($query){
-                        $query->select('id','name');
-                    },
-                    'Inclusions'=>function($query){
-                        $query->select('rental_inclusions.id','title');
-                    },
-                    'Maintenance_Ratings'=>function($query){
-                        $query->select('rental_maintenances.id','title', 'rental_ratings_tier.rate');
-                    }
-                )
-            )->find($id);
-        if(!$rental){
-            return Response::json([
-                'error' => [
-                    'message' => 'Data does not exist'
-                ]
-            ], 404);
-        }
-
-         // get previous Rent id
-        $previous = Rental::where('id', '<', $rental->id)->max('id');
-
-        // get next Rent id
-        $next = Rental::where('id', '>', $rental->id)->min('id');
-
-        
-
-        return Response::json([
-            'previous_Rent_id'=> $previous,
-            'next_Rent_id'=> $next,
-            'data' => $rental
-        ], 200);
     }
 
     /**
@@ -329,6 +337,7 @@ class RentalsController extends Controller
     }
 
     private function transform($rental){
+        // print_r($rental);
         $ret = array(
             'id' => $rental['id'],
             'property_id' => $rental['property_id'],
@@ -340,13 +349,13 @@ class RentalsController extends Controller
             'rental_period_id' => $rental['rental_period_id'],
             'rental_period' => $rental['rental__period']['title'],
             'rental_review_method_id' => $rental['rental_review_method_id'],
-
             'name_of_tenant' => $rental['name_of_tenant'],
             'date_lease_commenced' => $rental['date_lease_commenced'],
             'total_lease_period' => $rental['total_lease_period'],
             'age_of_building' => $rental['age_of_building'],
-
-            'inclusion_other'=> $rental['inclusion_other']
+            'inclusion_other'=> $rental['inclusion_other'],
+            'inclusions' => $rental['inclusions'],
+            'maintenance_ratings' => $rental['maintenance__ratings']
         );
         if($rental['rental_review_method_id'] == '2') {
             $ret['rental_review_method'] = $rental['rental_review_method'];

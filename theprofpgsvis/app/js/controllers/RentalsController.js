@@ -290,6 +290,15 @@ angular.module('MetronicApp').controller('RentalsController',
         // Modal
         $scope.showModal = function(key) {
             if (key == null) key = -1;
+            var inclusions = $scope[plural][key].inclusions.map( function( el ){ 
+                return el.title; 
+            }).join(", ").replace(/,\s*$/, "");
+            if($scope[plural][key].inclusion_other !== '') {
+                inclusions += ',('+$scope[plural][key].inclusion_other+')';
+            }
+            var mratings = $scope[plural][key].maintenance_ratings.map( function( el ){ 
+                return "<li>"+el.title + ' = ' + el.rate + "</li>"; 
+            }).join("");
             var form = '<form id="frmRental" name="frmRental" role="form" class="form-horizontal">\
                             <div class="form-body">\
                                 <div class="form-group">\
@@ -312,7 +321,7 @@ angular.module('MetronicApp').controller('RentalsController',
                                     <label class="col-md-4 control-label">Analysed Rent (K) : </label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
-                                            <span class="form-control border border-white">' + $scope[plural][key].analysed_rent + '</span>\
+                                            <span class="form-control border border-white">' + FUNC.nformat($scope[plural][key].analysed_rent) + '</span>\
                                         </div>\
                                     </div>\
                                 </div>\
@@ -324,6 +333,7 @@ angular.module('MetronicApp').controller('RentalsController',
                                         </div>\
                                     </div>\
                                 </div>\
+                                <hr />\
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Qualify Analysed Rent by Area : </label>\
                                     <div class="col-md-8">\
@@ -374,11 +384,28 @@ angular.module('MetronicApp').controller('RentalsController',
                                         </div>\
                                     </div>\
                                 </div>\
+                                <hr />\
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Inclusions : </label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
-                                            <div class="form-control border border-white">' + $scope[plural][key].name_of_tenant + '</div>\
+                                            <div class="form-control border border-white">' + inclusions + '</div>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Estimated age of Building (years) : </label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <div class="form-control border border-white">' + $scope[plural][key].age_of_building + '</div>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Maintenance Rating : </label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <div class="form-control border border-white">' + mratings + '</div>\
                                         </div>\
                                     </div>\
                                 </div>\

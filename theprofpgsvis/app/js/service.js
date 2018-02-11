@@ -15,6 +15,9 @@ MetronicApp.service('PropertyService', function($http, $rootScope) {
 });
 
 MetronicApp.service('FUNC', function($http, $rootScope, $auth, $state) {
+    this.nformat = function(n) {
+        return n.replace(/(\d)(?=(\d{3})+(,|$))/g, '$1,');
+    };
     this.tryLogout = function(error) {
         if(typeof error !== 'null') {
             if(error.error == 'token_expired' || error.error == 'token_invalid' || error.error == 'token_absent' || error.error == 'token_not_provided' || error.error == 'user_not_found') {
