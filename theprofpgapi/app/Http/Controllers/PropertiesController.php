@@ -562,11 +562,32 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('B'.$ROW, 'Analysed Rent (K)');
                 $sheet->setCellValue('C'.$ROW, 'Remarks');
 
+                $sheet->setCellValue('D'.$ROW, 'Qualify Analysed Rent by Area');
+                $sheet->setCellValue('E'.$ROW, 'Qualify Analysed Rent by Period');
+                $sheet->setCellValue('F'.$ROW, 'Qualify Rent Review Method');
+                $sheet->setCellValue('G'.$ROW, 'Total Lease Period (years)');
+                $sheet->setCellValue('H'.$ROW, 'Date Lease commenced');
+                $sheet->setCellValue('I'.$ROW, 'Name of Tenant');
+                $sheet->setCellValue('J'.$ROW, 'Estimated age of Building (years)');
+                // $sheet->setCellValue('K'.$ROW, 'Inclusions');
+                // $sheet->setCellValue('L'.$ROW, 'Maintenance Rating');
+
                 if(!empty($request->rentals)) {
                     foreach($request->rentals as $rental) {
+                        print_r($rental);
+                        exit();
                         $sheet->setCellValue('A'.$ROW+=1, $rental['analysed_date']);
                         $sheet->setCellValue('B'.$ROW, number_format($rental['analysed_rent']));   
                         $sheet->setCellValue('C'.$ROW, $rental['remarks']);                    
+                        $sheet->setCellValue('D'.$ROW, $rental['rental_area']);                    
+                        $sheet->setCellValue('E'.$ROW, $rental['rental_period']);                    
+                        $sheet->setCellValue('F'.$ROW, $rental['rental_review_method']);
+                        $sheet->setCellValue('G'.$ROW, $rental['total_lease_period']);
+                        $sheet->setCellValue('H'.$ROW, $rental['date_lease_commenced']);
+                        $sheet->setCellValue('I'.$ROW, $rental['name_of_tenant']);
+                        $sheet->setCellValue('J'.$ROW, $rental['age_of_building']);
+                        // $sheet->setCellValue('K'.$ROW, $rental['inclusions']);
+                        // $sheet->setCellValue('L'.$ROW, $rental['maintenance_ratings']);                    
                     }
                 }
                 else {
@@ -695,6 +716,14 @@ class PropertiesController extends Controller {
             <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_rent', $params->hide_rentals_column)) { ?>                <th>Analysed Rent (K)</th> <?php } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('remarks', $params->hide_rentals_column)) { ?>             <th>Remarks</th><?php } else { $colspan--; } ?>
 
+            <?php if(!isset($params->hide_rentals_column) || !in_array('rental_area', $params->hide_rentals_column)) { ?>             <th>Qualify Analysed Rent by Area</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('rental_period', $params->hide_rentals_column)) { ?>             <th>Qualify Analysed Rent by Period</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('rental_review_method', $params->hide_rentals_column)) { ?>             <th>Qualify Rent Review Method</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('total_lease_period', $params->hide_rentals_column)) { ?>             <th>Total Lease Period (years) </th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('date_lease_commenced', $params->hide_rentals_column)) { ?>             <th>Date Lease commenced</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('name_of_tenant', $params->hide_rentals_column)) { ?>             <th>Name of Tenant</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('age_of_building', $params->hide_rentals_column)) { ?>             <th>Estimated age of Building (years)</th><?php } else { $colspan--; } ?>
+
         </tr>
         <?php
         if(!empty($request->rentals)) {
@@ -704,6 +733,14 @@ class PropertiesController extends Controller {
                     <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_date', $params->hide_rentals_column)) { ?> <td><?php echo $rental['analysed_date'] ?></td> <?php } ?>
                     <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_rent', $params->hide_rentals_column)) { ?> <td><?php echo number_format($rental['analysed_rent']) ?></td> <?php } ?>
                     <?php if(!isset($params->hide_rentals_column) || !in_array('remarks', $params->hide_rentals_column)) { ?>  <td><?php echo $rental['remarks'] ?></td> <?php } ?>
+
+                    <?php if(!isset($params->hide_rentals_column) || !in_array('rental_area', $params->hide_rentals_column)) { ?>  <td><?php echo $rental['rental_area'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_rentals_column) || !in_array('rental_period', $params->hide_rentals_column)) { ?>  <td><?php echo $rental['rental_period'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_rentals_column) || !in_array('rental_review_method', $params->hide_rentals_column)) { ?>  <td><?php echo $rental['rental_review_method'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_rentals_column) || !in_array('total_lease_period', $params->hide_rentals_column)) { ?>  <td><?php echo $rental['total_lease_period'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_rentals_column) || !in_array('date_lease_commenced', $params->hide_rentals_column)) { ?>  <td><?php echo $rental['date_lease_commenced'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_rentals_column) || !in_array('name_of_tenant', $params->hide_rentals_column)) { ?>  <td><?php echo $rental['name_of_tenant'] ?></td> <?php } ?>
+                    <?php if(!isset($params->hide_rentals_column) || !in_array('age_of_building', $params->hide_rentals_column)) { ?>  <td><?php echo $rental['age_of_building'] ?></td> <?php } ?>
                 </tr>
             <?php }
         }
@@ -716,9 +753,13 @@ class PropertiesController extends Controller {
 <?php endif; ?>
 
 <p align="center">2018 &copy; The Professionals | SVIS v1.1</p>
-        <?php
+        <?php 
+
         $html = ob_get_contents();
         ob_end_clean();
+
+        echo $html; 
+        exit();
         $pdf = PDF::loadHTML($html)->setPaper('letter', $params->paper);
         return $pdf->download($filename.'.pdf');
     }
