@@ -75,7 +75,9 @@ class RentalsController extends Controller
                 'name_of_tenant',
                 'date_lease_commenced',
                 'total_lease_period',
-                'age_of_building'
+                'age_of_building',
+                'vacancy_rate',
+                'option_periods'
             )->paginate($limit); 
 
             $rental->appends(array(            
@@ -162,7 +164,9 @@ class RentalsController extends Controller
             'date_lease_commenced',
             'total_lease_period',
             'age_of_building',
-            'inclusion_other'
+            'inclusion_other',
+            'vacancy_rate',
+            'option_periods'
         )->paginate($limit); 
         $rental->appends(array(            
             'limit' => $limit
@@ -262,6 +266,9 @@ class RentalsController extends Controller
 
             if(isset($request->age_of_building)) $rental->age_of_building = $request->age_of_building;
 
+            if(isset($request->vacancy_rate)) $rental->vacancy_rate = $request->vacancy_rate;
+            if(isset($request->option_periods)) $rental->option_periods = $request->option_periods;
+
             $rental->save(); 
         }
         catch(\Exception $e){
@@ -357,7 +364,9 @@ class RentalsController extends Controller
             'age_of_building' => $rental['age_of_building'],
             'inclusion_other'=> $rental['inclusion_other'],
             'inclusions' => $rental['inclusions'],
-            'maintenance_ratings' => $rental['maintenance__ratings']
+            'maintenance_ratings' => $rental['maintenance__ratings'],
+            'vacancy_rate' => $rental['vacancy_rate'],
+            'option_periods' => $rental['option_periods']
         );
         if($rental['rental_review_method_id'] == '2') {
             $ret['rental_review_method'] = $rental['rental_review_method'];

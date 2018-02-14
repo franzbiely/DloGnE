@@ -24,7 +24,9 @@ class Rental extends Model
         'name_of_tenant',
         'date_lease_commenced',
         'total_lease_period',
-        'age_of_building'
+        'age_of_building',
+        'vacancy_rate',
+        'option_periods'
 	];
 	protected $hidden = ['created_at', 'updated_at'];
 	
