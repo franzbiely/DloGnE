@@ -574,8 +574,6 @@ class PropertiesController extends Controller {
 
                 if(!empty($request->rentals)) {
                     foreach($request->rentals as $rental) {
-                        print_r($rental);
-                        exit();
                         $sheet->setCellValue('A'.$ROW+=1, $rental['analysed_date']);
                         $sheet->setCellValue('B'.$ROW, number_format($rental['analysed_rent']));   
                         $sheet->setCellValue('C'.$ROW, $rental['remarks']);                    
@@ -757,9 +755,6 @@ class PropertiesController extends Controller {
 
         $html = ob_get_contents();
         ob_end_clean();
-
-        echo $html; 
-        exit();
         $pdf = PDF::loadHTML($html)->setPaper('letter', $params->paper);
         return $pdf->download($filename.'.pdf');
     }
