@@ -27,8 +27,11 @@
                         <tr>
                             <th>Analysed Date</th>
                             <th>Analysed Rent (K)</th>
-                            <th>Analysed Rent <br />By Area</th>
-                            <th>Analysed Rent <br />By Period</th>
+                            <th>Analysed Rent Area</th>
+                            <th>Analysed Rent Period</th>
+                            <th>Lease Period</th>
+                            <th>Lease Commenced</th>
+                            <th>Vacancy Rate</th>
                             <th>Remarks</th>
                             <th ng-show="hasActions">Actions</th>
                         </tr>
@@ -39,6 +42,9 @@
                             <td>{[{value.analysed_rent | number}]}</td>
                             <td>{[{value.rental_area }]}</td>
                             <td>{[{value.rental_period }]}</td>
+                            <td>{[{value.total_lease_period | number }]}</td>
+                            <td>{[{value.date_lease_commenced | amDateFormat:'DD-MM-YYYY' }]}</td>
+                            <td>{[{value.vacancy_rate }]}%</td>
                             <td>{[{value.remarks}]}</td>
                             <td ng-show="hasActions">
                                 <a type="button" class="btn btn-default" 

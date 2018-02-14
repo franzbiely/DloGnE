@@ -100,6 +100,9 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                 $scope.data.rental_review_method_id = response.data.rental_review_method_id;
                 $scope.isFixedMethod = (response.data.rental_review_method_id == 2) ? true : false;
                 $scope.data.rental_review_method = response.data.rental_review_method;
+                $scope.data.vacancy_rate = response.data.vacancy_rate;
+                $scope.data.option_periods = response.data.option_periods;
+
 
 
                 if(response.data.name_of_tenant !== '' ||
@@ -167,7 +170,9 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                 'age_of_building' : $scope.data.age_of_building,
                 'inclusions_id_json' : $scope.dynamicFields.inclusions,
                 'inclusion_other' : $scope.data.inclusion_other,
-                'maintenance_rates' : $scope.data.maintenances
+                'maintenance_rates' : $scope.data.maintenances,
+                'vacancy_rate' : $scope.data.vacancy_rate,
+                'option_periods' : $scope.data.option_periods                
             };
             if($scope.temp.isSoleTenant) {
                 if($scope.data.name_of_tenant != '') {

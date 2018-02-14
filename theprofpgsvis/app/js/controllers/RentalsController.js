@@ -363,13 +363,30 @@ angular.module('MetronicApp').controller('RentalsController',
                                         </div>\
                                     </div>\
                                 </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Vacancy Rate : </label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <span class="form-control border border-white">' + $scope[plural][key].vacancy_rate + ' <span>%</span></span>\
+                                        </div>\
+                                    </div>\
+                                </div>\
                                 <hr />\
-                                <span>If Sole Tenant Qualify</span>\
+                                <strong>If Sole Tenant Qualify</strong>\
+                                <hr />\
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Total Lease Period (years) : </label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].total_lease_period + '</span>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="form-group">\
+                                    <label class="col-md-4 control-label">Total options to extend : </label>\
+                                    <div class="col-md-8">\
+                                        <div class="input-icon right">\
+                                            <span class="form-control border border-white">' + $scope[plural][key].option_periods + ' <span>(years)</span></span>\
                                         </div>\
                                     </div>\
                                 </div>\

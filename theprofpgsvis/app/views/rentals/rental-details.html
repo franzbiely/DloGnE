@@ -25,9 +25,9 @@
                             <!--/span-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-5">Property #</label>
-                                    <div class="col-md-7">
-                                        <input disabled class="form-control form-control-inline input-medium" type="text" value="{[{ data.property_id }]}" />
+                                    <label class="control-label col-md-4">Property #</label>
+                                    <div class="col-md-2">
+                                        <input disabled class="form-control form-control-inline col-md-1" type="text" value="{[{ data.property_id }]}" />
                                         <span class="help-block"> </span>
                                     </div>
                                 </div>
@@ -57,21 +57,28 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-5">Analysed Rent Area: </label>
-                                    <div class="col-md-7">
-                                        <select class="form-control form-control-inline input-medium" 
-                                                ng-model="data.rental_area_id"
-                                                ng-options="area.id as area.title for area in dynamicFields.areas">
-                                        </select>
+                                    <label class="control-label col-md-4">Analysed Rent Area: </label>
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <select class="col-md-10 form-control form-control-inline" 
+                                                        ng-model="data.rental_area_id"
+                                                        ng-options="area.id as area.title for area in dynamicFields.areas">
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input ng-show="" ng-model="data.rental_area_other" class="col-md-2 form-control form-control-inline input-small" type="text" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <!--/span-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-5">Analysed Rent Period: </label>
-                                    <div class="col-md-7">
-                                        <select class="form-control form-control-inline input-medium" 
+                                    <label class="control-label col-md-4">Analysed Rent Period: </label>
+                                    <div class="col-md-2">
+                                        <select class="form-control form-control-inline input-small" 
                                                 ng-model="data.rental_period_id"
                                                 ng-options="period.id as period.title for period in dynamicFields.periods">
                                         </select>
@@ -80,10 +87,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-10">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">Rent Review Method: </label>
-                                    <div class="col-md-9">
+                                    <label class="control-label col-md-4">Rent Review Method: </label>
+                                    <div class="col-md-8">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <select class="col-md-10 form-control form-control-inline" 
@@ -99,6 +106,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Vacancy Rate: </label>
+                                    <div class="col-md-2">
+                                        <input ng-model="data.vacancy_rate" class="col-md-1 form-control form-control-inline" type="text" />
+                                    </div>
+                                    <label class="col-md-1">%</label>
+                                </div>
+                            </div>
                         </div>
                         <hr />
                         <div class="row">
@@ -108,28 +124,44 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" ng-show="temp.isSoleTenant">
-                            <div class="col-md-offset-1">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Total Lease Period (years)</label><br />
-                                        <input ng-model="data.total_lease_period" class="form-control form-control-inline input-medium" type="number" />
+                    <div ng-show="temp.isSoleTenant">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-5">Total Lease Period  (years)</label>
+                                    <div class="col-md-4">
+                                        <input ng-model="data.total_lease_period" class="form-control form-control-inline" type="number" />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Date Lease commenced</label><br />
-                                        <input ng-model="data.date_lease_commenced" class="form-control form-control-inline input-medium date-picker" type="text" />
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="control-label">Name of Tenant</label><br />
-                                        <input ng-model="data.name_of_tenant" class="form-control form-control-inline input-medium" type="text" />
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-5">Total options to extend (years)</label>
+                                    <div class="col-md-4">
+                                        <input ng-model="data.option_periods" class="form-control form-control-inline" type="number" />
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-5">Date Lease commenced</label>
+                                    <div class="col-md-4">
+                                        <input ng-model="data.date_lease_commenced" class="form-control form-control-inline date-picker" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-5">Name of Tenant</label>
+                                    <div class="col-md-4">
+                                        <input ng-model="data.name_of_tenant" class="form-control form-control-inline" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                         <hr />
                         <div class="row">
                             <div class="col-md-6 col-md-offset-3">
