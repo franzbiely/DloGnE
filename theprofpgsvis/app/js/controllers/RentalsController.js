@@ -340,7 +340,7 @@ angular.module('MetronicApp').controller('RentalsController',
                                 </div>\
                                 <hr />\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Qualify Analysed Rent by Area : </label>\
+                                    <label class="col-md-4 control-label">Analysed Rent Area : </label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].rental_area + '</span>\
@@ -348,7 +348,7 @@ angular.module('MetronicApp').controller('RentalsController',
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Qualify Analysed Rent by Period : </label>\
+                                    <label class="col-md-4 control-label">Analysed Rent Period : </label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].rental_period + '</span>\
@@ -356,7 +356,7 @@ angular.module('MetronicApp').controller('RentalsController',
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Qualify Rent Review Method : </label>\
+                                    <label class="col-md-4 control-label">Rent Review Method : </label>\
                                     <div class="col-md-8">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].rental_review_method + '</span>\
@@ -364,7 +364,7 @@ angular.module('MetronicApp').controller('RentalsController',
                                     </div>\
                                 </div>\
                                 <hr />\
-                                <span>If Sole Tenant Is Qualify</span>\
+                                <span>If Sole Tenant Qualify</span>\
                                 <div class="form-group">\
                                     <label class="col-md-4 control-label">Total Lease Period (years) : </label>\
                                     <div class="col-md-8">\

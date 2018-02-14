@@ -562,9 +562,9 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('B'.$ROW, 'Analysed Rent (K)');
                 $sheet->setCellValue('C'.$ROW, 'Remarks');
 
-                $sheet->setCellValue('D'.$ROW, 'Qualify Analysed Rent by Area');
-                $sheet->setCellValue('E'.$ROW, 'Qualify Analysed Rent by Period');
-                $sheet->setCellValue('F'.$ROW, 'Qualify Rent Review Method');
+                $sheet->setCellValue('D'.$ROW, 'Analysed Rent Area');
+                $sheet->setCellValue('E'.$ROW, 'Analysed Rent Period');
+                $sheet->setCellValue('F'.$ROW, 'Rent Review Method');
                 $sheet->setCellValue('G'.$ROW, 'Total Lease Period (years)');
                 $sheet->setCellValue('H'.$ROW, 'Date Lease commenced');
                 $sheet->setCellValue('I'.$ROW, 'Name of Tenant');
@@ -714,9 +714,9 @@ class PropertiesController extends Controller {
             <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_rent', $params->hide_rentals_column)) { ?>                <th>Analysed Rent (K)</th> <?php } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('remarks', $params->hide_rentals_column)) { ?>             <th>Remarks</th><?php } else { $colspan--; } ?>
 
-            <?php if(!isset($params->hide_rentals_column) || !in_array('rental_area', $params->hide_rentals_column)) { ?>             <th>Qualify Analysed Rent by Area</th><?php } else { $colspan--; } ?>
-            <?php if(!isset($params->hide_rentals_column) || !in_array('rental_period', $params->hide_rentals_column)) { ?>             <th>Qualify Analysed Rent by Period</th><?php } else { $colspan--; } ?>
-            <?php if(!isset($params->hide_rentals_column) || !in_array('rental_review_method', $params->hide_rentals_column)) { ?>             <th>Qualify Rent Review Method</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('rental_area', $params->hide_rentals_column)) { ?>             <th>Analysed Rent Area</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('rental_period', $params->hide_rentals_column)) { ?>             <th>Analysed Rent Period</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('rental_review_method', $params->hide_rentals_column)) { ?>             <th>Rent Review Method</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('total_lease_period', $params->hide_rentals_column)) { ?>             <th>Total Lease Period (years) </th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('date_lease_commenced', $params->hide_rentals_column)) { ?>             <th>Date Lease commenced</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('name_of_tenant', $params->hide_rentals_column)) { ?>             <th>Name of Tenant</th><?php } else { $colspan--; } ?>
