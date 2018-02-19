@@ -734,7 +734,7 @@ class PropertiesController extends Controller {
 
 <?php endif; ?>
 
-<p align="center">2018 &copy; The Professionals | SVIS v1.1</p>
+<p align="center">2018 &copy; The Professionals | SVIS v1.2</p>
         <?php 
 
         $html = ob_get_contents();
