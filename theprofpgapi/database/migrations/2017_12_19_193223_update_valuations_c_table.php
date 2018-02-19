@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateValuationsTable2 extends Migration
+class UpdateValuationsCTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class UpdateValuationsTable2 extends Migration
     {
         Schema::table('valuations', function(Blueprint $table)
         {
-            $table->renameColumn('property_value','land_value');
+            $table->dropColumn('land_value');
         });
     }
 
@@ -27,7 +27,7 @@ class UpdateValuationsTable2 extends Migration
     {
         Schema::table('valuations', function(Blueprint $table)
         {
-            $table->renameColumn('land_value','property_value');
+            $table->text('land_value');
         });
     }
 }

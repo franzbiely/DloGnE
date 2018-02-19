@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateRentalTable2 extends Migration
+class UpdateRentalBTable extends Migration
 {
     private $table_name = 'rentals';
     public function up()
