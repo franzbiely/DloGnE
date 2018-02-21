@@ -6,9 +6,15 @@ angular.module('MetronicApp').controller('ReportsController',
         $scope.pdfs = [];  
         $scope.photos = [];
         $rootScope.pageSidebarClosed = false;
-        $scope.limit = 500;
-        $scope.mcurrent_page = 1;
-        $scope.mtotal;
+        $scope.limit = 10;
+        $scope.current_page = 1;
+        $scope.total;
+
+        $scope.mdata = {
+            current_page:null,
+            total : null,
+            str : null
+        };
 
         // Load Select options data
         $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
@@ -181,6 +187,10 @@ angular.module('MetronicApp').controller('ReportsController',
                 delete $scope.searchdata.sales_price_min;
                 delete $scope.searchdata.sales_price_max;
             }
+            if(typeof $scope.temp.enable_price_range_rentals === 'undefined' || $scope.temp.enable_price_range_rentals == false) {
+                delete $scope.searchdata.rentals_price_min;
+                delete $scope.searchdata.rentals_price_max;
+            }
 
             if(typeof $scope.searchdata.price_max === "string") {
                 $scope.searchdata.price_max = $scope.searchdata.price_max.replace (/,/g, "");
@@ -209,12 +219,12 @@ angular.module('MetronicApp').controller('ReportsController',
             }
             if(property_id != null) {
                 $scope.multipleResultsShow = false;
-                str = 'id='+ property_id;
+                $scope.mdata.str = 'id='+ property_id;
             }
             else {
                 $scope.multipleResultsShow = true;
 
-                str = Object.keys($scope.searchdata).map(function(key){
+                $scope.mdata.str = Object.keys($scope.searchdata).map(function(key){
                     if(key == 'price_min' || key == 'price_max') {
                         if(typeof $scope.temp.enable_price_range !== 'undefined') {
                             if($scope.temp.enable_price_range != true) {
@@ -235,16 +245,16 @@ angular.module('MetronicApp').controller('ReportsController',
                 }).join('&');    
             }
             
-            // $scope.mfetch = function(str) {
-                $http.get($rootScope.apiURL + 'v1/property/param/'+ str + '?limit=' + $scope.limit + '&page=' + $scope.current_page + '&token='+localStorage.getItem('satellizer_token')).success(function(response) {
+            $scope.mfetch = function() {
+                $http.get($rootScope.apiURL + 'v1/property/param/'+ $scope.mdata.str + '?limit=' + $scope.limit + '&page=' + $scope.mdata.current_page + '&token='+localStorage.getItem('satellizer_token')).success(function(response) {
                     if(response.data.length == '0') {
                         alert('No result');
                     }
                     else if(response.data.length > 1) {
                         $scope.multi_property_results = response.data;
                         $scope.multipleResultsReady = true;
-                        $scope.mcurrent_page = response.current_page;
-                        $scope.mtotal = response.total;
+                        $scope.mdata.current_page = response.current_page;
+                        $scope.mdata.total = response.total;
                         const user = JSON.parse(localStorage.getItem('user'));
                         $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
                             user_id : user.id,
@@ -359,8 +369,8 @@ angular.module('MetronicApp').controller('ReportsController',
                         console.log(error);  
                     }
                 });
-            // };
-            // $scope.mfetch(str);
+            };
+            $scope.mfetch();
 
             
         }

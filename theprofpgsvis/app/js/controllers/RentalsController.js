@@ -7,6 +7,11 @@ angular.module('MetronicApp').controller('RentalsController',
         $scope.limit = 10;
         $scope.current_page = 1;
         $scope.total;
+        $scope.mdata = {
+            current_page:null,
+            total : null,
+            str : null
+        };
         // Load Select options data
         $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_use_options = toOption(ret.data);
@@ -205,6 +210,19 @@ angular.module('MetronicApp').controller('RentalsController',
             $scope.searchdata.property_suburb_id =
             $scope.searchdata.property_class_id =
             $scope.searchdata.property_lease_type_id = '';
+
+            delete $scope.searchdata.price_min;
+            delete $scope.searchdata.price_max;
+            delete $scope.searchdata.area_min;
+            delete $scope.searchdata.area_max;
+            delete $scope.searchdata.sales_price_min;
+            delete $scope.searchdata.sales_price_max;
+            
+            if(typeof $scope.temp.enable_price_range_rentals === 'undefined' || $scope.temp.enable_price_range_rentals == false) {
+                delete $scope.searchdata.rentals_price_min;
+                delete $scope.searchdata.rentals_price_max;
+            }
+
             if(typeof $scope.searchdata.rentals_price_max === "string") {
                 $scope.searchdata.rentals_price_max = $scope.searchdata.rentals_price_max.replace (/,/g, "");
             }
@@ -235,7 +253,7 @@ angular.module('MetronicApp').controller('RentalsController',
             }
             
             if(property_id != null) {
-                str = 'id='+ property_id;
+                $scope.mdata.str = 'id='+ property_id;
                 $scope.property_id = property_id;
             }
             else {
@@ -243,7 +261,7 @@ angular.module('MetronicApp').controller('RentalsController',
                 if($scope.searchdata.id != null) {
                     $scope.searchdata.include_rentals_zero = true;
                 }
-                str = Object.keys($scope.searchdata).map(function(key){ 
+                $scope.mdata.str = Object.keys($scope.searchdata).map(function(key){ 
                     if(key == 'rentals_price_min' || key == 'rentals_price_max') {
                         if(typeof $scope.temp.enable_price_range_rentals !== 'undefined') {
                             if($scope.temp.enable_price_range_rentals != true) {
@@ -264,32 +282,36 @@ angular.module('MetronicApp').controller('RentalsController',
                 }).join('&');    
             }
             
-            $http.get($rootScope.apiURL + 'v1/property/param/'+ str +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                $scope.hideForm = false;
-                if(response.data.length == '0') {
-                    alert('No result');
-                }
-                else if(response.data.length > 1) {
-                    $scope.hideForm = true;
-                    $scope.multi_property_results = response.data;
-                    $scope.multipleResultsReady = true;
-                    const user = JSON.parse(localStorage.getItem('user'));
-                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
-                        user_id : user.id,
-                        log : 'generated rentals reports for property list with filter (' + str + ')'
-                    }).success(function(response) {});
-                }
-                else {
-                    if(!from_id_link) {
-                        $scope.multi_property_results = response.data;
-                        $scope.multipleResultsShow = true;
-                        $scope.multipleResultsReady = true;
+            $scope.mfetch = function(){
+                $http.get($rootScope.apiURL + 'v1/property/param/'+ $scope.mdata.str + '?limit=' + $scope.limit + '&page=' + $scope.mdata.current_page + '&token='+localStorage.getItem('satellizer_token')).success(function(response) {
+                    $scope.hideForm = false;
+                    if(response.data.length == '0') {
+                        alert('No result');
                     }
-                    $state.go('rentals.list', {property_id : response.data[0].id});
-                }
-            }).error(function(error) {
-                console.log('Error loading '+ $rootScope.apiURL + 'v1/property/param/');  
-            });
+                    else if(response.data.length > 1) {
+                        $scope.hideForm = true;
+                        $scope.multi_property_results = response.data;
+                        $scope.multipleResultsReady = true;
+                        $scope.mdata.total = response.total;
+                        $scope.mdata.current_page = response.current_page;
+                        const user = JSON.parse(localStorage.getItem('user'));
+                        $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                            user_id : user.id,
+                            log : 'generated rentals reports for property list with filter (' + str + ')'
+                        }).success(function(response) {});
+                    }
+                    else {
+                        if(!from_id_link) {
+                            $scope.multi_property_results = response.data;
+                            $scope.multipleResultsShow = true;
+                            $scope.multipleResultsReady = true;
+                        }
+                        $state.go('rentals.list', {property_id : response.data[0].id});
+                    }
+                }).error(function(error) {
+                    console.log('Error loading '+ $rootScope.apiURL + 'v1/property/param/');  
+                });
+            }; $scope.mfetch();
         }
 
         // Modal

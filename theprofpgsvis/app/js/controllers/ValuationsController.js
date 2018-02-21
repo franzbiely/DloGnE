@@ -5,6 +5,11 @@ angular.module('MetronicApp').controller('ValuationsController',
         $scope.page_name = "valuations";
         $scope.current_page = 1;
         $scope.total;
+        $scope.mdata = {
+            current_page:null,
+            total : null,
+            str : null
+        };
         $scope.limit = 10;
         $scope.canAddValuation = true;
         $rootScope.pageSidebarClosed = false;
@@ -225,6 +230,10 @@ angular.module('MetronicApp').controller('ValuationsController',
                 delete $scope.searchdata.sales_price_min;
                 delete $scope.searchdata.sales_price_max;
             }
+            if(typeof $scope.temp.enable_price_range_rentals === 'undefined' || $scope.temp.enable_price_range_rentals == false) {
+                delete $scope.searchdata.rentals_price_min;
+                delete $scope.searchdata.rentals_price_max;
+            }
             
             if(typeof $scope.searchdata.price_max === "string") {
                 $scope.searchdata.price_max = $scope.searchdata.price_max.replace (/,/g, "");
@@ -256,7 +265,7 @@ angular.module('MetronicApp').controller('ValuationsController',
                 $scope.searchdata.include_valuation_zero = $scope.data_temp.include_zero;
             }
             if(property_id != null) {
-                str = 'id='+ property_id;
+                $scope.mdata.str = 'id='+ property_id;
                 
             }
             else {
@@ -264,7 +273,7 @@ angular.module('MetronicApp').controller('ValuationsController',
                 if($scope.searchdata.id != null) {
                     $scope.searchdata.include_valuation_zero = true;
                 }
-                str = Object.keys($scope.searchdata).map(function(key){ 
+                $scope.mdata.str = Object.keys($scope.searchdata).map(function(key){ 
                     if(key == 'price_min' || key == 'price_max') {
                         if(typeof $scope.temp.enable_price_range !== 'undefined') {
                             if($scope.temp.enable_price_range != true) {
@@ -284,51 +293,56 @@ angular.module('MetronicApp').controller('ValuationsController',
                     }
                 }).join('&');    
             }
-            $http.get($rootScope.apiURL + 'v1/property/param/'+ str +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                $scope.hideForm = false;
-                if(response.data.length == '0') {
-                    alert('No result');
-                }
-                else if(response.data.length > 1) {
-                    $scope.multi_property_results = response.data;
-                    $scope.hideForm = true;
-                    $scope.multipleResultsReady = true;
-                    const user = JSON.parse(localStorage.getItem('user'));
-                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
-                        user_id : user.id,
-                        log : 'generated reports for property list with filter (' + str + ')'
-                    }).success(function(response) {});
-                }
-                else {
-                    if(!from_id_link) {
-                        $scope.multi_property_results = response.data;
-                        $scope.multipleResultsShow = true;
-                        $scope.multipleResultsReady = true;
+            $scope.mfetch = function(){
+                $http.get($rootScope.apiURL + 'v1/property/param/'+ $scope.mdata.str + '?limit=' + $scope.limit + '&page=' + $scope.mdata.current_page + '&token='+localStorage.getItem('satellizer_token')).success(function(response) {
+                    $scope.hideForm = false;
+                    if(response.data.length == '0') {
+                        alert('No result');
                     }
-                    $state.go('valuations.list', {property_id : response.data[0].id});
-                    // console.log(response.data);
-                    // var property_details = 
-                    //     '<table class="table table-bordered">\
-                    //     <caption>Property Details</caption>';
-                    // var prop_detail = [
-                    //         'id','city','suburb','lease_type','class','use','description','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner'
-                    //     ];
-                    // for(var key in prop_detail) {
-                    //     property_details += '<tr>\
-                    //         <td class="col-md-4">'+ dataToReadable(prop_detail[key]) +'</td>\
-                    //         <td>'+ response.data[0][prop_detail[key]] +'</td>\
-                    //     </tr>';
-                    // }
-                    //     property_details += '</table>';
-                        
-                    // bootbox.alert(property_details);
-                }
-                
-            }).error(function(error) {
-                if(!FUNC.tryLogout(error)) {
-                    console.log(error);  
-                }
-            });
+                    else if(response.data.length > 1) {
+                        $scope.multi_property_results = response.data;
+                        $scope.hideForm = true;
+                        $scope.multipleResultsReady = true;
+                        $scope.mdata.total = response.total;
+                        $scope.mdata.current_page = response.current_page;
+                        const user = JSON.parse(localStorage.getItem('user'));
+                        $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                            user_id : user.id,
+                            log : 'generated reports for property list with filter (' + $scope.mdata.str + ')'
+                        }).success(function(response) {});
+                    }
+                    else {
+                        if(!from_id_link) {
+                            $scope.multi_property_results = response.data;
+                            $scope.multipleResultsShow = true;
+                            $scope.multipleResultsReady = true;
+                        }
+                        $state.go('valuations.list', {property_id : response.data[0].id});
+                        // console.log(response.data);
+                        // var property_details = 
+                        //     '<table class="table table-bordered">\
+                        //     <caption>Property Details</caption>';
+                        // var prop_detail = [
+                        //         'id','city','suburb','lease_type','class','use','description','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner'
+                        //     ];
+                        // for(var key in prop_detail) {
+                        //     property_details += '<tr>\
+                        //         <td class="col-md-4">'+ dataToReadable(prop_detail[key]) +'</td>\
+                        //         <td>'+ response.data[0][prop_detail[key]] +'</td>\
+                        //     </tr>';
+                        // }
+                        //     property_details += '</table>';
+                            
+                        // bootbox.alert(property_details);
+                    }
+                    
+                }).error(function(error) {
+                    if(!FUNC.tryLogout(error)) {
+                        console.log(error);  
+                    }
+                });
+            }; $scope.mfetch();
+            
 
         }
 

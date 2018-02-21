@@ -24,31 +24,27 @@ use PDF;
 
 class PropertiesController extends Controller {
 
-    private $price_min;
-    private $price_max;
-    private $sales_price_min;
-    private $sales_price_max;
-    private $area_min;
-    private $area_max;
-
-    private $include_valuation_zero;
-    private $include_sales_zero;
-    private $include_rentals_zero;
+    private $filters;
     private $with;
     private $default_select;
 
     public function __construct() {
-        $this->middleware('jwt.auth');
-        $this->price_min = -1;
-        $this->price_max = -1;
-        $this->sales_price_min = -1;
-        $this->sales_price_max = -1;
-        $this->area_min = -1;
-        $this->area_max = -1;
+        // $this->middleware('jwt.auth');
 
-        $this->include_valuation_zero = false;
-        $this->include_sales_zero = false;
-        $this->include_rentals_zero = false;
+        $this->filters = array(
+            'price_min' => -1,
+            'price_max' => -1,
+            'sales_price_min' => -1,
+            'sales_price_max' => -1,
+            'rentals_price_min' => -1,
+            'rentals_price_max' => -1,
+            'area_min' => -1,
+            'area_max' => -1,
+            'include_valuation_zero' => false,
+            'include_sales_zero' => false,
+            'include_rentals_zero' => false
+        );
+
         $this->with = array(
             'Property_City'       =>function($query) { $query->select('id','name'); },
             'Property_Suburb'     =>function($query) { $query->select('id','name'); },
@@ -68,20 +64,21 @@ class PropertiesController extends Controller {
         $this->default_select = [
             'properties.id',
             'name',
-            'description',
+            'properties.description',
             'property_use_id',
             'property_class_id',
             'property_lease_type_id',
             'property_city_id',
             'property_suburb_id',
-            'created_by_id',
-            'last_edited_by_id',
             'port',
             'sec',
             'lot',
             'unit',
-            'owner'
+            'owner',
+            'created_by_id',
+            'last_edited_by_id'
         ];
+
     }
     public function index(Request $request) {   
         $search_term = $request->input('search');
@@ -113,7 +110,7 @@ class PropertiesController extends Controller {
     }
 
     public function getByParam(Request $request, $params) {
-        $limit = $request->input('limit', 500);
+        $limit = $request->input('limit', 10);
         $where = [];
         parse_str($params, $ret);
         $transformCollection_type = "byparam";
@@ -122,8 +119,12 @@ class PropertiesController extends Controller {
         if(isset($ret['id'])) {
             $ret['properties.id'] = $ret['id'];
             unset($ret['id']);
-            unset($ret['price_min']);unset($ret['sales_price_min']);unset($ret['rentals_price_min']);
-            unset($ret['price_max']);unset($ret['sales_price_max']);unset($ret['rentals_price_max']);
+            unset($ret['price_min']);
+            unset($ret['sales_price_min']);
+            unset($ret['rentals_price_min']);
+            unset($ret['price_max']);
+            unset($ret['sales_price_max']);
+            unset($ret['rentals_price_max']);
             unset($ret['area_min']);
             unset($ret['area_max']);
             unset($ret['include_sales_zero']);
@@ -134,56 +135,56 @@ class PropertiesController extends Controller {
 
 
         if(isset($ret['price_min']) || isset($ret['price_max'])) {
-            $this->price_min = $ret['price_min'];
-            $this->price_max = $ret['price_max'];
+            $this->filters['price_min'] = $ret['price_min'];
+            $this->filters['price_max'] = $ret['price_max'];
             unset($ret['price_min']);
             unset($ret['price_max']);
         }
 
         if(isset($ret['rentals_price_min']) || isset($ret['rentals_price_max'])) {
-            $this->rentals_price_min = $ret['rentals_price_min'];
-            $this->rentals_price_max = $ret['rentals_price_max'];
+            $this->filters['rentals_price_min'] = $ret['rentals_price_min'];
+            $this->filters['rentals_price_max'] = $ret['rentals_price_max'];
             unset($ret['rentals_price_min']);
             unset($ret['rentals_price_max']);
         }
         
         if(isset($ret['sales_price_min']) || isset($ret['sales_price_max'])) {
-            $this->sales_price_min = $ret['sales_price_min'];
-            $this->sales_price_max = $ret['sales_price_max'];
+            $this->filters['sales_price_min'] = $ret['sales_price_min'];
+            $this->filters['sales_price_max'] = $ret['sales_price_max'];
             unset($ret['sales_price_min']);
             unset($ret['sales_price_max']);
         }
 
         if(isset($ret['area_min']) || isset($ret['area_max'])) {
-            $this->area_min = $ret['area_min'];
-            $this->area_max = $ret['area_max'];
+            $this->filters['area_min'] = $ret['area_min'];
+            $this->filters['area_max'] = $ret['area_max'];
             unset($ret['area_min']);
             unset($ret['area_max']);
         }
         
         if(isset($ret['include_sales_zero'])) {
             if($ret['include_sales_zero'] == 'true') {
-                $this->include_sales_zero = $ret['include_sales_zero'];
+                $this->filters['include_sales_zero'] = $ret['include_sales_zero'];
             }
             unset($ret['include_sales_zero']);
         }
         if(isset($ret['include_valuation_zero'])) {
             if($ret['include_valuation_zero'] == 'true') {
-                $this->include_valuation_zero = $ret['include_valuation_zero'];
+                $this->filters['include_valuation_zero'] = $ret['include_valuation_zero'];
             }
             unset($ret['include_valuation_zero']);
         }
         if(isset($ret['include_rentals_zero'])) {
             if($ret['include_rentals_zero'] == 'true') {
-                $this->include_rentals_zero = $ret['include_rentals_zero'];
+                $this->filters['include_rentals_zero'] = $ret['include_rentals_zero'];
             }
             unset($ret['include_rentals_zero']);
         }
         
         // don't allow archived data for searches
-        $where['is_archive'] = 0;
-        if(isset($ret['is_archive']) && $ret['is_archive'] == 1) {
-            $where['is_archive'] = 1;
+        $where['properties.is_archive'] = 0;
+        if(isset($ret['properties.is_archive']) && $ret['properties.is_archive'] == 1) {
+            $where['properties.is_archive'] = 1;
             $transformCollection_type = "index"; // because it has the same behaviour as index except that only archive.
         }
         // run the while script
@@ -192,15 +193,85 @@ class PropertiesController extends Controller {
                 $where[$key] = $val;
         };
         
-        $properties = Property::orderBy('id', 'DESC')
-            ->where($where)
-            ->with( $this->with)
-            ->select('properties.id','name','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner','created_by_id','last_edited_by_id')
-            ->groupBy('properties.id')
-            ->paginate($limit); 
+            $properties = Property::orderBy('id', 'DESC')
+                ->distinct()
+                ->FilteredJoin($this->filters)
+                ->select($this->default_select)->with( $this->with)->where($where)
+                ->paginate($limit);
+            // $properties->with('FilteredJoin');
+            // $properties$properties->where($where);
+            // $properties = $properties->join('valuations', function($join) {
+            //     $join->on('properties.id', '=', 'valuations.property_id');
+            //     // $join->where('valuations.land_component', '>=', DB::raw('0'));
+            //     // $join->where('valuations.land_component', '<=', DB::raw('100000000'));
+            // });
+        // Not include Sales Zero case
+        /*if(!$this->include_valuation_zero) {
+            $properties = Property::orderBy('id', 'DESC')
+                ->join('sales', function($join) {
+                    $join->on('properties.id', '=', 'sales.property_id');
+                })
+                ->select($this->default_select)->with( $this->with)->where($where)
+                ->paginate($limit);
+            $properties->appends(array(            
+                'limit' => $limit
+            ));
+        }
+        // Not include Rental Zero case
+        if(!$this->include_valuation_zero) {
+            $properties = Property::orderBy('id', 'DESC')
+                ->join('rentals', function($join) {
+                    $join->on('properties.id', '=', 'rentals.property_id');
+                })
+                ->select($this->default_select)->with( $this->with)->where($where)
+                ->paginate($limit);
+            $properties->appends(array(            
+                'limit' => $limit
+            ));
+        }*/
         $properties->appends(array(            
             'limit' => $limit
-        )); 
+        ));
+
+
+
+
+
+
+
+        
+            
+        //     ->groupBy('properties.id')
+            
+        // $prop = new Property;
+        // $properties = $prop->valuation()
+        //     ->find()
+        //     ->with( $this->with)
+        //     ->orderBy('id', 'DESC')
+        //     // ->where($where)
+            
+            
+            
+            
+        //     ->groupBy('properties.id')
+        //     ->paginate($limit); 
+         
+
+        // $properties = DB::table('properties')
+        //         ->select('properties.id','name','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner','created_by_id','last_edited_by_id')
+        //         ->join('valuations', function($join) {
+        //             $join->on('properties.id', '=', 'valuations.property_id');
+        //             $join->on('valuations.land_value_rate', '>', DB::raw("'0'"));
+        //             $join->on('valuations.land_value_rate', '<=', DB::raw("'100000000'"));
+        //         })
+        //         ->where($where)
+        //         ->get();
+
+        // $properties = DB::table('properties')->get();
+
+
+
+        // return Response::json($properties);
 
         return Response::json($this->transformCollection($properties, $transformCollection_type), 200);
     }
@@ -320,58 +391,59 @@ class PropertiesController extends Controller {
 
     private function transformCollection($properties, $type){
         $propertiesArray = $properties->toArray();
-
+        // print_r($propertiesArray);
         $data = array_map([$this, 'transform'], $propertiesArray['data']);
         $total = $propertiesArray['total'];
-        if($type == "byparam") {
-            foreach($data as $key=>$val) {
-                //echo $val['rentals_count']. (intval($val['valuations_count']) == 0);
-                if(intval($val['valuations_count']) == 0 && !$this->include_valuation_zero) {
-                    unset($data[$key]);
-                    $total--;
-                    continue;
-                }
-                if(intval($val['sales_count']) == 0 && !$this->include_sales_zero) {
-                    unset($data[$key]);
-                    $total--;
-                    continue;
-                }
-                if(intval($val['rentals_count']) == 0 && !$this->include_rentals_zero) {
-                    unset($data[$key]);
-                    $total--;
-                    continue;
-                }
-                if($this->price_min >= 0) {
-                    if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
-                        unset($data[$key]);
-                        $total--;
-                        continue;
-                    }
-                }
-                if($this->sales_price_min >= 0) {
-                    if($val['current_sales_value'] < $this->sales_price_min || $val['current_sales_value'] > $this->sales_price_max) {
-                        unset($data[$key]);
-                        $total--;
-                        continue;
-                    }
-                }
-                if($this->rentals_price_min >= 0) {
-                    if($val['current_rentals_value'] < $this->rentals_price_min || $val['current_rentals_value'] > $this->rentals_price_max) {
-                        unset($data[$key]);
-                        $total--;
-                        continue;
-                    }
-                }
-                if($this->area_min >= 0) {
-                    if($val['current_area'] < $this->area_min || $val['current_area'] > $this->area_max) {
-                        unset($data[$key]);
-                        $total--;
-                        continue;
-                    }
-                }
-            }
-        }
-        $data = array_values($data);
+        // print_r($data);
+        // if($type == "byparam") {
+        //     foreach($data as $key=>$val) {
+        //         //echo $val['rentals_count']. (intval($val['valuations_count']) == 0);
+        //         if(intval($val['valuations_count']) == 0 && !$this->include_valuation_zero) {
+        //             unset($data[$key]);
+        //             $total--;
+        //             continue;
+        //         }
+        //         if(intval($val['sales_count']) == 0 && !$this->include_sales_zero) {
+        //             unset($data[$key]);
+        //             $total--;
+        //             continue;
+        //         }
+        //         if(intval($val['rentals_count']) == 0 && !$this->include_rentals_zero) {
+        //             unset($data[$key]);
+        //             $total--;
+        //             continue;
+        //         }
+        //         if($this->price_min >= 0) {
+        //             if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
+        //                 unset($data[$key]);
+        //                 $total--;
+        //                 continue;
+        //             }
+        //         }
+        //         if($this->sales_price_min >= 0) {
+        //             if($val['current_sales_value'] < $this->sales_price_min || $val['current_sales_value'] > $this->sales_price_max) {
+        //                 unset($data[$key]);
+        //                 $total--;
+        //                 continue;
+        //             }
+        //         }
+        //         if($this->rentals_price_min >= 0) {
+        //             if($val['current_rentals_value'] < $this->rentals_price_min || $val['current_rentals_value'] > $this->rentals_price_max) {
+        //                 unset($data[$key]);
+        //                 $total--;
+        //                 continue;
+        //             }
+        //         }
+        //         if($this->area_min >= 0) {
+        //             if($val['current_area'] < $this->area_min || $val['current_area'] > $this->area_max) {
+        //                 unset($data[$key]);
+        //                 $total--;
+        //                 continue;
+        //             }
+        //         }
+        //     }
+        // }
+        // $data = array_values($data);
         
 
         return [

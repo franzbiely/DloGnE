@@ -5,6 +5,11 @@ angular.module('MetronicApp').controller('SalesController',
         $scope.current_page = 1;
         $scope.total;
         $scope.limit = 10;
+        $scope.mdata = {
+            current_page:null,
+            total : null,
+            str : null
+        };
 
         $rootScope.pageSidebarClosed = false;
         $scope.hasActions = true;
@@ -221,6 +226,10 @@ angular.module('MetronicApp').controller('SalesController',
                 delete $scope.searchdata.sales_price_min;
                 delete $scope.searchdata.sales_price_max;
             }
+            if(typeof $scope.temp.enable_price_range_rentals === 'undefined' || $scope.temp.enable_price_range_rentals == false) {
+                delete $scope.searchdata.rentals_price_min;
+                delete $scope.searchdata.rentals_price_max;
+            }
             
             if(typeof $scope.searchdata.sales_price_max === "string") {
                 $scope.searchdata.sales_price_max = $scope.searchdata.sales_price_max.replace (/,/g, "");
@@ -252,7 +261,7 @@ angular.module('MetronicApp').controller('SalesController',
             }
             
             if(property_id != null) {
-                str = 'id='+ property_id;
+                $scope.mdata.str = 'id='+ property_id;
                 $scope.property_id = property_id;
             }
             else {
@@ -260,7 +269,7 @@ angular.module('MetronicApp').controller('SalesController',
                 if($scope.searchdata.id != null) {
                     $scope.searchdata.include_sales_zero = true;
                 }
-                str = Object.keys($scope.searchdata).map(function(key){ 
+                $scope.mdata.str = Object.keys($scope.searchdata).map(function(key){ 
                     if(key == 'sales_price_min' || key == 'sales_price_max') {
                         if(typeof $scope.temp.enable_price_range_sales !== 'undefined') {
                             if($scope.temp.enable_price_range_sales != true) {
@@ -280,49 +289,52 @@ angular.module('MetronicApp').controller('SalesController',
                     }
                 }).join('&');    
             }
-            
-            $http.get($rootScope.apiURL + 'v1/property/param/'+ str +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                $scope.hideForm = false;
-                if(response.data.length == '0') {
-                    alert('No result');
-                }
-                else if(response.data.length > 1) {
-                    $scope.hideForm = true;
-                    $scope.multi_property_results = response.data;
-                    $scope.multipleResultsReady = true;
-                    const user = JSON.parse(localStorage.getItem('user'));
-                    $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
-                        user_id : user.id,
-                        log : 'generated sales reports for property list with filter (' + str + ')'
-                    }).success(function(response) {});
-                }
-                else {
-                    if(!from_id_link) {
+            $scope.mfetch = function(){
+                $http.get($rootScope.apiURL + 'v1/property/param/'+ $scope.mdata.str +'?limit=' + $scope.limit + '&page=' + $scope.mdata.current_page + '&token='+localStorage.getItem('satellizer_token')).success(function(response) {
+                    $scope.hideForm = false;
+                    if(response.data.length == '0') {
+                        alert('No result');
+                    }
+                    else if(response.data.length > 1) {
+                        $scope.hideForm = true;
                         $scope.multi_property_results = response.data;
-                        $scope.multipleResultsShow = true;
                         $scope.multipleResultsReady = true;
+                        $scope.mdata.total = response.total;
+                        $scope.mdata.current_page = response.current_page;
+                        const user = JSON.parse(localStorage.getItem('user'));
+                        $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
+                            user_id : user.id,
+                            log : 'generated sales reports for property list with filter (' + str + ')'
+                        }).success(function(response) {});
                     }
-                    $state.go('sales.list', {property_id : response.data[0].id});
-                    /*
-                    var property_details = 
-                        '<table class="table table-bordered">\
-                        <caption>Property Details</caption>';
-                    var prop_detail = [
-                            'id','city','suburb','lease_type','class','use','description','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner'
-                        ];
-                    for(var key in prop_detail) {
-                        property_details += '<tr>\
-                            <td class="col-md-4">'+ dataToReadable(prop_detail[key]) +'</td>\
-                            <td>'+ response.data[0][prop_detail[key]] +'</td>\
-                        </tr>';
+                    else {
+                        if(!from_id_link) {
+                            $scope.multi_property_results = response.data;
+                            $scope.multipleResultsShow = true;
+                            $scope.multipleResultsReady = true;
+                        }
+                        $state.go('sales.list', {property_id : response.data[0].id});
+                        /*
+                        var property_details = 
+                            '<table class="table table-bordered">\
+                            <caption>Property Details</caption>';
+                        var prop_detail = [
+                                'id','city','suburb','lease_type','class','use','description','port','sec','lot','unit','land_value','land_component','improvement_component','area','owner'
+                            ];
+                        for(var key in prop_detail) {
+                            property_details += '<tr>\
+                                <td class="col-md-4">'+ dataToReadable(prop_detail[key]) +'</td>\
+                                <td>'+ response.data[0][prop_detail[key]] +'</td>\
+                            </tr>';
+                        }
+                            property_details += '</table>';
+                        bootbox.alert(property_details);
+                        */
                     }
-                        property_details += '</table>';
-                    bootbox.alert(property_details);
-                    */
-                }
-            }).error(function(error) {
-                console.log('Error loading '+ $rootScope.apiURL + 'v1/property/param/');  
-            });
+                }).error(function(error) {
+                    console.log('Error loading '+ $rootScope.apiURL + 'v1/property/param/');  
+                });
+            }; $scope.mfetch();
         }
 
         // Modal

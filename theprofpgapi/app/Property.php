@@ -50,8 +50,9 @@ class Property extends Model
     public function property_suburb(){
         return $this->belongsTo('App\PropertySuburb');
     }
-    public function valuation(){
-        return $this->hasMany('App\Valuation');
+    public static function valuation(){
+        $prop = new Property();
+        return $prop->hasMany('App\Valuation');
     }
     public function sale(){
         return $this->hasMany('App\Sale');
@@ -84,5 +85,27 @@ class Property extends Model
     }
     public function last_edited_by() {
         return $this->belongsTo('App\User');
+    }
+
+    public function scopeFilteredJoin($query, $filters) {
+        // Not include Valuation Zero case
+        if(!array_key_exists('include_valuation_zero', $filters) || !$filters['include_valuation_zero']) {
+            $query
+                ->join('valuations', function($join) {
+                    $join->on('properties.id', '=', 'valuations.property_id');
+                });
+        }
+        if(!array_key_exists('include_sales_zero', $filters) || !$filters['include_sales_zero']) {
+            $query
+                ->join('sales', function($join) {
+                    $join->on('properties.id', '=', 'sales.property_id');
+                });
+        }
+        if(!array_key_exists('include_rentals_zero', $filters) || !$filters['include_rentals_zero']) {
+            $query
+                ->join('rentals', function($join) {
+                    $join->on('properties.id', '=', 'rentals.property_id');
+                });
+        }
     }
 }
