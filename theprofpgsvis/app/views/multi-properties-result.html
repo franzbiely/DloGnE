@@ -53,7 +53,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <!-- <uib-pagination total-items="mtotal" ng-model="mcurrent_page" ng-change="mfetch()"></uib-pagination> -->
+                <uib-pagination total-items="mdata.total" ng-model="mdata.current_page" ng-change="mfetch()" boundary-links="true" rotate="false" max-size="5"></uib-pagination>
             </div>
         </div>
         <!-- END EXAMPLE TABLE PORTLET-->

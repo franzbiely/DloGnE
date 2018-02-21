@@ -64,7 +64,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <uib-pagination ng-show="hasActions" total-items="total" ng-model="current_page" ng-change="fetch()"></uib-pagination>
+                <uib-pagination ng-show="hasActions" total-items="total" ng-model="current_page" ng-change="fetch()" boundary-links="true" rotate="false" max-size="5"></uib-pagination>
             </div>
         </div>
         <!-- END EXAMPLE TABLE PORTLET-->
