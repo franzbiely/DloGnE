@@ -193,85 +193,28 @@ class PropertiesController extends Controller {
                 $where[$key] = $val;
         };
         
+        if(isset($ret['properties.id'])) {
             $properties = Property::orderBy('id', 'DESC')
-                ->distinct()
-                ->FilteredJoin($this->filters)
-                ->select($this->default_select)->with( $this->with)->where($where)
-                ->paginate($limit);
-            // $properties->with('FilteredJoin');
-            // $properties$properties->where($where);
-            // $properties = $properties->join('valuations', function($join) {
-            //     $join->on('properties.id', '=', 'valuations.property_id');
-            //     // $join->where('valuations.land_component', '>=', DB::raw('0'));
-            //     // $join->where('valuations.land_component', '<=', DB::raw('100000000'));
-            // });
-        // Not include Sales Zero case
-        /*if(!$this->include_valuation_zero) {
-            $properties = Property::orderBy('id', 'DESC')
-                ->join('sales', function($join) {
-                    $join->on('properties.id', '=', 'sales.property_id');
-                })
-                ->select($this->default_select)->with( $this->with)->where($where)
-                ->paginate($limit);
-            $properties->appends(array(            
-                'limit' => $limit
-            ));
+            ->distinct()
+            ->select($this->default_select)
+            ->with( $this->with)
+            ->where($where)
+            ->paginate($limit);
         }
-        // Not include Rental Zero case
-        if(!$this->include_valuation_zero) {
+        else {
             $properties = Property::orderBy('id', 'DESC')
-                ->join('rentals', function($join) {
-                    $join->on('properties.id', '=', 'rentals.property_id');
-                })
-                ->select($this->default_select)->with( $this->with)->where($where)
-                ->paginate($limit);
-            $properties->appends(array(            
-                'limit' => $limit
-            ));
-        }*/
+            ->distinct()
+            ->FilteredJoin($this->filters)
+            ->select($this->default_select)
+            ->with( $this->with)
+            ->where($where)
+            ->paginate($limit);
+        }
+        
+
         $properties->appends(array(            
             'limit' => $limit
         ));
-
-
-
-
-
-
-
-        
-            
-        //     ->groupBy('properties.id')
-            
-        // $prop = new Property;
-        // $properties = $prop->valuation()
-        //     ->find()
-        //     ->with( $this->with)
-        //     ->orderBy('id', 'DESC')
-        //     // ->where($where)
-            
-            
-            
-            
-        //     ->groupBy('properties.id')
-        //     ->paginate($limit); 
-         
-
-        // $properties = DB::table('properties')
-        //         ->select('properties.id','name','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner','created_by_id','last_edited_by_id')
-        //         ->join('valuations', function($join) {
-        //             $join->on('properties.id', '=', 'valuations.property_id');
-        //             $join->on('valuations.land_value_rate', '>', DB::raw("'0'"));
-        //             $join->on('valuations.land_value_rate', '<=', DB::raw("'100000000'"));
-        //         })
-        //         ->where($where)
-        //         ->get();
-
-        // $properties = DB::table('properties')->get();
-
-
-
-        // return Response::json($properties);
 
         return Response::json($this->transformCollection($properties, $transformCollection_type), 200);
     }
@@ -394,57 +337,6 @@ class PropertiesController extends Controller {
         // print_r($propertiesArray);
         $data = array_map([$this, 'transform'], $propertiesArray['data']);
         $total = $propertiesArray['total'];
-        // print_r($data);
-        // if($type == "byparam") {
-        //     foreach($data as $key=>$val) {
-        //         //echo $val['rentals_count']. (intval($val['valuations_count']) == 0);
-        //         if(intval($val['valuations_count']) == 0 && !$this->include_valuation_zero) {
-        //             unset($data[$key]);
-        //             $total--;
-        //             continue;
-        //         }
-        //         if(intval($val['sales_count']) == 0 && !$this->include_sales_zero) {
-        //             unset($data[$key]);
-        //             $total--;
-        //             continue;
-        //         }
-        //         if(intval($val['rentals_count']) == 0 && !$this->include_rentals_zero) {
-        //             unset($data[$key]);
-        //             $total--;
-        //             continue;
-        //         }
-        //         if($this->price_min >= 0) {
-        //             if($val['current_value'] < $this->price_min || $val['current_value'] > $this->price_max) {
-        //                 unset($data[$key]);
-        //                 $total--;
-        //                 continue;
-        //             }
-        //         }
-        //         if($this->sales_price_min >= 0) {
-        //             if($val['current_sales_value'] < $this->sales_price_min || $val['current_sales_value'] > $this->sales_price_max) {
-        //                 unset($data[$key]);
-        //                 $total--;
-        //                 continue;
-        //             }
-        //         }
-        //         if($this->rentals_price_min >= 0) {
-        //             if($val['current_rentals_value'] < $this->rentals_price_min || $val['current_rentals_value'] > $this->rentals_price_max) {
-        //                 unset($data[$key]);
-        //                 $total--;
-        //                 continue;
-        //             }
-        //         }
-        //         if($this->area_min >= 0) {
-        //             if($val['current_area'] < $this->area_min || $val['current_area'] > $this->area_max) {
-        //                 unset($data[$key]);
-        //                 $total--;
-        //                 continue;
-        //             }
-        //         }
-        //     }
-        // }
-        // $data = array_values($data);
-        
 
         return [
             'total' => $total,
