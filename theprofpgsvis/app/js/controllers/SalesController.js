@@ -6,7 +6,7 @@ angular.module('MetronicApp').controller('SalesController',
         $scope.total;
         $scope.limit = 10;
         $scope.mdata = {
-            current_page:null,
+            current_page:1,
             total : null,
             str : null
         };

@@ -6,7 +6,7 @@ angular.module('MetronicApp').controller('ValuationsController',
         $scope.current_page = 1;
         $scope.total;
         $scope.mdata = {
-            current_page:null,
+            current_page:1,
             total : null,
             str : null
         };
