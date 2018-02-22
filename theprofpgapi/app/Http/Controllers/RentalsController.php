@@ -69,6 +69,7 @@ class RentalsController extends Controller
                 'remarks',
                 'inclusion_other',
                 'rental_area_id',
+                'rental_area_other',
                 'rental_period_id',
                 'rental_review_method_id',
                 'rental_review_method',
@@ -157,6 +158,7 @@ class RentalsController extends Controller
             'remarks',
             'property_id',
             'rental_area_id',
+            'rental_area_other',
             'rental_period_id',
             'rental_review_method_id',
             'rental_review_method',
@@ -191,7 +193,7 @@ class RentalsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
         $inclusion_tiers_controller = new RentalInclusionTiersController();
         $rating_tiers_controller = new RentalRatingTiersController();
         try {
@@ -249,6 +251,7 @@ class RentalsController extends Controller
 
             if(isset($request->inclusion_other)) $rental->inclusion_other = $request->inclusion_other;
             if(isset($request->rental_area_id)) $rental->rental_area_id = $request->rental_area_id;
+            if(isset($request->rental_area_other)) $rental->rental_area_other = $request->rental_area_other;
             if(isset($request->rental_period_id)) $rental->rental_period_id = $request->rental_period_id;
             if(isset($request->rental_review_method)) {
                 $rental->rental_review_method_id = $request->rental_review_method_id;
@@ -346,7 +349,6 @@ class RentalsController extends Controller
     }
 
     private function transform($rental){
-        // print_r($rental);
         $ret = array(
             'id' => $rental['id'],
             'property_id' => $rental['property_id'],
@@ -355,6 +357,7 @@ class RentalsController extends Controller
             'remarks' => $rental['remarks'],
             'rental_area_id' => $rental['rental_area_id'],
             'rental_area' => $rental['rental__area']['title'],
+            'rental_area_other' => $rental['rental_area_other'],
             'rental_period_id' => $rental['rental_period_id'],
             'rental_period' => $rental['rental__period']['title'],
             'rental_review_method_id' => $rental['rental_review_method_id'],
@@ -373,6 +376,12 @@ class RentalsController extends Controller
         }
         else {
             $ret['rental_review_method'] = $rental['rental__review__method']['title'];
+        }
+        if($rental['rental_area_id'] == '6') {
+            $ret['rental_area'] = $rental['rental_area_other'];
+        }
+        else {
+            $ret['rental_area'] = $rental['rental__area']['title'];
         }
 
         return $ret;

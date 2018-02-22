@@ -7,8 +7,6 @@ angular.module('MetronicApp').controller('RentalDetailsController',
         $scope.temp.isSoleTenant = false;
         $scope.showInclusionOther = false;
 
-             
-
         // Load Data for Edit
         $scope.params = $stateParams; 
         $scope.isDisabled = false;
@@ -96,6 +94,8 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                 $scope.data.analysed_rent = response.data.analysed_rent;
                 $scope.data.remarks = response.data.remarks;
                 $scope.data.rental_area_id = response.data.rental_area_id;
+                $scope.data.rental_area_other = response.data.rental_area_other;
+                $scope.isAreaOther = (response.data.rental_area_id == 6) ? true : false;
                 $scope.data.rental_period_id = response.data.rental_period_id;
                 $scope.data.rental_review_method_id = response.data.rental_review_method_id;
                 $scope.isFixedMethod = (response.data.rental_review_method_id == 2) ? true : false;
@@ -164,6 +164,7 @@ angular.module('MetronicApp').controller('RentalDetailsController',
                 'analysed_date' : moment($scope.data.analysed_date, 'DD-MM-YYYY').format('YYYY-MM-DD'),
                 'remarks' : $scope.data.remarks,
                 'rental_area_id' : $scope.data.rental_area_id,
+                'rental_area_other' : $scope.data.rental_area_other,
                 'rental_period_id' : $scope.data.rental_period_id,
                 'rental_review_method_id' : $scope.data.rental_review_method_id,
                 'rental_review_method' : $scope.data.rental_review_method,
@@ -236,8 +237,11 @@ angular.module('MetronicApp').controller('RentalDetailsController',
 
         //changeRentalMethod
         $scope.changeRentalMethod = function() {
-            console.log($scope.data.rental_method);
             $scope.isFixedMethod = ($scope.data.rental_review_method_id == 2) ? true : false;
+        }
+
+        $scope.changeArea = function() {
+            $scope.isAreaOther = ($scope.data.rental_area_id == 6) ? true : false;
         }
     }
 );

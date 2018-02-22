@@ -63,11 +63,12 @@
                                             <div class="col-md-6">
                                                 <select class="col-md-10 form-control form-control-inline" 
                                                         ng-model="data.rental_area_id"
+                                                        ng-change="changeArea()"
                                                         ng-options="area.id as area.title for area in dynamicFields.areas">
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
-                                                <input ng-show="" ng-model="data.rental_area_other" class="col-md-2 form-control form-control-inline input-small" type="text" />
+                                                <input ng-show="isAreaOther" ng-model="data.rental_area_other" class="col-md-2 form-control form-control-inline input-small" type="text" />
                                             </div>
                                         </div>
                                     </div>

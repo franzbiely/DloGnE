@@ -329,32 +329,32 @@ angular.module('MetronicApp').controller('RentalsController',
             var form = '<form id="frmRental" name="frmRental" role="form" class="form-horizontal">\
                             <div class="form-body">\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Property # : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Property # : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].property_id + '</span>\
                                         </div>\
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Analysed Date : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Analysed Date : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + moment($scope[plural][key].analysed_date, "YYYY-MM-DD").format("DD-MM-YYYY") + '</span>\
                                         </div>\
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Analysed Rent (K) : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Analysed Rent (K) : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + FUNC.nformat($scope[plural][key].analysed_rent) + '</span>\
                                         </div>\
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Remarks : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Remarks : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].remarks + '</span>\
                                         </div>\
@@ -362,32 +362,32 @@ angular.module('MetronicApp').controller('RentalsController',
                                 </div>\
                                 <hr />\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Analysed Rent Area : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Analysed Rent Area : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].rental_area + '</span>\
                                         </div>\
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Analysed Rent Period : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Analysed Rent Period : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].rental_period + '</span>\
                                         </div>\
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Rent Review Method : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Rent Review Method : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].rental_review_method + '</span>\
                                         </div>\
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Vacancy Rate : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Vacancy Rate : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].vacancy_rate + ' <span>%</span></span>\
                                         </div>\
@@ -397,32 +397,32 @@ angular.module('MetronicApp').controller('RentalsController',
                                 <strong>If Sole Tenant Qualify</strong>\
                                 <hr />\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Total Lease Period (years) : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Total Lease Period (years) : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].total_lease_period + '</span>\
                                         </div>\
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Total options to extend : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Total options to extend : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].option_periods + ' <span>(years)</span></span>\
                                         </div>\
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Date Lease commenced : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Date Lease commenced : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].date_lease_commenced + '</span>\
                                         </div>\
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Name of Tenant : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Name of Tenant : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].name_of_tenant + '</span>\
                                         </div>\
@@ -430,24 +430,24 @@ angular.module('MetronicApp').controller('RentalsController',
                                 </div>\
                                 <hr />\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Inclusions : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Inclusions : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <div class="form-control border border-white">' + inclusions + '</div>\
                                         </div>\
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Estimated age of Building (years) : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Estimated age of Building (years) : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <div class="form-control border border-white">' + $scope[plural][key].age_of_building + '</div>\
                                         </div>\
                                     </div>\
                                 </div>\
                                 <div class="form-group">\
-                                    <label class="col-md-4 control-label">Maintenance Rating : </label>\
-                                    <div class="col-md-8">\
+                                    <label class="col-md-5 control-label">Maintenance Rating : </label>\
+                                    <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <div class="form-control border border-white">' + mratings + '</div>\
                                         </div>\
