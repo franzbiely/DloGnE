@@ -359,9 +359,10 @@ angular.module('MetronicApp')
             }   
         }
         $scope.fullImageModal = function(key) {
+            var filename = key.file_path.replace(/^.*[\\\/]/, '');
             bootbox.dialog({
                 size: 'large',
-                message: '<a class="btn">Download</a><br /><center><img class="fullimage" src="'+key.file_path+'" /></center>'
+                message: '<a class="btn blue btn-outline btn-circle" href="'+key.file_path+'" download="'+filename+'" target="_self"><i class="fa fa-download"></i> Download</a><br /><center style="margin-top:10px;"><img class="fullimage" src="'+key.file_path+'" /></center>'
             });
         }
 
