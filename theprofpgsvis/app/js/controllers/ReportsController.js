@@ -299,6 +299,10 @@ angular.module('MetronicApp').controller('ReportsController',
                             $scope.data.land_component = response.data[i].land_component;
                             $scope.data.improvement_component = response.data[i].improvement_component;
                             $scope.data.area = response.data[i].area;
+
+                            $scope.data.created_by = response.data[i].created_by.name;
+                            $scope.data.last_edited_by = response.data[i].last_edited_by.name;
+            
                         }
 
                         // Get property media

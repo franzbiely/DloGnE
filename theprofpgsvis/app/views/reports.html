@@ -23,6 +23,17 @@
         <div ng-show="resultReady" class="reports-container" ui-view="valuation-details" name="valuation-details"></div>
         <div ng-show="resultReady" class="reports-container" ui-view="sales-details" name="sales-details"></div>
         <div ng-show="resultReady" class="reports-container" ui-view="rentals-details" name="rentals-details"></div>
+        <div ng-show="resultReady" class="reports-container">
+            <div class="row ng-scope">
+                <div class="col-md-12">
+                    <div class="portlet light bordered">
+                        <div class="portlet-body">
+                            <p><em>Created by</em> : <strong>{[{data.created_by}]}</strong> | <em>Last Edited by</em> : <strong>{[{data.last_edited_by}]}</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- END EXAMPLE TABLE PORTLET-->
 
     </div>
