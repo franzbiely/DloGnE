@@ -131,3 +131,7 @@
     width: 45%;
 }
 .dz-max-files-reached {background-color: red};
+
+.dz-image img {
+    width: 100%;
+}
