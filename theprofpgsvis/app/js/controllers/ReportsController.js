@@ -144,7 +144,15 @@ angular.module('MetronicApp').controller('ReportsController',
 // };
 // ==================================
             $scope.backToMultiple = function() {
-                $scope.showResult();
+
+                if($scope.mdata.str.indexOf("&") < 0) {
+                    $scope.showResult();    
+                }
+                else {
+                    $scope.resultReady = false;
+                    $scope.hideForm = false;
+                }
+                
             }
         });
         
