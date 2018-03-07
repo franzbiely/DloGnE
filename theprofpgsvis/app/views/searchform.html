@@ -62,7 +62,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">City</label>
                             <div class="col-md-9">
-                                <select ng-model="data_temp.property_city_selected" 
+                                <select ng-model="data_temps.property_city_selected" 
                                         ng-options="item as item.label for item in property_city_options track by item.id" class="form-control" data-placeholder="" tabindex="1">
                                 </select>
                             </div>
@@ -83,7 +83,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Class</label>
                             <div class="col-md-9">
-                                <select ng-model="data_temp.property_class_selected" 
+                                <select ng-model="data_temps.property_class_selected" 
                                         ng-options="item as item.label for item in property_class_options track by item.id" class="form-control">
                                 </select>
                                 <span class="help-block"> </span>
@@ -95,7 +95,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Suburb</label>
                             <div class="col-md-9">
-                                <select ng-model="data_temp.property_suburb_selected" 
+                                <select ng-model="data_temps.property_suburb_selected" 
                                         ng-options="item as item.label for item in property_suburb_options track by item.id" class="form-control" data-placeholder="" tabindex="1">
                                 </select>
                             </div>
@@ -154,7 +154,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Lease Type</label>
                             <div class="col-md-9">
-                                <select ng-model="data_temp.property_lease_type_selected" 
+                                <select ng-model="data_temps.property_lease_type_selected" 
                                         ng-options="item as item.label for item in property_lease_type_options track by item.id" class="form-control">
                                 </select>
                                 <span class="help-block"> </span>
@@ -179,14 +179,24 @@
                         </div>
                     </div>
                     <!--/span-->
-                    <div class="col-md-6 col-offset-md-8" ng-show="page_name == 'valuations' || page_name == 'sales' || page_name == 'rentals'">
+                    
+                    <div class="col-md-6 col-offset-md-8">
                         <div class="form-group">
                             <label class="control-label col-md-3">&nbsp;</label>
-                            <div class="col-md-9">
-                                <input type="checkbox" name="include_zero" id="include_zero" ng-model="data_temp.include_zero" value="true" />
+                            <div class="col-md-9" ng-show="page_name == 'valuations' || page_name == 'sales' || page_name == 'rentals'">
+                                <input type="checkbox" name="include_zero" id="include_zero" ng-model="data_temps.include_zero" value="true" />
                                 <label for="include_zero" >Include properties with zero {[{page_name}]}</label>
                             </div>
-                            
+                            <div class="col-md-9" ng-show="page_name == 'reports'">
+                                <input type="checkbox" name="include_zero_valuation" id="include_zero_valuation" ng-model="data_temps.include_zero_valuation" value="true" />
+                                <label for="include_zero_valuation" >Include properties with zero valuation</label><br />
+
+                                <input type="checkbox" name="include_zero_sales" id="include_zero_sales" ng-model="data_temps.include_zero_sales" value="true" />
+                                <label for="include_zero_sales" >Include properties with zero sales</label><br />
+
+                                <input type="checkbox" name="include_zero_rentals" id="include_zero_rentals" ng-model="data_temps.include_zero_rentals" value="true" />
+                                <label for="include_zero_rentals" >Include properties with zero rentals</label><br />
+                            </div>
                         </div>
                     </div>
                 </div>
