@@ -109,7 +109,9 @@
             <label class="control-label col-md-12">Photo Gallery </label><br />
             <ul class="photo-gallery clearfix col-md-12">
                 <li ng-repeat="(key, value) in photos">
-                    <img ng-src="{[{value.file_path}]}" alt="{[{value.file_name}]}" />
+                    <a ng-click="fullImageModal(value)">
+                        <img ng-src="{[{value.file_path}]}" alt="{[{value.file_name}]}" />
+                    </a>
                     <span>{[{ value.created_at | amDateFormat:'DD-MM-YYYY'}]}</span>
                     <a class="pull-right" ng-click="removePhoto(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
                 </li>

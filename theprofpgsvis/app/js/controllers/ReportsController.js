@@ -430,6 +430,12 @@ angular.module('MetronicApp').controller('ReportsController',
             form.outerHTML = '';
             delete form;
         }
+        $scope.fullImageModal = function(key) {
+            bootbox.dialog({
+                size: 'large',
+                message: '<a class="btn">Download</a><br /><center><img class="fullimage" src="'+key.file_path+'" /></center>'
+            });
+        }
     }
 );
 
