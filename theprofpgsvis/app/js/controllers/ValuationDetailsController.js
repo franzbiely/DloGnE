@@ -150,6 +150,9 @@ angular.module('MetronicApp').controller('ValuationDetailsController',
             },
             'success' : function(file, xhr){
                 $scope.data.pdf_ids.push(xhr.data.id);
+            },
+            'addedfile' : function(file) {
+                $(file.previewElement).find(".dz-image img").attr("src", "assets/img/pdf.png");
             }
         };
         //========= /dropzone PDF ========
