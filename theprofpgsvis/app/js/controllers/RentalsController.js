@@ -356,7 +356,7 @@ angular.module('MetronicApp').controller('RentalsController',
                                     <label class="col-md-5 control-label">Analysed Rent (K) : </label>\
                                     <div class="col-md-7">\
                                         <div class="input-icon right">\
-                                            <span class="form-control border border-white">' + FUNC.nformat($scope[plural][key].analysed_rent) + '</span>\
+                                            <span class="form-control border border-white">' + FUNC.smart_number($scope[plural][key].analysed_rent) + '</span>\
                                         </div>\
                                     </div>\
                                 </div>\

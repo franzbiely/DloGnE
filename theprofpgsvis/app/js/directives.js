@@ -99,6 +99,7 @@ MetronicApp.directive('numberInput', function($filter, $browser) {
                 $element.val($filter('number')(value, false))
             }
             
+                
             // This runs when we update the text field
             ngModelCtrl.$parsers.push(function(viewValue) {
                 return viewValue.replace(/,/g, '');

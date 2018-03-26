@@ -91,7 +91,7 @@ angular.module('MetronicApp').controller('RentalDetailsController',
             $http.get($rootScope.apiURL + 'v1/rental/'+ id +'?token='+localStorage.getItem('satellizer_token')).success(function(response) {
                 $scope.data.property_id = response.data.property_id;
                 $scope.data.analysed_date = moment(response.data.analysed_date, 'YYYY-MM-DD').format('DD-MM-YYYY');
-                $scope.data.analysed_rent = parseInt(response.data.analysed_rent.replace(/,+/g, ''));
+                $scope.data.analysed_rent = FUNC.smart_number(response.data.analysed_rent);
                 $scope.data.remarks = response.data.remarks;
                 $scope.data.rental_area_id = response.data.rental_area_id;
                 $scope.data.rental_area_other = response.data.rental_area_other;
