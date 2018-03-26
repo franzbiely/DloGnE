@@ -326,7 +326,15 @@ angular.module('MetronicApp').controller('RentalsController',
             }
             var mratings = $scope[plural][key].maintenance_ratings.map( function( el ){ 
                 return "<li>"+el.title + ' = ' + el.rate + "</li>"; 
-            }).join("");
+            }).join("");            
+
+            for (var _key in $scope[plural][key]) {
+                if ($scope[plural][key].hasOwnProperty(_key)) {
+                    if($scope[plural][key][_key] == null)
+                        $scope[plural][key][_key] = '';
+                }
+            }
+
             var form = '<form id="frmRental" name="frmRental" role="form" class="form-horizontal">\
                             <div class="form-body">\
                                 <div class="form-group">\
