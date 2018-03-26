@@ -10,9 +10,9 @@ angular.module('MetronicApp').controller('ReportsController',
         $scope.current_page = 1;
         $scope.total;
         $scope.data_temps = {
-            include_zero_valuation : true,
-            include_zero_sales : true,
-            include_zero_rentals : true
+            include_with_valuation : false,
+            include_with_sales : false,
+            include_with_rentals : false
         };
 
 
@@ -235,15 +235,9 @@ angular.module('MetronicApp').controller('ReportsController',
                 $scope.searchdata.property_lease_type_id = $scope.data_temps.property_lease_type_selected.id;
             }
 
-            if(typeof $scope.data_temps.include_zero_valuation !== 'undefined' && $scope.data_temps.include_zero_valuation.id !== '') {
-                $scope.searchdata.include_valuation_zero = $scope.data_temps.include_zero_valuation;
-            }
-            if(typeof $scope.data_temps.include_zero_sales !== 'undefined' && $scope.data_temps.include_zero_sales.id !== '') {
-                $scope.searchdata.include_sales_zero = $scope.data_temps.include_zero_sales;
-            }
-            if(typeof $scope.data_temps.include_zero_rentals !== 'undefined' && $scope.data_temps.include_zero_rentals.id !== '') {
-                $scope.searchdata.include_rentals_zero = $scope.data_temps.include_zero_rentals;
-            }
+            $scope.searchdata.include_valuation_zero = !$scope.data_temps.include_with_valuation;
+            $scope.searchdata.include_sales_zero = !$scope.data_temps.include_with_sales;
+            $scope.searchdata.include_rentals_zero = !$scope.data_temps.include_with_rentals;
 
 
             if(property_id != null) {
