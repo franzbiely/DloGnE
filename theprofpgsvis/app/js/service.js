@@ -61,8 +61,16 @@ MetronicApp.service('FUNC', function($http, $rootScope, $auth, $state) {
             resultReady : false
         }
     };
-    this.smart_number = function(input) {
-        return input.toString().replace(/[^\d.-]/g, '').replace(/_/g, ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    this.smart_number = function(input, withComma) {
+        if (typeof withComma === 'undefined') 
+            withComma = false;
+        else
+            withComma = true;
+        let ret = input.toString().replace(/[^\d.-]/g, '');
+        if(withComma)
+            ret = ret.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        console.log(ret);
+        return ret;
     }
 
 });
