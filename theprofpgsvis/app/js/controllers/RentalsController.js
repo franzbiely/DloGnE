@@ -7,6 +7,7 @@ angular.module('MetronicApp').controller('RentalsController',
         $scope.limit = 10;
         $scope.current_page = 1;
         $scope.total;
+        $scope.data_temps = [];
         $scope.mdata = {
             current_page:1,
             total : null,
