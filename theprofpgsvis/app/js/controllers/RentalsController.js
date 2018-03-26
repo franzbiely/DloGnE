@@ -363,7 +363,7 @@ angular.module('MetronicApp').controller('RentalsController',
                                 </div>\
                                 <hr />\
                                 <div class="form-group">\
-                                    <label class="col-md-5 control-label">Analysed Rent Area : </label>\
+                                    <label class="col-md-5 control-label">Analysed Rent Area (sqm): </label>\
                                     <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].rental_area + '</span>\

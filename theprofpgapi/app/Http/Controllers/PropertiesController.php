@@ -526,7 +526,7 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('A'.$ROW, 'RENTALS HISTORY OF PROPERTY #' . $property['id']);
                 $sheet->setCellValue('A'.$ROW+=1, 'Analysed Date');
                 $sheet->setCellValue('B'.$ROW, 'Analysed Rent (K)');
-                $sheet->setCellValue('C'.$ROW, 'Analysed Rent Area');
+                $sheet->setCellValue('C'.$ROW, 'Analysed Rent Area (sqm)');
                 $sheet->setCellValue('D'.$ROW, 'Analysed Rent Period');
                 $sheet->setCellValue('E'.$ROW, 'Total Lease Period (years)');
                 $sheet->setCellValue('F'.$ROW, 'Date Lease commenced');
@@ -669,7 +669,7 @@ class PropertiesController extends Controller {
         <tr>
             <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_date', $params->hide_rentals_column)) { ?>                  <th>Analysed Date</th> <?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_rent', $params->hide_rentals_column)) { ?>                <th>Analysed Rent (K)</th> <?php } ?>
-            <?php if(!isset($params->hide_rentals_column) || !in_array('rental_area', $params->hide_rentals_column)) { ?>             <th>Analysed Rent Area</th><?php } else { $colspan--; } ?>
+            <?php if(!isset($params->hide_rentals_column) || !in_array('rental_area', $params->hide_rentals_column)) { ?>             <th>Analysed Rent Area (sqm)</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('rental_period', $params->hide_rentals_column)) { ?>             <th>Analysed Rent Period</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('total_lease_period', $params->hide_rentals_column)) { ?>             <th>Total Lease Period (years) </th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('date_lease_commenced', $params->hide_rentals_column)) { ?>             <th>Date Lease commenced</th><?php } else { $colspan--; } ?>
