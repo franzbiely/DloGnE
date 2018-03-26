@@ -7,6 +7,7 @@ angular.module('MetronicApp').controller('RentalsController',
         $scope.limit = 10;
         $scope.current_page = 1;
         $scope.total;
+        $scope.data_temps = [];
         $scope.mdata = {
             current_page:1,
             total : null,
@@ -325,7 +326,15 @@ angular.module('MetronicApp').controller('RentalsController',
             }
             var mratings = $scope[plural][key].maintenance_ratings.map( function( el ){ 
                 return "<li>"+el.title + ' = ' + el.rate + "</li>"; 
-            }).join("");
+            }).join("");            
+
+            for (var _key in $scope[plural][key]) {
+                if ($scope[plural][key].hasOwnProperty(_key)) {
+                    if($scope[plural][key][_key] == null)
+                        $scope[plural][key][_key] = '';
+                }
+            }
+
             var form = '<form id="frmRental" name="frmRental" role="form" class="form-horizontal">\
                             <div class="form-body">\
                                 <div class="form-group">\
@@ -362,7 +371,7 @@ angular.module('MetronicApp').controller('RentalsController',
                                 </div>\
                                 <hr />\
                                 <div class="form-group">\
-                                    <label class="col-md-5 control-label">Analysed Rent Area : </label>\
+                                    <label class="col-md-5 control-label">Analysed Rent Area (sqm): </label>\
                                     <div class="col-md-7">\
                                         <div class="input-icon right">\
                                             <span class="form-control border border-white">' + $scope[plural][key].rental_area + '</span>\

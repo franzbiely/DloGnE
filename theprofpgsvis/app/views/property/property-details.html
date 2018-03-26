@@ -103,7 +103,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Sec</label>
             <div class="col-md-9">
-                <input format="number" ng-disabled="isReadOnly || address_option == 'port'"
+                <input number-input="" ng-disabled="isReadOnly || address_option == 'port'"
                         ng-model="data.sec"
                         ng-change="property_set_address_option(1)" type="text" class="form-control" placeholder="">
             </div>
@@ -115,7 +115,7 @@
             <label class="control-label col-md-3">Port</label>
             <div class="col-md-9">
 
-                <input format="number" ng-disabled="isReadOnly || address_option == 'seclot'"
+                <input number-input="" ng-disabled="isReadOnly || address_option == 'seclot'"
                         ng-model="data.port"
                         ng-change="property_set_address_option(2)" type="text" class="form-control" placeholder="">
             </div>
@@ -128,7 +128,7 @@
         <div class="form-group">
             <label class="control-label col-md-3">Lot</label>
             <div class="col-md-9">
-                <input format="number" ng-disabled="isReadOnly || address_option == 'port'"
+                <input number-input="" ng-disabled="isReadOnly || address_option == 'port'"
                         ng-model="data.lot"
                         ng-change="property_set_address_option(1)" type="text" class="form-control" placeholder="">
             </div>

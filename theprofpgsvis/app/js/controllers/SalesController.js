@@ -5,6 +5,7 @@ angular.module('MetronicApp').controller('SalesController',
         $scope.current_page = 1;
         $scope.total;
         $scope.limit = 10;
+        $scope.data_temps = [];
         $scope.mdata = {
             current_page:1,
             total : null,
@@ -383,7 +384,7 @@ angular.module('MetronicApp').controller('SalesController',
                                     <div class="col-md-8">\
                                         <div class="input-icon right">';
                 if(key > -1) {
-                    form +=                     '<input required type="text" value="'+$scope[plural][key].price+'" class="form-control format-number" name="price" id="price"> </div>';
+                    form +=                     '<input required type="text" value="'+FUNC.smart_number($scope[plural][key].price)+'" class="form-control format-number" name="price" id="price"> </div>';
                 }
                 else {
                     form +=                     '<input required type="text" class="form-control format-number" name="price" id="price"></div>';    
@@ -407,7 +408,7 @@ angular.module('MetronicApp').controller('SalesController',
                                     <div class="col-md-8">\
                                         <div class="input-icon right">';
                 if(key > -1) {
-                    form +=                     '<input required type="text" value="'+$scope[plural][key].est_land_value+'" class="form-control format-number" name="est_land_value" id="est_land_value"> </div>';
+                    form +=                     '<input required type="text" value="'+FUNC.smart_number($scope[plural][key].est_land_value)+'" class="form-control format-number" name="est_land_value" id="est_land_value"> </div>';
                 }
                 else {
                     form +=                     '<input required type="text" class="form-control format-number" name="est_land_value" id="est_land_value"> </div>';    
@@ -419,7 +420,7 @@ angular.module('MetronicApp').controller('SalesController',
                                     <div class="col-md-8">\
                                         <div class="input-icon right">';
                 if(key > -1) {
-                    form +=                     '<input required type="text" value="'+$scope[plural][key].est_improvement_value+'" class="form-control format-number" name="est_improvement_value" id="est_improvement_value"> </div>';
+                    form +=                     '<input required type="text" value="'+FUNC.smart_number($scope[plural][key].est_improvement_value)+'" class="form-control format-number" name="est_improvement_value" id="est_improvement_value"> </div>';
                 }
                 else {
                     form +=                     '<input required type="text" class="form-control format-number" name="est_improvement_value" id="est_improvement_value"> </div>';    
@@ -431,7 +432,7 @@ angular.module('MetronicApp').controller('SalesController',
                                     <div class="col-md-8">\
                                         <div class="input-icon right">';
                 if(key > -1) {
-                    form +=                     '<input required type="text" value="'+$scope[plural][key].area+'" class="form-control format-number" name="area" id="area"> </div>';
+                    form +=                     '<input required type="text" value="'+FUNC.smart_number($scope[plural][key].area)+'" class="form-control format-number" name="area" id="area"> </div>';
                 }
                 else {
                     form +=                     '<input required type="text" class="form-control format-number" name="area" id="area"> </div>';    
@@ -443,7 +444,7 @@ angular.module('MetronicApp').controller('SalesController',
                                     <div class="col-md-8">\
                                         <div class="input-icon right">';
                 if(key > -1) {
-                    form +=                     '<input required type="text" value="'+$scope[plural][key].est_land_rate+'" class="form-control format-number" name="est_land_rate" id="est_land_rate"> </div>';
+                    form +=                     '<input required type="text" value="'+FUNC.smart_number($scope[plural][key].est_land_rate)+'" class="form-control format-number" name="est_land_rate" id="est_land_rate"> </div>';
                 }
                 else {
                     form +=                     '<input required type="text" class="form-control format-number" name="est_land_rate" id="est_land_rate"> </div>';    

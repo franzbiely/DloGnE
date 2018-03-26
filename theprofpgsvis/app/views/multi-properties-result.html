@@ -33,15 +33,15 @@
                             <td>{[{value.lease_type}]}</td>
                             
                             <!-- valuation -->
-                            <td ng-show="page_name == 'valuations' || page_name == 'reports'">{[{value.current_value | number}]}</td>
+                            <td ng-show="page_name == 'valuations' || page_name == 'reports'">{[{value.current_value | smart_number}]}</td>
                             <!-- sales -->
-                            <td ng-show="page_name == 'sales'">{[{value.current_sales_value | number}]}</td>
+                            <td ng-show="page_name == 'sales'">{[{value.current_sales_value | smart_number}]}</td>
                             <!-- rentals -->
-                            <td ng-show="page_name == 'rentals'">{[{value.current_rentals_value | number}]}</td>
+                            <td ng-show="page_name == 'rentals'">{[{value.current_rentals_value | smart_number}]}</td>
                             
                             <td>{[{value.port}]} / {[{value.sec}]} / {[{value.lot}]}</td>
                             <td>{[{value.suburb}]}</td>
-                            <td>{[{value.current_area | number}]}</td>
+                            <td>{[{value.current_area | smart_number}]}</td>
                             <td ng-show="page_name == 'valuations' || page_name == 'sales' || page_name == 'rentals'">
                                 <a ng-show="page_name == 'valuations'" type="button" 
                                     ui-sref="valuations.list({property_id : value.id})" class="btn btn-link">Valuation History ({[{value.valuations_count}]})</a> 

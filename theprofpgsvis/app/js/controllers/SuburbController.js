@@ -126,8 +126,9 @@ angular.module('MetronicApp').controller('SuburbController', function($rootScope
             city_id : $scope.property_suburb_city_id
         }).success(function(response) {
             var x = {
+                id : response.data.id,
                 suburb : $scope.property_suburb,
-                city: $('#frmSuburb')[0]['elements'].city.options[ $('#frmSuburb')[0]['elements'].city.selectedIndex ].text
+                city: $scope.property_suburb_city
             }
             $scope.property_suburbs.unshift(x);
             $scope.property_suburb = '';
