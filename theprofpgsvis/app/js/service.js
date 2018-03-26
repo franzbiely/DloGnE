@@ -69,7 +69,6 @@ MetronicApp.service('FUNC', function($http, $rootScope, $auth, $state) {
         let ret = input.toString().replace(/[^\d.-]/g, '');
         if(withComma)
             ret = ret.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        console.log(ret);
         return ret;
     }
 
