@@ -5,7 +5,6 @@ angular.module('MetronicApp').controller('SalesController',
         $scope.current_page = 1;
         $scope.total;
         $scope.limit = 10;
-        $scope.data_temps = [];
         $scope.mdata = {
             current_page:1,
             total : null,
