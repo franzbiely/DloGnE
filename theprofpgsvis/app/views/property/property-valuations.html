@@ -40,12 +40,12 @@
                     <tbody>
                         <tr ng-repeat="(key, value) in valuations" class="odd gradeX">
                             <td>{[{value.date | amDateFormat:'DD-MM-YYYY' }]}</td>
-                            <td>{[{ +value.land_component + +value.improvement_component | number}]}</td>
-                            <td>{[{value.land_component | number}]}</td>
-                            <td>{[{value.insurance_value | number}]}</td>
-                            <td>{[{value.forced_sale_value | number}]}</td>
-                            <td>{[{value.area | number}]}</td>
-                            <td>{[{value.land_value_rate | number}]}</td>
+                            <td>{[{ +(value.land_component | smart_number ) + +(value.improvement_component | smart_number) }]}</td>
+                            <td>{[{value.land_component | smart_number}]}</td>
+                            <td>{[{value.insurance_value | smart_number}]}</td>
+                            <td>{[{value.forced_sale_value | smart_number}]}</td>
+                            <td>{[{value.area | smart_number}]}</td>
+                            <td>{[{value.land_value_rate | smart_number}]}</td>
                             <td>{[{value.description}]}</td>
                             <td ng-show="hasActions">
                                 <a type="button" class="btn btn-default" 

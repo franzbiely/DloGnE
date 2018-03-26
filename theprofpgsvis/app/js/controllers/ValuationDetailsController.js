@@ -34,12 +34,12 @@ angular.module('MetronicApp').controller('ValuationDetailsController',
                 $scope.data.date = moment(response.data.date, 'YYYY-MM-DD').format('DD-MM-YYYY');
                 $scope.data.description = response.data.description;
                 $scope.data.property_id = response.data.property_id;
-                $scope.data.land_component = response.data.land_component;
-                $scope.data.insurance_value = response.data.insurance_value;
-                $scope.data.forced_sale_value = response.data.forced_sale_value;
-                $scope.data.improvement_component = response.data.improvement_component;
-                $scope.data.area = response.data.area;
-                $scope.data.land_value_rate = response.data.land_value_rate;
+                $scope.data.land_component = FUNC.smart_number(response.data.land_component);
+                $scope.data.insurance_value = FUNC.smart_number(response.data.insurance_value);
+                $scope.data.forced_sale_value = FUNC.smart_number(response.data.forced_sale_value);
+                $scope.data.improvement_component = FUNC.smart_number(response.data.improvement_component);
+                $scope.data.area = FUNC.smart_number(response.data.area);
+                $scope.data.land_value_rate = FUNC.smart_number(response.data.land_value_rate);
             }).error(function(error){
                 if(!FUNC.tryLogout(error)) {
                     console.log(error);  

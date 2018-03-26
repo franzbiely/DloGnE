@@ -60,6 +60,9 @@ MetronicApp.service('FUNC', function($http, $rootScope, $auth, $state) {
             multi_property_results : false,
             resultReady : false
         }
+    };
+    this.smart_number = function(input) {
+        return input.toString().replace(/[^\d.-]/g, '').replace(/_/g, ' ').replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
 });
