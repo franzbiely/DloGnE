@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-4">Total Property Value (K)<span class="required" aria-required="true"> * </span></label>
                                     <div class="col-md-8">
-                                        <input disabled class="form-control form-control-inline input-medium" type="text" value="{[{ +(data.land_component | smart_number) + +(data.improvement_component | smart_number) }]}" />
+                                        <input disabled class="form-control form-control-inline input-medium" type="text" value="{[{ (+data.land_component | smart_number) + (+data.improvement_component | smart_number) }]}" />
                                         <span class="help-block"> </span>
                                     </div>
                                 </div>

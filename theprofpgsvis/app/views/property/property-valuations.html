@@ -40,7 +40,7 @@
                     <tbody>
                         <tr ng-repeat="(key, value) in valuations" class="odd gradeX">
                             <td>{[{value.date | amDateFormat:'DD-MM-YYYY' }]}</td>
-                            <td>{[{ +(value.land_component | smart_number ) + +(value.improvement_component | smart_number) }]}</td>
+                            <td>{[{ (+value.land_component | smart_number ) + (+value.improvement_component | smart_number) }]}</td>
                             <td>{[{value.land_component | smart_number}]}</td>
                             <td>{[{value.insurance_value | smart_number}]}</td>
                             <td>{[{value.forced_sale_value | smart_number}]}</td>
