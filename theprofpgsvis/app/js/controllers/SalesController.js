@@ -18,7 +18,7 @@ angular.module('MetronicApp').controller('SalesController',
         $http.get($rootScope.apiURL + 'v1/property_use?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_use_options = toOption(ret.data);
             $scope.property_use_options.splice(0, 0, { id : '', label : '[Choose Use]' });
-            $scope.data_temp.property_use_selected = $scope.property_use_options[0];
+            $scope.data_temps.property_use_selected = $scope.property_use_options[0];
         }).error(function(error) {
             if(!FUNC.tryLogout(error)) {
                 console.log(error);  
@@ -27,7 +27,7 @@ angular.module('MetronicApp').controller('SalesController',
         $http.get($rootScope.apiURL + 'v1/property_class?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_class_options = toOption(ret.data);
             $scope.property_class_options.splice(0, 0, { id : '', label : '[Choose Class]' });
-            $scope.data_temp.property_class_selected = $scope.property_class_options[0];
+            $scope.data_temps.property_class_selected = $scope.property_class_options[0];
         }).error(function(error) {
             if(!FUNC.tryLogout(error)) {
                 console.log(error);  
@@ -36,7 +36,7 @@ angular.module('MetronicApp').controller('SalesController',
         $http.get($rootScope.apiURL + 'v1/property_lease_type?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_lease_type_options = toOption(ret.data);
             $scope.property_lease_type_options.splice(0, 0, { id : '', label : '[Choose Lease Type]' });
-            $scope.data_temp.property_lease_type_selected = $scope.property_lease_type_options[0];
+            $scope.data_temps.property_lease_type_selected = $scope.property_lease_type_options[0];
         }).error(function(error) {
             if(!FUNC.tryLogout(error)) {
                 console.log(error);  
@@ -45,7 +45,7 @@ angular.module('MetronicApp').controller('SalesController',
         $http.get($rootScope.apiURL + 'v1/property_city?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_city_options = toOption(ret.data);
             $scope.property_city_options.splice(0, 0, { id : '', label : '[Choose City]' });
-            $scope.data_temp.property_city_selected = $scope.property_city_options[0];
+            $scope.data_temps.property_city_selected = $scope.property_city_options[0];
         }).error(function(error) {
             if(!FUNC.tryLogout(error)) {
                 console.log(error);  
@@ -54,7 +54,7 @@ angular.module('MetronicApp').controller('SalesController',
         $http.get($rootScope.apiURL + 'v1/property_suburb?token='+localStorage.getItem('satellizer_token')).success(function(ret) {
             $scope.property_suburb_options = toOption(ret.data, 'suburb');
             $scope.property_suburb_options.splice(0, 0, { id : '', label : '[Choose Suburb]' });
-            $scope.data_temp.property_suburb_selected = $scope.property_suburb_options[0];
+            $scope.data_temps.property_suburb_selected = $scope.property_suburb_options[0];
         }).error(function(error) {
             if(!FUNC.tryLogout(error)) {
                 console.log(error);  
@@ -245,20 +245,20 @@ angular.module('MetronicApp').controller('SalesController',
                 $scope.searchdata.area_min = $scope.searchdata.area_min.replace (/,/g, "");
             }
             
-            if(typeof $scope.data_temp.property_city_selected !== 'undefined' && $scope.data_temp.property_city_selected.id !== '') {
-                $scope.searchdata.property_city_id = $scope.data_temp.property_city_selected.id;
+            if(typeof $scope.data_temps.property_city_selected !== 'undefined' && $scope.data_temps.property_city_selected.id !== '') {
+                $scope.searchdata.property_city_id = $scope.data_temps.property_city_selected.id;
             }
-            if(typeof $scope.data_temp.property_suburb_selected !== 'undefined' && $scope.data_temp.property_suburb_selected.id !== '') {
-                $scope.searchdata.property_suburb_id = $scope.data_temp.property_suburb_selected.id;
+            if(typeof $scope.data_temps.property_suburb_selected !== 'undefined' && $scope.data_temps.property_suburb_selected.id !== '') {
+                $scope.searchdata.property_suburb_id = $scope.data_temps.property_suburb_selected.id;
             }
-            if(typeof $scope.data_temp.property_class_selected !== 'undefined' && $scope.data_temp.property_class_selected.id !== '') {
-                $scope.searchdata.property_class_id = $scope.data_temp.property_class_selected.id;
+            if(typeof $scope.data_temps.property_class_selected !== 'undefined' && $scope.data_temps.property_class_selected.id !== '') {
+                $scope.searchdata.property_class_id = $scope.data_temps.property_class_selected.id;
             }
-            if(typeof $scope.data_temp.property_lease_type_selected !== 'undefined' && $scope.data_temp.property_lease_type_selected.id !== '') {
-                $scope.searchdata.property_lease_type_id = $scope.data_temp.property_lease_type_selected.id;
+            if(typeof $scope.data_temps.property_lease_type_selected !== 'undefined' && $scope.data_temps.property_lease_type_selected.id !== '') {
+                $scope.searchdata.property_lease_type_id = $scope.data_temps.property_lease_type_selected.id;
             }
-            if(typeof $scope.data_temp.include_zero !== 'undefined' && $scope.data_temp.include_zero.id !== '') {
-                $scope.searchdata.include_sales_zero = $scope.data_temp.include_zero;
+            if(typeof $scope.data_temps.include_zero !== 'undefined' && $scope.data_temps.include_zero.id !== '') {
+                $scope.searchdata.include_sales_zero = $scope.data_temps.include_zero;
             }
             
             if(property_id != null) {
