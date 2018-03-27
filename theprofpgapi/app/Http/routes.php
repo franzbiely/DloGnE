@@ -54,6 +54,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'api/v1'], function(){
 	Route::resource('property_city', 'PropertyCitiesController');
 	Route::resource('property_suburb', 'PropertySuburbsController');
 	
+	Route::get('property/search/{property_id}', 'PropertiesController@search');
 	Route::get('property/param/{params}', 'PropertiesController@getByParam');
 	
 	// Single

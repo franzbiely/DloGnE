@@ -110,6 +110,19 @@ class PropertiesController extends Controller {
         }
         return Response::json($this->transformCollection($properties, 'index'), 200);
     }
+    public function search(Request $request, $property_id) { 
+        $limit       = $request->input('limit', 10);
+        $properties = Property::orderBy('id', 'DESC')
+            ->where('id', 'LIKE', "%$property_id%")
+            ->where('is_archive', '=', "0")
+            ->with( $this->with )
+            ->select( $this->default_select )
+            ->paginate($limit); 
+        $properties->appends(array(            
+            'limit' => $limit
+        )); 
+        return Response::json($this->transformCollection($properties, 'index'), 200);
+    }
 
     public function getByParam(Request $request, $params) {
         $limit = $request->input('limit', 10);

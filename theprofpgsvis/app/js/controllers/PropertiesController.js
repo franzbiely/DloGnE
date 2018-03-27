@@ -9,7 +9,8 @@ angular.module('MetronicApp').controller('PropertiesController',
         $scope.error;
         $scope.property;
         $scope.isDisabled = false;
-        $rootScope.pageSidebarClosed = false
+        $rootScope.pageSidebarClosed = false;
+        $scope.filterPropID = null;
         $scope.$on('$viewContentLoaded', function() {   
             App.initAjax();
         });
@@ -18,9 +19,18 @@ angular.module('MetronicApp').controller('PropertiesController',
         
         // Fetch data
         $scope.fetch = function() {
-            var url = $rootScope.apiURL + 'v1/property?is_archive=1?limit=' + $scope.limit + '&page=' + $scope.current_page + '&token='+localStorage.getItem('satellizer_token');
+
+            var url;
             if($state.current.name === "property.archives") {
                 url = $rootScope.apiURL + 'v1/property/param/is_archive=1?limit=' + $scope.limit + '&page=' + $scope.current_page + '&token='+localStorage.getItem('satellizer_token');
+            } 
+            else {
+                if($scope.filterPropID != null && $scope.filterPropID != '') {
+                    url = $rootScope.apiURL + 'v1/property/search/'+$scope.filterPropID+'?limit=' + $scope.limit + '&page=' + $scope.current_page + '&token='+localStorage.getItem('satellizer_token');    
+                }
+                else {
+                    url = $rootScope.apiURL + 'v1/property?limit=' + $scope.limit + '&page=' + $scope.current_page + '&token='+localStorage.getItem('satellizer_token');    
+                }
             }
             $http.get(url).success(function(property) {
                 $scope.properties = property.data;
