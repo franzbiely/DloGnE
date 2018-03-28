@@ -64,12 +64,14 @@ MetronicApp.service('FUNC', function($http, $rootScope, $auth, $state) {
     this.smart_number = function(input, withComma) {
         if (typeof withComma === 'undefined') 
             withComma = false;
-        else
-            withComma = true;
-        let ret = input.toString().replace(/[^\d.-]/g, '');
-        if(withComma)
+        let ret = input.toString().replace(/[^\d.-]/g, '').replace(/_/g, ' ');
+        if(withComma) {
             ret = ret.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        return parseFloat(ret);
+            return ret;
+        }
+        else {
+            return parseInt(ret);
+        }
     }
 
 });
