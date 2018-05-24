@@ -31,7 +31,6 @@
                             <th>Land Component (K)</th>
                             <th>Insurance Value (K)</th>
                             <th>Forced Sale Value (K)</th>
-                            <th>Area (sqm)</th>
                             <th>Land Value Rate <br />(K per sqm)</th>
                             <th class="col-md-2">Description</th>
                             <th ng-show="hasActions">Actions</th>
@@ -40,12 +39,11 @@
                     <tbody>
                         <tr ng-repeat="(key, value) in valuations" class="odd gradeX">
                             <td>{[{value.date | amDateFormat:'DD-MM-YYYY' }]}</td>
-                            <td>{[{ +value.land_component + +value.improvement_component | smart_number }]}</td>
-                            <td>{[{value.land_component | smart_number}]}</td>
-                            <td>{[{value.insurance_value | smart_number}]}</td>
-                            <td>{[{value.forced_sale_value | smart_number}]}</td>
-                            <td>{[{value.area | smart_number}]}</td>
-                            <td>{[{value.land_value_rate | smart_number}]}</td>
+                            <td class="text-right">{[{ +value.land_component + +value.improvement_component | smart_number }]}</td>
+                            <td class="text-right">{[{value.land_component | smart_number}]}</td>
+                            <td class="text-right">{[{value.insurance_value | smart_number}]}</td>
+                            <td class="text-right">{[{value.forced_sale_value | smart_number}]}</td>
+                            <td class="text-right">{[{value.land_value_rate | smart_number}]}</td>
                             <td>{[{value.description}]}</td>
                             <td ng-show="hasActions">
                                 <a type="button" class="btn btn-default" 

@@ -10,9 +10,9 @@ angular.module('MetronicApp').controller('ReportsController',
         $scope.current_page = 1;
         $scope.total;
         $scope.data_temps = {
-            include_with_valuation : true,
-            include_with_sales : true,
-            include_with_rentals : true
+            include_with_valuation : false,
+            include_with_sales : false,
+            include_with_rentals : false
         };
 
 
@@ -163,7 +163,6 @@ angular.module('MetronicApp').controller('ReportsController',
             }
 
         });
-        console.log($scope.data_temps);
         $scope.resetform = function() {
             let form_data = FUNC.resetform();
             for( let _data in form_data) {
@@ -272,6 +271,7 @@ angular.module('MetronicApp').controller('ReportsController',
                 $http.get($rootScope.apiURL + 'v1/property/param/'+ $scope.mdata.str + '?limit=' + $scope.limit + '&page=' + $scope.mdata.current_page + '&token='+localStorage.getItem('satellizer_token')).success(function(response) {
                     if(response.data.length == '0') {
                         alert('No result');
+                        $scope.hideForm = false;
                     }
                     else if(response.data.length > 1) {
                         $scope.multi_property_results = response.data;

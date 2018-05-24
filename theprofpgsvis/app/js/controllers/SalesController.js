@@ -292,9 +292,10 @@ angular.module('MetronicApp').controller('SalesController',
             }
             $scope.mfetch = function(){
                 $http.get($rootScope.apiURL + 'v1/property/param/'+ $scope.mdata.str +'?limit=' + $scope.limit + '&page=' + $scope.mdata.current_page + '&token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                    $scope.hideForm = false;
+                    
                     if(response.data.length == '0') {
                         alert('No result');
+                        $scope.hideForm = false;
                     }
                     else if(response.data.length > 1) {
                         $scope.hideForm = true;
@@ -309,6 +310,7 @@ angular.module('MetronicApp').controller('SalesController',
                         }).success(function(response) {});
                     }
                     else {
+                        $scope.hideForm = true
                         if(!from_id_link) {
                             $scope.multi_property_results = response.data;
                             $scope.multipleResultsShow = true;
@@ -348,10 +350,10 @@ angular.module('MetronicApp').controller('SalesController',
                                     <div class="col-md-8">\
                                         <div class="input-icon right">';
                 if(key > -1) {
-                    form +=                     '<input required type="text" value="'+moment($scope[plural][key].date, 'YYYY-MM-DD').format('DD-MM-YYYY')+'" class="form-control date-picker" name="date" id="date"> </div>';
+                    form +=                     '<input autocomplete="off" required type="text" value="'+moment($scope[plural][key].date, 'YYYY-MM-DD').format('DD-MM-YYYY')+'" class="form-control date-picker" name="date" id="date"> </div>';
                 }
                 else {
-                    form +=                     '<input required type="text" class="form-control date-picker" name="date" id="date" placeholder=""> </div>';    
+                    form +=                     '<input autocomplete="off" required type="text" class="form-control date-picker" name="date" id="date" placeholder=""> </div>';    
                 }
                 form +=             '</div>\
                                 </div>\
@@ -424,18 +426,6 @@ angular.module('MetronicApp').controller('SalesController',
                 }
                 else {
                     form +=                     '<input required type="text" class="form-control format-number" name="est_improvement_value" id="est_improvement_value"> </div>';    
-                }
-                form +=             '</div>\
-                                </div>\
-                                <div class="form-group">\
-                                    <label class="col-md-4 control-label">Area (sqm)<span class="required" aria-required="true"> * </span></label>\
-                                    <div class="col-md-8">\
-                                        <div class="input-icon right">';
-                if(key > -1) {
-                    form +=                     '<input required type="text" value="'+FUNC.smart_number($scope[plural][key].area)+'" class="form-control format-number" name="area" id="area"> </div>';
-                }
-                else {
-                    form +=                     '<input required type="text" class="form-control format-number" name="area" id="area"> </div>';    
                 }
                 form +=             '</div>\
                                 </div>\
@@ -518,7 +508,6 @@ angular.module('MetronicApp').controller('SalesController',
                             $('#frmSale')[0]['elements'].vendor.value !== '' &&
                             $('#frmSale')[0]['elements'].est_land_value.value !== '' &&
                             $('#frmSale')[0]['elements'].est_improvement_value.value !== '' &&
-                            $('#frmSale')[0]['elements'].area.value !== '' &&
                             $('#frmSale')[0]['elements'].est_land_rate.value !== '' &&
                             $('#frmSale')[0]['elements'].description.value !== '',
                             $('#frmSale')[0]['elements'].remarks.value !== ''
@@ -533,8 +522,6 @@ angular.module('MetronicApp').controller('SalesController',
                             $scope[singular].est_land_value = sing_est_land_value.replace (/,/g, "");
                             var sing_est_improvement_value = $('#frmSale')[0]['elements'].est_improvement_value.value;
                             $scope[singular].est_improvement_value = sing_est_improvement_value.replace (/,/g, "");
-                            var sing_area = $('#frmSale')[0]['elements'].area.value;
-                            $scope[singular].area = sing_area.replace (/,/g, "");
                             var sing_est_land_rate = $('#frmSale')[0]['elements'].est_land_rate.value;
                             $scope[singular].est_land_rate = sing_est_land_rate.replace (/,/g, "");
                             $scope[singular].description = $('#frmSale')[0]['elements'].description.value;
@@ -549,7 +536,6 @@ angular.module('MetronicApp').controller('SalesController',
                                 $scope[plural][key].vendor = $scope[singular].vendor;
                                 $scope[plural][key].est_land_value = $scope[singular].est_land_value;
                                 $scope[plural][key].est_improvement_value = $scope[singular].est_improvement_value;
-                                $scope[plural][key].area = $scope[singular].area;
                                 $scope[plural][key].est_land_rate = $scope[singular].est_land_rate;
                                 $scope[plural][key].description = $scope[singular].description;
                                 $scope[plural][key].remarks = $scope[singular].remarks;
@@ -595,7 +581,6 @@ angular.module('MetronicApp').controller('SalesController',
                 vendor : $scope[singular].vendor,
                 est_land_value : $scope[singular].est_land_value,
                 est_improvement_value : $scope[singular].est_improvement_value,
-                area : $scope[singular].area,
                 est_land_rate : $scope[singular].est_land_rate,
                 description : $scope[singular].description,
                 property_id : $state.params.property_id,
@@ -624,7 +609,6 @@ angular.module('MetronicApp').controller('SalesController',
                 vendor : $scope[singular].vendor,
                 est_land_value : $scope[singular].est_land_value,
                 est_improvement_value : $scope[singular].est_improvement_value,
-                area : $scope[singular].area,
                 est_land_rate : $scope[singular].est_land_rate,
                 description : $scope[singular].description,
                 remarks : $scope[singular].remarks
