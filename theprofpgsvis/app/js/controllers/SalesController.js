@@ -292,9 +292,10 @@ angular.module('MetronicApp').controller('SalesController',
             }
             $scope.mfetch = function(){
                 $http.get($rootScope.apiURL + 'v1/property/param/'+ $scope.mdata.str +'?limit=' + $scope.limit + '&page=' + $scope.mdata.current_page + '&token='+localStorage.getItem('satellizer_token')).success(function(response) {
-                    $scope.hideForm = false;
+                    
                     if(response.data.length == '0') {
                         alert('No result');
+                        $scope.hideForm = false;
                     }
                     else if(response.data.length > 1) {
                         $scope.hideForm = true;
@@ -309,6 +310,7 @@ angular.module('MetronicApp').controller('SalesController',
                         }).success(function(response) {});
                     }
                     else {
+                        $scope.hideForm = true
                         if(!from_id_link) {
                             $scope.multi_property_results = response.data;
                             $scope.multipleResultsShow = true;

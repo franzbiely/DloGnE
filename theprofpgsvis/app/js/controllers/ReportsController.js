@@ -272,6 +272,7 @@ angular.module('MetronicApp').controller('ReportsController',
                 $http.get($rootScope.apiURL + 'v1/property/param/'+ $scope.mdata.str + '?limit=' + $scope.limit + '&page=' + $scope.mdata.current_page + '&token='+localStorage.getItem('satellizer_token')).success(function(response) {
                     if(response.data.length == '0') {
                         alert('No result');
+                        $scope.hideForm = false;
                     }
                     else if(response.data.length > 1) {
                         $scope.multi_property_results = response.data;
