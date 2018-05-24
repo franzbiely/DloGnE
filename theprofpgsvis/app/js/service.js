@@ -41,9 +41,9 @@ MetronicApp.service('FUNC', function($http, $rootScope, $auth, $state) {
             data : [],
             searchdata : [],
             data_temps : {
-                include_with_valuation : true,
-                include_with_sales : true,
-                include_with_rentals : true
+                include_with_valuation : false,
+                include_with_sales : false,
+                include_with_rentals : false
             },
             temp : {
                 enable_price_range : false,

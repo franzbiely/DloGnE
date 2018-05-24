@@ -10,9 +10,9 @@ angular.module('MetronicApp').controller('ReportsController',
         $scope.current_page = 1;
         $scope.total;
         $scope.data_temps = {
-            include_with_valuation : true,
-            include_with_sales : true,
-            include_with_rentals : true
+            include_with_valuation : false,
+            include_with_sales : false,
+            include_with_rentals : false
         };
 
 
@@ -163,7 +163,6 @@ angular.module('MetronicApp').controller('ReportsController',
             }
 
         });
-        console.log($scope.data_temps);
         $scope.resetform = function() {
             let form_data = FUNC.resetform();
             for( let _data in form_data) {
