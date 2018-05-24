@@ -44,12 +44,12 @@
                             <td>{[{value.date | amDateFormat:'DD-MM-YYYY' }]}</td>
                             <td>{[{value.source}]}</td>
                             <td>{[{value.purchaser}]}</td>
-                            <td>{[{value.price | smart_number}]}</td>
+                            <td class="text-right">{[{value.price | smart_number}]}</td>
                             <td>{[{value.vendor}]}</td>
-                            <td>{[{value.est_land_value | smart_number}]}</td>
-                            <td>{[{value.est_improvement_value | smart_number}]}</td>
-                            <td>{[{value.area | smart_number}]}</td>
-                            <td>{[{value.est_land_rate | smart_number}]}</td>
+                            <td class="text-right">{[{value.est_land_value | smart_number}]}</td>
+                            <td class="text-right">{[{value.est_improvement_value | smart_number}]}</td>
+                            <td class="text-right">{[{value.area | smart_number}]}</td>
+                            <td class="text-right">{[{value.est_land_rate | smart_number}]}</td>
                             <td>{[{value.description}]}</td>
                             <td>{[{value.remarks}]}</td>
                             <td ng-show="hasActions">

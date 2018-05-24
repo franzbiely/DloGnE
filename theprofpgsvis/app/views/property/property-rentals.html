@@ -39,12 +39,12 @@
                     <tbody>
                         <tr ng-repeat="(key, value) in rentals" class="odd gradeX">
                             <td>{[{value.analysed_date | amDateFormat:'DD-MM-YYYY' }]}</td>
-                            <td>{[{value.analysed_rent | smart_number }]}</td>
-                            <td>{[{value.rental_area }]}</td>
+                            <td class="text-right">{[{value.analysed_rent | smart_number }]}</td>
+                            <td class="text-right">{[{value.rental_area }]}</td>
                             <td>{[{value.rental_period }]}</td>
-                            <td>{[{value.total_lease_period | smart_number }]}</td>
+                            <td class="text-right">{[{value.total_lease_period | smart_number }]}</td>
                             <td>{[{value.date_lease_commenced | amDateFormat:'DD-MM-YYYY' }]}</td>
-                            <td>{[{value.vacancy_rate }]}%</td>
+                            <td class="text-right">{[{value.vacancy_rate }]}%</td>
                             <td>{[{value.remarks}]}</td>
                             <td ng-show="hasActions">
                                 <a type="button" class="btn btn-default" 
