@@ -482,9 +482,8 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('D'.$ROW, 'Insurance Value (K)');
                 $sheet->setCellValue('E'.$ROW, 'Forced Sale Value (K)');
                 $sheet->setCellValue('F'.$ROW, 'Improvement Component (K)');
-                $sheet->setCellValue('G'.$ROW, 'Area (sqm)');
-                $sheet->setCellValue('H'.$ROW, 'Land Value Rate (K per sqm)');
-                $sheet->setCellValue('I'.$ROW, 'Description');
+                $sheet->setCellValue('G'.$ROW, 'Land Value Rate (K per sqm)');
+                $sheet->setCellValue('H'.$ROW, 'Description');
                 if(!empty($request->valuations)) {
                     foreach($request->valuations as $key=>$valuation) {
                         $sheet->setCellValue('A'.$ROW+=1, $valuation['date']);
@@ -493,9 +492,8 @@ class PropertiesController extends Controller {
                         $sheet->setCellValue('D'.$ROW, Common::smart_number_format($valuation['insurance_value']));
                         $sheet->setCellValue('E'.$ROW, Common::smart_number_format($valuation['forced_sale_value']));
                         $sheet->setCellValue('F'.$ROW, Common::smart_number_format($valuation['improvement_component']));
-                        $sheet->setCellValue('G'.$ROW, Common::smart_number_format($valuation['area']));
-                        $sheet->setCellValue('H'.$ROW, Common::smart_number_format($valuation['land_value_rate']));
-                        $sheet->setCellValue('I'.$ROW, $valuation['description']);
+                        $sheet->setCellValue('G'.$ROW, Common::smart_number_format($valuation['land_value_rate']));
+                        $sheet->setCellValue('H'.$ROW, $valuation['description']);
                     }
                 }
                 else {
@@ -511,10 +509,9 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('D'.$ROW, 'Vendor');
                 $sheet->setCellValue('E'.$ROW, 'Est Land Value (K)');
                 $sheet->setCellValue('F'.$ROW, 'Est Improvement Value (K)');
-                $sheet->setCellValue('G'.$ROW, 'Area (sqm)');
-                $sheet->setCellValue('H'.$ROW, 'Est Land Rate (K/sq.m)');
-                $sheet->setCellValue('I'.$ROW, 'Description');
-                $sheet->setCellValue('J'.$ROW, 'Remarks');
+                $sheet->setCellValue('G'.$ROW, 'Est Land Rate (K/sq.m)');
+                $sheet->setCellValue('H'.$ROW, 'Description');
+                $sheet->setCellValue('I'.$ROW, 'Remarks');
 
                 if(!empty($request->sales)) {
                     foreach($request->sales as $sale) {
@@ -524,10 +521,9 @@ class PropertiesController extends Controller {
                         $sheet->setCellValue('D'.$ROW, $sale['vendor']);
                         $sheet->setCellValue('E'.$ROW, Common::smart_number_format($sale['est_land_value']));
                         $sheet->setCellValue('F'.$ROW, Common::smart_number_format($sale['est_improvement_value']));
-                        $sheet->setCellValue('G'.$ROW, Common::smart_number_format($sale['area']));
-                        $sheet->setCellValue('H'.$ROW, Common::smart_number_format($sale['est_land_rate']));
-                        $sheet->setCellValue('I'.$ROW, $sale['description']);                    
-                        $sheet->setCellValue('J'.$ROW, $sale['remarks']);                    
+                        $sheet->setCellValue('G'.$ROW, Common::smart_number_format($sale['est_land_rate']));
+                        $sheet->setCellValue('H'.$ROW, $sale['description']);                    
+                        $sheet->setCellValue('I'.$ROW, $sale['remarks']);                    
                     }
                 }
                 else {
@@ -604,7 +600,6 @@ class PropertiesController extends Controller {
             <th>Insurance Value (K)</th>
             <th>Forced Sale Value (K)</th>
             <th>Improvement Component (K)</th>
-            <th>Area (sqm)</th>
             <th>Land Value Rate (K per sqm)</th>
             <th>Description</th>
         </tr>
@@ -618,7 +613,6 @@ class PropertiesController extends Controller {
                     <td style="text-align:right;"><?php echo ($valuation['insurance_value'] !== '') ?Common::smart_number_format($valuation['insurance_value']) : '' ?></td>
                     <td style="text-align:right;"><?php echo ($valuation['forced_sale_value'] !== '') ? Common::smart_number_format($valuation['forced_sale_value']) : '' ?></td>
                     <td style="text-align:right;"><?php echo ($valuation['improvement_component'] !== '') ?Common::smart_number_format($valuation['improvement_component']) : '' ?></td>
-                    <td style="text-align:right;"><?php echo ($valuation['area'] !== '') ?Common::smart_number_format($valuation['area']) : '' ?></td>
                     <td style="text-align:right;"><?php echo ($valuation['land_value_rate'] !== '') ?Common::smart_number_format($valuation['land_value_rate']) : '' ?></td>
                     <td><?php echo $valuation['description'] ?></td>
                 </tr>
@@ -643,7 +637,6 @@ class PropertiesController extends Controller {
             <?php if(!isset($params->hide_sales_column) || !in_array('vendor', $params->hide_sales_column)) { ?>                <th>Vendor</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('est_land_value', $params->hide_sales_column)) { ?>        <th>Est Land Value (K)</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('est_improvement_value', $params->hide_sales_column)) { ?> <th>Est Improvement Value (K)</th><?php } else { $colspan--; } ?>
-            <?php if(!isset($params->hide_sales_column) || !in_array('area', $params->hide_sales_column)) { ?>                  <th>Area (sqm)</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('est_land_rate', $params->hide_sales_column)) { ?>         <th>Est Land Rate (K/sq.m)</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('description', $params->hide_sales_column)) { ?>           <th>Description</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('remarks', $params->hide_sales_column)) { ?>           <th>Remarks</th><?php } else { $colspan--; } ?>
@@ -661,7 +654,6 @@ class PropertiesController extends Controller {
                     <?php if(!isset($params->hide_sales_column) || !in_array('vendor', $params->hide_sales_column)) { ?>            <td><?php echo $sale['vendor'] ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('est_land_value', $params->hide_sales_column)) { ?>    <td style="text-align:right;"><?php echo ($sale['est_land_value'] !== '') ? Common::smart_number_format($sale['est_land_value']) : '' ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('est_improvement_value', $params->hide_sales_column)) { ?> <td style="text-align:right;"><?php echo ($sale['est_improvement_value'] !== '') ? Common::smart_number_format($sale['est_improvement_value']) : '' ?></td> <?php } ?>
-                    <?php if(!isset($params->hide_sales_column) || !in_array('area', $params->hide_sales_column)) { ?>              <td style="text-align:right;"><?php echo ($sale['area'] !== '') ? Common::smart_number_format($sale['area']) : '' ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('est_land_rate', $params->hide_sales_column)) { ?>     <td style="text-align:right;"><?php echo ($sale['est_land_rate'] !== '') ? Common::smart_number_format($sale['est_land_rate']) : '' ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('description', $params->hide_sales_column)) { ?>       <td><?php echo $sale['description'] ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('remarks', $params->hide_sales_column)) { ?>           <td><?php echo $sale['remarks'] ?></td> <?php } ?>
