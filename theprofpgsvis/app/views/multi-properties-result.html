@@ -24,7 +24,7 @@
                             <th ng-show="page_name == 'rentals'">Price (K)</th>
                             <th>Port/Sec/Lot</th>
                             <th>Suburb</th>
-                            <th ng-hide="page_name == 'valuations' || page_name == 'sales'">Area (sqm)</th>
+                            <th>Area (sqm)</th>
                             <th ng-show="page_name == 'valuations' || page_name == 'sales' || page_name == 'rentals'">History</th>
                         </tr>
                     </thead>
@@ -43,7 +43,7 @@
                             
                             <td>{[{value.port}]} / {[{value.sec}]} / {[{value.lot}]}</td>
                             <td>{[{value.suburb}]}</td>
-                            <td class="text-right" ng-hide="page_name == 'valuations' || page_name == 'sales'">{[{value.current_area | smart_number}]}</td>
+                            <td class="text-right">{[{value.current_area | smart_number}]}</td>
                             <td ng-show="page_name == 'valuations' || page_name == 'sales' || page_name == 'rentals'">
                                 <a ng-show="page_name == 'valuations'" type="button" 
                                     ui-sref="valuations.list({property_id : value.id})" class="btn btn-link">Valuation History ({[{value.valuations_count}]})</a> 
