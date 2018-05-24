@@ -87,9 +87,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-5">Land Value Rate (K per sqm) <span class="required" aria-required="true"> * </span></label>
+                                    <label class="control-label col-md-5">Area (sqm)<span class="required" aria-required="true"> * </span></label>
                                     <div class="col-md-7">
-                                        <input required ng-model="data.land_value_rate" class="form-control form-control-inline input-medium" type="text"  number-input="" />
+                                        <input required ng-model="data.area" class="form-control form-control-inline input-medium" type="text"  number-input="" />
                                         <span class="help-block"> </span>
                                     </div>
                                 </div>
@@ -104,7 +104,15 @@
                                     </div>
                                 </div>
                             </div>
-                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-5">Land Value Rate (K per sqm) <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-7">
+                                        <input required ng-model="data.land_value_rate" class="form-control form-control-inline input-medium" type="text"  number-input="" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <h3 class="form-section">Attachment</h3>
                         <div class="row">
