@@ -14,7 +14,23 @@
         color: green;
     }
     table {
-        width:200px; float:left; text-align: right;
+        width:100%; text-align: right;
+    }
+    #case_a {
+        background: #fff;
+        color: #333;
+    }
+    #case_b {
+        background: #EAFDCF;
+        color:#8E8358;
+    }
+    #case_c {
+        background: #DFBBB1;
+        color:#E43F6F;
+    }
+    #case_d {
+        background: #DDDDDF;
+        color:#C792DF;
     }
     #alldata {
        clear:both; 
