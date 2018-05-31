@@ -14,6 +14,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/area-migrator', function () {
+    return view('area-migrator');
+});
+
 // JWT
 
 Route::group(['middleware' => 'cors', 'prefix' => 'api'], function()

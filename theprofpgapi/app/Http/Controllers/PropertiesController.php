@@ -59,6 +59,8 @@ class PropertiesController extends Controller {
             'Current_Sales_Value',
             'Current_Rentals_Value',
             'Current_Area',
+            'Latest_Sales_Area',
+            'Latest_Valuation_Area',
             'Valuation',
             'Sale',
             'Rental'
@@ -391,7 +393,9 @@ class PropertiesController extends Controller {
                 'current_value'=>floatval($property['current__value']['value']),
                 'current_sales_value'=>floatval($property['current__sales__value']['value']),
                 'current_rentals_value'=>floatval($property['current__rentals__value']['value']),
-                'current_area'=>floatval($property['current__area']['area'])
+                'current_area'=>floatval($property['current__area']['area']),
+                'latest_sales_area'=>floatval($property['latest__sales__area']['area']),
+                'latest_valuation_area'=>floatval($property['latest__valuation__area']['area'])
         ];
         if(isset($property['valuations_count']))
             $ret['valuations_count'] = $property['valuations_count'];

@@ -80,6 +80,16 @@ class Property extends Model
             ->select(DB::raw('property_id, area'))
             ->orderBy('id','DESC')->latest();
     }
+    public function latest_sales_area() {
+        return $this->hasOne('App\Sale')
+            ->select(DB::raw('property_id, area'))
+            ->orderBy('id','DESC')->latest();
+    }
+    public function latest_valuation_area() {
+        return $this->hasOne('App\Valuation')
+            ->select(DB::raw('property_id, area'))
+            ->orderBy('id','DESC')->latest();
+    }
     public function created_by() {
         return $this->belongsTo('App\User');
     }
