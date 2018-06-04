@@ -84,7 +84,8 @@ class ValuationsController extends Controller
                 array(
                     'Property'=>function($query){
                         $query->select('id','name');
-                    }
+                    },
+                    'Media'
                 )
             )->select('valuations.id', 
                 'date',
@@ -95,16 +96,8 @@ class ValuationsController extends Controller
                 'forced_sale_value',
                 'improvement_component',
                 'area',
-                'land_value_rate',
-                DB::raw('COUNT(media.id) AS pdfs_count'),
-                DB::raw('media.file_path as file_path'),
-                DB::raw('media.file_name as file_name')
-            )->leftJoin('media', function($join) {
-                $join->on('media.source_id', '=', 'valuations.id');
-                $join->where('media.source_table', '=', 'valuations');
-                $join->where('media.media_type', '=', 'attached');
-            })
-            ->groupBy('valuations.id')
+                'land_value_rate'
+            )
             ->paginate($limit); 
 
         $valuations->appends(array(            
@@ -248,6 +241,7 @@ class ValuationsController extends Controller
     }
 
     private function transform($valuation){
+        // print_r($valuation);
         return [
                 'id' => $valuation['id'],
                 'date' => $valuation['date'],
@@ -259,9 +253,10 @@ class ValuationsController extends Controller
                 'area'=>$valuation['area'],
                 'land_value_rate'=>$valuation['land_value_rate'],
                 'property_id'=>$valuation['property']['name'],
-                'pdfs_count'=>$valuation['pdfs_count'],
-                'pdf_file_path' =>$valuation['file_path'],
-                'pdf_file_name' =>$valuation['file_name']
+                'media'=>$valuation['media'],
+                'pdfs_count'=>count($valuation['media']),
+                // 'pdf_file_path' =>$valuation['file_path'],
+                // 'pdf_file_name' =>$valuation['file_name']
         ];
     }
 }

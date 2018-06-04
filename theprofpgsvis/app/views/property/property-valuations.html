@@ -52,9 +52,14 @@
                                     ui-sref="valuations.details({valuation_id : value.id, property_id : property_id})">Edit</a>
                                 <!-- <button ng-click="showModal(key, value)" type="button" class="btn btn-primary">Edit</button> -->
                                 <button ng-click="delete($index, value.id)" ng-disabled="isDisabled" type="button" class="btn btn-danger">Delete</button>
-                                <a ng-show="value.pdfs_count > 0" ng-href="{[{attachPreBaseURL(value.pdf_file_path)}]}" target="_self" download="{[{value.pdf_file_name}]}">
-                                    <i class="fa fa-file-pdf-o"></i>
-                                </a>
+                                <div class="valuation-page" ng-show="value.pdfs_count > 0">
+                                    <ul class="pdf-gallery clearfix">
+                                        <li ng-repeat="(k, v) in value.media">
+                                            <a ng-href="{[{attachPreBaseURL(v.file_path)}]}" target="_self" download="{[{v.file_name}]}">                                    <i class="fa fa-file-pdf-o"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
                             </td>
                         </tr>
                         <tr ng-show="!valuations.length">

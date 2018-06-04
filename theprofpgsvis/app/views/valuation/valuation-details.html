@@ -119,7 +119,7 @@
                             <!--/span-->
                             <div class="col-md-6">
                                 <h4>PDF Gallery</h4>
-                                <div ng-hide="hasFile" class="dropzone" options="dzOptionsPDF" callbacks="dzCallbacksPDF" methods="dzMethodsPDF" ng-dropzone></div>
+                                <div class="dropzone" options="dzOptionsPDF" callbacks="dzCallbacksPDF" methods="dzMethodsPDF" ng-dropzone></div>
                                 <ul class="pdf-gallery clearfix">
                                     <li ng-repeat="(key, value) in pdfs">
                                         <strong><a ng-href="{[{value.file_path}]}" target="_self" download="{[{value.file_name}]}">{[{value.file_name}]}</a></strong>

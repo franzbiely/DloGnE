@@ -181,6 +181,7 @@ angular.module('MetronicApp').controller('ValuationsController',
                     console.log(error);  
                 }
             })
+
             const user = JSON.parse(localStorage.getItem('user'));
             $http.post($rootScope.apiURL + 'v1/audit_trail?token='+localStorage.getItem('satellizer_token'), {
                 user_id : user.id,

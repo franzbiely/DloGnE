@@ -138,3 +138,11 @@
 .tools span{
     color: #777;
 }
+.valuation-page .pdf-gallery {
+    padding-left: 0;
+    margin-top:10px;
+}
+.valuation-page .pdf-gallery li{
+    list-style: none;
+    display:inline-block;
+    }

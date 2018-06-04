@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Property;
+use App\Media;
 
 class Valuation extends Model
 {
@@ -24,5 +25,8 @@ class Valuation extends Model
 	
 	public function property(){
         return $this->belongsTo('App\Property');
+    }
+    public function media(){
+        return $this->hasMany('App\Media', 'source_id', 'id');
     }
 }
