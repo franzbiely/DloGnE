@@ -58,7 +58,6 @@
                             <td ng-show="hasActions">
                                 <!-- <button type="button" class="btn btn-default" 
                                     ui-sref="sales.details({sales_id : value.id, property_id : value.property_id})">View Details</button> -->
-                                  <button ng-click="showModal(key, value)" type="button" class="btn btn-primary">Edit (m)</button>
                                 <a type="button" class="btn btn-primary" ui-sref="sales.details({sales_id : value.id, property_id : property_id})">Edit</a>
                                 <button ng-click="delete($index, value.id)" ng-disabled="isDisabled" type="button" class="btn btn-danger">Delete</button>
                             </td>
