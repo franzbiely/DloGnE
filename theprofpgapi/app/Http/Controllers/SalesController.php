@@ -189,19 +189,16 @@ class SalesController extends Controller
         catch(\Exception $e){
             return 'Error on updating sales details  ' . $e->getMessage();
         }
-        if(isset($request->photo_ids)) {
+        if(isset($request->pdf_ids)) {
             try {
                 // remove not in array anymore
                 $media_controller = new MediaController();
-                $media_controller->remove_image_by_salesID($sale->id, $request->photo_ids);
-                $media_controller->remove_pdf_by_salesID($sale->id, $request->pdf_ids);
+                
+                $media_controller->remove_pdf_by_salesID($id, $request->pdf_ids);
                 // update and insert new photo_ids
                 
-                foreach($request->photo_ids as $photo_id) {
-                    $media_controller->update_source_id($photo_id, $sale->id);
-                }
                 foreach($request->pdf_ids as $pdf_id) {
-                    $media_controller->update_source_id($pdf_id, $sale->id);
+                    $media_controller->update_source_id($pdf_id, $id);
                 }
             }
             catch(\Exception $e){
