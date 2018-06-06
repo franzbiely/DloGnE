@@ -714,6 +714,45 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                 }
             }
         })
+        .state("sales.new", {
+            url: "/new/:property_id",
+            views: {
+                'app-body-inner': {
+                    templateUrl: "views/sales/sales-details.html",
+                    controller: "SalesDetailsController"
+                },
+                'property-detail@sales.details': {
+                    templateUrl : "views/property/property-details.html",
+                    controller: "PropertyNewController"
+                }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        cache : false,
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
+                            './assets/vendor/js/angular-file-upload.min.js',
+                            './assets/vendor/css/bootstrap-fileinput.css',
+                            './assets/vendor/js/bootstrap-fileinput.js',
+                            './assets/vendor/js/jquery.inputmask.bundle.min.js',
+                            'js/controllers/PropertyNewController.js',
+                            'js/controllers/ValuationDetailsController.js'
+                        ]                    
+                    });
+                }]
+            },
+            data: {
+                pageTitle: 'New Valuation',
+                permissions: {
+                    except: ['anonymous'],
+                    redirectTo: 'login'
+                }
+            }
+        })
 
         // Property
         .state("property", {
