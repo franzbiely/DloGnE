@@ -592,9 +592,34 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
             url: "/sales",
             views: {
                 'app-body': {
-                    templateUrl: "views/dashboard.html",
-                    controller : "SalesController"
+                    templateUrl: "views/dashboard.html"
+                },
+                'app-body-inner@sales': {
+                    templateUrl: "views/sales.html", controller : "SalesController"
+                },
+                'sales-details@sales' : {
+                    templateUrl : "views/property/property-sales.html"
+                },
+                'searchform@sales': {
+                    templateUrl : "views/searchform.html"
+                },
+                'multi-properties-result@sales' : {
+                    templateUrl : "views/multi-properties-result.html"
                 }
+            },
+            resolve: {
+                deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load({
+                        name: 'MetronicApp',  
+                        cache : false,
+                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                        files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
+                            'js/controllers/SalesController.js'
+                        ]                    
+                    });
+                }]
             },
             data: {
                 pageTitle: 'Sales',
@@ -696,6 +721,8 @@ MetronicApp.config(['$stateProvider', '$urlRouterProvider', '$authProvider', fun
                         cache : false,
                         insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
                         files: [
+                            './assets/vendor/css/bootstrap-datepicker3.min.css',
+                            './assets/vendor/js/bootstrap-datepicker.min.js',
                             './assets/vendor/js/angular-file-upload.min.js',
                             './assets/vendor/css/bootstrap-fileinput.css',
                             './assets/vendor/js/bootstrap-fileinput.js',
