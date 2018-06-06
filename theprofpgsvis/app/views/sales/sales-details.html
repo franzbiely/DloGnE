@@ -1,28 +1,23 @@
 <div class="row">
 
     <div class="col-md-12">
-    	<div class="portlet  light form-fit bordered">
+    	<div class="portlet  light  portlet-fit portlet-form bordered">
             <div class="portlet-title">
-                <div class="caption">
-                    <i class="fa fa-gift"></i>Sale Details</div>
-                <!-- <ul class="tools pager">
-                    <li><a href="#" ui-sref="sales.details">Previous</a></li>
-                    <li><a href="#" ui-sref="sales.details">Next</a></li>
-                </ul> -->
+                <div class="caption"><i class="fa fa-gift"></i>Sale Details</div>
             </div>
-            <div class="portlet-body form">
+            <div class="portlet-body">
 
                 <!-- BEGIN FORM-->
                 <form class="form-horizontal" ng-submit="save()">
                     <div class="form-body">
-                        
+                        <button class="btn btn-info" ui-sref="sales.list({property_id : data.property_id})"><i class="fa fa-chevron-left"></i> Back</button>
                         <h3 class="form-section">Sale Details <button ng-disabled="isDisabled" type="submit" class="btn green"><i class="fa fa-check" ng-class="{'fa-spinner fa-spin' : isDisabled}"></i> Save</button></h3>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">Sale Date / Date Sold</label>
+                                    <label class="control-label col-md-3">Date <span class="required" aria-required="true"> * </span></label>
                                     <div class="col-md-9">
-                                        <input ng-model="data.date" class="form-control form-control-inline input-medium date-picker" size="16" type="text" placeholder="" />
+                                        <input required ng-model="data.date" class="form-control form-control-inline input-medium date-picker" size="16" type="text" placeholder="" />
                                         <span class="help-block"> </span>
                                     </div>
                                 </div>
@@ -30,14 +25,75 @@
                             <!--/span-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">Purchaser</label>
+                                    <label class="control-label col-md-3">Source <span class="required" aria-required="true"> * </span></label>
                                     <div class="col-md-9">
-                                        <input ng-model="data.purchaser" class="form-control form-control-inline input-medium" type="text" placeholder="" />
+                                        <input required ng-model="data.source" class="form-control form-control-inline input-medium" type="text" placeholder="" />
                                         <span class="help-block"> </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Purchaser <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-9">
+                                        <input required ng-model="data.purchaser" class="form-control form-control-inline input-medium" type="text" placeholder="" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Price <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-9">
+                                        <input required ng-model="data.price" class="form-control form-control-inline input-medium" type="text" placeholder="" number-input="" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Vendor <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-9">
+                                        <input required ng-model="data.vendor" class="form-control form-control-inline input-medium" type="text" placeholder="" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Est Land Value (K) <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-9">
+                                        <input required ng-model="data.est_land_value" class="form-control form-control-inline input-medium" type="text" placeholder="" number-input="" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Est Improvement Value (K)  <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-9">
+                                        <input required ng-model="data.est_improvement_value" class="form-control form-control-inline input-medium" type="text" placeholder="" number-input="" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Est Land Rate (K/sq.m) <span class="required" aria-required="true"> * </span></label>
+                                    <div class="col-md-9">
+                                        <input required ng-model="data.est_land_rate" class="form-control form-control-inline input-medium" type="text" placeholder="" number-input="" />
+                                        <span class="help-block"> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -50,27 +106,15 @@
                             <!--/span-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">Value</label>
+                                    <label class="control-label col-md-3">Remarks</label>
                                     <div class="col-md-9">
-                                        <input ng-model="data.value" class="form-control form-control-inline input-medium" type="text" placeholder="" />
-                                        <span class="help-block"> </span>
+                                        <textarea rows="5" class="form-control" ng-model="data.remarks"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <h3 class="form-section">Attachments</h3>
                         <div class="row">
-                            <div class="col-md-6">
-                                <h4>Photo Gallery <sub><i>Max file size : 250kb</i></sub></h4>
-                                <div class="dropzone" options="dzOptions" callbacks="dzCallbacks" methods="dzMethods" ng-dropzone></div>
-                                <ul class="photo-gallery clearfix">
-                                    <li ng-repeat="(key, value) in photos">
-                                        <img ng-src="{[{value.file_path}]}" alt="{[{value.file_name}]}" />
-                                        <a ng-click="removePhoto(key)"><i class="fa fa-minus-circle" aria-hidden="true"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!--/span-->
                             <div class="col-md-6">
                                 <h4>PDF Gallery</h4>
                                 <div class="dropzone" options="dzOptionsPDF" callbacks="dzCallbacksPDF" methods="dzMethodsPDF" ng-dropzone></div>
@@ -83,9 +127,6 @@
                             </div>
                         </div>
                         <!--/row-->
-
-                        <!-- CALL PROPERTY DETAIL -->
-                        <div ui-view="property-detail" class="fade-in-up"> </div>
                     </div>
                 </form>
                 <!-- END FORM-->
