@@ -83,7 +83,7 @@ angular.module('MetronicApp').controller('SalesDetailsController',
         $scope.save = function() {
             $scope.isDisabled = true;
             var param = {
-                date : $scope.data.date,
+                date : moment($scope.data.date, 'DD-MM-YYYY').format('YYYY-MM-DD'),
                 description : $scope.data.description,
                 est_improvement_value : $scope.data.est_improvement_value,
                 est_land_rate : $scope.data.est_land_rate,
