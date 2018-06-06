@@ -15,7 +15,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div ng-show="hasActions" class="btn-group">
-                                <a id="add_new_class" class="btn sbold green" ng-click="showModal()"> Add Sales
+                                <!-- <a id="add_new_class" class="btn sbold green" ng-click="showModal()"> Add Sales
+                                    <i class="fa fa-plus"></i>
+                                </a> -->
+                                <a ui-sref="sales.new({property_id : property_id})" id="add_new_class" class="btn sbold green"> Add Sales
                                     <i class="fa fa-plus"></i>
                                 </a>
                             </div>
@@ -55,7 +58,8 @@
                             <td ng-show="hasActions">
                                 <!-- <button type="button" class="btn btn-default" 
                                     ui-sref="sales.details({sales_id : value.id, property_id : value.property_id})">View Details</button> -->
-                                <button ng-click="showModal(key, value)" type="button" class="btn btn-primary">Edit</button>
+                                  <button ng-click="showModal(key, value)" type="button" class="btn btn-primary">Edit (m)</button>
+                                <a type="button" class="btn btn-primary" ui-sref="sales.details({sales_id : value.id, property_id : property_id})">Edit</a>
                                 <button ng-click="delete($index, value.id)" ng-disabled="isDisabled" type="button" class="btn btn-danger">Delete</button>
                             </td>
                         </tr>
