@@ -27,6 +27,7 @@
                         <tr>
                             <th>Analysed Date</th>
                             <th>Analysed Rent (K)</th>
+                            <th>Analysed Rent Area (sqm)</th>
                             <th>Analysed Rent Period</th>
                             <th>Lease Period</th>
                             <th>Lease Commenced</th>
@@ -39,6 +40,7 @@
                         <tr ng-repeat="(key, value) in rentals" class="odd gradeX">
                             <td>{[{value.analysed_date | amDateFormat:'DD-MM-YYYY' }]}</td>
                             <td class="text-right">{[{value.analysed_rent | smart_number }]}</td>
+                            <td class="text-right">{[{value.rental_area }]}</td>
                             <td>{[{value.rental_period }]}</td>
                             <td class="text-right">{[{value.total_lease_period | smart_number }]}</td>
                             <td>{[{value.date_lease_commenced | amDateFormat:'DD-MM-YYYY' }]}</td>
