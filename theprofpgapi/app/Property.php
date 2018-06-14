@@ -30,7 +30,8 @@ class Property extends Model
 		'unit',
         'owner',
         'created_by_id',
-        'last_edited_by_id'
+        'last_edited_by_id',
+        'area'
 	];
 
     protected $hidden = ['created_at', 'updated_at'];

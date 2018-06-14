@@ -80,7 +80,8 @@ class PropertiesController extends Controller {
             'unit',
             'owner',
             'created_by_id',
-            'last_edited_by_id'
+            'last_edited_by_id',
+            'area'
         ];
 
     }
@@ -103,7 +104,7 @@ class PropertiesController extends Controller {
                 ->where('is_archive', '=', "0")
                 ->with($this->with)
                 ->select(
-                    'properties.id','name','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner', 'created_by_id','last_edited_by_id')
+                    'properties.id','name','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner', 'created_by_id','last_edited_by_id','area')
                 ->groupBy('properties.id')
                 ->paginate($limit); 
             $properties->appends(array(            
@@ -297,7 +298,7 @@ class PropertiesController extends Controller {
         ], 200);
     }
 
-    public function update(Request $request, $id) {    
+    public function update(Request $request, $id) {   
         try {
             $property = Property::find($id);
             if(isset($request->name))               $property->name = $request->name;
@@ -314,7 +315,7 @@ class PropertiesController extends Controller {
             if(isset($request->is_archive))         $property->is_archive = $request->is_archive;
             if(isset($request->owner))              $property->owner = $request->owner;
             if(isset($request->last_edited_by_id))              $property->last_edited_by_id = $request->last_edited_by_id;
-
+            if(isset($request->area))              $property->area = $request->area;
             $property->save(); 
         }
         catch(\Exception $e) { return 'Error on updating property details  ' . $e->getMessage(); }
@@ -337,7 +338,8 @@ class PropertiesController extends Controller {
         }
 
         return Response::json([
-                'message' => 'Property Updated Succesfully'
+                'message' => 'Property Updated Succesfully',
+                'data' => $property
         ]);
     }
 
@@ -385,6 +387,7 @@ class PropertiesController extends Controller {
                 'owner'=> $property['owner'],
                 'created_by'=> $property['created__by'],
                 'last_edited_by'=> $property['last__edited__by'],
+                'area' => $property['area'],
                 'valuation'=> $property['valuation'],
                 'sale'=> $property['sale'],
                 'valuations_count' => count($property['valuation']),
