@@ -38,7 +38,6 @@ angular.module('MetronicApp').controller('ValuationDetailsController',
                 $scope.data.insurance_value = FUNC.smart_number(response.data.insurance_value);
                 $scope.data.forced_sale_value = FUNC.smart_number(response.data.forced_sale_value);
                 $scope.data.improvement_component = FUNC.smart_number(response.data.improvement_component);
-                $scope.data.area = FUNC.smart_number(response.data.area);
                 $scope.data.land_value_rate = FUNC.smart_number(response.data.land_value_rate);
             }).error(function(error){
                 if(!FUNC.tryLogout(error)) {
@@ -95,7 +94,6 @@ angular.module('MetronicApp').controller('ValuationDetailsController',
                 insurance_value : $scope.data.insurance_value,
                 forced_sale_value : $scope.data.forced_sale_value,
                 improvement_component : $scope.data.improvement_component,
-                area : $scope.data.area,
                 land_value_rate : $scope.data.land_value_rate,
                 pdf_ids : $scope.data.pdf_ids,
                 property_id : $scope.data.property_id

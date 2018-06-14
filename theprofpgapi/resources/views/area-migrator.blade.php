@@ -42,6 +42,7 @@
             data.data.every(function(a) {
                 let newdom = '<tr>\
                         <td>'+a.id+'</td>\
+                        <td>'+a.area+'</td>\
                         <td>'+a.latest_valuation_area+'</td>\
                         <td>'+a.latest_sales_area+'</td>\
                     </tr>';
@@ -49,23 +50,55 @@
                 $('#all_data tbody').prepend(newdom)
 
                 if(a.latest_valuation_area != 0 && a.latest_sales_area == 0) {
-                    $('#case_a tbody').prepend(newdom)
+                    $.ajax({
+                        url: '/api/v1/property/'+a.id,
+                        type: 'PUT',
+                        data: {"area": a.latest_valuation_area},
+                        async: false,
+                        success: function(result) {
+                            console.log(result, {"Val area": a.latest_valuation_area})
+                            $('#case_a tbody').prepend(newdom)
+                        }
+                    });
                 }
                 else if(a.latest_sales_area != 0 && a.latest_valuation_area == 0) {
-                    $('#case_b tbody').prepend(newdom)
+                    $.ajax({
+                        type: "PUT",
+                        url: '/api/v1/property/'+a.id,
+                        data: {"area": a.latest_sales_area},
+                        async: false,
+                        success: function(result) {
+                            console.log(result, {"Sales area": a.latest_sales_area})
+                            $('#case_b tbody').prepend(newdom)
+                        }
+                    });
                 }
                 else if(a.latest_sales_area !=0 && a.latest_valuation_area !=0 && a.latest_valuation_area != a.latest_sales_area) {
                     $('#case_c tbody').prepend(newdom)
                 }
                 else {
-                    $('#case_d tbody').prepend(newdom)
+                    $.ajax({
+                        type: "PUT",
+                        url: '/api/v1/property/'+a.id,
+                        data: {"area": a.latest_sales_area},
+                        async: false,
+                        success: function(result) {
+                            console.log(result)
+                            $('#case_d tbody').prepend(newdom)
+                        }
+                    });
                 }
                 return setTimeout(function() {
                     return true;        
-                },100)
+                },500)
             });
             // loop here
           alert( "Load was performed." );
+
+
+        });
+        $(document).ajaxStop(function() {
+          alert('All ajax called are finished.');
         });
     </script>
 </head>
@@ -80,6 +113,7 @@
             <thead>
                 <tr>
                     <th>Property ID</th>
+                    <th>Property Area</th>
                     <th>Valuation Area</th>
                     <th>Sales Area</th>
                 </tr>
@@ -95,6 +129,7 @@
             <thead>
                 <tr>
                     <th>Property ID</th>
+                    <th>Property Area</th>
                     <th>Valuation Area</th>
                     <th>Sales Area</th>
                 </tr>
@@ -109,6 +144,7 @@
             <thead>
                 <tr>
                     <th>Property ID</th>
+                    <th>Property Area</th>
                     <th>Valuation Area</th>
                     <th>Sales Area</th>
                 </tr>
@@ -123,6 +159,7 @@
             <thead>
                 <tr>
                     <th>Property ID</th>
+                    <th>Property Area</th>
                     <th>Valuation Area</th>
                     <th>Sales Area</th>
                 </tr>
@@ -137,6 +174,7 @@
             <thead>
                 <tr>
                     <th>Property ID</th>
+                    <th>Property Area</th>
                     <th>Valuation Area</th>
                     <th>Sales Area</th>
                 </tr>
