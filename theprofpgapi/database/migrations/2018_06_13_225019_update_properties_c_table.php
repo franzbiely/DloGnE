@@ -9,7 +9,8 @@ class UpdatePropertiesCTable extends Migration
     public function up()
     {
         Schema::table($this->table_name, function (Blueprint $table) {
-            $table->text('area');
+            $table->integer('area');
+            $table->integer('sec')->change();
         });
     }
 
