@@ -176,7 +176,6 @@ class SalesController extends Controller
             if(isset($request->vendor)) $sale->vendor = $request->vendor;
             if(isset($request->est_land_value)) $sale->est_land_value = $request->est_land_value;
             if(isset($request->est_improvement_value)) $sale->est_improvement_value = $request->est_improvement_value;
-            if(isset($request->area)) $sale->area = $request->area;
             if(isset($request->est_land_rate)) $sale->est_land_rate = $request->est_land_rate;
             if(isset($request->description)) $sale->description = $request->description;
             if(isset($request->property_id)) $sale->property_id = $request->property_id;

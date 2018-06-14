@@ -179,7 +179,6 @@ class ValuationsController extends Controller
             if(isset($request->insurance_value))         $valuation->insurance_value = $request->insurance_value;
             if(isset($request->forced_sale_value))         $valuation->forced_sale_value = $request->forced_sale_value;
             if(isset($request->improvement_component)) $valuation->improvement_component = $request->improvement_component;
-            if(isset($request->area))               $valuation->area = $request->area;
             if(isset($request->land_value_rate))               $valuation->land_value_rate = $request->land_value_rate;
             
             $valuation->save(); 
