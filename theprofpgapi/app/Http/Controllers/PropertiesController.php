@@ -81,7 +81,7 @@ class PropertiesController extends Controller {
             'owner',
             'created_by_id',
             'last_edited_by_id',
-            'area'
+            'properties.area'
         ];
 
     }
@@ -104,7 +104,7 @@ class PropertiesController extends Controller {
                 ->where('is_archive', '=', "0")
                 ->with($this->with)
                 ->select(
-                    'properties.id','name','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner', 'created_by_id','last_edited_by_id','area')
+                    'properties.id','name','properties.description','property_use_id','property_class_id','property_lease_type_id','property_city_id','property_suburb_id','port','sec','lot','unit','owner', 'created_by_id','last_edited_by_id','properties.area')
                 ->groupBy('properties.id')
                 ->paginate($limit); 
             $properties->appends(array(            
@@ -387,7 +387,7 @@ class PropertiesController extends Controller {
                 'owner'=> $property['owner'],
                 'created_by'=> $property['created__by'],
                 'last_edited_by'=> $property['last__edited__by'],
-                'area' => $property['area'],
+                'area' => floatval($property['area']),
                 'valuation'=> $property['valuation'],
                 'sale'=> $property['sale'],
                 'valuations_count' => count($property['valuation']),
@@ -449,6 +449,11 @@ class PropertiesController extends Controller {
                     $sheet->setCellValue('A'.$ROW+=1, 'Suburb');
                     $sheet->setCellValue('B'.$ROW, $property['suburb']);
                 }
+
+                if(isset($property['area'])) {
+                    $sheet->setCellValue('A'.$ROW+=1, 'Area');
+                    $sheet->setCellValue('B'.$ROW, $property['area']);
+                }
                     
                 if(isset($property['sec'])) {
                     $sheet->setCellValue('A'.$ROW+=1, 'Sec');
@@ -489,9 +494,8 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('D'.$ROW, 'Insurance Value (K)');
                 $sheet->setCellValue('E'.$ROW, 'Forced Sale Value (K)');
                 $sheet->setCellValue('F'.$ROW, 'Improvement Component (K)');
-                $sheet->setCellValue('G'.$ROW, 'Area (sqm)');
-                $sheet->setCellValue('H'.$ROW, 'Land Value Rate (K per sqm)');
-                $sheet->setCellValue('I'.$ROW, 'Description');
+                $sheet->setCellValue('G'.$ROW, 'Land Value Rate (K per sqm)');
+                $sheet->setCellValue('H'.$ROW, 'Description');
                 if(!empty($request->valuations)) {
                     foreach($request->valuations as $key=>$valuation) {
                         $sheet->setCellValue('A'.$ROW+=1, $valuation['date']);
@@ -500,9 +504,8 @@ class PropertiesController extends Controller {
                         $sheet->setCellValue('D'.$ROW, Common::smart_number_format($valuation['insurance_value']));
                         $sheet->setCellValue('E'.$ROW, Common::smart_number_format($valuation['forced_sale_value']));
                         $sheet->setCellValue('F'.$ROW, Common::smart_number_format($valuation['improvement_component']));
-                        $sheet->setCellValue('G'.$ROW, Common::smart_number_format($valuation['area']));
-                        $sheet->setCellValue('H'.$ROW, Common::smart_number_format($valuation['land_value_rate']));
-                        $sheet->setCellValue('I'.$ROW, $valuation['description']);
+                        $sheet->setCellValue('G'.$ROW, Common::smart_number_format($valuation['land_value_rate']));
+                        $sheet->setCellValue('H'.$ROW, $valuation['description']);
                     }
                 }
                 else {
@@ -518,10 +521,9 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('D'.$ROW, 'Vendor');
                 $sheet->setCellValue('E'.$ROW, 'Est Land Value (K)');
                 $sheet->setCellValue('F'.$ROW, 'Est Improvement Value (K)');
-                $sheet->setCellValue('G'.$ROW, 'Area (sqm)');
-                $sheet->setCellValue('H'.$ROW, 'Est Land Rate (K/sq.m)');
-                $sheet->setCellValue('I'.$ROW, 'Description');
-                $sheet->setCellValue('J'.$ROW, 'Remarks');
+                $sheet->setCellValue('G'.$ROW, 'Est Land Rate (K/sq.m)');
+                $sheet->setCellValue('H'.$ROW, 'Description');
+                $sheet->setCellValue('I'.$ROW, 'Remarks');
 
                 if(!empty($request->sales)) {
                     foreach($request->sales as $sale) {
@@ -531,10 +533,9 @@ class PropertiesController extends Controller {
                         $sheet->setCellValue('D'.$ROW, $sale['vendor']);
                         $sheet->setCellValue('E'.$ROW, Common::smart_number_format($sale['est_land_value']));
                         $sheet->setCellValue('F'.$ROW, Common::smart_number_format($sale['est_improvement_value']));
-                        $sheet->setCellValue('G'.$ROW, Common::smart_number_format($sale['area']));
-                        $sheet->setCellValue('H'.$ROW, Common::smart_number_format($sale['est_land_rate']));
-                        $sheet->setCellValue('I'.$ROW, $sale['description']);                    
-                        $sheet->setCellValue('J'.$ROW, $sale['remarks']);                    
+                        $sheet->setCellValue('G'.$ROW, Common::smart_number_format($sale['est_land_rate']));
+                        $sheet->setCellValue('H'.$ROW, $sale['description']);                    
+                        $sheet->setCellValue('I'.$ROW, $sale['remarks']);                    
                     }
                 }
                 else {
@@ -546,23 +547,21 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('A'.$ROW, 'RENTALS HISTORY OF PROPERTY #' . $property['id']);
                 $sheet->setCellValue('A'.$ROW+=1, 'Analysed Date');
                 $sheet->setCellValue('B'.$ROW, 'Analysed Rent (K)');
-                $sheet->setCellValue('C'.$ROW, 'Analysed Rent Area (sqm)');
-                $sheet->setCellValue('D'.$ROW, 'Analysed Rent Period');
-                $sheet->setCellValue('E'.$ROW, 'Total Lease Period (years)');
-                $sheet->setCellValue('F'.$ROW, 'Date Lease commenced');
-                $sheet->setCellValue('G'.$ROW, 'Vacancy Rate');
-                $sheet->setCellValue('H'.$ROW, 'Remarks');
+                $sheet->setCellValue('C'.$ROW, 'Analysed Rent Period');
+                $sheet->setCellValue('D'.$ROW, 'Total Lease Period (years)');
+                $sheet->setCellValue('E'.$ROW, 'Date Lease commenced');
+                $sheet->setCellValue('F'.$ROW, 'Vacancy Rate');
+                $sheet->setCellValue('G'.$ROW, 'Remarks');
 
                 if(!empty($request->rentals)) {
                     foreach($request->rentals as $rental) {
                         $sheet->setCellValue('A'.$ROW+=1, $rental['analysed_date']);
                         $sheet->setCellValue('B'.$ROW, Common::smart_number_format($rental['analysed_rent']));   
-                        $sheet->setCellValue('C'.$ROW, $rental['rental_area']);                    
-                        $sheet->setCellValue('D'.$ROW, $rental['rental_period']);
-                        $sheet->setCellValue('E'.$ROW, $rental['total_lease_period']);
-                        $sheet->setCellValue('F'.$ROW, $rental['date_lease_commenced']);
-                        $sheet->setCellValue('G'.$ROW, $rental['vacancy_rate'] . '%');
-                        $sheet->setCellValue('H'.$ROW, $rental['remarks']);
+                        $sheet->setCellValue('C'.$ROW, $rental['rental_period']);
+                        $sheet->setCellValue('D'.$ROW, $rental['total_lease_period']);
+                        $sheet->setCellValue('E'.$ROW, $rental['date_lease_commenced']);
+                        $sheet->setCellValue('F'.$ROW, $rental['vacancy_rate'] . '%');
+                        $sheet->setCellValue('G'.$ROW, $rental['remarks']);
                     }
                 }
                 else {
@@ -611,7 +610,6 @@ class PropertiesController extends Controller {
             <th>Insurance Value (K)</th>
             <th>Forced Sale Value (K)</th>
             <th>Improvement Component (K)</th>
-            <th>Area (sqm)</th>
             <th>Land Value Rate (K per sqm)</th>
             <th>Description</th>
         </tr>
@@ -625,7 +623,6 @@ class PropertiesController extends Controller {
                     <td style="text-align:right;"><?php echo ($valuation['insurance_value'] !== '') ?Common::smart_number_format($valuation['insurance_value']) : '' ?></td>
                     <td style="text-align:right;"><?php echo ($valuation['forced_sale_value'] !== '') ? Common::smart_number_format($valuation['forced_sale_value']) : '' ?></td>
                     <td style="text-align:right;"><?php echo ($valuation['improvement_component'] !== '') ?Common::smart_number_format($valuation['improvement_component']) : '' ?></td>
-                    <td style="text-align:right;"><?php echo ($valuation['area'] !== '') ?Common::smart_number_format($valuation['area']) : '' ?></td>
                     <td style="text-align:right;"><?php echo ($valuation['land_value_rate'] !== '') ?Common::smart_number_format($valuation['land_value_rate']) : '' ?></td>
                     <td><?php echo $valuation['description'] ?></td>
                 </tr>
@@ -650,7 +647,6 @@ class PropertiesController extends Controller {
             <?php if(!isset($params->hide_sales_column) || !in_array('vendor', $params->hide_sales_column)) { ?>                <th>Vendor</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('est_land_value', $params->hide_sales_column)) { ?>        <th>Est Land Value (K)</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('est_improvement_value', $params->hide_sales_column)) { ?> <th>Est Improvement Value (K)</th><?php } else { $colspan--; } ?>
-            <?php if(!isset($params->hide_sales_column) || !in_array('area', $params->hide_sales_column)) { ?>                  <th>Area (sqm)</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('est_land_rate', $params->hide_sales_column)) { ?>         <th>Est Land Rate (K/sq.m)</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('description', $params->hide_sales_column)) { ?>           <th>Description</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_sales_column) || !in_array('remarks', $params->hide_sales_column)) { ?>           <th>Remarks</th><?php } else { $colspan--; } ?>
@@ -668,7 +664,6 @@ class PropertiesController extends Controller {
                     <?php if(!isset($params->hide_sales_column) || !in_array('vendor', $params->hide_sales_column)) { ?>            <td><?php echo $sale['vendor'] ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('est_land_value', $params->hide_sales_column)) { ?>    <td style="text-align:right;"><?php echo ($sale['est_land_value'] !== '') ? Common::smart_number_format($sale['est_land_value']) : '' ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('est_improvement_value', $params->hide_sales_column)) { ?> <td style="text-align:right;"><?php echo ($sale['est_improvement_value'] !== '') ? Common::smart_number_format($sale['est_improvement_value']) : '' ?></td> <?php } ?>
-                    <?php if(!isset($params->hide_sales_column) || !in_array('area', $params->hide_sales_column)) { ?>              <td style="text-align:right;"><?php echo ($sale['area'] !== '') ? Common::smart_number_format($sale['area']) : '' ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('est_land_rate', $params->hide_sales_column)) { ?>     <td style="text-align:right;"><?php echo ($sale['est_land_rate'] !== '') ? Common::smart_number_format($sale['est_land_rate']) : '' ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('description', $params->hide_sales_column)) { ?>       <td><?php echo $sale['description'] ?></td> <?php } ?>
                     <?php if(!isset($params->hide_sales_column) || !in_array('remarks', $params->hide_sales_column)) { ?>           <td><?php echo $sale['remarks'] ?></td> <?php } ?>
@@ -689,7 +684,6 @@ class PropertiesController extends Controller {
         <tr>
             <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_date', $params->hide_rentals_column)) { ?>                  <th>Analysed Date</th> <?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_rent', $params->hide_rentals_column)) { ?>                <th>Analysed Rent (K)</th> <?php } ?>
-            <?php if(!isset($params->hide_rentals_column) || !in_array('rental_area', $params->hide_rentals_column)) { ?>             <th>Analysed Rent Area (sqm)</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('rental_period', $params->hide_rentals_column)) { ?>             <th>Analysed Rent Period</th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('total_lease_period', $params->hide_rentals_column)) { ?>             <th>Total Lease Period (years) </th><?php } else { $colspan--; } ?>
             <?php if(!isset($params->hide_rentals_column) || !in_array('date_lease_commenced', $params->hide_rentals_column)) { ?>             <th>Date Lease commenced</th><?php } else { $colspan--; } ?>
@@ -703,7 +697,6 @@ class PropertiesController extends Controller {
                 <tr>
                     <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_date', $params->hide_rentals_column)) { ?>         <td><?php echo $rental['analysed_date'] ?></td> <?php } ?>
                     <?php if(!isset($params->hide_rentals_column) || !in_array('analysed_rent', $params->hide_rentals_column)) { ?>         <td style="text-align:right;"><?php echo Common::smart_number_format($rental['analysed_rent']) ?></td> <?php } ?>
-                    <?php if(!isset($params->hide_rentals_column) || !in_array('rental_area', $params->hide_rentals_column)) { ?>           <td style="text-align:right;"><?php echo $rental['rental_area'] ?></td> <?php } ?>
                     <?php if(!isset($params->hide_rentals_column) || !in_array('rental_period', $params->hide_rentals_column)) { ?>         <td style="text-align:right;"><?php echo $rental['rental_period'] ?></td> <?php } ?>
                     <?php if(!isset($params->hide_rentals_column) || !in_array('total_lease_period', $params->hide_rentals_column)) { ?>    <td style="text-align:right;"><?php echo $rental['total_lease_period'] ?></td> <?php } ?>
                     <?php if(!isset($params->hide_rentals_column) || !in_array('date_lease_commenced', $params->hide_rentals_column)) { ?>  <td><?php echo $rental['date_lease_commenced'] ?></td> <?php } ?>
@@ -786,12 +779,13 @@ class PropertiesController extends Controller {
                 $sheet->setCellValue('C'.$ROW, 'Suburb');
                 $sheet->setCellValue('D'.$ROW, 'Class');
                 $sheet->setCellValue('E'.$ROW, 'Lease Type');
-                $sheet->setCellValue('F'.$ROW, 'Port');
-                $sheet->setCellValue('G'.$ROW, 'Sec');
-                $sheet->setCellValue('H'.$ROW, 'Lot');
-                $sheet->setCellValue('I'.$ROW, 'Unit #');
-                $sheet->setCellValue('J'.$ROW, 'Current Value');
-                $sheet->setCellValue('K'.$ROW, 'Seller');
+                $sheet->setCellValue('F'.$ROW, 'Area');
+                $sheet->setCellValue('G'.$ROW, 'Port');
+                $sheet->setCellValue('H'.$ROW, 'Sec');
+                $sheet->setCellValue('I'.$ROW, 'Lot');
+                $sheet->setCellValue('J'.$ROW, 'Unit #');
+                $sheet->setCellValue('K'.$ROW, 'Current Value');
+                $sheet->setCellValue('L'.$ROW, 'Seller');
 
                 foreach($request->properties as $key=>$property) {
                     $sheet->setCellValue('A'.$ROW+=1, $property['id']);
@@ -799,11 +793,12 @@ class PropertiesController extends Controller {
                     $sheet->setCellValue('C'.$ROW, $property['suburb']);                    
                     $sheet->setCellValue('D'.$ROW, $property['class']);                    
                     $sheet->setCellValue('E'.$ROW, $property['lease_type']);                    
-                    $sheet->setCellValue('F'.$ROW, $property['port']);                    
-                    $sheet->setCellValue('G'.$ROW, $property['sec']);                    
-                    $sheet->setCellValue('H'.$ROW, $property['lot']);                    
-                    $sheet->setCellValue('I'.$ROW, $property['unit']);                    
-                    $sheet->setCellValue('J'.$ROW, Common::smart_number_format($property['current_value']));                    
+                    $sheet->setCellValue('F'.$ROW, Common::smart_number_format($property['area']));
+                    $sheet->setCellValue('G'.$ROW, $property['port']);                    
+                    $sheet->setCellValue('H'.$ROW, Common::smart_number_format($property['sec']));                    
+                    $sheet->setCellValue('I'.$ROW, $property['lot']);                    
+                    $sheet->setCellValue('J'.$ROW, $property['unit']);                    
+                    $sheet->setCellValue('K'.$ROW, Common::smart_number_format($property['current_value']));                    
                     $sheet->setCellValue('L'.$ROW, $property['owner']);                    
                 }
 
