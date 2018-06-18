@@ -38,7 +38,7 @@
     </style>
     <script>
         // get properties
-        $.get( '/api/v1/property?limit=1000&page=1', {}, function( data ) {
+        $.get( '/public/api/v1/property?limit=1000&page=1', {}, function( data ) {
             data.data.every(function(a) {
                 let newdom = '<tr>\
                         <td>'+a.id+'</td>\
@@ -51,7 +51,7 @@
 
                 if(a.latest_valuation_area != 0 && a.latest_sales_area == 0) {
                     $.ajax({
-                        url: '/api/v1/property/'+a.id,
+                        url: '/public/api/v1/property/'+a.id,
                         type: 'PUT',
                         data: {"area": a.latest_valuation_area},
                         async: false,
@@ -64,7 +64,7 @@
                 else if(a.latest_sales_area != 0 && a.latest_valuation_area == 0) {
                     $.ajax({
                         type: "PUT",
-                        url: '/api/v1/property/'+a.id,
+                        url: '/public/api/v1/property/'+a.id,
                         data: {"area": a.latest_sales_area},
                         async: false,
                         success: function(result) {
@@ -79,7 +79,7 @@
                 else {
                     $.ajax({
                         type: "PUT",
-                        url: '/api/v1/property/'+a.id,
+                        url: '/public/api/v1/property/'+a.id,
                         data: {"area": a.latest_sales_area},
                         async: false,
                         success: function(result) {
