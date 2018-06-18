@@ -27,6 +27,7 @@ use PDF;
 class PropertiesController extends Controller {
 
     private $filters;
+    private $rangeFilters;
     private $with;
     private $default_select;
 
@@ -34,18 +35,19 @@ class PropertiesController extends Controller {
         // $this->middleware('jwt.auth');
 
         $this->filters = array(
-            'price_min' => -1,
-            'price_max' => -1,
-            'sales_price_min' => -1,
-            'sales_price_max' => -1,
-            'rentals_price_min' => -1,
-            'rentals_price_max' => -1,
-            'area_min' => -1,
-            'area_max' => -1,
+            // 'price_min' => -1,
+            // 'price_max' => -1,
+            // 'sales_price_min' => -1,
+            // 'sales_price_max' => -1,
+            // 'rentals_price_min' => -1,
+            // 'rentals_price_max' => -1,
+            // 'area_min' => -1,
+            // 'area_max' => -1,
             'include_valuation_zero' => false,
             'include_sales_zero' => false,
             'include_rentals_zero' => false
         );
+        $this->rangeFilters = array();
 
         $this->with = array(
             'Property_City'       =>function($query) { $query->select('id','name'); },
@@ -221,12 +223,12 @@ class PropertiesController extends Controller {
         }
         else {
             $properties = Property::orderBy('id', 'DESC')
-            ->distinct()
-            ->FilteredJoin($this->filters)
-            ->select($this->default_select)
-            ->with( $this->with)
-            ->where($where)
-            ->paginate($limit);
+                ->distinct()
+                ->FilteredJoin($this->filters)
+                ->select($this->default_select)
+                ->with( $this->with)
+                ->where($where)
+                ->paginate($limit);
         }
         
 
@@ -371,6 +373,7 @@ class PropertiesController extends Controller {
     }
 
     private function transform($property){
+        // print_r($property);
         $ret = [
                 'id' => $property['id'],
                 'city' => $property['property__city']['name'],
