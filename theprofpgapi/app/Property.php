@@ -133,13 +133,28 @@ class Property extends Model
                     });
                 })->with('current_value');
         }
+        // Sales Price
+        if(array_key_exists('sales_price_max', $filters) && $filters['sales_price_max']) {
+            // echo "here";
+            $query
+                ->whereHas('current_sales_value', function($q) use ($filters) {
+                    $q
+                    ->where(DB::raw('price'),'>=',$filters['sales_price_min'])
+                    ->where(DB::raw('price'),'<=',$filters['sales_price_max'])
+                    ->where('id', function ($sub) {
+                      $sub->from('sales as subs')
+                        ->selectRaw('max(id)')
+                        ->whereRaw('subs.property_id = sales.property_id');
+                    });
+                })->with('current_sales_value');
+        }
         //Rentals Price
         if(array_key_exists('rentals_price_max', $filters) && $filters['rentals_price_max']) {
             $query
                 ->whereHas('current_rentals_value', function($q) use ($filters) {
                     $q
-                    ->where(DB::raw('analysed_rent'),'>=',$filters['rentals_price_min'])
-                    ->where(DB::raw('analysed_rent'),'<=',$filters['rentals_price_max'])
+                    ->where('analysed_rent','>=',$filters['rentals_price_min'])
+                    ->where('analysed_rent','<=',$filters['rentals_price_max'])
                     ->where('id', function ($sub) {
                       $sub->from('rentals as sub')
                         ->selectRaw('max(id)')
@@ -147,20 +162,7 @@ class Property extends Model
                     });
                 })->with('current_rentals_value');
         }
-        // Sales Price
-        if(array_key_exists('sales_price_max', $filters) && $filters['sales_price_max']) {
-            $query
-                ->whereHas('current_sales_value', function($q) use ($filters) {
-                    $q
-                    ->where(DB::raw('price'),'>=',$filters['sales_price_min'])
-                    ->where(DB::raw('price'),'<=',$filters['sales_price_max'])
-                    ->where('id', function ($sub) {
-                      $sub->from('sales as sub')
-                        ->selectRaw('max(id)')
-                        ->whereRaw('sub.property_id = sales.property_id');
-                    });
-                })->with('current_sales_value');
-        }
+        
         // Area 
         if(array_key_exists('area_min', $filters) && $filters['area_min']) {
             $query
