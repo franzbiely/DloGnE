@@ -1,0 +1,7 @@
+old/
+theprofpgapi/public/phpmyadmin/
+theprofpgapi/public/public/uploads/file/
+theprofpgapi/public/public/uploads/photo/
+theprofpgapi/public/vendor/
+dbdump/svis_live_db.sql
+dbdump/theprofessionals.sql

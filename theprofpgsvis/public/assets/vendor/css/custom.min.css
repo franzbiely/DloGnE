@@ -1,0 +1,185 @@
+@font-face {
+    font-family: 'professionals_sansbold';
+    src: url('./fonts/prosans_b-webfont.woff2') format('woff2'),
+         url('./fonts/prosans_b-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'professionals_sansregular';
+    src: url('./fonts/prosans_r-webfont.woff2') format('woff2'),
+         url('./fonts/prosans_r-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.color-red {
+	color:red;
+}
+.page-header.navbar .page-logo {
+	width:auto;
+}
+.page-header.navbar .menu-toggler.sidebar-toggler {
+	margin-left: 10px;
+}
+.large > .modal-dialog {
+    width:95% !important;
+}
+
+
+
+
+.stylish-input-group .input-group-addon{
+    background: white !important; 
+}
+.stylish-input-group .form-control{
+	border-right:0; 
+	box-shadow:0 0 0; 
+	border-color:#ccc;
+}
+.stylish-input-group button{
+    border:0;
+    background:transparent;
+}
+
+.page-header.navbar .page-logo .logo-default {
+	margin-top:5px;
+}
+
+.photo-gallery li{
+	list-style: none;
+	float: left;
+	margin-right: 10px;
+}
+.photo-gallery li img {
+	width: 125px;
+    height: 125px;
+    object-fit: cover;
+    border: 1px solid #777;
+    border-radius: 3px !important;
+    display: block;
+}
+
+.page-header.navbar {
+    background-color: #eee;
+    border-bottom: 1px solid #aaa;
+}
+
+.modal-open .datepicker {
+    left: 52% !important; //Change it according to the position of your dialog
+    top: 25% !important; //Change it according to the position of your dialog
+}
+
+.reports-page .property-details label {
+    color: #999;
+    font-style: italic;
+}
+
+@media (min-width: 992px) {
+    .page-sidebar.collapse {
+        position:fixed;
+    }
+    .page-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: #ccc;
+        border-top: 1px solid #999;
+    }
+}
+.scroll-to-top {
+    bottom: -3px;
+}
+.scroll-to-top>i {
+    color: #3d4957;
+}
+.site-title {
+    font-size: 25px;
+    font-family: Georgia;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #3d4957;
+    text-shadow: #fff 1px 1px;
+    line-height: 50px;
+    margin-left: 30px;
+}
+.page-header.navbar .page-logo {
+    padding-left: 0;
+    background: #fff;
+    border-bottom: 1px solid #aaa;
+}
+.page-header.navbar .page-logo>.logo-image, .page-header.navbar .page-logo>a {
+    background: #fff;
+    position: relative;
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+.page-footer .page-footer-inner, .page-header.navbar .top-menu .navbar-nav>li.dropdown.open .dropdown-toggle{
+    color: #3d4957;
+}
+
+.logs {
+    background: #eee;
+    line-height: 1.75;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.log {
+    padding-left: 30px;
+    font-family: courier;
+}
+.log:hover {
+    background: aliceblue;
+}
+
+.page-sidebar-wrapper {
+        z-index: 99;
+    position: fixed;
+}
+
+.price-range-div .col-md-9 div input {
+    width: 100%;
+}
+
+.price-range-div .col-md-9 div {
+    width: 45%;
+}
+.dz-max-files-reached {background-color: red};
+
+.dz-image img {
+    width: 100%;
+}
+.tools span{
+    color: #777;
+}
+.valuation-page .pdf-gallery {
+    padding-left: 0;
+    margin-top:10px;
+}
+.valuation-page .pdf-gallery li{
+    list-style: none;
+    display:inline-block;
+    }
+
+#tmpselectable>tbody>tr>td,
+#tmpselectable>tbody>tr>td>h4>span {
+    font-family: 'professionals_sansregular';
+}
+#tmpselectable>tbody>tr>td>h4>span {
+    font-size: 15px;
+    margin-left: 30px;
+    font-weight: normal;
+}
+#tmpselectable>tbody>tr>th,
+#tmpselectable>tbody>tr>td>h4 {
+    font-family: 'professionals_sansbold';
+    font-weight: bold;
+}
+#tmpselectable>tbody>tr>th, 
+#tmpselectable>tbody>tr>td {
+    line-height: normal;
+    border-color: #bbb;
+    padding:5px;
+    font-size: 15px;
+}
