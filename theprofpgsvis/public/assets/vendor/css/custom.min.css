@@ -22,10 +22,10 @@
 .page-header.navbar .menu-toggler.sidebar-toggler {
 	margin-left: 10px;
 }
-.large > .modal-dialog {
-    width:95% !important;
+.large > .modal-dialog,
+.modal-lg {
+    width:700px !important;
 }
-
 
 
 
@@ -66,8 +66,8 @@
 }
 
 .modal-open .datepicker {
-    left: 52% !important; //Change it according to the position of your dialog
-    top: 25% !important; //Change it according to the position of your dialog
+    left: 52% !important; /*Change it according to the position of your dialog*/ 
+    top: 25% !important; /*Change it according to the position of your dialog*/
 }
 
 .reports-page .property-details label {
@@ -161,25 +161,37 @@
     list-style: none;
     display:inline-block;
     }
-
-#tmpselectable>tbody>tr>td,
-#tmpselectable>tbody>tr>td>h4>span {
+#tmpselectable {
+    border: 3px solid #000;
+}
+#tmpselectable .lbl {
+    background:#fff;
+    font-size: 13px;
     font-family: 'professionals_sansregular';
 }
+#tmpselectable .description {
+    font-size: 14px;
+    font-family: 'professionals_sansregular';
+    line-height: 1.5;
+}
+#tmpselectable>tbody>tr>td,
 #tmpselectable>tbody>tr>td>h4>span {
-    font-size: 15px;
+    font-family: 'Times';
+}
+#tmpselectable>tbody>tr>td>h4>span {
+    font-size: 16px;
     margin-left: 30px;
     font-weight: normal;
 }
 #tmpselectable>tbody>tr>th,
 #tmpselectable>tbody>tr>td>h4 {
-    font-family: 'professionals_sansbold';
+    font-family: 'Times';
     font-weight: bold;
 }
 #tmpselectable>tbody>tr>th, 
 #tmpselectable>tbody>tr>td {
     line-height: normal;
     border-color: #bbb;
-    padding:5px;
-    font-size: 15px;
+    padding: 7px 3px;
+    font-size: 14px;
 }
