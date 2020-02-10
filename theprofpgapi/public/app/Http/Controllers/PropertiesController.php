@@ -209,10 +209,13 @@ class PropertiesController extends Controller {
         }
         // run the while script
         foreach($ret as $key=>$val) {
-            if(isset($val))
+            if(isset($val)) {
+                if($key==="lot") continue;
+                if($key==="port") continue;
                 $where[$key] = $val;
+            }      
         };
-        
+        // print_r($ret); exit();
         if(isset($ret['properties.id'])) {
             $properties = Property::orderBy('id', 'DESC')
             ->distinct()
@@ -240,6 +243,14 @@ class PropertiesController extends Controller {
                     ->select($this->default_select)
                     ->with( $this->with)
                     ->where($where)
+                    ->where(function($p) use ($ret) {
+                        if(isset($ret['lot'])) {
+                            $p->where('lot','REGEXP', '[[:<:]]'.$ret['lot'].'[[:>:]]');
+                        }
+                        if(isset($ret['port'])) {
+                            $p->where('port','REGEXP', '[[:<:]]'.$ret['port'].'[[:>:]]');
+                        }
+                    })
                     ->paginate($limit);
             }
             
