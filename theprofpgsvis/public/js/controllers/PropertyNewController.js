@@ -302,6 +302,10 @@ angular.module('MetronicApp')
 
         // Add
         $scope.saveProperty = function() {
+            if($scope.data.lot.match(/[^0-9,]/) || $scope.data.port.match(/[^0-9,]/)) {
+                alert('Lot/Port should follow this format : number1,number2... \ne.g. 9,10,13\n-no white space, no &\n-only accepts comma as delimiter.')
+                return;
+            }
             const user = JSON.parse(localStorage.getItem('user'));
             var param = {
                 name : $scope.data.name,
