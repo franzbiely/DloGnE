@@ -302,7 +302,7 @@ angular.module('MetronicApp')
 
         // Add
         $scope.saveProperty = function() {
-            if($scope.data.lot.match(/[^0-9,]/) || $scope.data.port.match(/[^0-9,]/)) {
+            if($scope.data.lot.trim().match(/[\&|\s]/) || $scope.data.port.trim().match(/[\&|\s]/)) {
                 alert('Lot/Port should follow this format : number1,number2... \ne.g. 9,10,13\n-no white space, no &\n-only accepts comma as delimiter.')
                 return;
             }
