@@ -204,9 +204,9 @@
 #tmpselectable>tbody>tr>td {
     line-height: normal;
     border-bottom-color: #bbb;
-    padding: 7px 3px;
+    padding: 7px 4px;
     font-size: 14px;
     border-top-color: #bbb;
-    border-left: none;
-    border-right: none;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
 }

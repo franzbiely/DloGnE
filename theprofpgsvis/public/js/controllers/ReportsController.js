@@ -485,44 +485,48 @@ angular.module('MetronicApp').controller('ReportsController',
             let form = 
                 '<table bordercolor="gray" border="2" width="700" id="tmpselectable" class="table table-bordered click-selectable">\
                 <tr>\
-                    <td rowspan="5" width="250" style="border-bottom-color: transparent;    border-right: 1px solid #bbb;">\
+                    <td rowspan="5" width="250" style="border-bottom-color: transparent; padding:0; border-right: 2px solid #777;">\
                         <img width="250" src="'+$photo+'" />\
                     </td>\
-                    <td colspan="4" style="background-color: #ccc  ;"><h4>SALES EVIDENCE 1</h4></td>\
+                    <td colspan="4" style="background-color: #ccc; padding: 0;"><h4 style="\
+                        padding: 17px 3px;\
+                        margin: 0;\
+                        border-bottom: 2px solid #777;\
+                    ">SALES EVIDENCE 1</h4></td>\
                 </tr>\
                 <tr>\
                     <th style="width: 105px; ">Sale Date</th>\
-                    <td>' + moment($scope.sales[key].date, 'YYYY-MM-DD').format('DD-MM-YYYY') + '</td>\
+                    <td style="border-right: 2px solid #777;">' + moment($scope.sales[key].date, 'YYYY-MM-DD').format('DD-MM-YYYY') + '</td>\
                     <th style="width: 105px;">Price (K)</th>\
                     <td>' + FUNC.smart_number($scope.sales[key].price, true) + '</td>\
                 </tr>\
                 <tr>\
                     <th style="background-color: #ccc;">City/Area</th>\
-                    <td style="background-color: #ccc;">' + $scope.data.city + '</td>\
+                    <td style="background-color: #ccc; border-right: 2px solid #777;">' + $scope.data.city + '</td>\
                     <th style="background-color: #ccc;">Suburb</th>\
                     <td style="background-color: #ccc;">' + $scope.data.suburb + '</td>\
                 </tr>\
                 <tr>\
                     <th>Lease Type</th>\
-                    <td>'+ $scope.data.lease_type +'</td>\
+                    <td style="border-right: 2px solid #777;">'+ $scope.data.lease_type +'</td>\
                     <th>SVIS No.</th>\
                     <td>' + $scope.data.id + '</td>\
                 </tr>\
                 <tr>\
                     <th style="background-color: #ccc;">Sec/Port/Lot</th>\
-                    <td style="background-color: #ccc;">'+ $scope.data.sec +'/'+ $scope.data.port +'/'+ $scope.data.lot +'</td>\
+                    <td style="background-color: #ccc; border-right: 2px solid #777;">'+ $scope.data.sec +'/'+ $scope.data.port +'/'+ $scope.data.lot +'</td>\
                     <th style="background-color: #ccc;">Area (Sq.m)</th>\
                     <td style="background-color: #ccc;">'+ $scope.data.area +'</td>\
                 </tr>\
                 <tr>\
-                    <td valign="bottom" style="vertical-align: bottom; text-align: left; border-right: 1px solid #bbb;"><strong>Analysis of Evidence:</strong></td>\
-                    <th >Est Land Value (K)</th>\
-                    <td>'+ FUNC.smart_number($scope.sales[key].est_land_value, true) +'</td>\
+                    <td valign="bottom" style="vertical-align: bottom; text-align: left; border-right: 2px solid #777;"><strong>Analysis of Evidence:</strong></td>\
+                    <th>Est Land <br />Value (K)</th>\
+                    <td style="border-right: 2px solid #777;">'+ FUNC.smart_number($scope.sales[key].est_land_value, true) +'</td>\
                     <th>Est Land Rate (K/sq.m)</th>\
                     <td>'+ FUNC.smart_number($scope.sales[key].est_land_rate, true) +'</td>\
                 </tr>\
                 <tr>\
-                    <td colspan="5" class="description" style="text-align: left; ">'+ $scope.sales[key].description +'</td>\
+                    <td colspan="5" class="description" style="text-align: left;border-top: 3px solid #777;">'+ $scope.sales[key].description +'</td>\
                 </tr>\
                 <tr>\
                     <td colspan="5" class="description">&nbsp;</td>\
