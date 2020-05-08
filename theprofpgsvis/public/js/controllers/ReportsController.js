@@ -485,7 +485,7 @@ angular.module('MetronicApp').controller('ReportsController',
             let form = 
                 '<table bordercolor="gray" border="2" width="700" id="tmpselectable" class="table table-bordered click-selectable">\
                 <tr>\
-                    <td rowspan="5" width="250">\
+                    <td rowspan="5" width="250" style="border-bottom-color: transparent;    border-right: 1px solid #bbb;">\
                         <img width="250" src="'+$photo+'" />\
                     </td>\
                     <td colspan="4" style="background-color: #ccc  ;"><h4>SALES EVIDENCE 1</h4></td>\
@@ -515,14 +515,14 @@ angular.module('MetronicApp').controller('ReportsController',
                     <td style="background-color: #ccc;">'+ $scope.data.area +'</td>\
                 </tr>\
                 <tr>\
-                    <td valign="bottom" style="vertical-align: bottom;"><strong>Analysis of Evidence:</strong></td>\
+                    <td valign="bottom" style="vertical-align: bottom; text-align: left; border-right: 1px solid #bbb;"><strong>Analysis of Evidence:</strong></td>\
                     <th >Est Land Value (K)</th>\
                     <td>'+ FUNC.smart_number($scope.sales[key].est_land_value, true) +'</td>\
                     <th>Est Land Rate (K/sq.m)</th>\
                     <td>'+ FUNC.smart_number($scope.sales[key].est_land_rate, true) +'</td>\
                 </tr>\
                 <tr>\
-                    <td colspan="5" class="description">'+ $scope.sales[key].description +'</td>\
+                    <td colspan="5" class="description" style="text-align: left; ">'+ $scope.sales[key].description +'</td>\
                 </tr>\
                 <tr>\
                     <td colspan="5" class="description">&nbsp;</td>\
