@@ -162,7 +162,7 @@
     display:inline-block;
     }
 #tmpselectable {
-    border: 3px solid #000;
+    border: 3px solid #808080;
 }
 #tmpselectable .lbl {
     background:#fff;
@@ -170,28 +170,42 @@
     font-family: 'professionals_sansregular';
 }
 #tmpselectable .description {
+    border: 0px solid black; 
+    border-collapse: collapse; 
+    padding: 6px; 
     font-size: 14px;
     font-family: 'professionals_sansregular';
     line-height: 1.5;
+    
 }
+
+/* css in table export modal*/
 #tmpselectable>tbody>tr>td,
 #tmpselectable>tbody>tr>td>h4>span {
-    font-family: 'Times';
+    font-family: 'calibri';
+    text-align: center;
+
 }
 #tmpselectable>tbody>tr>td>h4>span {
     font-size: 16px;
     margin-left: 30px;
     font-weight: normal;
 }
+/* css in head table export modal*/
 #tmpselectable>tbody>tr>th,
 #tmpselectable>tbody>tr>td>h4 {
-    font-family: 'Times';
+    font-family: 'Calibri';
     font-weight: bold;
+    text-align: left;
+
 }
+
 #tmpselectable>tbody>tr>th, 
 #tmpselectable>tbody>tr>td {
     line-height: normal;
     border-color: #bbb;
     padding: 7px 3px;
     font-size: 14px;
+    
+
 }

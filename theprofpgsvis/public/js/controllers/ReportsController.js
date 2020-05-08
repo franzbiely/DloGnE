@@ -483,17 +483,17 @@ angular.module('MetronicApp').controller('ReportsController',
                 $photo = $scope.photos[0].file_path;
             }
             let form = 
-                '<table bordercolor="black" border="2" width="700" id="tmpselectable" class="table table-bordered click-selectable">\
+                '<table bordercolor="gray" border="2" width="700" id="tmpselectable" class="table table-bordered click-selectable">\
                 <tr>\
                     <td rowspan="5" width="250">\
                         <img width="250" src="'+$photo+'" />\
                     </td>\
-                    <td colspan="4" style="background-color: #ccc;"><h4>SALES EVIDENCE 1</h4></td>\
+                    <td colspan="4" style="background-color: #ccc  ;"><h4>SALES EVIDENCE 1</h4></td>\
                 </tr>\
                 <tr>\
-                    <th style="width: 80px;">Sale Date</th>\
+                    <th style="width: 105px; ">Sale Date</th>\
                     <td>' + moment($scope.sales[key].date, 'YYYY-MM-DD').format('DD-MM-YYYY') + '</td>\
-                    <th style="width: 85px;">Price (K)</th>\
+                    <th style="width: 105px;">Price (K)</th>\
                     <td>' + FUNC.smart_number($scope.sales[key].price, true) + '</td>\
                 </tr>\
                 <tr>\
@@ -505,7 +505,7 @@ angular.module('MetronicApp').controller('ReportsController',
                 <tr>\
                     <th>Lease Type</th>\
                     <td>'+ $scope.data.lease_type +'</td>\
-                    <th>Property ID</th>\
+                    <th>SVIS No.</th>\
                     <td>' + $scope.data.id + '</td>\
                 </tr>\
                 <tr>\
@@ -515,8 +515,8 @@ angular.module('MetronicApp').controller('ReportsController',
                     <td style="background-color: #ccc;">'+ $scope.data.area +'</td>\
                 </tr>\
                 <tr>\
-                    <td valign="bottom" style="vertical-align: bottom;">Analysis of Evidence:</td>\
-                    <th>Est Land Value (K)</th>\
+                    <td valign="bottom" style="vertical-align: bottom;"><strong>Analysis of Evidence:</strong></td>\
+                    <th >Est Land Value (K)</th>\
                     <td>'+ FUNC.smart_number($scope.sales[key].est_land_value, true) +'</td>\
                     <th>Est Land Rate (K/sq.m)</th>\
                     <td>'+ FUNC.smart_number($scope.sales[key].est_land_rate, true) +'</td>\
