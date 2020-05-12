@@ -167,14 +167,14 @@
 #tmpselectable .lbl {
     background:#fff;
     font-size: 13px;
-    font-family: 'professionals_sansregular';
+    font-family: 'Calibri';
 }
 #tmpselectable .description {
     border: 0px solid black; 
     border-collapse: collapse; 
     padding: 6px; 
     font-size: 14px;
-    font-family: 'professionals_sansregular';
+    font-family: 'Calibri';
     line-height: 1.5;
     
 }
@@ -182,7 +182,7 @@
 /* css in table export modal*/
 #tmpselectable>tbody>tr>td,
 #tmpselectable>tbody>tr>td>h4>span {
-    font-family: 'calibri';
+    font-family: 'Calibri';
     text-align: center;
 
 }
@@ -209,4 +209,5 @@
     border-top-color: #bbb;
     border-left: 2px solid transparent;
     border-right: 2px solid transparent;
+	font-family:'Calibri';
 }
