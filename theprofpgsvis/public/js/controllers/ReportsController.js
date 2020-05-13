@@ -485,13 +485,15 @@ angular.module('MetronicApp').controller('ReportsController',
             let form = 
                 '<table bordercolor="gray" border="2" width="700" id="tmpselectable" class="table table-bordered click-selectable">\
                 <tr>\
-                    <td rowspan="5" width="250" style="border-bottom-color: transparent; padding:0; border-right: 2px solid #777;">\
-                        <img width="250" src="'+$photo+'" />\
+                    <td rowspan="5" width="250" style="border-bottom-color: transparent; padding:0; background-color: #bfbfbf; margin: 20px; border-right: 2px solid #777;">\
+                        <img width="250" src="'+$photo+'" style="margin: 20px"/>\
                     </td>\
                     <td colspan="4" style="background-color: #ccc; padding: 0;"><h4 style="\
                         padding: 17px 3px;\
-                        margin: 0;\
+                        margin: 20px;\
                         border-bottom: 2px solid #777;\
+                        text-align: center;\
+                        border-bottom: none;\
                     ">SALES EVIDENCE 1</h4></td>\
                 </tr>\
                 <tr>\
@@ -519,17 +521,17 @@ angular.module('MetronicApp').controller('ReportsController',
                     <td style="background-color: #ccc;">'+ $scope.data.area +'</td>\
                 </tr>\
                 <tr>\
-                    <td valign="bottom" style="vertical-align: bottom; text-align: left; border-right: 2px solid #777;"><strong>Analysis of Evidence:</strong></td>\
+                    <td valign="bottom" style="vertical-align: bottom; text-align: left; border-right: 2px solid #777; font-size: 18.5px"><strong>Analysis of Evidence:</strong></td>\
                     <th>Est Land <br />Value (K)</th>\
                     <td style="border-right: 2px solid #777;">'+ FUNC.smart_number($scope.sales[key].est_land_value, true) +'</td>\
                     <th>Est Land Rate (K/sq.m)</th>\
                     <td>'+ FUNC.smart_number($scope.sales[key].est_land_rate, true) +'</td>\
                 </tr>\
                 <tr>\
-                    <td colspan="5" class="description" style="text-align: left;border-top: 3px solid #777;">'+ $scope.sales[key].description +'</td>\
+                    <td colspan="5" class="description" style="text-align: left;border-top: 3px solid #777; border-bottom: none;">'+ $scope.sales[key].description +'</td>\
                 </tr>\
                 <tr>\
-                    <td colspan="5" class="description">&nbsp;</td>\
+                    <td colspan="5" class="description" style="border-top: none;">&nbsp;</td>\
                 </tr>\
             </table>';
             
