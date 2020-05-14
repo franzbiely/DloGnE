@@ -483,56 +483,53 @@ angular.module('MetronicApp').controller('ReportsController',
                 $photo = $scope.photos[0].file_path;
             }
             let form = 
-                '<table bordercolor="gray" border="2" width="700" id="tmpselectable" class="table table-bordered click-selectable">\
+                '<table width="700" id="tmpselectable" class="table table-bordered click-selectable">\
                 <tr>\
-                    <td rowspan="5" width="250" style="border-bottom-color: transparent; padding:0; background-color: #bfbfbf; margin: 20px; border-right: 2px solid #777;">\
-                        <img width="250" src="'+$photo+'" style="margin: 20px"/>\
+                    <td rowspan="6" width="250" style="padding:0; background-color: #ccc; margin: 5px; border: 2px solid #777;text-align:left;">\
+                        <center><img width="250" src="'+$photo+'" style="margin: 5px"/></center>\
+                        <br /><div class="spaced"><strong>Analysis of Evidence:</strong></div>\
                     </td>\
-                    <td colspan="4" style="background-color: #ccc; padding: 0;"><h4 style="\
-                        padding: 17px 3px;\
-                        font-family: calibri;\
-                        margin: 20px;\
+                    <td colspan="4" style="background-color: #ccc; padding: 0; border: 2px solid #777; "><h4 style="\
+                        padding: 17px 3px 13px;\
+                        font-family: Calibri, ;\
+                        margin: 10px 0;\
                         border-bottom: 2px solid #777;\
                         text-align: center;\
                         border-bottom: none;\
                     ">SALES EVIDENCE 1</h4></td>\
                 </tr>\
                 <tr>\
-                    <th style="width: 105px; ">Sale Date</th>\
-                    <td style="border-right: 2px solid #777;">' + moment($scope.sales[key].date, 'YYYY-MM-DD').format('DD-MM-YYYY') + '</td>\
-                    <th style="width: 105px;">Price (K)</th>\
-                    <td>' + FUNC.smart_number($scope.sales[key].price, true) + '</td>\
+                    <th class="spaced" style="width: 105px;border-right: none 0px transparent !important; ">Sale Date</th>\
+                    <td style="border-right:1px solid #777;">' + moment($scope.sales[key].date, 'YYYY-MM-DD').format('DD-MM-YYYY') + '</td>\
+                    <th class="spaced" style="width: 105px;border-right: none 0px transparent !important;">Price (K)</th>\
+                    <td style="border-right:2px solid #777;">' + FUNC.smart_number($scope.sales[key].price, true) + '</td>\
                 </tr>\
                 <tr>\
-                    <th style="background-color: #ccc;">City/Area</th>\
-                    <td style="background-color: #ccc; border-right: 2px solid #777;">' + $scope.data.city + '</td>\
-                    <th style="background-color: #ccc;">Suburb</th>\
-                    <td style="background-color: #ccc;">' + $scope.data.suburb + '</td>\
+                    <th class="spaced" style="width: 105px;background-color: #ccc;border-right: none 0px transparent !important;">City/Area</th>\
+                    <td style="background-color: #ccc; border-right: 1px solid #777;">' + $scope.data.city + '</td>\
+                    <th class="spaced" style="width: 105px;background-color: #ccc;border-right: none 0px transparent !important;">Suburb</th>\
+                    <td style="background-color: #ccc;border-right:2px solid #777;">' + $scope.data.suburb + '</td>\
                 </tr>\
                 <tr>\
-                    <th>Lease Type</th>\
-                    <td style="border-right: 2px solid #777;">'+ $scope.data.lease_type +'</td>\
-                    <th>SVIS No.</th>\
-                    <td>' + $scope.data.id + '</td>\
+                    <th class="spaced" style="width: 105px;border-right: none 0px transparent !important;">Lease Type</th>\
+                    <td style="border-right: 1px solid #777;">'+ $scope.data.lease_type +'</td>\
+                    <th class="spaced" style="width: 105px;border-right: none 0px transparent !important;">SVIS No.</th>\
+                    <td style="border-right:2px solid #777;">' + $scope.data.id + '</td>\
                 </tr>\
                 <tr>\
-                    <th style="background-color: #ccc;">Sec/Port/Lot</th>\
-                    <td style="background-color: #ccc; border-right: 2px solid #777;">'+ $scope.data.sec +'/'+ $scope.data.port +'/'+ $scope.data.lot +'</td>\
-                    <th style="background-color: #ccc;">Area (Sq.m)</th>\
-                    <td style="background-color: #ccc;">'+ $scope.data.area +'</td>\
+                    <th class="spaced" style="width: 105px;background-color: #ccc;">Sec/Port/Lot</th>\
+                    <td style="background-color: #ccc; border-right: 1px solid #777;">'+ $scope.data.sec +'/'+ $scope.data.port +'/'+ $scope.data.lot +'</td>\
+                    <th class="spaced" style="width: 105px;background-color: #ccc;border-right: none 0px transparent !important;">Area (Sq.m)</th>\
+                    <td style="background-color: #ccc;border-right:2px solid #777;">'+ $scope.data.area +'</td>\
                 </tr>\
                 <tr>\
-                    <td valign="bottom" style="vertical-align: bottom; text-align: left; border-right: 2px solid #777; font-size: 18.5px;"><strong>Analysis of Evidence:</strong></td>\
-                    <th style="border-right: none 0px transparent !important;">Est Land <br />Value (K)</th>\
-                    <td style="border-right: 2px solid #777; border-left: 0px none !important;">'+ FUNC.smart_number($scope.sales[key].est_land_value, true) +'</td>\
-                    <th>Est Land Rate (K/sq.m)</th>\
-                    <td>'+ FUNC.smart_number($scope.sales[key].est_land_rate, true) +'</td>\
+                    <th class="spaced" style="width: 105px;border-right: none 0px transparent !important;">Est Land <br />Value (K)</th>\
+                    <td style="border-right: 1px solid #777; border-left: 0px none !important;">'+ FUNC.smart_number($scope.sales[key].est_land_value, true) +'</td>\
+                    <th class="spaced" style="width: 105px;border-right: none 0px transparent !important;">Est Land Rate <br />(K/sq.m)</th>\
+                    <td style="border-right:2px solid #777; ">'+ FUNC.smart_number($scope.sales[key].est_land_rate, true) +'</td>\
                 </tr>\
                 <tr>\
-                    <td colspan="5" class="description" style="text-align: left;border-top: 3px solid #777; border-bottom: none; font-family: calibri;">'+ $scope.sales[key].description +'</td>\
-                </tr>\
-                <tr>\
-                    <td colspan="5" class="description" style="border-top: none;">&nbsp;</td>\
+                    <td colspan="5" class="description" style="text-align: left;border: 2px solid #777; font-family: Calibri;">'+ $scope.sales[key].description +'</td>\
                 </tr>\
             </table>';
             
