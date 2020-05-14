@@ -521,9 +521,9 @@ angular.module('MetronicApp').controller('ReportsController',
                     <td style="background-color: #ccc;">'+ $scope.data.area +'</td>\
                 </tr>\
                 <tr>\
-                    <td valign="bottom" style="vertical-align: bottom; text-align: left; border-right: 2px solid #777; font-size: 18.5px"><strong>Analysis of Evidence:</strong></td>\
-                    <th>Est Land <br />Value (K)</th>\
-                    <td style="border-right: 2px solid #777;">'+ FUNC.smart_number($scope.sales[key].est_land_value, true) +'</td>\
+                    <td valign="bottom" style="vertical-align: bottom; text-align: left; border-right: 2px solid #777; font-size: 18.5px;"><strong>Analysis of Evidence:</strong></td>\
+                    <th style="border-right: none 0px transparent !important;">Est Land <br />Value (K)</th>\
+                    <td style="border-right: 2px solid #777; border-left: 0px none !important;">'+ FUNC.smart_number($scope.sales[key].est_land_value, true) +'</td>\
                     <th>Est Land Rate (K/sq.m)</th>\
                     <td>'+ FUNC.smart_number($scope.sales[key].est_land_rate, true) +'</td>\
                 </tr>\
