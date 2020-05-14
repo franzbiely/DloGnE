@@ -490,6 +490,7 @@ angular.module('MetronicApp').controller('ReportsController',
                     </td>\
                     <td colspan="4" style="background-color: #ccc; padding: 0;"><h4 style="\
                         padding: 17px 3px;\
+                        font-family: calibri;\
                         margin: 20px;\
                         border-bottom: 2px solid #777;\
                         text-align: center;\
@@ -528,7 +529,7 @@ angular.module('MetronicApp').controller('ReportsController',
                     <td>'+ FUNC.smart_number($scope.sales[key].est_land_rate, true) +'</td>\
                 </tr>\
                 <tr>\
-                    <td colspan="5" class="description" style="text-align: left;border-top: 3px solid #777; border-bottom: none;">'+ $scope.sales[key].description +'</td>\
+                    <td colspan="5" class="description" style="text-align: left;border-top: 3px solid #777; border-bottom: none; font-family: calibri;">'+ $scope.sales[key].description +'</td>\
                 </tr>\
                 <tr>\
                     <td colspan="5" class="description" style="border-top: none;">&nbsp;</td>\

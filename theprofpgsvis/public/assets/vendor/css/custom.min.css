@@ -200,12 +200,10 @@
 
 }
 
-
 #tmpselectable>tbody>tr>th, 
 #tmpselectable>tbody>tr>td {
     line-height: normal;
     border-bottom-color: #bbb;
-    border-bottom: none !;
     padding: 7px 4px;
     font-size: 14px;
     border-top-color: #bbb;
